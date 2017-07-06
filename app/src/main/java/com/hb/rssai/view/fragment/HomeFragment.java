@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment {
                 int size = rssList.size();
                 for (int i = 0; i < size; i++) {
                     RSSItemBean rs = rssList.get(i);
-                    System.out.println(rs.getPubDate() + " " + rs.getTitle());
+//                    System.out.println(rs.getPubDate() + " " + rs.getTitle()+" "+rs.getDescription()+" "+rs.getLink());
                 }
             }
         } catch (Exception e) {

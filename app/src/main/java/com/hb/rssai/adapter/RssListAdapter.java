@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.util.T;
 import com.rss.bean.RSSItemBean;
 
 import java.text.SimpleDateFormat;
@@ -49,11 +50,15 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
         holder.item_na_summery.setText(rssList.get(position).getType());
         holder.item_na_time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by" + rssList.get(position).getAuthor())));
         holder.item_na_layout.setOnClickListener(v -> {
-            Intent intent = new Intent();//创建Intent对象
-            intent.setAction(Intent.ACTION_VIEW);//为Intent设置动作
             String data = rssList.get(position).getLink();//获取编辑框里面的文本内容
-            intent.setData(Uri.parse(data));//为Intent设置数据
-            mContext.startActivity(intent);//将Intent传递给Activity
+            if (!TextUtils.isEmpty(data)) {
+                Intent intent = new Intent();//创建Intent对象
+                intent.setAction(Intent.ACTION_VIEW);//为Intent设置动作
+                intent.setData(Uri.parse(data));//为Intent设置数据
+                mContext.startActivity(intent);//将Intent传递给Activity
+            } else {
+                T.ShowToast(mContext, "Sorry！");
+            }
         });
     }
 
