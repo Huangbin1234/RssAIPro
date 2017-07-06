@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/title_all"
+    android:id="@+id/rl_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/main_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_bottom_bg"
+        android:orientation="horizontal"
+        android:paddingTop="3dp">
+
+        <LinearLayout
+            android:id="@+id/main_bottom_layout_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/main_bottom_home_iv"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/main_home" />
+
+            <TextView
+                android:id="@+id/main_bottom_home_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/main_home"
+                android:textSize="@dimen/s14p" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_bottom_layout_subscription"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/main_bottom_subscription_iv"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/main_subscription" />
+
+            <TextView
+                android:id="@+id/main_bottom_subscription_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/main_subscription"
+                android:textSize="@dimen/s14p" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/ma_view"
+        style="@style/SplitLine_h"
+        android:layout_above="@id/main_bottom_layout" />
+
+    <FrameLayout
+        android:id="@+id/ma_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ma_view"
+        android:background="@color/bg" />
+</RelativeLayout>

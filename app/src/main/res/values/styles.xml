@@ -1,0 +1,40 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@color/white</item>
+    </style>
+
+    <style name="ClubToolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="contentInsetStart">0dp</item><!-- 设置该属性解决空白部分-->
+    </style>
+    <style name="AppTheme.NoActionBar" >
+        <!--窗体是否有标题-->
+        <item name="windowNoTitle">true</item>
+        <!--是否打开ActionBar-->
+        <item name="windowActionBar">false</item>
+        <!--<item name="android:windowAnimationStyle">@style/ActivityAnimFade</item>-->
+        <!-- AppCompatEditText默认状态状态设置底线颜色 -->
+        <!--<item name="colorControlNormal">#3F51b5</item>-->
+        <item name="colorControlNormal">@color/white</item>
+        <!-- AppCompatEditText选择的底线颜色 -->
+        <item name="colorControlActivated">#05896f</item>
+        <item name="toolbarStyle">@style/ClubToolbar</item>
+
+        <item name="colorAccent">@color/colorPrimary</item>
+        <!--<item name="colorPrimary">@color/colorPrimary</item>    &lt;!&ndash; 状态栏 &ndash;&gt;-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimary</item> &lt;!&ndash; toolbar &ndash;&gt;-->
+    </style>
+    <style name="SplitLine_h">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#DDDDDD</item>
+    </style>
+    <style name="title_all">
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+</resources>

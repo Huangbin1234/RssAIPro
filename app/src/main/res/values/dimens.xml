@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><!--常用字体大小-->
+    <dimen name="s12p">12sp</dimen>
+    <dimen name="s14p">14sp</dimen>
+    <dimen name="s16p">16sp</dimen>
+    <dimen name="s18p">18sp</dimen>
+    <dimen name="s20p">20sp</dimen>
+    <dimen name="s22p">22sp</dimen>
+    <dimen name="s24p">24sp</dimen>
+    <dimen name="s26p">26sp</dimen>
+    <dimen name="s28p">28sp</dimen>
+    <dimen name="s30p">30sp</dimen>
+    <dimen name="s32p">32sp</dimen>
+</resources>
