@@ -5,9 +5,16 @@
     tools:context="com.hb.rssai.view.fragment.SubscriptionFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/main_subscription" />
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_rf_subscription" />
+    </LinearLayout>
 
 </FrameLayout>

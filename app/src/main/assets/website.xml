@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<websites>
+    <site>
+        <name>IT֮之家</name>
+        <url>https://www.ithome.com/rss/</url>
+        <startTag><![CDATA[<div class="post_content" id="paragraph">]]></startTag>
+        <endTag><![CDATA[<div class="share">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>57</fid>
+        <open>true</open>
+    </site>
+
+    <site>
+    <name>虎嗅网</name>
+    <url>https://www.huxiu.com/rss/0.xml</url>
+    <startTag><![CDATA[<table cellpadding="0" cellspacing="0" class="neirong-box" >]]></startTag>
+    <endTag><![CDATA[</table>]]></endTag>
+    <encoding>UTF-8</encoding>
+    <fid>58</fid>
+    <open>true</open>
+    </site>
+    <site>
+        <name>36氪</name>
+        <url>http://www.36kr.com/feed</url>
+        <startTag><![CDATA[<div class="mainContent sep-10">]]></startTag>
+        <endTag><![CDATA[<div id="krapi" class="sep20">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>56</fid>
+        <open>true</open>
+    </site>
+    <site>
+        <name>爱范儿</name>
+        <url>http://www.ifanr.com/feed</url>
+        <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
+        <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>55</fid>
+        <open>true</open>
+    </site>
+</websites>

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">RssAI</string>
-    <string name="main_home">首页</string>
-    <string name="main_subscription">任务</string>
+    <string name="main_home">资讯</string>
+    <string name="main_subscription">订阅</string>
+    <string name="str_rf_subscription">订阅开发中。。。</string>
+    <string name="str_loading">数据加载中。。。</string>
 </resources>

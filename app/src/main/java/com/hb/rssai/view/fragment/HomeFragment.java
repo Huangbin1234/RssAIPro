@@ -2,47 +2,65 @@ package com.hb.rssai.view.fragment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.adapter.RssListAdapter;
+import com.hb.rssai.util.T;
+import com.hb.rssai.view.widget.PrgDialog;
+import com.rss.bean.RSSItemBean;
+import com.rss.bean.Website;
+import com.rss.util.Dom4jUtil;
+import com.rss.util.FeedReader;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class HomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @BindView(R.id.hf_recycler_view)
+    RecyclerView mHfRecyclerView;
+    Unbinder unbinder;
+    @BindView(R.id.hf_swipe_layout)
+    SwipeRefreshLayout mHfSwipeLayout;
+    @BindView(R.id.hf_tv_empty)
+    TextView mHfTvEmpty;
+    @BindView(R.id.hf_ll)
+    LinearLayout mHfLl;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private LinearLayoutManager mLayoutManager;
+    List<RSSItemBean> rssList = new ArrayList<>();
+    private PrgDialog prgDialog;
+    private RssListAdapter rssListAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -64,8 +82,102 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        initView();
+        return view;
+    }
+
+
+    private void initView() {
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mHfRecyclerView.setLayoutManager(mLayoutManager);
+        mHfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1,
+                R.color.refresh_progress_2, R.color.refresh_progress_3);
+        mHfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        new ReadRssTask().execute();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    class ReadRssTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            prgDialog = new PrgDialog(getContext(), true);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            readRssXml();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mHfLl.setVisibility(View.GONE);
+            prgDialog.closeDialog();
+            if (rssList != null && rssList.size() > 0) {
+                if (rssListAdapter == null) {
+                    rssListAdapter = new RssListAdapter(getContext(), rssList);
+                }
+                mHfRecyclerView.setAdapter(rssListAdapter);
+            }
+        }
+    }
+
+
+    private void readRssXml() {
+        InputStream in = null;
+        try {
+            in = getResources().getAssets().open("website.xml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (in == null) {
+            T.ShowToast(getContext(), "xml文件不存在");
+            return;
+        }
+        List<Website> websiteList = new Dom4jUtil().parserXml(in);
+        for (Website we : websiteList) {
+            if (we.getOpen().equals("true")) {         //只对开启的website  spide
+                System.out.println("==========begin spide " + we.getName() + ".==============");
+                rssInsert(we);
+                System.out.println("==========end spide " + we.getName() + ".==============");
+            }
+        }
+    }
+
+    /**
+     * 可以选择插入到数据库
+     *
+     * @param website
+     */
+    public void rssInsert(Website website) {
+        try {
+            List<RSSItemBean> rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
+            if (rssTempList != null) {
+                rssList.addAll(rssTempList);
+                int size = rssList.size();
+                for (int i = 0; i < size; i++) {
+                    RSSItemBean rs = rssList.get(i);
+                    System.out.println(rs.getPubDate() + " " + rs.getTitle());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,16 +204,6 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
