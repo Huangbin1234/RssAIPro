@@ -29,12 +29,12 @@ public class LoadActivity extends AppCompatActivity {
     private void init() {
         new Thread(() -> {
             try {
-                Thread.sleep(5 * 1000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             handler.sendEmptyMessage(1);
-        });
+        }).start();
     }
 
     Handler handler = new Handler() {
