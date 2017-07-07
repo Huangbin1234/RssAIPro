@@ -10,7 +10,7 @@
         android:layout_height="45dp"
         android:elevation="4dp"
         android:fitsSystemWindows="true"
-        android:background="?attr/colorPrimary">
+        android:background="@color/color_toolbar_bg">
 
         <TextView
             android:id="@+id/sys_tv_title"

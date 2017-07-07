@@ -56,4 +56,5 @@
     <color name="color_time">#CCCCCC</color>
     <!--按钮颜色-->
     <!--<color name="color_btn_logout">#FF9966</color>-->
+    <color name="color_toolbar_bg">#E75356</color>
 </resources>

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/la_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_place"></ImageView>
 
     <TextView
-        android:id="@+id/sample_text"
+        android:id="@+id/la_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/la_iv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="阅读优质内容" />
 
 </RelativeLayout>
