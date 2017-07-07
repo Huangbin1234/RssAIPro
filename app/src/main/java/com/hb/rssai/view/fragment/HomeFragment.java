@@ -169,11 +169,11 @@ public class HomeFragment extends Fragment {
             List<RSSItemBean> rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
             if (rssTempList != null) {
                 rssList.addAll(rssTempList);
-                int size = rssList.size();
-                for (int i = 0; i < size; i++) {
-                    RSSItemBean rs = rssList.get(i);
+//                int size = rssList.size();
+//                for (int i = 0; i < size; i++) {
+//                    RSSItemBean rs = rssList.get(i);
 //                    System.out.println(rs.getPubDate() + " " + rs.getTitle()+" "+rs.getDescription()+" "+rs.getLink());
-                }
+//                }
             }
         } catch (Exception e) {
             e.printStackTrace();

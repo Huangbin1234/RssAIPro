@@ -1,6 +1,7 @@
 package com.rss.bean;
 
 import java.util.Date;
+import java.util.List;
 
 public class RSSItemBean {
     private String title;
@@ -12,6 +13,7 @@ public class RSSItemBean {
     private String type;
     private String content;
     private int fid;
+    private List<String> images;
 
     public String getContent() {
         return content;
@@ -84,5 +86,13 @@ public class RSSItemBean {
 
     public void setFid(int fid) {
         this.fid = fid;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

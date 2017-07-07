@@ -8,6 +8,15 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
+    <ImageView
+        android:id="@+id/item_na_img"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/item_na_title"
         android:layout_width="wrap_content"
@@ -15,6 +24,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingTop="16dp"
+        android:textColor="@color/color_title"
         android:textSize="@dimen/s16p" />
 
     <TextView
@@ -22,16 +32,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLines="1"
+        android:maxLines="3"
         android:paddingTop="10dp"
-        android:textSize="@dimen/s14p" />
+        android:textSize="@dimen/s14p"
+        android:visibility="gone" />
 
-    <TextView
-        android:layout_gravity="right"
-        android:id="@+id/item_na_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingTop="10dp"
-        android:textSize="@dimen/s14p" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/item_na_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:ellipsize="end"
+            android:paddingTop="10dp"
+            android:textColor="@color/color_time"
+            android:textSize="@dimen/s14p" />
+
+        <TextView
+            android:id="@+id/item_na_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="16dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/color_time"
+            android:textSize="@dimen/s14p" />
+    </RelativeLayout>
 </LinearLayout>

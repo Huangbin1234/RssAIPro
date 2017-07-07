@@ -52,6 +52,8 @@
 
     <color name="color_btn">#2196f3</color>
     <color name="color_btn_press">#1b77c1</color>
+    <color name="color_title">#4D4D4D</color>
+    <color name="color_time">#CCCCCC</color>
     <!--按钮颜色-->
     <!--<color name="color_btn_logout">#FF9966</color>-->
 </resources>

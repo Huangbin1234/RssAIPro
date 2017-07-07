@@ -8,10 +8,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.T;
 import com.rss.bean.RSSItemBean;
 
@@ -47,8 +49,17 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_na_name.setText(rssList.get(position).getTitle());
-        holder.item_na_summery.setText(rssList.get(position).getType());
-        holder.item_na_time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by" + rssList.get(position).getAuthor())));
+        holder.item_na_type.setText(rssList.get(position).getType());
+        holder.item_na_time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
+        holder.item_na_summery.setText(rssList.get(position).getDescription());
+
+        if (rssList.get(position).getImages() != null && rssList.get(position).getImages().size() > 0) {
+            holder.item_na_img.setVisibility(View.VISIBLE);
+            HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_img);
+        } else {
+            holder.item_na_img.setVisibility(View.GONE);
+        }
+
         holder.item_na_layout.setOnClickListener(v -> {
             String data = rssList.get(position).getLink();//获取编辑框里面的文本内容
             if (!TextUtils.isEmpty(data)) {
@@ -69,10 +80,12 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout item_na_layout;
         TextView item_na_name;
         TextView item_na_time;
+        TextView item_na_type;
         TextView item_na_summery;
-        LinearLayout item_na_layout;
+        ImageView item_na_img;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -80,6 +93,8 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
             item_na_name = (TextView) itemView.findViewById(R.id.item_na_title);
             item_na_summery = (TextView) itemView.findViewById(R.id.item_na_summery);
             item_na_time = (TextView) itemView.findViewById(R.id.item_na_time);
+            item_na_type = (TextView) itemView.findViewById(R.id.item_na_type);
+            item_na_img = (ImageView) itemView.findViewById(R.id.item_na_img);
         }
     }
 }

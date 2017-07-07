@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * It Reads and prints any RSS/Atom feed type.
@@ -49,9 +51,38 @@ public class FeedReader {
             item.setUri(entry.getUri());
             item.setPubDate(entry.getPublishedDate());
             item.setAuthor(entry.getAuthor());
+            item.setDescription(entry.getDescription().getValue());
+            item.setImages(getRegexImages(entry.getDescription().getValue()));
+            item.setLink(entry.getLink());
             rssItemBeans.add(item);
         }
         return rssItemBeans;
+    }
+    /**
+     * 提取字符串内所有的img标签下的src
+     * @param content
+     * @return
+     */
+    public  List<String> getRegexImages(String content){
+        String regex;
+        List<String> list = new ArrayList<String>();
+        //提取字符串中的img标签
+        regex = "<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>";
+        Pattern pa = Pattern.compile(regex, Pattern.DOTALL);
+        Matcher ma = pa.matcher(content);
+        while (ma.find())
+        {
+            //提取字符串中的src路径
+            Matcher m = Pattern.compile("src=\"?(.*?)(\"|>|\\s+)").matcher(ma.group());
+            while(m.find())
+            {
+                if("http".equals(m.group(1).substring(0, 4))){//只提取http开头的图片地址
+                    //System.out.println(m.group(1));
+                    list.add(m.group(1));
+                }
+            }
+        }
+        return list;
     }
 
     /**
