@@ -76,11 +76,11 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
             }
         } else {
             holder.item_na_img.setVisibility(View.GONE);
-            holder.irl_bottom_a.setVisibility(View.GONE);
-            holder.irl_bottom_b.setVisibility(View.VISIBLE);
+            holder.irl_bottom_a.setVisibility(View.VISIBLE);
+            holder.irl_bottom_b.setVisibility(View.GONE);
 
-            holder.item_na_type_b.setText(rssList.get(position).getType());
-            holder.item_na_time_b.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
+            holder.item_na_type_a.setText(rssList.get(position).getType());
+            holder.item_na_time_a.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
 
         }
 

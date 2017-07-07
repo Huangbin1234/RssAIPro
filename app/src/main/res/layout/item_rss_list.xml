@@ -28,7 +28,6 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:paddingTop="16dp"
-                android:text="12212121"
                 android:textColor="@color/color_title"
                 android:textSize="@dimen/s18p" />
 
@@ -39,6 +38,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:orientation="horizontal"
+                android:layout_marginTop="16dp"
                 android:visibility="visible">
 
                 <TextView
@@ -46,7 +46,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:text="12212121"
                     android:textColor="@color/color_time"
                     android:textSize="@dimen/s14p" />
 
@@ -56,7 +55,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_toLeftOf="@+id/item_na_type"
-                    android:text="12212121"
                     android:textColor="@color/color_time"
                     android:textSize="@dimen/s14p" />
             </LinearLayout>
@@ -70,8 +68,8 @@
             android:layout_marginTop="16dp"
             android:layout_weight="3"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
-            android:visibility="visible" />
+            android:src="@mipmap/ic_place"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,7 +78,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="16dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -133,7 +131,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:text="12212121"
                 android:textColor="@color/color_time"
                 android:textSize="@dimen/s14p" />
 
@@ -143,7 +140,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toLeftOf="@+id/item_na_type_b"
-                android:text="12212121"
                 android:textColor="@color/color_time"
                 android:textSize="@dimen/s14p" />
         </LinearLayout>
