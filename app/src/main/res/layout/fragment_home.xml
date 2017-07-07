@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.hb.rssai.view.fragment.HomeFragment">
-
+    <include layout="@layout/include_toolbar" />
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:id="@+id/hf_ll"

@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +48,10 @@ public class HomeFragment extends Fragment {
     TextView mHfTvEmpty;
     @BindView(R.id.hf_ll)
     LinearLayout mHfLl;
+    @BindView(R.id.sys_tv_title)
+    TextView mSysTvTitle;
+    @BindView(R.id.sys_toolbar)
+    Toolbar mSysToolbar;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -88,6 +94,13 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mSysToolbar.setTitle("");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
+        mSysTvTitle.setText(getResources().getString(R.string.main_home));
+    }
 
     private void initView() {
         mLayoutManager = new LinearLayoutManager(getContext());
