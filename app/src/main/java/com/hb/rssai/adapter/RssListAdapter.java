@@ -31,7 +31,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     private Context mContext;
     List<RSSItemBean> rssList;
     private LayoutInflater layoutInflater;
-
+    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public RssListAdapter(Context mContext, List<RSSItemBean> rssList) {
         this.mContext = mContext;
@@ -50,9 +50,8 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_na_name.setText(rssList.get(position).getTitle());
         holder.item_na_type.setText(rssList.get(position).getType());
-        holder.item_na_time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
+        holder.item_na_time.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
         holder.item_na_summery.setText(rssList.get(position).getDescription());
-
         if (rssList.get(position).getImages() != null && rssList.get(position).getImages().size() > 0) {
             holder.item_na_img.setVisibility(View.VISIBLE);
             HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_img);
