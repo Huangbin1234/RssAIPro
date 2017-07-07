@@ -31,7 +31,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     private Context mContext;
     List<RSSItemBean> rssList;
     private LayoutInflater layoutInflater;
-    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public RssListAdapter(Context mContext, List<RSSItemBean> rssList) {
         this.mContext = mContext;
@@ -49,14 +49,39 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_na_name.setText(rssList.get(position).getTitle());
-        holder.item_na_type.setText(rssList.get(position).getType());
-        holder.item_na_time.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
-        holder.item_na_summery.setText(rssList.get(position).getDescription());
         if (rssList.get(position).getImages() != null && rssList.get(position).getImages().size() > 0) {
-            holder.item_na_img.setVisibility(View.VISIBLE);
-            HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_img);
+            if (rssList.get(position).getImages().size() >= 3) {
+                holder.item_na_group_ll.setVisibility(View.VISIBLE);
+                holder.item_na_img.setVisibility(View.GONE);
+                holder.irl_bottom_a.setVisibility(View.GONE);
+                holder.irl_bottom_b.setVisibility(View.VISIBLE);
+
+                holder.item_na_type_b.setText(rssList.get(position).getType());
+                holder.item_na_time_b.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
+
+
+                HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_group_a);
+                HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(1), holder.item_na_group_b);
+                HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(2), holder.item_na_group_c);
+            } else {
+                holder.item_na_group_ll.setVisibility(View.GONE);
+                holder.item_na_img.setVisibility(View.VISIBLE);
+                holder.irl_bottom_a.setVisibility(View.VISIBLE);
+                holder.irl_bottom_b.setVisibility(View.GONE);
+
+                holder.item_na_type_a.setText(rssList.get(position).getType());
+                holder.item_na_time_a.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
+
+                HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_img);
+            }
         } else {
             holder.item_na_img.setVisibility(View.GONE);
+            holder.irl_bottom_a.setVisibility(View.GONE);
+            holder.irl_bottom_b.setVisibility(View.VISIBLE);
+
+            holder.item_na_type_b.setText(rssList.get(position).getType());
+            holder.item_na_time_b.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
+
         }
 
         holder.item_na_layout.setOnClickListener(v -> {
@@ -79,21 +104,41 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout irl_bottom_b;
+        LinearLayout irl_bottom_a;
         LinearLayout item_na_layout;
+        LinearLayout item_na_group_ll;
         TextView item_na_name;
-        TextView item_na_time;
-        TextView item_na_type;
-        TextView item_na_summery;
         ImageView item_na_img;
+        ImageView item_na_group_a;
+        ImageView item_na_group_b;
+        ImageView item_na_group_c;
+
+        TextView item_na_time_a;
+        TextView item_na_type_a;
+
+        TextView item_na_time_b;
+        TextView item_na_type_b;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             item_na_layout = (LinearLayout) itemView.findViewById(R.id.item_na_layout);
+            item_na_group_ll = (LinearLayout) itemView.findViewById(R.id.item_na_group_ll);
             item_na_name = (TextView) itemView.findViewById(R.id.item_na_title);
-            item_na_summery = (TextView) itemView.findViewById(R.id.item_na_summery);
-            item_na_time = (TextView) itemView.findViewById(R.id.item_na_time);
-            item_na_type = (TextView) itemView.findViewById(R.id.item_na_type);
+
+            item_na_time_a = (TextView) itemView.findViewById(R.id.item_na_time_a);
+            item_na_type_a = (TextView) itemView.findViewById(R.id.item_na_type_a);
+            item_na_time_b = (TextView) itemView.findViewById(R.id.item_na_time_b);
+            item_na_type_b = (TextView) itemView.findViewById(R.id.item_na_type_b);
+
             item_na_img = (ImageView) itemView.findViewById(R.id.item_na_img);
+
+            item_na_group_a = (ImageView) itemView.findViewById(R.id.item_na_group_a);
+            item_na_group_b = (ImageView) itemView.findViewById(R.id.item_na_group_b);
+            item_na_group_c = (ImageView) itemView.findViewById(R.id.item_na_group_c);
+
+            irl_bottom_a = (LinearLayout) itemView.findViewById(R.id.irl_bottom_a);
+            irl_bottom_b = (LinearLayout) itemView.findViewById(R.id.irl_bottom_b);
         }
     }
 }

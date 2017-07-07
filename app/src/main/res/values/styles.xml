@@ -26,7 +26,7 @@
         <item name="colorControlActivated">#05896f</item>
         <item name="toolbarStyle">@style/ClubToolbar</item>
 
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/color_toolbar_bg</item>
         <!--<item name="colorPrimary">@color/colorPrimary</item>    &lt;!&ndash; 状态栏 &ndash;&gt;-->
         <!--<item name="colorPrimaryDark">@color/colorPrimary</item> &lt;!&ndash; toolbar &ndash;&gt;-->
     </style>
