@@ -28,6 +28,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:paddingTop="16dp"
+                android:text="惆怅长岑长惆怅长岑长惆怅长岑长惆怅长岑长惆怅长岑长惆怅长岑长惆怅长岑长惆怅长岑长惆怅长岑长啛啛喳喳"
                 android:textColor="@color/color_title"
                 android:textSize="@dimen/s18p" />
 
@@ -37,8 +38,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:orientation="horizontal"
+                android:layout_below="@id/item_na_title"
                 android:layout_marginTop="16dp"
+                android:orientation="horizontal"
                 android:visibility="visible">
 
                 <TextView
@@ -46,6 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:text="2111111"
                     android:textColor="@color/color_time"
                     android:textSize="@dimen/s14p" />
 
@@ -55,21 +58,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_toLeftOf="@+id/item_na_type"
+                    android:text="211111111111111"
                     android:textColor="@color/color_time"
                     android:textSize="@dimen/s14p" />
             </LinearLayout>
+
+
         </RelativeLayout>
 
         <ImageView
             android:id="@+id/item_na_img"
             android:layout_width="0dp"
             android:layout_height="90dp"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_weight="3"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_place"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,7 +85,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="16dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,27 +96,30 @@
                 android:id="@+id/item_na_group_a"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
-                android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_place" />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="90dp" />
 
             <ImageView
                 android:id="@+id/item_na_group_b"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_place" />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="90dp" />
 
             <ImageView
                 android:id="@+id/item_na_group_c"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_place" />
@@ -131,6 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:text="21111111111111"
                 android:textColor="@color/color_time"
                 android:textSize="@dimen/s14p" />
 
@@ -140,6 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toLeftOf="@+id/item_na_type_b"
+                android:text="21111111111111"
                 android:textColor="@color/color_time"
                 android:textSize="@dimen/s14p" />
         </LinearLayout>

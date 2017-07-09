@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.T;
 import com.rss.bean.RSSItemBean;
@@ -32,6 +33,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     List<RSSItemBean> rssList;
     private LayoutInflater layoutInflater;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private String longDatePat="yyyy-MM-dd HH:mm:ss";
 
     public RssListAdapter(Context mContext, List<RSSItemBean> rssList) {
         this.mContext = mContext;
@@ -57,7 +59,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 holder.irl_bottom_b.setVisibility(View.VISIBLE);
 
                 holder.item_na_type_b.setText(rssList.get(position).getType());
-                holder.item_na_time_b.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
+                holder.item_na_time_b.setText(DateUtil.showDate(rssList.get(position).getPubDate(),longDatePat));
 
 
                 HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_group_a);
@@ -70,7 +72,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 holder.irl_bottom_b.setVisibility(View.GONE);
 
                 holder.item_na_type_a.setText(rssList.get(position).getType());
-                holder.item_na_time_a.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
+                holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(),longDatePat));
 
                 HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_img);
             }
@@ -80,8 +82,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
             holder.irl_bottom_b.setVisibility(View.GONE);
 
             holder.item_na_type_a.setText(rssList.get(position).getType());
-            holder.item_na_time_a.setText(sdf.format(rssList.get(position).getPubDate()) + (TextUtils.isEmpty(rssList.get(position).getAuthor()) ? "" : (" by " + rssList.get(position).getAuthor())));
-
+            holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(),longDatePat));
         }
 
         holder.item_na_layout.setOnClickListener(v -> {
@@ -92,7 +93,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 intent.setData(Uri.parse(data));//为Intent设置数据
                 mContext.startActivity(intent);//将Intent传递给Activity
             } else {
-                T.ShowToast(mContext, "Sorry！");
+                T.ShowToast(mContext, "链接错误，无法跳转！");
             }
         });
     }

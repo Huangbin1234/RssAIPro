@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="3dp"
-                android:text="@string/main_home"
+                android:text="@string/str_main_home"
                 android:textSize="@dimen/s12p" />
         </LinearLayout>
 
@@ -59,10 +59,32 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="3dp"
-                android:text="@string/main_subscription"
+                android:text="@string/str_main_subscription"
                 android:textSize="@dimen/s12p" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/main_bottom_layout_mine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/main_bottom_mine_iv"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/main_user_male" />
+
+            <TextView
+                android:id="@+id/main_bottom_mine_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="3dp"
+                android:text="@string/str_main_mine"
+                android:textSize="@dimen/s12p" />
+        </LinearLayout>
     </LinearLayout>
 
     <View

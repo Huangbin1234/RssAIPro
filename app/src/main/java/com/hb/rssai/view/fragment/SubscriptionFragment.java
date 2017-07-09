@@ -1,21 +1,32 @@
 package com.hb.rssai.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.adapter.RssSourceAdapter;
+import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.view.subscription.AddSourceActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -26,7 +37,7 @@ import butterknife.Unbinder;
  * Use the {@link SubscriptionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SubscriptionFragment extends Fragment {
+public class SubscriptionFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,12 +47,17 @@ public class SubscriptionFragment extends Fragment {
     @BindView(R.id.sys_toolbar)
     Toolbar mSysToolbar;
     Unbinder unbinder;
+    @BindView(R.id.sf_rss_add)
+    Button mSfRssAdd;
+    @BindView(R.id.sf_recycler_view)
+    RecyclerView mSfRecyclerView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private LinearLayoutManager mLayoutManager;
 
     public SubscriptionFragment() {
         // Required empty public constructor
@@ -80,15 +96,37 @@ public class SubscriptionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_subscription, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mSfRecyclerView.setLayoutManager(mLayoutManager);
         return view;
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
-        mSysTvTitle.setText(getResources().getString(R.string.main_subscription));
+        mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
+
+
+
+        initData();
     }
+
+    RssSourceAdapter mRssSourceAdapter;
+
+    private void initData() {
+
+        List<RssSource> list = LiteOrmDBUtil.getQueryAll(RssSource.class);
+        if (list != null && list.size() > 0) {
+            if (mRssSourceAdapter == null) {
+                mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
+            }
+            mSfRecyclerView.setAdapter(mRssSourceAdapter);
+        }
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -117,6 +155,16 @@ public class SubscriptionFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick({R.id.sf_rss_add})
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sf_rss_add:
+                startActivity(new Intent(getContext(), AddSourceActivity.class));
+                break;
+        }
     }
 
     /**

@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
-        mSysTvTitle.setText(getResources().getString(R.string.main_home));
+        mSysTvTitle.setText(getResources().getString(R.string.str_main_home));
     }
 
     private void initView() {
