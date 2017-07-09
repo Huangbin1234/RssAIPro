@@ -14,6 +14,9 @@ public class DateUtil {
      * @return
      */
     public static String showDate(Date date,String pattern){
+        if(date==null){
+            return "";
+        }
         String  dateStr=format(date,pattern);
         String year = dateStr.substring(0,4);
         Long yearNum =Long.parseLong(year);

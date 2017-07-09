@@ -32,9 +32,9 @@ public class LoadActivity extends AppCompatActivity {
         new Thread(() -> {
             try {
                 RssSource rssSource = new RssSource();
-                rssSource.setName("凤凰军事频道");
+                rssSource.setName("腾讯科技频道");
                 rssSource.setId(1);
-                rssSource.setLink("http://news.ifeng.com/mil/rss/index.xml");
+                rssSource.setLink("http://n.rss.qq.com/rss/tech_rss.php");
                 LiteOrmDBUtil.insert(rssSource);
 
                 RssSource rssSource2 = new RssSource();

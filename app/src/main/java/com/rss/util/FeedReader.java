@@ -93,7 +93,7 @@ public class FeedReader {
      * @throws Exception
      */
     public List<RSSItemBean> getContent(Website website) throws Exception {
-        String content;
+//        String content;
         List<RSSItemBean> rssList = getRss(website.getUrl());
 //        FindHtml findHtml = new FindHtml(website.getStartTag(), website.getEndTag(), website.getEncoding());
 //        for (RSSItemBean rsItem : rssList) {
