@@ -14,4 +14,5 @@
     <string name="str_asa_hint_name">名称</string>
     <string name="str_asa_hint_url">链接地址</string>
     <string name="str_asa_title">添加Rss源</string>
+    <string name="str_sla_title">频道列表</string>
 </resources>

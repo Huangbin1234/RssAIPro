@@ -1,6 +1,7 @@
 package com.hb.rssai.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.RssSource;
-import com.hb.rssai.util.T;
+import com.hb.rssai.view.subscription.SourceListActivity;
 
 import java.util.List;
 
@@ -46,7 +47,11 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         holder.irs_tv_count.setText("29");
 
         holder.irs_layout.setOnClickListener(v -> {
-            T.ShowToast(mContext, "等待开发。。。");
+
+            Intent intent = new Intent(mContext, SourceListActivity.class);
+            intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
+            intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
+            mContext.startActivity(intent);
         });
     }
 

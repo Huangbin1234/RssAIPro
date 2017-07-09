@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/include_toolbar" />
+    <include layout="@layout/include_sub_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,10 +26,23 @@
             android:hint="@string/str_asa_hint_url"
             android:padding="10dp" />
 
-        <Button
-            android:id="@+id/asa_btn_save"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/str_asa_btn_save" />
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/asa_btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/eixt_bg_selector"
+                android:text="@string/str_asa_btn_save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/s16p" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

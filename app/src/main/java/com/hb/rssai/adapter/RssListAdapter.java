@@ -2,7 +2,6 @@ package com.hb.rssai.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,6 +15,7 @@ import com.hb.rssai.R;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.ContentActivity;
 import com.rss.bean.RSSItemBean;
 
 import java.text.SimpleDateFormat;
@@ -33,7 +33,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     List<RSSItemBean> rssList;
     private LayoutInflater layoutInflater;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private String longDatePat="yyyy-MM-dd HH:mm:ss";
+    private String longDatePat = "yyyy-MM-dd HH:mm:ss";
 
     public RssListAdapter(Context mContext, List<RSSItemBean> rssList) {
         this.mContext = mContext;
@@ -59,7 +59,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 holder.irl_bottom_b.setVisibility(View.VISIBLE);
 
                 holder.item_na_type_b.setText(rssList.get(position).getType());
-                holder.item_na_time_b.setText(DateUtil.showDate(rssList.get(position).getPubDate(),longDatePat));
+                holder.item_na_time_b.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
 
 
                 HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_group_a);
@@ -72,7 +72,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 holder.irl_bottom_b.setVisibility(View.GONE);
 
                 holder.item_na_type_a.setText(rssList.get(position).getType());
-                holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(),longDatePat));
+                holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
 
                 HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_img);
             }
@@ -82,15 +82,15 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
             holder.irl_bottom_b.setVisibility(View.GONE);
 
             holder.item_na_type_a.setText(rssList.get(position).getType());
-            holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(),longDatePat));
+            holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
         }
 
         holder.item_na_layout.setOnClickListener(v -> {
             String data = rssList.get(position).getLink();//获取编辑框里面的文本内容
             if (!TextUtils.isEmpty(data)) {
-                Intent intent = new Intent();//创建Intent对象
-                intent.setAction(Intent.ACTION_VIEW);//为Intent设置动作
-                intent.setData(Uri.parse(data));//为Intent设置数据
+                Intent intent = new Intent(mContext, ContentActivity.class);//创建Intent对象
+                intent.putExtra(ContentActivity.KEY_TITLE, rssList.get(position).getTitle());
+                intent.putExtra(ContentActivity.KEY_URL, rssList.get(position).getLink());
                 mContext.startActivity(intent);//将Intent传递给Activity
             } else {
                 T.ShowToast(mContext, "链接错误，无法跳转！");

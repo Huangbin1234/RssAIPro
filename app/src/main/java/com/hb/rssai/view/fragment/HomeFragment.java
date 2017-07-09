@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        new ReadRssTask().execute();
+        new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 

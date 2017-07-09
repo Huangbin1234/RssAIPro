@@ -59,4 +59,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile files('libs/lite-orm-1.9.1.jar')
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

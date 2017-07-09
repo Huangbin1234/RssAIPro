@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,6 +41,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -58,7 +62,17 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
         mSysTvTitle.setText(getResources().getString(R.string.str_asa_title));
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -85,6 +99,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 rssSource.setLink(link);
                 LiteOrmDBUtil.insert(rssSource);
                 T.ShowToast(this, "添加成功");
+                EventBus.getDefault().post(new RssSourceEvent(0));
                 finish();
                 break;
         }

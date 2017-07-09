@@ -95,14 +95,14 @@ public class FeedReader {
     public List<RSSItemBean> getContent(Website website) throws Exception {
         String content;
         List<RSSItemBean> rssList = getRss(website.getUrl());
-        FindHtml findHtml = new FindHtml(website.getStartTag(), website.getEndTag(), website.getEncoding());
-        for (RSSItemBean rsItem : rssList) {
-            String link = rsItem.getUri();
-
-            content = findHtml.getContent(link);   //关键方法，获取新闻征文
-            rsItem.setContent(content);
-            rsItem.setFid(Integer.parseInt(website.getFid()));
-        }
+//        FindHtml findHtml = new FindHtml(website.getStartTag(), website.getEndTag(), website.getEncoding());
+//        for (RSSItemBean rsItem : rssList) {
+//            String link = rsItem.getUri();
+//
+//            content = findHtml.getContent(link);   //关键方法，获取新闻征文
+//            rsItem.setContent(content);
+//            rsItem.setFid(Integer.parseInt(website.getFid()));
+//        }
         return rssList;
     }
 }

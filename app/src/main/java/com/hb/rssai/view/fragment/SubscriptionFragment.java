@@ -21,6 +21,10 @@ import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.view.subscription.AddSourceActivity;
+import com.hb.rssai.view.subscription.RssSourceEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -88,6 +92,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        // 注册
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -108,16 +114,12 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
         mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
-
-
-
         initData();
     }
 
     RssSourceAdapter mRssSourceAdapter;
 
     private void initData() {
-
         List<RssSource> list = LiteOrmDBUtil.getQueryAll(RssSource.class);
         if (list != null && list.size() > 0) {
             if (mRssSourceAdapter == null) {
@@ -126,7 +128,12 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
             mSfRecyclerView.setAdapter(mRssSourceAdapter);
         }
     }
-
+    @Subscribe
+    public void onEventMainThread(RssSourceEvent event) {
+        if (event.getMessage() == 0) {
+            initData();
+        }
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -143,12 +150,6 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -180,5 +181,12 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        // 取消注册
+        EventBus.getDefault().unregister(this);
+        mListener = null;
     }
 }
