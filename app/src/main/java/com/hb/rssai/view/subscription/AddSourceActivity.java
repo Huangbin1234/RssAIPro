@@ -1,5 +1,6 @@
 package com.hb.rssai.view.subscription;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
+import com.zbar.lib.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,6 +40,10 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     Button mAsaBtnSave;
     @BindView(R.id.activity_add_source)
     LinearLayout mActivityAddSource;
+    @BindView(R.id.asa_iv_scan)
+    ImageView mAsaIvScan;
+
+    public final static int REQUESTCODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
         mSysTvTitle.setText(getResources().getString(R.string.str_asa_title));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -73,12 +81,13 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
     }
 
-    @OnClick({R.id.asa_btn_save})
+    @OnClick({R.id.asa_btn_save, R.id.asa_iv_scan})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -102,6 +111,21 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 EventBus.getDefault().post(new RssSourceEvent(0));
                 finish();
                 break;
+            case R.id.asa_iv_scan:
+                startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (RESULT_OK == resultCode) {
+            if (requestCode == REQUESTCODE) {
+                mAsaEtUrl.setText(data.getStringExtra("info"));
+            }
         }
     }
 }

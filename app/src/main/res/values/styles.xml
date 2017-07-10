@@ -39,5 +39,12 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
-
+    <style name="InfoDetail">
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/ll_selector</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 </resources>

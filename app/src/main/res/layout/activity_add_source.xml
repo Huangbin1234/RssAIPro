@@ -12,37 +12,53 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/asa_et_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/str_asa_hint_name"
-            android:padding="10dp" />
+        <LinearLayout
+            style="@style/InfoDetail"
+            android:gravity="center">
 
-        <EditText
-            android:id="@+id/asa_et_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/str_asa_hint_url"
-            android:padding="10dp" />
-
+            <EditText
+                android:id="@+id/asa_et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/trans"
+                android:hint="@string/str_asa_hint_name"
+                android:padding="16dp"
+                android:textSize="@dimen/s14p" />
+        </LinearLayout>
 
         <LinearLayout
+            style="@style/InfoDetail"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/asa_et_url"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:background="@color/trans"
+                android:hint="@string/str_asa_hint_url"
+                android:padding="16dp"
+                android:textSize="@dimen/s14p" />
+
+            <ImageView
+               android:id="@+id/asa_iv_scan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@mipmap/fp_icon_scan" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/asa_btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/asa_btn_save"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/eixt_bg_selector"
-                android:text="@string/str_asa_btn_save"
-                android:textColor="@color/white"
-                android:textSize="@dimen/s16p" />
-        </LinearLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/eixt_bg_selector"
+            android:text="@string/str_asa_btn_save"
+            android:textColor="@color/white"
+            android:textSize="@dimen/s14p" />
     </LinearLayout>
 </LinearLayout>
