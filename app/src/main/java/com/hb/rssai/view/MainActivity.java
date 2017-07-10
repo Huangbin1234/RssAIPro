@@ -1,7 +1,10 @@
 package com.hb.rssai.view;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -15,6 +18,8 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.runtimePermissions.PermissionsActivity;
+import com.hb.rssai.runtimePermissions.PermissionsChecker;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.fragment.HomeFragment;
 import com.hb.rssai.view.fragment.MineFragment;
@@ -59,9 +64,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     // 退出程序
     private long firstTime = 0;
 
+    // 所需的全部权限
+    static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+    };
+    private PermissionsChecker mPermissionsChecker;
+    private final int REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPermissionsChecker = new PermissionsChecker(this);
     }
 
     @Override
@@ -192,5 +207,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
+                startPermissionsActivity();
+            }
+        }
+    }
+
+    private void startPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //拒绝时，关闭页面，缺少主要权限无法运行
+        if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
+            finish();
+        }
     }
 }
