@@ -26,6 +26,7 @@ import com.hb.rssai.view.subscription.RssSourceEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,17 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SubscriptionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SubscriptionFragment extends Fragment implements View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.sys_tv_title)
@@ -62,20 +53,13 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 
     private OnFragmentInteractionListener mListener;
     private LinearLayoutManager mLayoutManager;
+    private RssSourceAdapter mRssSourceAdapter;
+    private List<RssSource> list = new ArrayList<>();
 
     public SubscriptionFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SubscriptionFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static SubscriptionFragment newInstance(String param1, String param2) {
         SubscriptionFragment fragment = new SubscriptionFragment();
         Bundle args = new Bundle();
@@ -99,12 +83,12 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_subscription, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         mLayoutManager = new LinearLayoutManager(getContext());
         mSfRecyclerView.setLayoutManager(mLayoutManager);
+
+        initData();
         return view;
     }
 
@@ -114,26 +98,35 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
         mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
-        initData();
     }
 
-    RssSourceAdapter mRssSourceAdapter;
 
     private void initData() {
-        List<RssSource> list = LiteOrmDBUtil.getQueryAll(RssSource.class);
+        List<RssSource> dbList = LiteOrmDBUtil.getQueryAll(RssSource.class);
+        if (dbList == null || dbList.size() <= 0) {
+            return;
+        }
         if (list != null && list.size() > 0) {
-            if (mRssSourceAdapter == null) {
-                mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
-            }
+            list.clear();
+            list.addAll(dbList);
+        }else{
+            list.addAll(dbList);
+        }
+        if (mRssSourceAdapter == null) {
+            mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
             mSfRecyclerView.setAdapter(mRssSourceAdapter);
+        } else {
+            mRssSourceAdapter.notifyDataSetChanged();
         }
     }
+
     @Subscribe
     public void onEventMainThread(RssSourceEvent event) {
         if (event.getMessage() == 0) {
             initData();
         }
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -168,20 +161,11 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
     @Override
     public void onDetach() {
         super.onDetach();

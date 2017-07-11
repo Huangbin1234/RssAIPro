@@ -39,6 +39,7 @@
                 android:background="@color/trans"
                 android:hint="@string/str_asa_hint_url"
                 android:padding="16dp"
+                android:inputType="textUri"
                 android:textSize="@dimen/s14p" />
 
             <ImageView

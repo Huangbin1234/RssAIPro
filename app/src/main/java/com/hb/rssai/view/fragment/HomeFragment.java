@@ -105,10 +105,8 @@ public class HomeFragment extends Fragment {
     private void initView() {
         mLayoutManager = new LinearLayoutManager(getContext());
         mHfRecyclerView.setLayoutManager(mLayoutManager);
-        mHfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1,
-                R.color.refresh_progress_2, R.color.refresh_progress_3);
-        mHfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
-                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+        mHfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
+        mHfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
     }
 
     @Override
@@ -164,7 +162,7 @@ public class HomeFragment extends Fragment {
         }
         List<Website> websiteList = new Dom4jUtil().parserXml(in);
         for (Website we : websiteList) {
-            if (we.getOpen().equals("true")) {         //只对开启的website  spide
+            if (we.getOpen().equals("true")) {         //只对开启的website  spider
                 System.out.println("==========begin spide " + we.getName() + ".==============");
                 rssInsert(we);
                 System.out.println("==========end spide " + we.getName() + ".==============");
