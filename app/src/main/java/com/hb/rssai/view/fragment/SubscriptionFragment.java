@@ -108,10 +108,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         }
         if (list != null && list.size() > 0) {
             list.clear();
-            list.addAll(dbList);
-        }else{
-            list.addAll(dbList);
         }
+        list.addAll(dbList);
         if (mRssSourceAdapter == null) {
             mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
             mSfRecyclerView.setAdapter(mRssSourceAdapter);
