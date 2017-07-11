@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -43,7 +44,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     Toolbar mSysToolbar;
     Unbinder unbinder;
     @BindView(R.id.sf_rss_add)
-    Button mSfRssAdd;
+    ImageView mSfRssAdd;
     @BindView(R.id.sf_recycler_view)
     RecyclerView mSfRecyclerView;
 

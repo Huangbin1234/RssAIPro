@@ -13,17 +13,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
+            android:layout_height="45dp"
+            android:layout_marginRight="16dp"
+            android:gravity="right|center_vertical"
             android:orientation="vertical">
 
-            <Button
+            <ImageView
                 android:id="@+id/sf_rss_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/trans"
-                android:text="@string/str_sf_rss_add"
-                android:textColor="@color/white" />
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/icon_add_sub" />
 
         </LinearLayout>
 

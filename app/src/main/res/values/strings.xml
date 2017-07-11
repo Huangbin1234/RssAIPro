@@ -13,7 +13,7 @@
     <string name="str_asa_btn_save">保存</string>
     <string name="str_asa_hint_name">请输入源名称</string>
     <string name="str_asa_hint_url">请输入源链接</string>
-    <string name="str_asa_title">添加Rss源</string>
+    <string name="str_asa_title">订阅RSS源</string>
     <string name="str_sla_title">频道列表</string>
 
     <string name="scan_tips">将二维码图片对准扫描框即可自动扫描</string>

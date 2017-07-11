@@ -31,7 +31,7 @@
 
             <View
                 style="@style/view_line_h"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="10dp" />
 
             <RelativeLayout
                 android:id="@+id/fm_ll_userCenter"
@@ -75,7 +75,7 @@
 
             <View
                 style="@style/view_line_h"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="10dp" />
 
             <RelativeLayout
                 android:id="@+id/fm_ll_setting"
