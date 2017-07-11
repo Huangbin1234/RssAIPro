@@ -42,7 +42,7 @@
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:ellipsize="end"
-        android:gravity="center"
+        android:gravity="right|center_vertical"
         android:textColor="@color/red"
-        android:textSize="@dimen/s14p" />
+        android:textSize="@dimen/s16p" />
 </LinearLayout>

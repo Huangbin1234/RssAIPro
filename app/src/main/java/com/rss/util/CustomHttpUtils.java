@@ -32,9 +32,9 @@ public class CustomHttpUtils {
                 connection.disconnect();
                 br = httpGETAssistantReader(interfaceUrl);
             }
-            if (null != br) {
-                br.close();// 关闭流
-            }
+//            if (null != br) {
+//                br.close();// 关闭流
+//            }
             connection.disconnect();// 断开连接
         } catch (Exception e) {
             e.printStackTrace();

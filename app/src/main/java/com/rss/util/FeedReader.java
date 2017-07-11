@@ -32,14 +32,9 @@ public class FeedReader {
      * @throws Exception
      */
     public List<RSSItemBean> getRss(String url) throws Exception {
-        URL feedUrl;
         SyndFeedInput input = new SyndFeedInput();//rome按SyndFeed类型生成rss和atom的实例,
-        //SyndFeed feed = input.build(new XmlReader(feedUrl));   //SyndFeed是rss和atom实现类SyndFeedImpl的接口
-        //新版本
-        BufferedReader reader = getResponseRSS(url);
-        feedUrl = new URL(CustomHttpUtils.FINAL_REQ_URL);//SyndFeedInput:从远程读到xml结构的内容转成SyndFeedImpl实例
+        URL feedUrl = new URL(url);//SyndFeedInput:从远程读到xml结构的内容转成SyndFeedImpl实例
         SyndFeed feed = input.build(new XmlReader(feedUrl));   //SyndFeed是rss和atom实现类SyndFeedImpl的接口
-        reader.close();
 
         List<SyndEntry> entries = feed.getEntries();
         RSSItemBean item = null;
@@ -58,25 +53,25 @@ public class FeedReader {
         }
         return rssItemBeans;
     }
+
     /**
      * 提取字符串内所有的img标签下的src
+     *
      * @param content
      * @return
      */
-    public  List<String> getRegexImages(String content){
+    public List<String> getRegexImages(String content) {
         String regex;
         List<String> list = new ArrayList<String>();
         //提取字符串中的img标签
         regex = "<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>";
         Pattern pa = Pattern.compile(regex, Pattern.DOTALL);
         Matcher ma = pa.matcher(content);
-        while (ma.find())
-        {
+        while (ma.find()) {
             //提取字符串中的src路径
             Matcher m = Pattern.compile("src=\"?(.*?)(\"|>|\\s+)").matcher(ma.group());
-            while(m.find())
-            {
-                if("http".equals(m.group(1).substring(0, 4))){//只提取http开头的图片地址
+            while (m.find()) {
+                if ("http".equals(m.group(1).substring(0, 4))) {//只提取http开头的图片地址
                     //System.out.println(m.group(1));
                     list.add(m.group(1));
                 }

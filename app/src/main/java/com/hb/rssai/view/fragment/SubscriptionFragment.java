@@ -3,6 +3,7 @@ package com.hb.rssai.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +23,9 @@ import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.view.subscription.AddSourceActivity;
 import com.hb.rssai.view.subscription.RssSourceEvent;
+import com.rss.bean.RSSItemBean;
+import com.rss.bean.Website;
+import com.rss.util.FeedReader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -99,6 +102,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
         mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
+
     }
 
 
@@ -111,12 +115,9 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
             list.clear();
         }
         list.addAll(dbList);
-        if (mRssSourceAdapter == null) {
-            mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
-            mSfRecyclerView.setAdapter(mRssSourceAdapter);
-        } else {
-            mRssSourceAdapter.notifyDataSetChanged();
-        }
+
+
+        new ReadRssTask().execute();
     }
 
     @Subscribe
@@ -171,5 +172,68 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         // 取消注册
         EventBus.getDefault().unregister(this);
         mListener = null;
+    }
+
+    class ReadRssTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            readRssXml();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (mRssSourceAdapter == null) {
+                mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
+                mSfRecyclerView.setAdapter(mRssSourceAdapter);
+            } else {
+                mRssSourceAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private void readRssXml() {
+        List<Website> websiteList = new ArrayList<>();
+        for (RssSource rssSource : list) {
+            Website website = new Website();
+            website.setUrl(rssSource.getLink());
+            website.setName(rssSource.getName());
+            website.setOpen("true");
+            website.setEncoding("UTF-8");
+            website.setStartTag("");
+            website.setEndTag("");
+            website.setFid("" + rssSource.getId());
+            websiteList.add(website);
+        }
+        for (Website we : websiteList) {
+            rssInsert(we);
+        }
+    }
+
+    /**
+     * 可以选择插入到数据库
+     *
+     * @param website
+     */
+    public void rssInsert(Website website) {
+        try {
+            List<RSSItemBean> rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
+            if (rssTempList != null) {
+                for (RssSource rssSource : list) {
+                    if (website.getFid().equals("" + rssSource.getId())) {
+                        rssSource.setCount(rssTempList.size());
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

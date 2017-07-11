@@ -44,7 +44,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.irs_tv_name.setText(rssList.get(position).getName());
         holder.irs_tv_link.setText(rssList.get(position).getLink());
-        holder.irs_tv_count.setText("29");
+        holder.irs_tv_count.setText("" + rssList.get(position).getCount());
 
         holder.irs_layout.setOnClickListener(v -> {
 

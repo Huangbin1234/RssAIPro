@@ -20,7 +20,7 @@ android {
         }
         ndk {
             //设置支持的SO库架构
-            abiFilters 'armeabi' , 'arm64-v8a', 'x86', 'armeabi-v7a', 'x86_64'
+            abiFilters 'armeabi' //, 'arm64-v8a', 'x86', 'armeabi-v7a', 'x86_64'
         }
         packagingOptions {
             exclude "lib/arm64-v8a/libzbar.so"
@@ -51,7 +51,6 @@ dependencies {
     })
     // https://mvnrepository.com/artifact/com.rometools/rome
     compile files('libs/dom4j-2.0.1.jar')
-
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
