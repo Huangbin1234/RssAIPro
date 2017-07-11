@@ -58,6 +58,6 @@
     <!--<color name="color_btn_logout">#FF9966</color>-->
     <color name="color_toolbar_bg">#E75356</color>
 
-    <color name="color_exit_normal">#E1AD03</color>
-    <color name="color_exit_focus">#cab364</color>
+    <color name="color_exit_normal">#ffffff</color>
+    <color name="color_exit_focus">#d1d0cf</color>
 </resources>
