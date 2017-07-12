@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssListAdapter;
+import com.hb.rssai.bean.RssSort;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.rss.bean.RSSItemBean;
@@ -30,6 +31,7 @@ import com.rss.util.FeedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -83,6 +85,7 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -140,6 +143,8 @@ public class HomeFragment extends Fragment {
             mHfLl.setVisibility(View.GONE);
             prgDialog.closeDialog();
             if (rssList != null && rssList.size() > 0) {
+                RssSort cm = new RssSort();
+                Collections.sort(rssList,cm);
                 if (rssListAdapter == null) {
                     rssListAdapter = new RssListAdapter(getContext(), rssList);
                 }
@@ -179,12 +184,11 @@ public class HomeFragment extends Fragment {
         try {
             List<RSSItemBean> rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
             if (rssTempList != null) {
-                rssList.addAll(rssTempList);
-//                int size = rssList.size();
-//                for (int i = 0; i < size; i++) {
-//                    RSSItemBean rs = rssList.get(i);
-//                    System.out.println(rs.getPubDate() + " " + rs.getTitle()+" "+rs.getDescription()+" "+rs.getLink());
-//                }
+                if(rssTempList.size()>5){
+                    rssList.addAll(rssTempList.subList(0,4));
+                }else{
+                    rssList.addAll(rssTempList);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

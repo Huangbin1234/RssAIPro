@@ -3,11 +3,13 @@ package com.hb.rssai.view.common;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -74,6 +76,7 @@ public class ContentActivity extends BaseActivity {
         mCaWvContent.getSettings().setLayoutAlgorithm(
                 WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mCaWvContent.getSettings().setLoadWithOverviewMode(true);
+        mCaWvContent.getSettings().setDomStorageEnabled(true);
         // 设置本地编码
         mCaWvContent.getSettings().setDefaultTextEncodingName("utf-8");
         mCaWvContent.loadUrl(contenUrl);
@@ -98,8 +101,14 @@ public class ContentActivity extends BaseActivity {
         mCaWvContent.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url.startsWith("http")||url.startsWith("https"))
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
             }
 
             @Override

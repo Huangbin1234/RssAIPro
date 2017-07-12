@@ -40,22 +40,22 @@ public class DateUtil {
             if(days>0 && days<2){
                 result ="前天"+hour+"点"+minute+"分";
             } else {
-                result = yearNum%100+"年"+month+"月 "+day+"日"+hour+"点"+minute+"分";
+                result = yearNum%100+"年"+month+"月"+day+"日"+hour+"点"+minute+"分";
             }
         }else if(hours > 0 ) {
             if(day!=nowDay){
                 result = "昨天"+hour+"点"+minute+"分";
             }else{
-                result=hours+"小时 前";
+                result=hours+"小时前";
             }
         } else if(min > 0){
             if(min>0 && min<15){
                 result="刚刚";
             } else {
-                result=min+"分 前";
+                result=min+"分前";
             }
         }else {
-            result=s+"秒 前";
+            result=s+"秒前";
         }
         return result;
     }

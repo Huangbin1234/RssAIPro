@@ -11,13 +11,14 @@
     </site>
 
     <site>
-    <name>虎嗅网</name>
-    <url>https://www.huxiu.com/rss/0.xml</url>
-    <startTag><![CDATA[<table cellpadding="0" cellspacing="0" class="neirong-box" >]]></startTag>
-    <endTag><![CDATA[</table>]]></endTag>
-    <encoding>UTF-8</encoding>
-    <fid>58</fid>
-    <open>true</open>
+        <name>虎嗅网</name>
+        <url>https://www.huxiu.com/rss/0.xml</url>
+        <startTag>
+            <![CDATA[<table cellpadding="0" cellspacing="0" class="neirong-box" >]]></startTag>
+        <endTag><![CDATA[</table>]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>58</fid>
+        <open>true</open>
     </site>
     <site>
         <name>36氪</name>
@@ -25,16 +26,79 @@
         <startTag><![CDATA[<div class="mainContent sep-10">]]></startTag>
         <endTag><![CDATA[<div id="krapi" class="sep20">]]></endTag>
         <encoding>UTF-8</encoding>
-        <fid>56</fid>
+        <fid>59</fid>
         <open>true</open>
     </site>
     <site>
-        <name>爱范儿</name>
-        <url>http://www.ifanr.com/feed</url>
+        <name>月光博客</name>
+        <url>http://feed.williamlong.info/</url>
         <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
         <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
         <encoding>UTF-8</encoding>
-        <fid>55</fid>
+        <fid>61</fid>
+        <open>true</open>
+    </site>
+    <site>
+        <name>微软亚洲研究院</name>
+        <url>http://blog.sina.com.cn/rss/1286528122.xml</url>
+        <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
+        <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>62</fid>
+        <open>false</open>
+    </site>
+    <site>
+        <name>知乎日报</name>
+        <url>http://feeds.feedburner.com/zhihu-daily</url>
+        <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
+        <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>63</fid>
+        <open>false</open>
+    </site>
+    <site>
+        <name>知乎每日精选</name>
+        <url>https://www.zhihu.com/rss</url>
+        <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
+        <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>64</fid>
+        <open>true</open>
+    </site>
+    <site>
+        <name>水木社区</name>
+        <url>http://www.newsmth.net/rssi.php?h=2&amp;s=9</url>
+        <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
+        <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>65</fid>
+        <open>true</open>
+    </site>
+    <site>
+        <name>腾讯科技频道</name>
+        <url>http://n.rss.qq.com/rss/tech_rss.php</url>
+        <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
+        <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>66</fid>
+        <open>true</open>
+    </site>
+    <site>
+        <name>极客公园</name>
+        <url>http://www.geekpark.net/rss</url>
+        <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
+        <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>67</fid>
+        <open>true</open>
+    </site>
+    <site>
+        <name>人民网</name>
+        <url>http://www.people.com.cn/rss/politics.xml</url>
+        <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
+        <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>68</fid>
         <open>true</open>
     </site>
 </websites>

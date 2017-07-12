@@ -20,7 +20,7 @@ android {
         }
         ndk {
             //设置支持的SO库架构
-            abiFilters 'armeabi' , 'arm64-v8a', 'x86', 'armeabi-v7a', 'x86_64'
+            abiFilters 'armeabi' //, 'arm64-v8a', 'x86', 'armeabi-v7a', 'x86_64'
         }
         packagingOptions {
             exclude "lib/arm64-v8a/libzbar.so"
@@ -69,6 +69,6 @@ dependencies {
 
     //rome解析相关
     compile files('libs/dom4j-2.0.1.jar')
-    compile 'org.jdom:jdom2:2.0.5'
+    compile 'org.jdom:jdom2:2.0.6'
     compile files('libs/slf4j-api-1.7.25.jar')
 }
