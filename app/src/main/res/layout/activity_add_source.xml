@@ -70,11 +70,10 @@
             android:id="@+id/asa_btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="@color/white"
             android:text="@string/str_asa_btn_save"
             android:textColor="@color/orange"
-            android:textSize="@dimen/s14p"/>
+            android:textSize="@dimen/s16p"/>
 
         <View style="@style/view_line_h"/>
     </LinearLayout>
