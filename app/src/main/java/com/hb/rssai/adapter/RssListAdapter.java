@@ -32,7 +32,6 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     private Context mContext;
     List<RSSItemBean> rssList;
     private LayoutInflater layoutInflater;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
 
     public RssListAdapter(Context mContext, List<RSSItemBean> rssList) {
@@ -80,6 +79,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
             holder.item_na_img.setVisibility(View.GONE);
             holder.irl_bottom_a.setVisibility(View.VISIBLE);
             holder.irl_bottom_b.setVisibility(View.GONE);
+            holder.item_na_group_ll.setVisibility(View.GONE);
 
             holder.item_na_type_a.setText(rssList.get(position).getType());
             holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
