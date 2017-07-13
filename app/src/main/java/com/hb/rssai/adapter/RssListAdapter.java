@@ -18,7 +18,6 @@ import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.rss.bean.RSSItemBean;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -30,9 +29,10 @@ import java.util.List;
  */
 public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHolder> {
     private Context mContext;
-    List<RSSItemBean> rssList;
+    private List<RSSItemBean> rssList;
     private LayoutInflater layoutInflater;
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
+    private List<String> images = null;
 
     public RssListAdapter(Context mContext, List<RSSItemBean> rssList) {
         this.mContext = mContext;
@@ -50,8 +50,9 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_na_name.setText(rssList.get(position).getTitle());
-        if (rssList.get(position).getImages() != null && rssList.get(position).getImages().size() > 0) {
-            if (rssList.get(position).getImages().size() >= 3) {
+        images = rssList.get(position).getImages();
+        if (images != null && images.size() > 0) {
+            if (images.size() >= 3) {
                 holder.item_na_group_ll.setVisibility(View.VISIBLE);
                 holder.item_na_img.setVisibility(View.GONE);
                 holder.irl_bottom_a.setVisibility(View.GONE);
@@ -60,10 +61,9 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 holder.item_na_type_b.setText(rssList.get(position).getType());
                 holder.item_na_time_b.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
 
-
-                HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_group_a);
-                HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(1), holder.item_na_group_b);
-                HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(2), holder.item_na_group_c);
+                HttpLoadImg.loadImg(mContext, images.get(0), holder.item_na_group_a);
+                HttpLoadImg.loadImg(mContext, images.get(1), holder.item_na_group_b);
+                HttpLoadImg.loadImg(mContext, images.get(2), holder.item_na_group_c);
             } else {
                 holder.item_na_group_ll.setVisibility(View.GONE);
                 holder.item_na_img.setVisibility(View.VISIBLE);
@@ -73,13 +73,13 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 holder.item_na_type_a.setText(rssList.get(position).getType());
                 holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
 
-                HttpLoadImg.loadImg(mContext, rssList.get(position).getImages().get(0), holder.item_na_img);
+                HttpLoadImg.loadImg(mContext, images.get(0), holder.item_na_img);
             }
         } else {
+            holder.item_na_group_ll.setVisibility(View.GONE);
             holder.item_na_img.setVisibility(View.GONE);
             holder.irl_bottom_a.setVisibility(View.VISIBLE);
             holder.irl_bottom_b.setVisibility(View.GONE);
-            holder.item_na_group_ll.setVisibility(View.GONE);
 
             holder.item_na_type_a.setText(rssList.get(position).getType());
             holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
@@ -109,15 +109,15 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
         LinearLayout irl_bottom_a;
         LinearLayout item_na_layout;
         LinearLayout item_na_group_ll;
-        TextView item_na_name;
+
         ImageView item_na_img;
         ImageView item_na_group_a;
         ImageView item_na_group_b;
         ImageView item_na_group_c;
 
+        TextView item_na_name;
         TextView item_na_time_a;
         TextView item_na_type_a;
-
         TextView item_na_time_b;
         TextView item_na_type_b;
 
@@ -125,21 +125,19 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
             super(itemView);
             item_na_layout = (LinearLayout) itemView.findViewById(R.id.item_na_layout);
             item_na_group_ll = (LinearLayout) itemView.findViewById(R.id.item_na_group_ll);
-            item_na_name = (TextView) itemView.findViewById(R.id.item_na_title);
+            irl_bottom_a = (LinearLayout) itemView.findViewById(R.id.irl_bottom_a);
+            irl_bottom_b = (LinearLayout) itemView.findViewById(R.id.irl_bottom_b);
 
+            item_na_name = (TextView) itemView.findViewById(R.id.item_na_title);
             item_na_time_a = (TextView) itemView.findViewById(R.id.item_na_time_a);
             item_na_type_a = (TextView) itemView.findViewById(R.id.item_na_type_a);
             item_na_time_b = (TextView) itemView.findViewById(R.id.item_na_time_b);
             item_na_type_b = (TextView) itemView.findViewById(R.id.item_na_type_b);
 
             item_na_img = (ImageView) itemView.findViewById(R.id.item_na_img);
-
             item_na_group_a = (ImageView) itemView.findViewById(R.id.item_na_group_a);
             item_na_group_b = (ImageView) itemView.findViewById(R.id.item_na_group_b);
             item_na_group_c = (ImageView) itemView.findViewById(R.id.item_na_group_c);
-
-            irl_bottom_a = (LinearLayout) itemView.findViewById(R.id.irl_bottom_a);
-            irl_bottom_b = (LinearLayout) itemView.findViewById(R.id.irl_bottom_b);
         }
     }
 }

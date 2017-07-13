@@ -39,7 +39,7 @@ public class ContentActivity extends BaseActivity {
 
     public static final String KEY_URL = "url";
     public static final String KEY_TITLE = "title";
-    private String contenUrl;
+    private String contentUrl;
     private String title = "";
 
     @Override
@@ -51,7 +51,7 @@ public class ContentActivity extends BaseActivity {
     protected void initIntent() {
         Bundle bundle = getIntent().getExtras();
         if (null != bundle) {
-            contenUrl = bundle.getString(KEY_URL);
+            contentUrl = bundle.getString(KEY_URL);
             title = bundle.getString(KEY_TITLE);
         }
     }
@@ -69,17 +69,14 @@ public class ContentActivity extends BaseActivity {
             //当前没有可用网络
             mCaWvContent.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);  //设置 缓存模式(只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。)
         }
-//        msa_wv_content.getSettings().setCacheMode(
-//                WebSettings.LOAD_CACHE_ELSE_NETWORK);
-
+        //msa_wv_content.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         // 自适应
-        mCaWvContent.getSettings().setLayoutAlgorithm(
-                WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        mCaWvContent.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mCaWvContent.getSettings().setLoadWithOverviewMode(true);
         mCaWvContent.getSettings().setDomStorageEnabled(true);
         // 设置本地编码
         mCaWvContent.getSettings().setDefaultTextEncodingName("utf-8");
-        mCaWvContent.loadUrl(contenUrl);
+        mCaWvContent.loadUrl(contentUrl);
         // 此处能拦截超链接的url,即拦截href请求的内容.
         mCaWvContent.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -101,8 +98,8 @@ public class ContentActivity extends BaseActivity {
         mCaWvContent.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(url.startsWith("http")||url.startsWith("https"))
-                view.loadUrl(url);
+                if (url.startsWith("http") || url.startsWith("https"))
+                    view.loadUrl(url);
                 return true;
             }
 
@@ -124,10 +121,7 @@ public class ContentActivity extends BaseActivity {
                 super.onReceivedError(view, errorCode, description, failingUrl);
                 System.out.println("onReceivedError   ");
                 // 加载空页面
-                mCaWvContent.loadDataWithBaseURL(
-                        null,
-                        "<html><body><div style=\"margin:0 auto;width:100%;text-align:center;\" ><h1>网络连接失败</h1><p>请稍后重试.</p></div></body></html>",
-                        "text/html", "utf-8", null);
+                mCaWvContent.loadDataWithBaseURL(null, "<html><body><div style=\"margin:0 auto;width:100%;text-align:center;margin-top:20px;\" ><h2>网络连接失败</h2><p>请稍后重试.</p></div></body></html>", "text/html", "utf-8", null);
             }
         });
     }
