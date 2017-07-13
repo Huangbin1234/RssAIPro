@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="8"
+        android:layout_weight="9"
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
@@ -24,7 +24,7 @@
             android:maxLines="2"
             android:paddingTop="16dp"
             android:textColor="@color/color_title"
-            android:textSize="@dimen/s18p" />
+            android:textSize="@dimen/s16p" />
 
         <TextView
             android:id="@+id/irs_tv_link"
@@ -40,7 +40,7 @@
         android:id="@+id/irs_tv_count"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="right|center_vertical"
         android:textColor="@color/red"

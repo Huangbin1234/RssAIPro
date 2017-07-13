@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,10 +47,12 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     @BindView(R.id.sys_toolbar)
     Toolbar mSysToolbar;
     Unbinder unbinder;
-    @BindView(R.id.sf_rss_add)
-    ImageView mSfRssAdd;
     @BindView(R.id.sf_recycler_view)
     RecyclerView mSfRecyclerView;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.sys_iv_add)
+    ImageView mSysIvAdd;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -89,20 +92,24 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_subscription, container, false);
         unbinder = ButterKnife.bind(this, view);
-        mLayoutManager = new LinearLayoutManager(getContext());
-        mSfRecyclerView.setLayoutManager(mLayoutManager);
-
-        initData();
+        initView();
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private void initView() {
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
         mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
 
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mSfRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initData();
     }
 
 
@@ -151,15 +158,16 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         unbinder.unbind();
     }
 
-    @OnClick({R.id.sf_rss_add})
+    @OnClick({R.id.sys_iv_add})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sf_rss_add:
+            case R.id.sys_iv_add:
                 startActivity(new Intent(getContext(), AddSourceActivity.class));
                 break;
         }
     }
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

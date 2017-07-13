@@ -47,7 +47,6 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         holder.irs_tv_count.setText("" + rssList.get(position).getCount());
 
         holder.irs_layout.setOnClickListener(v -> {
-
             Intent intent = new Intent(mContext, SourceListActivity.class);
             intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
             intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());

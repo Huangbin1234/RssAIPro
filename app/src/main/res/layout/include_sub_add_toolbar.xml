@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.AppBarLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -10,16 +9,26 @@
         android:id="@+id/sys_toolbar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:elevation="4dp"
-        android:background="@color/color_toolbar_bg">
+        android:background="@color/color_toolbar_bg"
+        android:elevation="4dp">
 
         <TextView
             android:id="@+id/sys_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:singleLine="true"
             android:layout_marginLeft="16dp"
-            android:textSize="@dimen/s16p" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/s16p"/>
+
+        <ImageView
+            android:id="@+id/sys_iv_add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="16dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_add_sub"/>
 
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

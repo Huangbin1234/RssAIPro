@@ -92,7 +92,10 @@ public class SourceListActivity extends BaseActivity {
         mSysToolbar.setTitle("");
         setSupportActionBar(mSysToolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

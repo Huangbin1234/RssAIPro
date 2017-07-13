@@ -25,7 +25,6 @@
         <!-- AppCompatEditText选择的底线颜色 -->
         <item name="colorControlActivated">#05896f</item>
         <item name="toolbarStyle">@style/ClubToolbar</item>
-
         <item name="colorAccent">@color/color_toolbar_bg</item>
         <!--<item name="colorPrimary">@color/colorPrimary</item>    &lt;!&ndash; 状态栏 &ndash;&gt;-->
         <!--<item name="colorPrimaryDark">@color/colorPrimary</item> &lt;!&ndash; toolbar &ndash;&gt;-->
@@ -36,6 +35,7 @@
         <item name="android:background">#DDDDDD</item>
     </style>
     <style name="title_all">
+        <item name="android:background">@color/color_toolbar_bg</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
 

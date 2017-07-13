@@ -66,7 +66,10 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         mSysToolbar.setTitle("");
         setSupportActionBar(mSysToolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
         mSysTvTitle.setText(getResources().getString(R.string.str_asa_title));
     }
 
