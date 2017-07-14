@@ -1,4 +1,4 @@
-package com.hb.rssai.view.subscription;
+package com.hb.rssai.event;
 
 /**
  * Created by Administrator on 2017/7/9 0009.
