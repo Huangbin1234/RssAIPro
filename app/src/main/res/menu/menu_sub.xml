@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/titlebar_add_sub"
-        android:icon="@mipmap/ic_launcher"
+        android:id="@+id/toolbar_add_collection"
+        android:icon="@mipmap/ic_collection_normal"
         android:orderInCategory="67"
-        app:showAsAction="ifRoom"
-        android:title="@string/str_sf_rss_add"/>
+        android:title="@string/str_sf_new_collection"
+        app:showAsAction="ifRoom" />
 </menu>
 

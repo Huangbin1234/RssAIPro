@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +23,9 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.view.subscription.AddSourceActivity;
-import com.hb.rssai.event.RssSourceEvent;
 import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
@@ -53,6 +55,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     AppBarLayout mAppBarLayout;
     @BindView(R.id.sys_iv_add)
     ImageView mSysIvAdd;
+    @BindView(R.id.sf_swipe)
+    SwipeRefreshLayout mSfSwipe;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -103,6 +107,13 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mSfRecyclerView.setLayoutManager(mLayoutManager);
+        mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
+                R.color.refresh_progress_2, R.color.refresh_progress_3);
+        mSfSwipe.setProgressViewOffset(true, 0, (int) TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
+        //TODO 设置下拉刷新
+        mSfSwipe.setOnRefreshListener(() -> initData());
     }
 
 
@@ -197,6 +208,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mSfSwipe.setRefreshing(false);
             if (mRssSourceAdapter == null) {
                 mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
                 mSfRecyclerView.setAdapter(mRssSourceAdapter);

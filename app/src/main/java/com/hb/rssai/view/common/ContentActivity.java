@@ -7,6 +7,8 @@ import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.SslErrorHandler;
@@ -20,11 +22,19 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.UserCollection;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.util.DateUtil;
+import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.T;
+
+import java.util.Date;
 
 import butterknife.BindView;
+import me.drakeet.materialdialog.MaterialDialog;
 
-public class ContentActivity extends BaseActivity {
+public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -57,8 +67,16 @@ public class ContentActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_sub, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
     protected void initView() {
         mSysTvTitle.setText(title);
+
         // 运行加载JS
         mCaWvContent.getSettings().setJavaScriptEnabled(true);
         // 采用缓存模式 需要对应清除缓存操作
@@ -140,6 +158,7 @@ public class ContentActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
             actionBar.setDisplayShowTitleEnabled(false);
         }
+        mSysToolbar.setOnMenuItemClickListener(this);
     }
 
     @Override
@@ -167,5 +186,55 @@ public class ContentActivity extends BaseActivity {
         } else {
             return false;
         }
+    }
+
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbar_add_collection:
+                if (!TextUtils.isEmpty(contentUrl)) {
+                    String dateTime = DateUtil.format(new Date(), Constant.DATE_LONG_PATTERN);
+                    UserCollection collection = new UserCollection();
+                    collection.setLink(contentUrl);
+                    collection.setTime(dateTime);
+                    collection.setTitle(title);
+                    LiteOrmDBUtil.insert(collection);
+                    T.ShowToast(ContentActivity.this, "收藏成功！");
+                } else {
+                    T.ShowToast(this, "收藏失败，链接错误！");
+                }
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * 取消对话框
+     *
+     * @return
+     */
+    private void sureCollection() {
+        final MaterialDialog materialDialog = new MaterialDialog(this);
+        materialDialog.setMessage("确定要删除吗？").setTitle(Constant.TIPS_SYSTEM).setNegativeButton("放弃", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialDialog.dismiss();
+
+            }
+        }).setPositiveButton("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 取消
+                materialDialog.dismiss();
+                String dateTime = DateUtil.format(new Date(), Constant.DATE_LONG_PATTERN);
+                UserCollection collection = new UserCollection();
+                collection.setLink(contentUrl);
+                collection.setTime(dateTime);
+                collection.setTime(title);
+                LiteOrmDBUtil.insert(collection);
+                T.ShowToast(ContentActivity.this, "收藏成功！");
+            }
+        }).show();
     }
 }

@@ -110,6 +110,9 @@ public class HomeFragment extends Fragment {
         mHfRecyclerView.setLayoutManager(mLayoutManager);
         mHfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
         mHfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
+        //TODO 设置下拉刷新
+        mHfSwipeLayout.setOnRefreshListener(() -> new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR));
     }
 
     @Override
@@ -140,11 +143,12 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mHfSwipeLayout.setRefreshing(false);
             mHfLl.setVisibility(View.GONE);
             prgDialog.closeDialog();
             if (rssList != null && rssList.size() > 0) {
                 RssSort cm = new RssSort();
-                Collections.sort(rssList,cm);
+                Collections.sort(rssList, cm);
                 if (rssListAdapter == null) {
                     rssListAdapter = new RssListAdapter(getContext(), rssList);
                 }
@@ -184,9 +188,9 @@ public class HomeFragment extends Fragment {
         try {
             List<RSSItemBean> rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
             if (rssTempList != null) {
-                if(rssTempList.size()>5){
-                    rssList.addAll(rssTempList.subList(0,4));
-                }else{
+                if (rssTempList.size() > 5) {
+                    rssList.addAll(rssTempList.subList(0, 4));
+                } else {
                     rssList.addAll(rssTempList);
                 }
             }

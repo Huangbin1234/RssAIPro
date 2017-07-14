@@ -100,5 +100,13 @@
         <encoding>UTF-8</encoding>
         <fid>68</fid>
         <open>true</open>
+    </site><site>
+        <name>Android安全中文站</name>
+        <url>http://www.droidsec.cn/feed/</url>
+        <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
+        <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
+        <encoding>UTF-8</encoding>
+        <fid>69</fid>
+        <open>true</open>
     </site>
 </websites>
