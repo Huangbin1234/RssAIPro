@@ -6,6 +6,6 @@
         android:icon="@mipmap/ic_collection_normal"
         android:orderInCategory="67"
         android:title="@string/str_sf_new_collection"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>
 

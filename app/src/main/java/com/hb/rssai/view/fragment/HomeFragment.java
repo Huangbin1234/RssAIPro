@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private LinearLayoutManager mLayoutManager;
     List<RSSItemBean> rssList = new ArrayList<>();
-    private PrgDialog prgDialog;
+//    private PrgDialog prgDialog;
     private RssListAdapter rssListAdapter;
 
     public HomeFragment() {
@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            prgDialog = new PrgDialog(getContext(), true);
+//            prgDialog = new PrgDialog(getContext(), true);
         }
 
         @Override
@@ -145,7 +145,7 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             mHfSwipeLayout.setRefreshing(false);
             mHfLl.setVisibility(View.GONE);
-            prgDialog.closeDialog();
+//            prgDialog.closeDialog();
             if (rssList != null && rssList.size() > 0) {
                 RssSort cm = new RssSort();
                 Collections.sort(rssList, cm);
