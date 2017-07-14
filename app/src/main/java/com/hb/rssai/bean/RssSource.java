@@ -15,6 +15,16 @@ public class RssSource {
     private int id;
     private String name;
     private String link;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    private String imgUrl;
     private int count;
 
     public String getName() {

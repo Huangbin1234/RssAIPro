@@ -43,11 +43,17 @@ public class LoadActivity extends AppCompatActivity {
                 rssSource2.setLink("http://rss.sina.com.cn/roll/mil/hot_roll.xml");
                 LiteOrmDBUtil.insert(rssSource2);
 
-                RssSource rssSource4= new RssSource();
+                RssSource rssSource4 = new RssSource();
                 rssSource4.setId(3);
                 rssSource4.setName("善心汇新闻");
                 rssSource4.setLink("http://news.baidu.com/ns?word=%C9%C6%D0%C4%BB%E3&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
                 LiteOrmDBUtil.insert(rssSource4);
+
+                RssSource rssSource3 = new RssSource();
+                rssSource3.setId(4);
+                rssSource3.setName("华声论坛");
+                rssSource3.setLink("http://bbs.voc.com.cn/rss.php?fid=76");
+                LiteOrmDBUtil.insert(rssSource3);
 
                 Thread.sleep(2000);
             } catch (InterruptedException e) {

@@ -160,7 +160,7 @@ public class SourceListActivity extends BaseActivity {
      */
     public void rssInsert(Website website) {
         try {
-            List<RSSItemBean> rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
+            List<RSSItemBean> rssTempList = new FeedReader().getContent(website).getRSSItemBeen();                   //获取有内容的 rssItemBean
             if (rssTempList != null) {
                 rssList.addAll(rssTempList);
             }

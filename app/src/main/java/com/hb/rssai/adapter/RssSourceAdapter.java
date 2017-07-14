@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.view.subscription.SourceListActivity;
 
 import java.util.List;
@@ -43,8 +45,9 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.irs_tv_name.setText(rssList.get(position).getName());
-        holder.irs_tv_link.setText(rssList.get(position).getLink());
+//        holder.irs_tv_link.setText(rssList.get(position).getLink());
         holder.irs_tv_count.setText("" + rssList.get(position).getCount());
+        HttpLoadImg.loadCircleImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
 
         holder.irs_layout.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SourceListActivity.class);
@@ -66,6 +69,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         TextView irs_tv_name;
         TextView irs_tv_link;
         TextView irs_tv_count;
+        ImageView irs_iv_logo;
 
 
         public MyViewHolder(View itemView) {
@@ -75,6 +79,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
             irs_tv_count = (TextView) itemView.findViewById(R.id.irs_tv_count);
             irs_tv_link = (TextView) itemView.findViewById(R.id.irs_tv_link);
             irs_tv_name = (TextView) itemView.findViewById(R.id.irs_tv_name);
+            irs_iv_logo = (ImageView) itemView.findViewById(R.id.irs_iv_logo);
         }
     }
 }

@@ -22,7 +22,6 @@ import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssListAdapter;
 import com.hb.rssai.bean.RssSort;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.widget.PrgDialog;
 import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
 import com.rss.util.Dom4jUtil;
@@ -62,7 +61,7 @@ public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private LinearLayoutManager mLayoutManager;
     List<RSSItemBean> rssList = new ArrayList<>();
-//    private PrgDialog prgDialog;
+    //    private PrgDialog prgDialog;
     private RssListAdapter rssListAdapter;
 
     public HomeFragment() {
@@ -112,7 +111,12 @@ public class HomeFragment extends Fragment {
         mHfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
         //TODO 设置下拉刷新
-        mHfSwipeLayout.setOnRefreshListener(() -> new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR));
+        mHfSwipeLayout.setOnRefreshListener(() -> {
+            if (rssList != null && rssList.size() > 0) {
+                rssList.clear();
+            }
+            new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        });
     }
 
     @Override
@@ -186,7 +190,7 @@ public class HomeFragment extends Fragment {
      */
     public void rssInsert(Website website) {
         try {
-            List<RSSItemBean> rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
+            List<RSSItemBean> rssTempList = new FeedReader().getContent(website).getRSSItemBeen();                   //获取有内容的 rssItemBean
             if (rssTempList != null) {
                 if (rssTempList.size() > 5) {
                     rssList.addAll(rssTempList.subList(0, 4));

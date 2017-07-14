@@ -1,30 +1,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/irs_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:background="@color/white"
-    android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+              android:id="@+id/irs_layout"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="1px"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="9"
-        android:orientation="vertical"
-        android:paddingBottom="16dp">
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
 
+        <ImageView
+            android:id="@+id/irs_iv_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:id="@+id/irs_tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:paddingTop="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
+            android:maxLines="1"
             android:textColor="@color/color_title"
-            android:textSize="@dimen/s16p" />
+            android:textSize="@dimen/s16p"/>
 
         <TextView
             android:id="@+id/irs_tv_link"
@@ -32,7 +40,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:textColor="@color/color_time"
-            android:textSize="@dimen/s14p" />
+            android:textSize="@dimen/s14p"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -43,6 +52,6 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="right|center_vertical"
-        android:textColor="@color/red"
-        android:textSize="@dimen/s16p" />
+        android:textColor="@color/color_txt"
+        android:textSize="@dimen/s16p"/>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.rss.util;
 
+import com.hb.rssai.bean.RssChannel;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
@@ -31,18 +32,33 @@ public class FeedReader {
      * @return 所有文章对象
      * @throws Exception
      */
-    public List<RSSItemBean> getRss(String url) throws Exception {
+//    public List<RSSItemBean> getRss(String url) throws Exception {
+    public RssChannel getRss(String url) throws Exception {
         SyndFeedInput input = new SyndFeedInput();//rome按SyndFeed类型生成rss和atom的实例,
         URL feedUrl = new URL(url);//SyndFeedInput:从远程读到xml结构的内容转成SyndFeedImpl实例
         SyndFeed feed = input.build(new XmlReader(feedUrl));   //SyndFeed是rss和atom实现类SyndFeedImpl的接口
 
         List<SyndEntry> entries = feed.getEntries();
         RSSItemBean item = null;
+        RssChannel rssChannel = new RssChannel();
+        rssChannel.setDescription(feed.getDescription());
+        rssChannel.setCopyright(feed.getCopyright());
+        rssChannel.setLanguage(feed.getLanguage());
+        rssChannel.setLink(feed.getLink());
+        rssChannel.setTitle(feed.getTitle()!=null?formatStr(feed.getTitle()):"");
+        rssChannel.setPubDate(feed.getPublishedDate());
+        if (feed.getImage() != null) {
+            RssChannel.ImageBean imageBean = new RssChannel.ImageBean();
+            imageBean.setTitle(feed.getImage().getTitle());
+            imageBean.setUrl(feed.getImage().getUrl());
+            imageBean.setLink(feed.getImage().getLink());
+            rssChannel.setImage(imageBean);
+        }
         List<RSSItemBean> rssItemBeans = new ArrayList<RSSItemBean>();
         for (SyndEntry entry : entries) {
             item = new RSSItemBean();
             item.setTitle(entry.getTitle().trim());
-            item.setType(feed.getTitleEx().getValue().trim());
+            item.setType(feed.getTitleEx().getValue()!=null?feed.getTitleEx().getValue().trim():"");
             item.setUri(entry.getUri());
             item.setPubDate(entry.getPublishedDate());
             item.setAuthor(entry.getAuthor());
@@ -51,7 +67,20 @@ public class FeedReader {
             item.setLink(entry.getLink());
             rssItemBeans.add(item);
         }
-        return rssItemBeans;
+        rssChannel.setRSSItemBeen(rssItemBeans);
+        return rssChannel;
+//        return rssItemBeans;
+    }
+
+    private String formatStr(String s) {
+        Pattern p = Pattern.compile(".*<!\\[CDATA\\[(.*)\\]\\]>.*");
+        Matcher m = p.matcher(s);
+
+        if (m.matches()) {
+            return m.group(1);
+        } else {
+            return s;
+        }
     }
 
     /**
@@ -87,9 +116,11 @@ public class FeedReader {
      * @return 加入了新闻正文的 RSS对象  对象链表
      * @throws Exception
      */
-    public List<RSSItemBean> getContent(Website website) throws Exception {
+//    public List<RSSItemBean> getContent(Website website) throws Exception {
+    public RssChannel getContent(Website website) throws Exception {
 //        String content;
-        List<RSSItemBean> rssList = getRss(website.getUrl());
+//        List<RSSItemBean> rssList = getRss(website.getUrl());
+        RssChannel rssList = getRss(website.getUrl());
 //        FindHtml findHtml = new FindHtml(website.getStartTag(), website.getEndTag(), website.getEncoding());
 //        for (RSSItemBean rsItem : rssList) {
 //            String link = rsItem.getUri();

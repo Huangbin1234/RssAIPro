@@ -22,11 +22,11 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssSourceAdapter;
+import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.view.subscription.AddSourceActivity;
-import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
 
@@ -243,11 +243,17 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
      */
     public void rssInsert(Website website) {
         try {
-            List<RSSItemBean> rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
-            if (rssTempList != null) {
-                for (RssSource rssSource : list) {
-                    if (website.getFid().equals("" + rssSource.getId())) {
-                        rssSource.setCount(rssTempList.size());
+//            List<RSSItemBean> rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
+            RssChannel rssTempList = new FeedReader().getContent(website);                   //获取有内容的 rssItemBean
+            if (rssTempList != null && rssTempList.getRSSItemBeen().size() > 0) {
+                int len = list.size();
+                for (int i = 0; i < len; i++) {
+                    if (website.getFid().equals("" + list.get(i).getId())) {
+                        list.get(i).setCount(rssTempList.getRSSItemBeen().size());
+                        if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
+                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
+                        }
+//                            list.get(i).setName(rssTempList.getImage().getTitle());
                         break;
                     }
                 }
