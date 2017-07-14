@@ -3,9 +3,10 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginBottom="1px"
-              android:background="@color/white"
+              android:background="@drawable/ll_selector"
               android:orientation="horizontal"
               android:paddingLeft="16dp"
+
               android:paddingRight="16dp">
 
     <LinearLayout
@@ -22,7 +23,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_error"/>
 
         <TextView
             android:id="@+id/irs_tv_name"
@@ -33,7 +34,6 @@
             android:maxLines="1"
             android:textColor="@color/color_title"
             android:textSize="@dimen/s16p"/>
-
         <TextView
             android:id="@+id/irs_tv_link"
             android:layout_width="wrap_content"
@@ -48,10 +48,13 @@
     <TextView
         android:id="@+id/irs_tv_count"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ellipsize="end"
-        android:gravity="right|center_vertical"
+        android:background="@drawable/round_item_corner"
+        android:layout_gravity="center_vertical"
+        android:text="123"
+        android:gravity="center"
         android:textColor="@color/color_txt"
         android:textSize="@dimen/s16p"/>
 </LinearLayout>
