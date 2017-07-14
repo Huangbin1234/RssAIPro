@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;

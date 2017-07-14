@@ -23,7 +23,7 @@ import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.view.subscription.AddSourceActivity;
-import com.hb.rssai.view.subscription.RssSourceEvent;
+import com.hb.rssai.event.RssSourceEvent;
 import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
