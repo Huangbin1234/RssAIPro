@@ -66,14 +66,24 @@ public class HttpLoadImg {
     public static void loadCircleImg(Context context, String url, ImageView imageView) {
         Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
-
+    /**
+     * 下载图片转圆形
+     */
+    public static void loadCircleImg(Context context, Integer resId, ImageView imageView) {
+        Glide.with(context).load(resId).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+    }
     /**ic_error.png
      * 下载图片转圆形带边框2dp
      */
     public static void loadCircleWithBorderImg(Context context, String url, ImageView imageView) {
         Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
-
+    /**ic_error.png
+     * 下载图片转圆形带边框2dp
+     */
+    public static void loadCircleWithBorderImg(Context context, Integer resId, ImageView imageView) {
+        Glide.with(context).load(resId).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+    }
     /**
      * 下载图片转圆形带边框2dp
      */

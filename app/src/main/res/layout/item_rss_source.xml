@@ -1,13 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/irs_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="1px"
-              android:background="@drawable/ll_selector"
-              android:orientation="horizontal"
-              android:paddingLeft="16dp"
-
-              android:paddingRight="16dp">
+    android:id="@+id/irs_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1px"
+    android:background="@drawable/ll_selector"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,11 +18,11 @@
 
         <ImageView
             android:id="@+id/irs_iv_logo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_error"/>
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_error" />
 
         <TextView
             android:id="@+id/irs_tv_name"
@@ -31,9 +30,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="6dp"
+            android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/color_title"
-            android:textSize="@dimen/s16p"/>
+            android:textSize="@dimen/s16p" />
+
         <TextView
             android:id="@+id/irs_tv_link"
             android:layout_width="wrap_content"
@@ -41,20 +42,25 @@
             android:ellipsize="end"
             android:textColor="@color/color_time"
             android:textSize="@dimen/s14p"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/irs_tv_count"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ellipsize="end"
-        android:background="@drawable/round_item_corner"
         android:layout_gravity="center_vertical"
-        android:text="123"
-        android:gravity="center"
-        android:textColor="@color/color_txt"
-        android:textSize="@dimen/s16p"/>
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/irs_tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/round_item_corner"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:textColor="@color/color_txt"
+            android:textSize="@dimen/s16p" />
+    </LinearLayout>
 </LinearLayout>

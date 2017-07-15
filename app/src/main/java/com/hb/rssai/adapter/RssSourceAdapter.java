@@ -3,6 +3,7 @@ package com.hb.rssai.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +46,12 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.irs_tv_name.setText(rssList.get(position).getName());
-//        holder.irs_tv_link.setText(rssList.get(position).getLink());
         holder.irs_tv_count.setText("" + rssList.get(position).getCount());
-        HttpLoadImg.loadCircleImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
-
+        if (TextUtils.isEmpty(rssList.get(position).getImgUrl())) {
+            HttpLoadImg.loadCircleImg(mContext, R.mipmap.ic_place, holder.irs_iv_logo);
+        } else {
+            HttpLoadImg.loadCircleImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
+        }
         holder.irs_layout.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SourceListActivity.class);
             intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
