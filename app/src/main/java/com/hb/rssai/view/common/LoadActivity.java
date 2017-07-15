@@ -32,22 +32,18 @@ public class LoadActivity extends AppCompatActivity {
         new Thread(() -> {
             try {
                 RssSource rssSource = new RssSource();
-                rssSource.setName("环球网中国军事");
+                rssSource.setName("环球军事");
                 rssSource.setId(1);
                 rssSource.setLink("http://rss.huanqiu.com/mil/china.xml");
                 LiteOrmDBUtil.insert(rssSource);
 
                 RssSource rssSource2 = new RssSource();
                 rssSource2.setId(2);
-                rssSource2.setName("新浪军事频道");
+                rssSource2.setName("新浪军事");
                 rssSource2.setLink("http://rss.sina.com.cn/roll/mil/hot_roll.xml");
                 LiteOrmDBUtil.insert(rssSource2);
 
-                RssSource rssSource4 = new RssSource();
-                rssSource4.setId(3);
-                rssSource4.setName("善心汇新闻");
-                rssSource4.setLink("http://news.baidu.com/ns?word=%C9%C6%D0%C4%BB%E3&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
-                LiteOrmDBUtil.insert(rssSource4);
+
 
                 RssSource rssSource3 = new RssSource();
                 rssSource3.setId(4);
@@ -55,6 +51,11 @@ public class LoadActivity extends AppCompatActivity {
                 rssSource3.setLink("http://bbs.voc.com.cn/rss.php?fid=76");
                 LiteOrmDBUtil.insert(rssSource3);
 
+                RssSource rssSource4 = new RssSource();
+                rssSource4.setId(3);
+                rssSource4.setName("善心汇新闻");
+                rssSource4.setLink("http://news.baidu.com/ns?word=%C9%C6%D0%C4%BB%E3&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
+                LiteOrmDBUtil.insert(rssSource4);
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();

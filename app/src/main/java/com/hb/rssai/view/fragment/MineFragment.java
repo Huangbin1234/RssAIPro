@@ -12,11 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.view.me.CollectionActivity;
+import com.hb.rssai.view.me.SettingActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,9 +36,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.fm_ll_avatar)
-    RelativeLayout mFmLlAvatar;
-    @BindView(R.id.fm_ll_userCenter)
-    RelativeLayout mFmLlUserCenter;
+    LinearLayout mFmLlAvatar;
     @BindView(R.id.fm_ll_message)
     RelativeLayout mFmLlMessage;
     @BindView(R.id.fm_ll_collection)
@@ -118,12 +118,15 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.fm_ll_collection})
+    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fm_ll_collection:
                 getActivity().startActivity(new Intent(getContext(), CollectionActivity.class));
+                break;
+            case R.id.fm_ll_setting:
+                getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
         }
     }
