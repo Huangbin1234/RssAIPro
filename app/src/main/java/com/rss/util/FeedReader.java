@@ -45,7 +45,7 @@ public class FeedReader {
         rssChannel.setCopyright(feed.getCopyright());
         rssChannel.setLanguage(feed.getLanguage());
         rssChannel.setLink(feed.getLink());
-        rssChannel.setTitle(feed.getTitle()!=null?formatStr(feed.getTitle()):"");
+        rssChannel.setTitle(feed.getTitle() != null ? formatStr(feed.getTitle()) : "");
         rssChannel.setPubDate(feed.getPublishedDate());
         if (feed.getImage() != null) {
             RssChannel.ImageBean imageBean = new RssChannel.ImageBean();
@@ -58,12 +58,14 @@ public class FeedReader {
         for (SyndEntry entry : entries) {
             item = new RSSItemBean();
             item.setTitle(entry.getTitle().trim());
-            item.setType(feed.getTitleEx().getValue()!=null?feed.getTitleEx().getValue().trim():"");
+            item.setType(feed.getTitleEx().getValue() != null ? feed.getTitleEx().getValue().trim() : "");
             item.setUri(entry.getUri());
             item.setPubDate(entry.getPublishedDate());
             item.setAuthor(entry.getAuthor());
-            item.setDescription(entry.getDescription().getValue());
-            item.setImages(getRegexImages(entry.getDescription().getValue()));
+            if (entry.getDescription() != null) {
+                item.setDescription(entry.getDescription().getValue());
+                item.setImages(getRegexImages(entry.getDescription().getValue()));
+            }
             item.setLink(entry.getLink());
             rssItemBeans.add(item);
         }

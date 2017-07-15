@@ -48,7 +48,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         holder.irs_tv_name.setText(rssList.get(position).getName());
         holder.irs_tv_count.setText("" + rssList.get(position).getCount());
         if (TextUtils.isEmpty(rssList.get(position).getImgUrl())) {
-            HttpLoadImg.loadCircleImg(mContext, R.mipmap.ic_place, holder.irs_iv_logo);
+            HttpLoadImg.loadCircleImg(mContext, R.mipmap.ic_no_sub, holder.irs_iv_logo);
         } else {
             HttpLoadImg.loadCircleImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
         }

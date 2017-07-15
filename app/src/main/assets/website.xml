@@ -66,13 +66,13 @@
         <open>true</open>
     </site>
     <site>
-        <name>水木社区</name>
-        <url>http://www.newsmth.net/rssi.php?h=2&amp;s=9</url>
+        <name>极客头条</name>
+        <url>http://geek.csdn.net/admin/news_service/rss</url>
         <startTag><![CDATA[<div id="entry-content" class="entry-content">]]></startTag>
         <endTag><![CDATA[<div id="ifr-article-component" class="m-t-10 clearfix">]]></endTag>
         <encoding>UTF-8</encoding>
         <fid>65</fid>
-        <open>false</open>
+        <open>true</open>
     </site>
     <site>
         <name>腾讯科技频道</name>
