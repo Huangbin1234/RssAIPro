@@ -66,7 +66,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         return rssList == null ? 0 : rssList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout irs_layout;
         TextView irs_tv_name;

@@ -43,14 +43,6 @@ public class LoadActivity extends AppCompatActivity {
                 rssSource2.setLink("http://rss.sina.com.cn/roll/mil/hot_roll.xml");
                 LiteOrmDBUtil.insert(rssSource2);
 
-
-
-                RssSource rssSource3 = new RssSource();
-                rssSource3.setId(4);
-                rssSource3.setName("华声论坛");
-                rssSource3.setLink("http://bbs.voc.com.cn/rss.php?fid=76");
-                LiteOrmDBUtil.insert(rssSource3);
-
                 RssSource rssSource4 = new RssSource();
                 rssSource4.setId(3);
                 rssSource4.setName("善心汇新闻");

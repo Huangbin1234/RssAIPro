@@ -73,6 +73,9 @@ public class RssDataSourceUtil {
      * @param website
      */
     public static List<RSSItemBean> getRssData(Website website) {
+        if(!website.getOpen().equals("true")){
+           return null;
+        }
         List<RSSItemBean> rssList = new ArrayList<>();
         try {
             List<RSSItemBean> rssTempList = new FeedReader().getContent(website).getRSSItemBeen();                   //获取有内容的 rssItemBean

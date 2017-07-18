@@ -1,27 +1,40 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.hb.rssai.view.fragment.SubscriptionFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hb.rssai.view.fragment.SubscriptionFragment">
 
-
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/include_sub_add_toolbar"/>
+        <include layout="@layout/include_sub_add_toolbar" />
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/sf_swipe"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/sf_recycler_view"
+            <ImageView
+                android:id="@+id/sf_iv_bg"
+                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent" />
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/sf_swipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/sf_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"></android.support.v7.widget.RecyclerView>
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </FrameLayout>
+
+
     </LinearLayout>
 </FrameLayout>
