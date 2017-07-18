@@ -55,10 +55,12 @@ public class CardLayoutManager extends RecyclerView.LayoutManager {
                     view.setScaleX(1 - (position - 1) * CardConfig.DEFAULT_SCALE);
                     view.setScaleY(1 - (position - 1) * CardConfig.DEFAULT_SCALE);
                     view.setTranslationY((position - 1) * view.getMeasuredHeight() / CardConfig.DEFAULT_TRANSLATE_Y);
+                    System.out.println("1position "+position +" view.getMeasuredHeight() "+view.getMeasuredHeight()+" "+(position * view.getMeasuredHeight() / CardConfig.DEFAULT_TRANSLATE_Y));
                 } else if (position > 0) {
                     view.setScaleX(1 - position * CardConfig.DEFAULT_SCALE);
                     view.setScaleY(1 - position * CardConfig.DEFAULT_SCALE);
                     view.setTranslationY(position * view.getMeasuredHeight() / CardConfig.DEFAULT_TRANSLATE_Y);
+                    System.out.println("2position "+position +" view.getMeasuredHeight() "+view.getMeasuredHeight()+" "+(position * view.getMeasuredHeight() / CardConfig.DEFAULT_TRANSLATE_Y));
                 } else {
                     view.setOnTouchListener(mOnTouchListener);
                 }
@@ -80,6 +82,7 @@ public class CardLayoutManager extends RecyclerView.LayoutManager {
                     view.setScaleX(1 - position * CardConfig.DEFAULT_SCALE);
                     view.setScaleY(1 - position * CardConfig.DEFAULT_SCALE);
                     view.setTranslationY(position * view.getMeasuredHeight() / CardConfig.DEFAULT_TRANSLATE_Y);
+                    System.out.println("3position "+position +" view.getMeasuredHeight() "+view.getMeasuredHeight()+" "+(position * view.getMeasuredHeight() / CardConfig.DEFAULT_TRANSLATE_Y));
                 } else {
                     view.setOnTouchListener(mOnTouchListener);
                 }

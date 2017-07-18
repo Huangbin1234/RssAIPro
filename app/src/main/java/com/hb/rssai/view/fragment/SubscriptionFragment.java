@@ -20,10 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hb.rssai.R;
+import com.hb.rssai.adapter.CardAdapter;
+import com.hb.rssai.adapter.IndexFunctionAdapter;
 import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
@@ -66,6 +67,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     SwipeRefreshLayout mSfSwipe;
     @BindView(R.id.sf_iv_bg)
     ImageView mSfIvBg;
+//    @BindView(R.id.index_function_gridview)
+//    FullGridView mIndexFunctionGridview;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,7 +79,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     private RssSourceAdapter mRssSourceAdapter;
     private List<RssSource> list = new ArrayList<>();
 
-    MyAdapter myAdapter;
+    CardAdapter mCardAdapter;
 
 
     public SubscriptionFragment() {
@@ -128,6 +131,13 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         //TODO 设置下拉刷新
         mSfSwipe.setOnRefreshListener(() -> initData());
 
+
+//        mIndexFunctionGridview.setOnItemClickListener((parent, view, position, id) -> {
+//            Intent intent = new Intent(getContext(), SourceListActivity.class);
+//            intent.putExtra(SourceListActivity.KEY_LINK, list.get(position).getLink());
+//            intent.putExtra(SourceListActivity.KEY_TITLE, list.get(position).getName());
+//            getContext().startActivity(intent);
+//        });
     }
 
 
@@ -229,17 +239,32 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 //            } else {
 //                mRssSourceAdapter.notifyDataSetChanged();
 //            }
-            if (myAdapter == null) {
-                myAdapter = new MyAdapter(getContext(), list);
-                mSfRecyclerView.setAdapter(myAdapter);
-            } else {
-                myAdapter.notifyDataSetChanged();
+            if (list.size() < 9) {
+//                mIndexFunctionGridview.setVisibility(View.GONE);
+//                mSfRecyclerView.setVisibility(View.VISIBLE);
+                if (mCardAdapter == null) {
+                    mCardAdapter = new CardAdapter(getContext(), list);
+                    mSfRecyclerView.setAdapter(mCardAdapter);
+                } else {
+                    mCardAdapter.notifyDataSetChanged();
+                }
+                cardSetting();
             }
-            cardSettting();
+//            else {
+//                mIndexFunctionGridview.setVisibility(View.VISIBLE);
+//                mSfRecyclerView.setVisibility(View.GONE);
+//                if (gridAdapter == null) {
+//                    gridAdapter = new IndexFunctionAdapter(getContext(), list);
+//                    mIndexFunctionGridview.setAdapter(gridAdapter);
+//                }
+//                gridAdapter.notifyDataSetChanged();
+//            }
         }
     }
 
-    private void cardSettting() {
+    IndexFunctionAdapter gridAdapter;
+
+    private void cardSetting() {
         CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(mSfRecyclerView.getAdapter(), list);
         ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback);
         CardLayoutManager cardLayoutManager = new CardLayoutManager(mSfRecyclerView, touchHelper);
@@ -249,14 +274,14 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onSwiping(RecyclerView.ViewHolder viewHolder, float ratio, int direction) {
-                MyAdapter.MyViewHolder myHolder = (MyAdapter.MyViewHolder) viewHolder;
+                CardAdapter.MyViewHolder myHolder = (CardAdapter.MyViewHolder) viewHolder;
                 viewHolder.itemView.setAlpha(1 - Math.abs(ratio) * 0.2f);
 
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, RssSource rssSource, int direction) {
-                MyAdapter.MyViewHolder myHolder = (MyAdapter.MyViewHolder) viewHolder;
+                CardAdapter.MyViewHolder myHolder = (CardAdapter.MyViewHolder) viewHolder;
                 viewHolder.itemView.setAlpha(1f);
                 Glide.with(getContext())
                         .load(rssSource.getImgUrl())
@@ -267,14 +292,13 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onSwipedClear() {
-                Toast.makeText(getContext(), "data clear", Toast.LENGTH_SHORT).show();
                 mSfRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         initData();
                         mSfRecyclerView.getAdapter().notifyDataSetChanged();
                     }
-                }, 3000L);
+                }, 1500L);
             }
         });
 
@@ -298,53 +322,6 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-        Context mContext;
-        List<RssSource> list;
-
-        public MyAdapter(Context mContext, List<RssSource> list) {
-            this.mContext = mContext;
-            this.list = list;
-        }
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-            return new MyViewHolder(view);
-        }
-
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            Glide.with(mContext)
-                    .load(list.get(position).getImgUrl())
-                    .crossFade(1000)
-                    .into(holder.avatarImageView);
-            holder.tv_name.setText(list.get(position).getName());
-            holder.tv_des.setText(list.get(position).getLink());
-            holder.tv_count.setText("" + list.get(position).getCount());
-        }
-
-        @Override
-        public int getItemCount() {
-            return list.size();
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-
-            ImageView avatarImageView;
-            TextView tv_count, tv_des, tv_name;
-
-            MyViewHolder(View itemView) {
-                super(itemView);
-                avatarImageView = (ImageView) itemView.findViewById(R.id.iv_avatar);
-                tv_count = (TextView) itemView.findViewById(R.id.tv_count);
-                tv_des = (TextView) itemView.findViewById(R.id.tv_des);
-                tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-
-            }
-        }
-    }
 
     /**
      * 可以选择插入到数据库
@@ -362,9 +339,10 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 for (int i = 0; i < len; i++) {
                     if (website.getFid().equals("" + list.get(i).getId())) {
                         list.get(i).setCount(rssTempList.getRSSItemBeen().size());
+                        list.get(i).setImgUrl(urls[i]);
                         if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
 //                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
-                            list.get(i).setImgUrl(urls[i]);
+
                             if (rssTempList.getImage().getTitle() != null) {
                                 list.get(i).setName(rssTempList.getImage().getTitle());
                             }

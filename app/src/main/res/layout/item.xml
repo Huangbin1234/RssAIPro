@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="20dp"
-    android:background="@drawable/img_card_background"
-    android:gravity="center"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_margin="16dp"
+              android:gravity="center"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,9 +16,9 @@
         <com.hb.rssai.view.widget.RoundImageView
             android:id="@+id/iv_avatar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            app:radius="7.5dp" />
+            app:radius="7.5dp"/>
 
 
     </RelativeLayout>
@@ -27,38 +27,39 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:paddingLeft="14dp"
-        android:paddingTop="15dp">
+        android:paddingLeft="16dp"
+        >
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:text="标题"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/s16p"/>
 
-        <TextView
-            android:id="@+id/tv_des"
+        <Button
+            android:id="@+id/tv_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_name"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="简介"
-            android:textSize="14sp" />
+            android:background="#dddddd"
+            android:text="阅读资讯"
+            android:textSize="@dimen/s14p"/>
 
 
         <TextView
             android:id="@+id/tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_des"
+            android:layout_below="@id/tv_view"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:gravity="center"
             android:text="已有200参与"
-            android:textColor="#cbcbcb" />
+            android:textColor="#cbcbcb"/>
 
     </RelativeLayout>
 

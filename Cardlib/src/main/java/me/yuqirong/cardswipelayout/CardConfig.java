@@ -16,7 +16,7 @@ public final class CardConfig {
     /**
      * 卡片Y轴偏移量时按照14等分计算
      */
-    public static final int DEFAULT_TRANSLATE_Y = 14;
+    public static final int DEFAULT_TRANSLATE_Y = -17;
     /**
      * 卡片滑动时默认倾斜的角度
      */
