@@ -94,10 +94,8 @@ public class HomeFragment extends Fragment {
     public void onEventMainThread(HomeSourceEvent event) {
         if (event.getMessage() == 1) {
             DF = 1;
-            loadData(DF);
         } else if (event.getMessage() == 0) {
             DF = 0;
-            loadData(DF);
         }
     }
 
@@ -137,11 +135,17 @@ public class HomeFragment extends Fragment {
         loadData(DF);
     }
 
-
-    private void loadData(int dataFrom) {
+    private synchronized void loadData(int dataFrom) {
         if (rssList != null && rssList.size() > 0) {
             rssList.clear();
+            if (rssListAdapter != null) {
+                rssListAdapter.notifyDataSetChanged();
+            }
         }
+        if (sites != null && sites.size() > 0) {
+            sites.clear();
+        }
+
         if (dataFrom == 0) {
             sites = RssDataSourceUtil.readFromAsset(getActivity());
         } else if (dataFrom == 1) {
