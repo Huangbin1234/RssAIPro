@@ -21,14 +21,16 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssListAdapter;
 import com.hb.rssai.bean.RssSort;
-import com.hb.rssai.util.T;
+import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.HomeSourceEvent;
+import com.hb.rssai.util.RssDataSourceUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
-import com.rss.util.Dom4jUtil;
-import com.rss.util.FeedReader;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,11 +63,12 @@ public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private LinearLayoutManager mLayoutManager;
     List<RSSItemBean> rssList = new ArrayList<>();
-    //    private PrgDialog prgDialog;
     private RssListAdapter rssListAdapter;
 
+    List<Website> sites = null;
+    private int DF = 0; //0默认系统数据源1订阅
+
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     public static HomeFragment newInstance(String param1, String param2) {
@@ -84,7 +87,18 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        EventBus.getDefault().register(this);
+    }
 
+    @Subscribe
+    public void onEventMainThread(HomeSourceEvent event) {
+        if (event.getMessage() == 1) {
+            DF = 1;
+            loadData(DF);
+        } else if (event.getMessage() == 0) {
+            DF = 0;
+            loadData(DF);
+        }
     }
 
     @Override
@@ -112,18 +126,31 @@ public class HomeFragment extends Fragment {
 
         //TODO 设置下拉刷新
         mHfSwipeLayout.setOnRefreshListener(() -> {
-            if (rssList != null && rssList.size() > 0) {
-                rssList.clear();
-            }
-            new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            loadData(DF);
         });
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
+        loadData(DF);
     }
 
+
+    private void loadData(int dataFrom) {
+        if (rssList != null && rssList.size() > 0) {
+            rssList.clear();
+        }
+        if (dataFrom == 0) {
+            sites = RssDataSourceUtil.readFromAsset(getActivity());
+        } else if (dataFrom == 1) {
+            sites = RssDataSourceUtil.readFromDb();
+        }
+        if (sites != null && sites.size() > 0) {
+            new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
 
     @Override
     public void onDestroyView() {
@@ -136,12 +163,18 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            prgDialog = new PrgDialog(getContext(), true);
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            readRssXml();
+        protected Void doInBackground(Void... params) {
+            List<RSSItemBean> tempList = null;
+            for (Website website : sites) {
+                tempList = RssDataSourceUtil.getRssData(website);
+                if (tempList != null && tempList.size() > 0) {
+                    rssList.addAll(tempList);
+                }
+                System.out.println(website.getName());
+            }
             return null;
         }
 
@@ -149,7 +182,6 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             mHfSwipeLayout.setRefreshing(false);
             mHfLl.setVisibility(View.GONE);
-//            prgDialog.closeDialog();
             if (rssList != null && rssList.size() > 0) {
                 RssSort cm = new RssSort();
                 Collections.sort(rssList, cm);
@@ -161,47 +193,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-    private void readRssXml() {
-        InputStream in = null;
-        try {
-            in = getResources().getAssets().open("website.xml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (in == null) {
-            T.ShowToast(getContext(), "xml文件不存在");
-            return;
-        }
-        List<Website> websiteList = new Dom4jUtil().parserXml(in);
-        for (Website we : websiteList) {
-            if (we.getOpen().equals("true")) {         //只对开启的website  spider
-                System.out.println("==========begin spide " + we.getName() + ".==============");
-                rssInsert(we);
-                System.out.println("==========end spide " + we.getName() + ".==============");
-            }
-        }
-    }
-
-    /**
-     * 可以选择插入到数据库
-     *
-     * @param website
-     */
-    public void rssInsert(Website website) {
-        try {
-            List<RSSItemBean> rssTempList = new FeedReader().getContent(website).getRSSItemBeen();                   //获取有内容的 rssItemBean
-            if (rssTempList != null) {
-                if (rssTempList.size() > 5) {
-                    rssList.addAll(rssTempList.subList(0, 4));
-                } else {
-                    rssList.addAll(rssTempList);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

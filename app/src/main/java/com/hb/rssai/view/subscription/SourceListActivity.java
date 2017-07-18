@@ -17,6 +17,7 @@ import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssListAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.util.RssDataSourceUtil;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
@@ -150,24 +151,14 @@ public class SourceListActivity extends BaseActivity {
         website.setStartTag("");
         website.setEndTag("");
         website.setFid("67");
-        rssInsert(website);
-    }
 
-    /**
-     * 可以选择插入到数据库
-     *
-     * @param website
-     */
-    public void rssInsert(Website website) {
-        try {
-            List<RSSItemBean> rssTempList = new FeedReader().getContent(website).getRSSItemBeen();                   //获取有内容的 rssItemBean
-            if (rssTempList != null) {
-                rssList.addAll(rssTempList);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        List<RSSItemBean> rssTempList = RssDataSourceUtil.getRssData(website);
+        if (rssTempList != null) {
+            rssList.addAll(rssTempList);
         }
     }
+
+
 
     @Override
     protected void onDestroy() {

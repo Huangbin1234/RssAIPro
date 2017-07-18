@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -14,12 +15,19 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.HomeSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.T;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class SettingActivity extends BaseActivity implements View.OnClickListener {
+public class SettingActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -43,6 +51,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     Switch mSaSwDayNight;
     @BindView(R.id.sa_sw_no_image)
     Switch mSaSwNoImage;
+    @BindView(R.id.sa_sw_change_source)
+    Switch mSaSwChangeSource;
+    @BindView(R.id.sa_rl_change_source)
+    RelativeLayout mSaRlChangeSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +64,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-
+        int dateFrom = SharedPreferencesUtil.getInt(this, Constant.KEY_DATA_FROM, 0);
+        if (dateFrom == 0) {
+            mSaSwChangeSource.setChecked(false);
+        } else if (dateFrom == 1) {
+            mSaSwChangeSource.setChecked(true);
+        }
     }
 
     @Override
@@ -97,5 +114,23 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnCheckedChanged({R.id.sa_sw_change_source})
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.sa_sw_change_source:
+                T.ShowToast(this, "状态==" + isChecked);
+                if (isChecked) {
+                    //changed subs source
+                    SharedPreferencesUtil.setInt(this, Constant.KEY_DATA_FROM, 1);
+                    EventBus.getDefault().post(new HomeSourceEvent(1));
+                } else {
+                    SharedPreferencesUtil.setInt(this, Constant.KEY_DATA_FROM, 0);
+                    EventBus.getDefault().post(new HomeSourceEvent(0));
+                }
+                break;
+        }
     }
 }
