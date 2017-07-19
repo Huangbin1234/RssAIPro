@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.CardAdapter;
 import com.hb.rssai.adapter.RssSourceAdapter;
@@ -43,6 +44,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.yuqirong.cardswipelayout.CardItemTouchHelperCallback;
 import me.yuqirong.cardswipelayout.CardLayoutManager;
 import me.yuqirong.cardswipelayout.OnSwipeListener;
@@ -280,11 +282,11 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
             public void onSwiped(RecyclerView.ViewHolder viewHolder, RssSource rssSource, int direction) {
                 CardAdapter.MyViewHolder myHolder = (CardAdapter.MyViewHolder) viewHolder;
                 viewHolder.itemView.setAlpha(1f);
-//                Glide.with(getContext())
-//                        .load(rssSource.getImgUrl())
-//                        .crossFade(1000)
-//                        .bitmapTransform(new BlurTransformation(getContext(), 23, 4)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
-//                        .into(mSfIvBg);
+                Glide.with(getContext())
+                        .load(rssSource.getImgUrl())
+                        .crossFade(1000)
+                        .bitmapTransform(new BlurTransformation(getContext(), 23, 4)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
+                        .into(mSfIvBg);
             }
 
             @Override

@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.view.subscription.SourceListActivity;
 
 import java.util.List;
@@ -39,10 +39,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Glide.with(mContext)
-                .load(list.get(position).getImgUrl())
-                .crossFade(1000)
-                .into(holder.avatarImageView);
+        HttpLoadImg.loadRoundImg(mContext,list.get(position).getImgUrl(),holder.avatarImageView);
         holder.tv_name.setText(list.get(position).getName());
         holder.tv_view.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SourceListActivity.class);
