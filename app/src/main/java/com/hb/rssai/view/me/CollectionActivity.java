@@ -68,6 +68,7 @@ public class CollectionActivity extends BaseActivity {
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mCollSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
     }
 
     @Override

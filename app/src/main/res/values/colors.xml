@@ -60,4 +60,9 @@
 
     <color name="color_exit_normal">#ffffff</color>
     <color name="color_exit_focus">#d1d0cf</color>
+
+    <color name="gray_deep">#9E9E9E</color>
+    <color name="gray_item">#FFECECEC</color>
+    <color name="gray_item_press">#dad8d8</color>
+    <color name="gray_light">#f3f3f3</color>
 </resources>

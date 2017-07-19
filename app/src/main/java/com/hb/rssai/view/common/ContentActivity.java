@@ -1,6 +1,7 @@
 package com.hb.rssai.view.common;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.SslError;
@@ -28,6 +29,7 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.subscription.QrCodeActivity;
 
 import java.util.Date;
 
@@ -204,6 +206,11 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
                 } else {
                     T.ShowToast(this, "收藏失败，链接错误！");
                 }
+                break;
+            case R.id.toolbar_add_share:
+                Intent intent = new Intent(this, QrCodeActivity.class);
+                intent.putExtra(QrCodeActivity.KEY_CONTENT, contentUrl);
+                startActivity(intent);
                 break;
         }
         return false;

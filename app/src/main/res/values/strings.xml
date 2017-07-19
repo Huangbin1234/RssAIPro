@@ -39,5 +39,8 @@
     <string name="app_desigin_think">设计理念：极简主义</string>
     <string name="str_mf_no_login">登录体验更多功能</string>
     <string name="str_sa_change_source">切换资讯源</string>
+    <string name="str_hta_title">热门订阅</string>
+    <string name="str_qa_title">二维码</string>
+    <string name="str_sf_new_share">分享</string>
 
 </resources>

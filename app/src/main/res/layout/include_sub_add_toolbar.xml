@@ -29,6 +29,13 @@
             android:layout_marginRight="16dp"
             android:scaleType="centerInside"
             android:src="@mipmap/icon_add_sub"/>
-
+        <ImageView
+            android:id="@+id/sys_iv_scan"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="16dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/csa_icon_scan"/>
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

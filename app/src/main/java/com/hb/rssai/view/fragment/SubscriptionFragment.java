@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -22,19 +21,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.CardAdapter;
-import com.hb.rssai.adapter.IndexFunctionAdapter;
 import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.event.RssSourceEvent;
-import com.hb.rssai.util.DividerGridItemDecoration;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.view.subscription.AddSourceActivity;
-import com.hb.rssai.view.subscription.SourceListActivity;
-import com.hb.rssai.view.widget.FullGridView;
+import com.hb.rssai.view.subscription.HotTagActivity;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
 
@@ -48,7 +43,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.yuqirong.cardswipelayout.CardItemTouchHelperCallback;
 import me.yuqirong.cardswipelayout.CardLayoutManager;
 import me.yuqirong.cardswipelayout.OnSwipeListener;
@@ -71,6 +65,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     SwipeRefreshLayout mSfSwipe;
     @BindView(R.id.sf_iv_bg)
     ImageView mSfIvBg;
+    @BindView(R.id.sys_iv_scan)
+    ImageView mSysIvScan;
 //    @BindView(R.id.index_function_gridview)
 //    FullGridView mIndexFunctionGridView;
 
@@ -136,9 +132,6 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 
         //TODO 设置下拉刷新
         mSfSwipe.setOnRefreshListener(() -> initData());
-
-
-
 
 
 //        mIndexFunctionGridView.setOnItemClickListener((parent, view, position, id) -> {
@@ -207,6 +200,9 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sys_iv_add:
+                startActivity(new Intent(getContext(), HotTagActivity.class));
+                break;
+            case R.id.sys_iv_scan:
                 startActivity(new Intent(getContext(), AddSourceActivity.class));
                 break;
         }
