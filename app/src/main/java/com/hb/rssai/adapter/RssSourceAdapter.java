@@ -46,11 +46,11 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.irs_tv_name.setText(rssList.get(position).getName());
-        holder.irs_tv_count.setText("" + rssList.get(position).getCount());
+        holder.irs_tv_count.setText("资讯" + rssList.get(position).getCount()+"条");
         if (TextUtils.isEmpty(rssList.get(position).getImgUrl())) {
-            HttpLoadImg.loadCircleImg(mContext, R.mipmap.ic_no_sub, holder.irs_iv_logo);
+            HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_sub, holder.irs_iv_logo);
         } else {
-            HttpLoadImg.loadCircleImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
+            HttpLoadImg.loadImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
         }
         holder.irs_layout.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SourceListActivity.class);

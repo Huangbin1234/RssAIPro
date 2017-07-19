@@ -10,6 +10,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -29,8 +30,11 @@ import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.event.RssSourceEvent;
+import com.hb.rssai.util.DividerGridItemDecoration;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.view.subscription.AddSourceActivity;
+import com.hb.rssai.view.subscription.SourceListActivity;
+import com.hb.rssai.view.widget.FullGridView;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
 
@@ -68,14 +72,14 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     @BindView(R.id.sf_iv_bg)
     ImageView mSfIvBg;
 //    @BindView(R.id.index_function_gridview)
-//    FullGridView mIndexFunctionGridview;
+//    FullGridView mIndexFunctionGridView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private LinearLayoutManager mLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
     private RssSourceAdapter mRssSourceAdapter;
     private List<RssSource> list = new ArrayList<>();
 
@@ -121,8 +125,10 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
 
         // 卡片式
-        mLayoutManager = new LinearLayoutManager(getContext());
-        mSfRecyclerView.setLayoutManager(mLayoutManager);
+        mGridLayoutManager = new GridLayoutManager(getContext(), 3);
+        mSfRecyclerView.setLayoutManager(mGridLayoutManager);
+        mSfRecyclerView.addItemDecoration(new DividerGridItemDecoration(getContext()));
+
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSfSwipe.setProgressViewOffset(true, 0, (int) TypedValue
@@ -132,7 +138,10 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         mSfSwipe.setOnRefreshListener(() -> initData());
 
 
-//        mIndexFunctionGridview.setOnItemClickListener((parent, view, position, id) -> {
+
+
+
+//        mIndexFunctionGridView.setOnItemClickListener((parent, view, position, id) -> {
 //            Intent intent = new Intent(getContext(), SourceListActivity.class);
 //            intent.putExtra(SourceListActivity.KEY_LINK, list.get(position).getLink());
 //            intent.putExtra(SourceListActivity.KEY_TITLE, list.get(position).getName());
@@ -233,15 +242,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(Void aVoid) {
             mSfSwipe.setRefreshing(false);
-//            if (mRssSourceAdapter == null) {
-//                mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
-//                mSfRecyclerView.setAdapter(mRssSourceAdapter);
-//            } else {
-//                mRssSourceAdapter.notifyDataSetChanged();
-//            }
             if (list.size() < 9) {
-//                mIndexFunctionGridview.setVisibility(View.GONE);
-//                mSfRecyclerView.setVisibility(View.VISIBLE);
                 if (mCardAdapter == null) {
                     mCardAdapter = new CardAdapter(getContext(), list);
                     mSfRecyclerView.setAdapter(mCardAdapter);
@@ -249,20 +250,20 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                     mCardAdapter.notifyDataSetChanged();
                 }
                 cardSetting();
+            } else {
+                if (mRssSourceAdapter == null) {
+                    RssSource rssSource = new RssSource();
+                    rssSource.setName("添加更多");
+                    rssSource.setId(0);
+                    list.add(rssSource);
+                    mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
+                    mSfRecyclerView.setAdapter(mRssSourceAdapter);
+                } else {
+                    mRssSourceAdapter.notifyDataSetChanged();
+                }
             }
-//            else {
-//                mIndexFunctionGridview.setVisibility(View.VISIBLE);
-//                mSfRecyclerView.setVisibility(View.GONE);
-//                if (gridAdapter == null) {
-//                    gridAdapter = new IndexFunctionAdapter(getContext(), list);
-//                    mIndexFunctionGridview.setAdapter(gridAdapter);
-//                }
-//                gridAdapter.notifyDataSetChanged();
-//            }
         }
     }
-
-    IndexFunctionAdapter gridAdapter;
 
     private void cardSetting() {
         CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(mSfRecyclerView.getAdapter(), list);
@@ -339,14 +340,13 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 for (int i = 0; i < len; i++) {
                     if (website.getFid().equals("" + list.get(i).getId())) {
                         list.get(i).setCount(rssTempList.getRSSItemBeen().size());
-                        list.get(i).setImgUrl(urls[i]);
-                        if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
+//                        list.get(i).setImgUrl(urls[i]);
+//                        if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
 //                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
-
-                            if (rssTempList.getImage().getTitle() != null) {
-                                list.get(i).setName(rssTempList.getImage().getTitle());
-                            }
-                        }
+//                            if (rssTempList.getImage().getTitle() != null) {
+//                                list.get(i).setName(rssTempList.getImage().getTitle());
+//                            }
+//                        }
                         break;
                     }
                 }
