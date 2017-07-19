@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_margin="16dp"
-              android:gravity="center"
-              android:background="@color/white"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginBottom="16dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="30dp"
+    android:background="@drawable/round_corner"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            app:radius="7.5dp"/>
+            app:radius="5dp" />
 
 
     </RelativeLayout>
@@ -27,17 +30,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:paddingLeft="16dp"
-        >
+        android:paddingLeft="16dp">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
             android:text="标题"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/s16p"/>
+            android:textColor="@color/color_txt"
+            android:textSize="@dimen/s18p" />
 
         <Button
             android:id="@+id/tv_view"
@@ -48,18 +52,21 @@
             android:layout_marginTop="5dp"
             android:background="#dddddd"
             android:text="阅读资讯"
-            android:textSize="@dimen/s14p"/>
+            android:textSize="@dimen/s14p"
+            android:visibility="gone" />
 
 
         <TextView
             android:id="@+id/tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_view"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tv_name"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
             android:text="已有200参与"
-            android:textColor="#cbcbcb"/>
+            android:textColor="#cbcbcb"
+            android:textSize="@dimen/s16p" />
 
     </RelativeLayout>
 

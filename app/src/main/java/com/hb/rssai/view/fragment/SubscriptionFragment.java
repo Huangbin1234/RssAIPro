@@ -125,9 +125,9 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
 
         // 卡片式
-        mGridLayoutManager = new GridLayoutManager(getContext(), 3);
+        mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mSfRecyclerView.setLayoutManager(mGridLayoutManager);
-        mSfRecyclerView.addItemDecoration(new DividerGridItemDecoration(getContext()));
+//        mSfRecyclerView.addItemDecoration(new DividerGridItemDecoration(getContext()));
 
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
@@ -284,11 +284,11 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
             public void onSwiped(RecyclerView.ViewHolder viewHolder, RssSource rssSource, int direction) {
                 CardAdapter.MyViewHolder myHolder = (CardAdapter.MyViewHolder) viewHolder;
                 viewHolder.itemView.setAlpha(1f);
-                Glide.with(getContext())
-                        .load(rssSource.getImgUrl())
-                        .crossFade(1000)
-                        .bitmapTransform(new BlurTransformation(getContext(), 23, 4)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
-                        .into(mSfIvBg);
+//                Glide.with(getContext())
+//                        .load(rssSource.getImgUrl())
+//                        .crossFade(1000)
+//                        .bitmapTransform(new BlurTransformation(getContext(), 23, 4)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
+//                        .into(mSfIvBg);
             }
 
             @Override
@@ -329,7 +329,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
      *
      * @param website
      */
-    String[] urls = {"http://icon.nipic.com/BannerPic/20170531/home/20170531103230.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170531/home/20170531103230.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170531/home/20170531103230.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg"};
+    String[] urls = {"http://icon.nipic.com/BannerPic/20170531/home/20170531103230.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170531/home/20170531103230.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170531/home/20170531103230.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg"};
 
     public void rssInsert(Website website) {
         try {
@@ -340,7 +340,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 for (int i = 0; i < len; i++) {
                     if (website.getFid().equals("" + list.get(i).getId())) {
                         list.get(i).setCount(rssTempList.getRSSItemBeen().size());
-//                        list.get(i).setImgUrl(urls[i]);
+                        list.get(i).setImgUrl(urls[i]);
 //                        if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
 //                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
 //                            if (rssTempList.getImage().getTitle() != null) {
