@@ -29,7 +29,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
     List<UserCollection> collections;
     private LayoutInflater layoutInflater;
 
-    public interface onItemLongClickedListner {
+    public interface onItemLongClickedListener {
         void onItemLongClicked(UserCollection userCollection);
     }
 
@@ -57,12 +57,9 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
             intent.putExtra(ContentActivity.KEY_TITLE, collections.get(position).getTitle());
             mContext.startActivity(intent);
         });
-        holder.v.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ((CollectionActivity)mContext).onItemLongClicked(collections.get(position));
-                return true;
-            }
+        holder.v.setOnLongClickListener(v -> {
+            ((CollectionActivity)mContext).onItemLongClicked(collections.get(position));
+            return true;
         });
     }
 

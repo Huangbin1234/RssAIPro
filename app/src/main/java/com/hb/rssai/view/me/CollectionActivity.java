@@ -20,6 +20,7 @@ import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.subscription.QrCodeActivity;
@@ -29,7 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class CollectionActivity extends BaseActivity implements CollectionAdapter.onItemLongClickedListner {
+public class CollectionActivity extends BaseActivity implements CollectionAdapter.onItemLongClickedListener {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -136,7 +137,8 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
                 //TODO 取消
                 materialDialog.dismiss();
                 Intent intent = new Intent(CollectionActivity.this, QrCodeActivity.class);
-                intent.putExtra(QrCodeActivity.KEY_CONTENT, userCollection.getLink());
+                intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[1]);
+                intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_COLLECTION_SOURCE + userCollection.getLink()));
                 startActivity(intent);
             }
         }).show();

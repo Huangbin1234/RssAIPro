@@ -26,6 +26,7 @@ import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
@@ -34,7 +35,6 @@ import com.hb.rssai.view.subscription.QrCodeActivity;
 import java.util.Date;
 
 import butterknife.BindView;
-import me.drakeet.materialdialog.MaterialDialog;
 
 public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener {
 
@@ -102,6 +102,7 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
+                mSysTvTitle.setText(title);
             }
 
             @Override
@@ -209,7 +210,8 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
                 break;
             case R.id.toolbar_add_share:
                 Intent intent = new Intent(this, QrCodeActivity.class);
-                intent.putExtra(QrCodeActivity.KEY_CONTENT, contentUrl);
+                intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[2]);
+                intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_URL_SOURCE + contentUrl));
                 startActivity(intent);
                 break;
         }

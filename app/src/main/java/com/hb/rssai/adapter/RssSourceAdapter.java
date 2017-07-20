@@ -2,6 +2,7 @@ package com.hb.rssai.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.util.HttpLoadImg;
+import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.rssai.view.subscription.SourceListActivity;
 
 import java.util.List;
@@ -29,12 +31,15 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     private Context mContext;
     List<RssSource> rssList;
     private LayoutInflater layoutInflater;
-
-    public RssSourceAdapter(Context mContext, List<RssSource> rssList) {
+    private SubscriptionFragment fragment;
+    public interface onItemLongClickedListener {
+        void onItemLongClicked(RssSource rssSource);
+    }
+    public RssSourceAdapter(Context mContext, List<RssSource> rssList, Fragment fragment) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
-
+        this.fragment = (SubscriptionFragment)fragment;
     }
 
     @Override
@@ -52,11 +57,16 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         } else {
             HttpLoadImg.loadImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
         }
-        holder.irs_layout.setOnClickListener(v -> {
+
+        holder.v.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SourceListActivity.class);
             intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
             intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
             mContext.startActivity(intent);
+        });
+        holder.v.setOnLongClickListener(v -> {
+            fragment.onItemLongClicked(rssList.get(position));
+            return true;
         });
     }
 
@@ -67,7 +77,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
+        public View v;
         LinearLayout irs_layout;
         TextView irs_tv_name;
         TextView irs_tv_link;
@@ -77,12 +87,15 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            v=itemView;
             irs_layout = (LinearLayout) itemView.findViewById(R.id.irs_layout);
 
             irs_tv_count = (TextView) itemView.findViewById(R.id.irs_tv_count);
             irs_tv_link = (TextView) itemView.findViewById(R.id.irs_tv_link);
             irs_tv_name = (TextView) itemView.findViewById(R.id.irs_tv_name);
             irs_iv_logo = (ImageView) itemView.findViewById(R.id.irs_iv_logo);
+
+
         }
     }
 }

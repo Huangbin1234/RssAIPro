@@ -27,9 +27,16 @@ import com.hb.rssai.adapter.CardAdapter;
 import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.bean.UserCollection;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
+import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.subscription.HotTagActivity;
+import com.hb.rssai.view.subscription.QrCodeActivity;
+import com.hb.rssai.view.subscription.SourceListActivity;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
 import com.zbar.lib.CaptureActivity;
@@ -45,13 +52,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import me.drakeet.materialdialog.MaterialDialog;
 import me.yuqirong.cardswipelayout.CardItemTouchHelperCallback;
 import me.yuqirong.cardswipelayout.CardLayoutManager;
 import me.yuqirong.cardswipelayout.OnSwipeListener;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SubscriptionFragment extends Fragment implements View.OnClickListener {
+public class SubscriptionFragment extends Fragment implements View.OnClickListener, RssSourceAdapter.onItemLongClickedListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.sys_tv_title)
@@ -213,6 +221,33 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    @Override
+    public void onItemLongClicked(RssSource rssSource) {
+        sureCollection(rssSource);
+    }
+
+    /**
+     * 取消对话框
+     *
+     * @return
+     */
+    private void sureCollection(RssSource rssSource) {
+        final MaterialDialog materialDialog = new MaterialDialog(getContext());
+        materialDialog.setMessage("选择操作").setTitle(Constant.TIPS_SYSTEM).setNegativeButton("删除", v -> {
+            materialDialog.dismiss();
+            LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSource.getId()});
+            mRssSourceAdapter.notifyDataSetChanged();
+            T.ShowToast(getContext(), "删除成功！");
+        }).setPositiveButton("分享", v -> {
+            //TODO 取消
+            materialDialog.dismiss();
+            Intent intent = new Intent(getContext(), QrCodeActivity.class);
+            intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
+            intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSource.getLink()));
+            startActivity(intent);
+        }).show();
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -243,7 +278,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(Void aVoid) {
             mSfSwipe.setRefreshing(false);
-            if (list.size() < 9) {
+            if (list.size() < 2) {
                 if (mCardAdapter == null) {
                     mCardAdapter = new CardAdapter(getContext(), list);
                     mSfRecyclerView.setAdapter(mCardAdapter);
@@ -257,7 +292,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                     rssSource.setName("添加更多");
                     rssSource.setId(0);
                     list.add(rssSource);
-                    mRssSourceAdapter = new RssSourceAdapter(getContext(), list);
+                    mRssSourceAdapter = new RssSourceAdapter(getContext(), list, SubscriptionFragment.this);
                     mSfRecyclerView.setAdapter(mRssSourceAdapter);
                 } else {
                     mRssSourceAdapter.notifyDataSetChanged();
@@ -364,11 +399,52 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 
         if (RESULT_OK == resultCode) {
             if (requestCode == REQUESTCODE) {
-                RssSource rssSource = new RssSource();
-                rssSource.setName("订阅");
-                rssSource.setLink(data.getStringExtra("info"));
-                LiteOrmDBUtil.insert(rssSource);
-                initData();
+                String info = Base64Util.getDecodeStr(data.getStringExtra("info"));
+                if (info.startsWith(Constant.FLAG_RSS_SOURCE)) {
+                    //打开
+                    Intent intent = new Intent(getContext(), SourceListActivity.class);
+                    intent.putExtra(SourceListActivity.KEY_LINK,info.replace( Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
+                    getContext().startActivity(intent);
+
+                } else if (info.startsWith(Constant.FLAG_COLLECTION_SOURCE)) {
+                    Intent intent = new Intent(getContext(), ContentActivity.class);
+                    intent.putExtra(ContentActivity.KEY_TITLE, "收藏");
+                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_COLLECTION_SOURCE , ""));
+                    getContext().startActivity(intent);
+                } else if (info.startsWith(Constant.FLAG_URL_SOURCE)) {
+                    Intent intent = new Intent(getContext(), ContentActivity.class);
+                    intent.putExtra(ContentActivity.KEY_TITLE, "访问");
+                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_URL_SOURCE, ""));
+                    getContext().startActivity(intent);
+                } else if (info.startsWith(Constant.FLAG_PRESS_RSS_SOURCE)) {
+                    RssSource rssSource = new RssSource();
+                    rssSource.setName("订阅");
+                    rssSource.setLink(info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
+                    LiteOrmDBUtil.insert(rssSource);
+                    // initData();
+                    //打开
+                    Intent intent = new Intent(getContext(), SourceListActivity.class);
+                    intent.putExtra(SourceListActivity.KEY_LINK,info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
+                    getContext().startActivity(intent);
+                } else if (info.startsWith(Constant.FLAG_PRESS_COLLECTION_SOURCE)) {
+                    UserCollection userCollection = new UserCollection();
+                    userCollection.setTitle("收藏");
+                    userCollection.setLink(info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE + Constant.FLAG_COLLECTION_SOURCE, ""));
+                    LiteOrmDBUtil.insert(userCollection);
+
+                    Intent intent = new Intent(getContext(), ContentActivity.class);
+                    intent.putExtra(ContentActivity.KEY_TITLE, "访问");
+                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE + Constant.FLAG_COLLECTION_SOURCE, ""));
+                    getContext().startActivity(intent);
+
+                } else if (info.startsWith(Constant.FLAG_PRESS_URL_SOURCE)) {
+                    Intent intent = new Intent(getContext(), ContentActivity.class);
+                    intent.putExtra(ContentActivity.KEY_TITLE, "访问");
+                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_PRESS_URL_SOURCE + Constant.FLAG_URL_SOURCE, ""));
+                    getContext().startActivity(intent);
+                }
             }
         }
     }

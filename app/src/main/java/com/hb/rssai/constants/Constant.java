@@ -10,4 +10,11 @@ public class Constant {
     public static final String TIPS_SYSTEM = "系统提示";
     public static final String KEY_DATA_FROM = "dataFrom";//0sys1me
 
+    public static final String FLAG_RSS_SOURCE ="rss_source|";
+    public static final String FLAG_COLLECTION_SOURCE="collection_source|";
+    public static final String FLAG_URL_SOURCE="url_source|";
+
+    public static final String FLAG_PRESS_RSS_SOURCE ="press_rss_source|";
+    public static final String FLAG_PRESS_COLLECTION_SOURCE="press_collection_source|";
+    public static final String FLAG_PRESS_URL_SOURCE="press_url_source|";
 }

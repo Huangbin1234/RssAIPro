@@ -22,7 +22,7 @@ import java.util.Hashtable;
  * 二维码生成相关
  * Created by yangle on 2015/10/22.
  */
-public class QRCodeUtils {
+public class QRCodeUtil {
 
     // 宽度值，影响中间图片大小
     private static final int IMAGE_HALFWIDTH = 40;

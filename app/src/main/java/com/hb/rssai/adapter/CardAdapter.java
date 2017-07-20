@@ -25,6 +25,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     Context mContext;
     List<RssSource> list;
 
+
     public CardAdapter(Context mContext, List<RssSource> list) {
         this.mContext = mContext;
         this.list = list;
@@ -39,7 +40,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        HttpLoadImg.loadImg(mContext,list.get(position).getImgUrl(),holder.avatarImageView);
+        HttpLoadImg.loadImg(mContext, list.get(position).getImgUrl(), holder.avatarImageView);
         holder.tv_name.setText(list.get(position).getName().trim());
         holder.tv_view.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SourceListActivity.class);
@@ -47,7 +48,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
             intent.putExtra(SourceListActivity.KEY_TITLE, list.get(position).getName());
             mContext.startActivity(intent);
         });
-        holder.tv_count.setText("已有" + list.get(position).getCount()+"条资讯");
+        holder.tv_count.setText("已有" + list.get(position).getCount() + "条资讯");
     }
 
     @Override
@@ -58,8 +59,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView avatarImageView;
-        TextView tv_count,  tv_name;
+        TextView tv_count, tv_name;
         Button tv_view;
+
         MyViewHolder(View itemView) {
             super(itemView);
             avatarImageView = (ImageView) itemView.findViewById(R.id.iv_avatar);
