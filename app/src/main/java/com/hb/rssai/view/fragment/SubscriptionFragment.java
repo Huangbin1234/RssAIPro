@@ -29,10 +29,10 @@ import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.LiteOrmDBUtil;
-import com.hb.rssai.view.subscription.AddSourceActivity;
 import com.hb.rssai.view.subscription.HotTagActivity;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
+import com.zbar.lib.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,6 +48,8 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.yuqirong.cardswipelayout.CardItemTouchHelperCallback;
 import me.yuqirong.cardswipelayout.CardLayoutManager;
 import me.yuqirong.cardswipelayout.OnSwipeListener;
+
+import static android.app.Activity.RESULT_OK;
 
 public class SubscriptionFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
@@ -82,7 +84,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     private List<RssSource> list = new ArrayList<>();
 
     CardAdapter mCardAdapter;
-
+    public final static int REQUESTCODE = 1;
 
     public SubscriptionFragment() {
     }
@@ -197,7 +199,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     }
 
 
-    @OnClick({R.id.sys_iv_add})
+    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -205,7 +207,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 startActivity(new Intent(getContext(), HotTagActivity.class));
                 break;
             case R.id.sys_iv_scan:
-                startActivity(new Intent(getContext(), AddSourceActivity.class));
+//                startActivity(new Intent(getContext(), AddSourceActivity.class));
+                startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
                 break;
         }
     }
@@ -339,18 +342,34 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                     if (website.getFid().equals("" + list.get(i).getId())) {
                         list.get(i).setCount(rssTempList.getRSSItemBeen().size());
                         list.get(i).setImgUrl(urls[i]);
-//                        if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
+                        if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
 //                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
-//                            if (rssTempList.getImage().getTitle() != null) {
-//                                list.get(i).setName(rssTempList.getImage().getTitle());
-//                            }
-//                        }
+                            if (rssTempList.getImage().getTitle() != null) {
+                                list.get(i).setName(rssTempList.getImage().getTitle());
+                            }
+                        }
                         break;
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (RESULT_OK == resultCode) {
+            if (requestCode == REQUESTCODE) {
+                RssSource rssSource = new RssSource();
+                rssSource.setName("订阅");
+                rssSource.setLink(data.getStringExtra("info"));
+                LiteOrmDBUtil.insert(rssSource);
+                initData();
+            }
         }
     }
 }

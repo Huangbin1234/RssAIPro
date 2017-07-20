@@ -39,8 +39,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        HttpLoadImg.loadRoundImg(mContext,list.get(position).getImgUrl(),holder.avatarImageView);
-        holder.tv_name.setText(list.get(position).getName());
+        HttpLoadImg.loadImg(mContext,list.get(position).getImgUrl(),holder.avatarImageView);
+        holder.tv_name.setText(list.get(position).getName().trim());
         holder.tv_view.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SourceListActivity.class);
             intent.putExtra(SourceListActivity.KEY_LINK, list.get(position).getLink());
