@@ -216,32 +216,5 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
         return false;
     }
 
-    /**
-     * 取消对话框
-     *
-     * @return
-     */
-    private void sureCollection() {
-        final MaterialDialog materialDialog = new MaterialDialog(this);
-        materialDialog.setMessage("确定要删除吗？").setTitle(Constant.TIPS_SYSTEM).setNegativeButton("放弃", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                materialDialog.dismiss();
 
-            }
-        }).setPositiveButton("确定", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 取消
-                materialDialog.dismiss();
-                String dateTime = DateUtil.format(new Date(), Constant.DATE_LONG_PATTERN);
-                UserCollection collection = new UserCollection();
-                collection.setLink(contentUrl);
-                collection.setTime(dateTime);
-                collection.setTime(title);
-                LiteOrmDBUtil.insert(collection);
-                T.ShowToast(ContentActivity.this, "收藏成功！");
-            }
-        }).show();
-    }
 }
