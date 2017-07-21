@@ -178,7 +178,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sys_iv_filter:
-                openFilter();
+                int dataFrom=SharedPreferencesUtil.getInt(getContext(),Constant.KEY_DATA_FROM,0);
+                if(dataFrom==0){
+                    openSysFilter();
+                }else if(dataFrom==1){
+                    openMeFilter();
+                }
                 break;
         }
     }
@@ -226,15 +231,39 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         list.add(map7);
         return list;
     }
+
+
+    private List<HashMap<String, Object>> initDialogDataByMe() {
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        HashMap<String, Object> map0 = new HashMap<>();
+        map0.put("name", "默认");
+        map0.put("id", 0);
+        map0.put("url", R.mipmap.ic_place);
+        list.add(map0);
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("name", "时间");
+        map1.put("id", 1);
+        map1.put("url", R.mipmap.ic_place);
+        list.add(map1);
+        HashMap<String, Object> map2 = new HashMap<>();
+        map2.put("name", "热度");
+        map2.put("id", 2);
+        map2.put("url", R.mipmap.ic_place);
+        list.add(map2);
+
+        return list;
+    }
     /**
      * 菜单对话框
      *
      * @return
      */
     FilterDialogAdapter dialogAdapter;
+    FilterDialogAdapter dialogAdapterMe;
     MaterialDialog materialDialog;
+    MaterialDialog materialDialogMe;
 
-    private void openFilter() {
+    private void openSysFilter() {
         if (materialDialog == null) {
             materialDialog = new MaterialDialog(getContext());
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -257,7 +286,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             materialDialog.show();
         }
     }
+    private void openMeFilter() {
+        if (materialDialogMe == null) {
+            materialDialogMe = new MaterialDialog(getContext());
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View view = inflater.inflate(R.layout.view_filter, null);
+            FullGridView listView = (FullGridView) view.findViewById(R.id.dialog_gridView);
 
+            List<HashMap<String, Object>> list = initDialogDataByMe();
+            listView.setOnItemClickListener((parent, view1, position, id) -> {
+
+            });
+            if (dialogAdapterMe == null) {
+                dialogAdapterMe = new FilterDialogAdapter(getContext(), list);
+                listView.setAdapter(dialogAdapterMe);
+            }
+            dialogAdapterMe.notifyDataSetChanged();
+            materialDialogMe.setContentView(view).setTitle(Constant.TIPS_FILTER_SORT).setNegativeButton("关闭", v -> {
+                materialDialogMe.dismiss();
+            }).show();
+        } else {
+            materialDialogMe.show();
+        }
+    }
     class ReadRssTask extends AsyncTask<Void, Void, Void> {
 
         @Override

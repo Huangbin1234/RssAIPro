@@ -19,4 +19,5 @@ public class Constant {
     public static final String FLAG_PRESS_COLLECTION_SOURCE="press_collection_source|";
     public static final String FLAG_PRESS_URL_SOURCE="press_url_source|";
 
+    public static final String TIPS_FILTER_SORT ="筛选排序" ;
 }
