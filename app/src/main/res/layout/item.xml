@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/iv_avatar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop" />
     </RelativeLayout>
 
@@ -68,6 +68,5 @@
             android:visibility="visible" />
 
     </RelativeLayout>
-
 
 </LinearLayout>

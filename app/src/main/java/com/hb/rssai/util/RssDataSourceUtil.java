@@ -72,15 +72,15 @@ public class RssDataSourceUtil {
      *
      * @param website
      */
-    public static List<RSSItemBean> getRssData(Website website) {
-        if(!website.getOpen().equals("true")){
-           return null;
+    public static List<RSSItemBean> getRssData(Website website, int count) {
+        if (!website.getOpen().equals("true")) {
+            return null;
         }
         List<RSSItemBean> rssList = new ArrayList<>();
         try {
             List<RSSItemBean> rssTempList = new FeedReader().getContent(website).getRSSItemBeen();                   //获取有内容的 rssItemBean
             if (rssTempList != null) {
-                if (rssTempList.size() > 5) {
+                if (rssTempList.size() > count && count != -1) {
                     rssList.addAll(rssTempList.subList(0, 4));
                 } else {
                     rssList.addAll(rssTempList);

@@ -48,6 +48,12 @@ public class LoadActivity extends AppCompatActivity {
         rssSource3.setLink("http://news.baidu.com/ns?word=%C9%C6%D0%C4%BB%E3&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
         LiteOrmDBUtil.insert(rssSource3);
 
+        RssSource rssSource4 = new RssSource();
+        rssSource4.setId(4);
+        rssSource4.setName("海济生物新闻");
+        rssSource4.setLink("http://news.baidu.com/ns?word=%BA%A3%BC%C3%C9%FA%CE%EF&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
+        LiteOrmDBUtil.insert(rssSource4);
+
         handler.sendEmptyMessage(1);
     }
 

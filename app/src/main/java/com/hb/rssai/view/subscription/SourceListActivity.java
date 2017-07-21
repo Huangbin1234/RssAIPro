@@ -21,7 +21,6 @@ import com.hb.rssai.util.RssDataSourceUtil;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
-import com.rss.util.FeedReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +151,7 @@ public class SourceListActivity extends BaseActivity {
         website.setEndTag("");
         website.setFid("67");
 
-        List<RSSItemBean> rssTempList = RssDataSourceUtil.getRssData(website);
+        List<RSSItemBean> rssTempList = RssDataSourceUtil.getRssData(website,-1);
         if (rssTempList != null) {
             rssList.addAll(rssTempList);
         }

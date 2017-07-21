@@ -250,7 +250,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     }
 
     /**
-     * 取消对话框
+     * 菜单对话框
      *
      * @return
      */
@@ -322,7 +322,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(Void aVoid) {
             mSfSwipe.setRefreshing(false);
-            if (list.size() < 2) {
+            if (list.size() < 9) {
                 if (mCardAdapter == null) {
                     mCardAdapter = new CardAdapter(getContext(), list);
                     mSfRecyclerView.setAdapter(mCardAdapter);
@@ -424,7 +424,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                         if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
 //                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
                             if (rssTempList.getImage().getTitle() != null) {
-                                list.get(i).setName(rssTempList.getImage().getTitle());
+                                list.get(i).setName(rssTempList.getTitle());
                             }
                         }
                         break;

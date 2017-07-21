@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -16,27 +17,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/s16p" />
+            android:textSize="@dimen/s16p"/>
 
         <ImageView
-            android:id="@+id/sys_iv_add"
+            android:id="@+id/sys_iv_filter"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="16dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/icon_add_sub" />
+            android:src="@mipmap/ic_filter"/>
 
-        <ImageView
-            android:id="@+id/sys_iv_scan"
-            android:layout_width="20dp"
-            android:padding="2dp"
-            android:layout_height="20dp"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="16dp"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_qrcode_menu" />
+
+
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>
