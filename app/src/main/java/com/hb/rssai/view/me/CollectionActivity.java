@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.CollectionAdapter;
+import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
@@ -24,7 +27,10 @@ import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.subscription.QrCodeActivity;
+import com.hb.rssai.view.widget.FullListView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -115,33 +121,68 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     public void onItemLongClicked(UserCollection userCollection) {
         sureCollection(userCollection);
     }
+    /**
+     * 构造对话框数据
+     *
+     * @return
+     */
+    private List<HashMap<String, Object>> initDialogData() {
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", "分享");
+        map.put("id", 1);
+        map.put("url", R.mipmap.ic_place);
+        list.add(map);
+        HashMap<String, Object> map2 = new HashMap<>();
+        map2.put("name", "删除");
+        map2.put("id", 2);
+        map2.put("url", R.mipmap.ic_place);
+        list.add(map2);
+        return list;
+    }
 
     /**
      * 取消对话框
      *
      * @return
      */
+    DialogAdapter dialogAdapter;
+    MaterialDialog materialDialog;
+
     private void sureCollection(UserCollection userCollection) {
-        final MaterialDialog materialDialog = new MaterialDialog(this);
-        materialDialog.setMessage("选择操作").setTitle(Constant.TIPS_SYSTEM).setNegativeButton("删除", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                materialDialog.dismiss();
-                LiteOrmDBUtil.deleteWhere(UserCollection.class, "id", new String[]{"" + userCollection.getId()});
-                adapter.notifyDataSetChanged();
-                T.ShowToast(CollectionActivity.this, "删除成功！");
+        if (materialDialog == null) {
+            materialDialog = new MaterialDialog(this);
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View view = inflater.inflate(R.layout.view_dialog, null);
+            FullListView listView = (FullListView) view.findViewById(R.id.dialog_listView);
+
+            List<HashMap<String, Object>> list = initDialogData();
+            listView.setOnItemClickListener((parent, view1, position, id) -> {
+                if (list.get(position).get("id").equals(1)) {
+                    //TODO 取消
+                    materialDialog.dismiss();
+                    Intent intent = new Intent(CollectionActivity.this, QrCodeActivity.class);
+                    intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[1]);
+                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_COLLECTION_SOURCE + userCollection.getLink()));
+                    startActivity(intent);
+                } else if (list.get(position).get("id").equals(2)) {
+                    materialDialog.dismiss();
+                    LiteOrmDBUtil.deleteWhere(UserCollection.class, "id", new String[]{"" + userCollection.getId()});
+                    adapter.notifyDataSetChanged();
+                    T.ShowToast(CollectionActivity.this, "删除成功！");
+                }
+            });
+            if (dialogAdapter == null) {
+                dialogAdapter = new DialogAdapter(this, list);
+                listView.setAdapter(dialogAdapter);
             }
-        }).setPositiveButton("分享", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 取消
+            dialogAdapter.notifyDataSetChanged();
+            materialDialog.setContentView(view).setTitle(Constant.TIPS_SYSTEM).setNegativeButton("关闭", v -> {
                 materialDialog.dismiss();
-                Intent intent = new Intent(CollectionActivity.this, QrCodeActivity.class);
-                intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[1]);
-                intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_COLLECTION_SOURCE + userCollection.getLink()));
-                startActivity(intent);
-            }
-        }).show();
+            }).show();
+        } else {
+            materialDialog.show();
+        }
     }
 
 }

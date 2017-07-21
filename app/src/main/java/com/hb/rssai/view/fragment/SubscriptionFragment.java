@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.CardAdapter;
+import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
@@ -37,6 +38,7 @@ import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.subscription.HotTagActivity;
 import com.hb.rssai.view.subscription.QrCodeActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
+import com.hb.rssai.view.widget.FullListView;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
 import com.zbar.lib.CaptureActivity;
@@ -45,6 +47,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -227,25 +230,66 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     }
 
     /**
+     * 构造对话框数据
+     *
+     * @return
+     */
+    private List<HashMap<String, Object>> initDialogData() {
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", "分享");
+        map.put("id", 1);
+        map.put("url", R.mipmap.ic_place);
+        list.add(map);
+        HashMap<String, Object> map2 = new HashMap<>();
+        map2.put("name", "删除");
+        map2.put("id", 2);
+        map2.put("url", R.mipmap.ic_place);
+        list.add(map2);
+        return list;
+    }
+
+    /**
      * 取消对话框
      *
      * @return
      */
+    DialogAdapter dialogAdapter;
+    MaterialDialog materialDialog;
+
     private void sureCollection(RssSource rssSource) {
-        final MaterialDialog materialDialog = new MaterialDialog(getContext());
-        materialDialog.setMessage("选择操作").setTitle(Constant.TIPS_SYSTEM).setNegativeButton("删除", v -> {
-            materialDialog.dismiss();
-            LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSource.getId()});
-            mRssSourceAdapter.notifyDataSetChanged();
-            T.ShowToast(getContext(), "删除成功！");
-        }).setPositiveButton("分享", v -> {
-            //TODO 取消
-            materialDialog.dismiss();
-            Intent intent = new Intent(getContext(), QrCodeActivity.class);
-            intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
-            intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSource.getLink()));
-            startActivity(intent);
-        }).show();
+        if (materialDialog == null) {
+            materialDialog = new MaterialDialog(getContext());
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View view = inflater.inflate(R.layout.view_dialog, null);
+            FullListView listView = (FullListView) view.findViewById(R.id.dialog_listView);
+
+            List<HashMap<String, Object>> list = initDialogData();
+            listView.setOnItemClickListener((parent, view1, position, id) -> {
+                if (list.get(position).get("id").equals(1)) {
+                    materialDialog.dismiss();
+                    Intent intent = new Intent(getContext(), QrCodeActivity.class);
+                    intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
+                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSource.getLink()));
+                    startActivity(intent);
+                } else if (list.get(position).get("id").equals(2)) {
+                    materialDialog.dismiss();
+                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSource.getId()});
+                    mRssSourceAdapter.notifyDataSetChanged();
+                    T.ShowToast(getContext(), "删除成功！");
+                }
+            });
+            if (dialogAdapter == null) {
+                dialogAdapter = new DialogAdapter(getContext(), list);
+                listView.setAdapter(dialogAdapter);
+            }
+            dialogAdapter.notifyDataSetChanged();
+            materialDialog.setContentView(view).setTitle(Constant.TIPS_SYSTEM).setNegativeButton("关闭", v -> {
+                materialDialog.dismiss();
+            }).show();
+        } else {
+            materialDialog.show();
+        }
     }
 
     public interface OnFragmentInteractionListener {
@@ -403,14 +447,14 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 if (info.startsWith(Constant.FLAG_RSS_SOURCE)) {
                     //打开
                     Intent intent = new Intent(getContext(), SourceListActivity.class);
-                    intent.putExtra(SourceListActivity.KEY_LINK,info.replace( Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_RSS_SOURCE, ""));
                     intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
                     getContext().startActivity(intent);
 
                 } else if (info.startsWith(Constant.FLAG_COLLECTION_SOURCE)) {
                     Intent intent = new Intent(getContext(), ContentActivity.class);
                     intent.putExtra(ContentActivity.KEY_TITLE, "收藏");
-                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_COLLECTION_SOURCE , ""));
+                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_COLLECTION_SOURCE, ""));
                     getContext().startActivity(intent);
                 } else if (info.startsWith(Constant.FLAG_URL_SOURCE)) {
                     Intent intent = new Intent(getContext(), ContentActivity.class);
@@ -425,7 +469,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                     // initData();
                     //打开
                     Intent intent = new Intent(getContext(), SourceListActivity.class);
-                    intent.putExtra(SourceListActivity.KEY_LINK,info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
                     intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
                     getContext().startActivity(intent);
                 } else if (info.startsWith(Constant.FLAG_PRESS_COLLECTION_SOURCE)) {
