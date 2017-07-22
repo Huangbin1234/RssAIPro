@@ -51,11 +51,11 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.irs_tv_name.setText(rssList.get(position).getName());
-        holder.irs_tv_count.setText(rssList.get(position).getCount() + "");
+        holder.irs_tv_count.setText(rssList.get(position).getCount() + "人订阅");
         if (TextUtils.isEmpty(rssList.get(position).getImgUrl())) {
-            HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_sub, holder.irs_iv_logo);
+            HttpLoadImg.loadRoundImg(mContext, R.mipmap.ic_no_sub, holder.irs_iv_logo);
         } else {
-            HttpLoadImg.loadImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
+            HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
         }
 
         holder.v.setOnClickListener(v -> {
@@ -80,7 +80,6 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         public View v;
         LinearLayout irs_layout;
         TextView irs_tv_name;
-        TextView irs_tv_link;
         TextView irs_tv_count;
         ImageView irs_iv_logo;
 
@@ -91,10 +90,10 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
             irs_layout = (LinearLayout) itemView.findViewById(R.id.irs_layout);
 
             irs_tv_count = (TextView) itemView.findViewById(R.id.irs_tv_count);
-            irs_tv_link = (TextView) itemView.findViewById(R.id.irs_tv_link);
             irs_tv_name = (TextView) itemView.findViewById(R.id.irs_tv_name);
             irs_iv_logo = (ImageView) itemView.findViewById(R.id.irs_iv_logo);
 
+//            irs_iv_logo.setLayoutParams(new LinearLayout.LayoutParams());
 
         }
     }

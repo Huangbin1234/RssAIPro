@@ -1,56 +1,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/irs_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/ll_selector"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:padding="16dp">
+              android:id="@+id/irs_layout"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/ll_selector"
+              android:gravity="center"
+              android:padding="16dp"
+              android:orientation="horizontal" >
 
     <LinearLayout
-        android:layout_weight="8"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/irs_iv_logo"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_no_sub" />
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:src="@mipmap/ic_no_sub"/>
 
         <TextView
-            android:layout_marginLeft="16dp"
             android:id="@+id/irs_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:ellipsize="end"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/color_title"
-            android:textSize="@dimen/s16p" />
+            android:ellipsize="end"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:textColor="@color/color_txt"
+            android:textSize="@dimen/s14p"/>
+
 
         <TextView
-            android:id="@+id/irs_tv_link"
+            android:id="@+id/irs_tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_time"
-            android:textSize="@dimen/s14p"
-            android:visibility="gone" />
-
+            android:ellipsize="end"
+            android:gravity="right"
+            android:textColor="#CCCCCC"
+            android:textSize="@dimen/s12p"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/irs_tv_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:textColor="#CCCCCC"
-        android:gravity="right"
-        android:text="1221"
-        android:layout_weight="1.5"
-        android:textSize="@dimen/s14p" />
-
 </LinearLayout>

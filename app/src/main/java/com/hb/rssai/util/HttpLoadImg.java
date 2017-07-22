@@ -98,7 +98,13 @@ public class HttpLoadImg {
         Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideRoundTransform(context, 10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
 
     }
+    /**
+     * 下载图片转圆角
+     */
+    public static void loadRoundImg(Context context, Integer url, ImageView imageView) {
+        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideRoundTransform(context, 10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
 
+    }
     /**
      * 下载图片转圆角
      */
