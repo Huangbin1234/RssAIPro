@@ -36,7 +36,7 @@ import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.subscription.HotTagActivity;
-import com.hb.rssai.view.subscription.QrCodeActivity;
+import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
 import com.hb.rssai.view.widget.FullListView;
 import com.rss.bean.Website;

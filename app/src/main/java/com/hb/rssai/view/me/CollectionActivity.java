@@ -19,14 +19,13 @@ import com.hb.rssai.R;
 import com.hb.rssai.adapter.CollectionAdapter;
 import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.base.BaseActivity;
-import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.subscription.QrCodeActivity;
+import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.widget.FullListView;
 
 import java.util.ArrayList;

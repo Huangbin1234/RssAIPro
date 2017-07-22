@@ -1,9 +1,10 @@
-package com.hb.rssai.view.subscription;
+package com.hb.rssai.view.common;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -92,7 +93,17 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
         }
         mSysTvTitle.setText(getResources().getString(R.string.str_qa_title));
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected BasePresenter createPresenter() {
         return null;

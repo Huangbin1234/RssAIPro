@@ -3,16 +3,25 @@ package com.zbar.lib;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.Vibrator;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -20,12 +29,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.ChecksumException;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.FormatException;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.qrcode.QRCodeReader;
 import com.hb.rssai.R;
+import com.hb.rssai.zxing.DecodeUtils;
+import com.hb.rssai.zxing.ImageCropActivity;
+import com.hb.rssai.zxing.RGBLuminanceSource;
 import com.zbar.lib.camera.CameraManager;
 import com.zbar.lib.decode.CaptureActivityHandler;
 import com.zbar.lib.decode.InactivityTimer;
 
 import java.io.IOException;
+import java.util.Hashtable;
 
 /**
  * 作者: 陈涛(1076559197@qq.com)
@@ -52,6 +73,13 @@ public class CaptureActivity extends Activity implements Callback {
     private RelativeLayout mContainer = null;
     private RelativeLayout mCropLayout = null;
     private boolean isNeedCapture = false;
+    private ImageView sel_album;
+    private ImageView control_light;
+    private int REQUEST_ALBUM = 2;
+    private static final int REQUEST_CODE = 100;
+    public static final int CROPIMAGES = 4;
+    private static final int PARSE_BARCODE_SUC = 300;
+    private static final int PARSE_BARCODE_FAIL = 303;
 
     public boolean isNeedCapture() {
         return isNeedCapture;
@@ -108,6 +136,22 @@ public class CaptureActivity extends Activity implements Callback {
 
         mContainer = (RelativeLayout) findViewById(R.id.capture_containter);
         mCropLayout = (RelativeLayout) findViewById(R.id.capture_crop_layout);
+        sel_album = (ImageView) findViewById(R.id.sel_album);
+        control_light = (ImageView) findViewById(R.id.control_light);
+
+        sel_album.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickPictureFromAlbum(v);
+            }
+        });
+
+        control_light.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                light();
+            }
+        });
 
         ImageView mQrLineView = (ImageView) findViewById(R.id.capture_scan_line);
         TranslateAnimation mAnimation = new TranslateAnimation(
@@ -119,6 +163,20 @@ public class CaptureActivity extends Activity implements Callback {
         mAnimation.setRepeatMode(Animation.REVERSE);
         mAnimation.setInterpolator(new LinearInterpolator());
         mQrLineView.setAnimation(mAnimation);
+    }
+
+    /*
+         * 获取带二维码的相片进行扫描
+         */
+    public void pickPictureFromAlbum(View v) {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+        } else {
+            intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        }
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     boolean flag = true;
@@ -281,4 +339,174 @@ public class CaptureActivity extends Activity implements Callback {
             mediaPlayer.seekTo(0);
         }
     };
+    private String photo_path;
+    private String crop_photo_path;
+    private Bitmap scanBitmap;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE:
+                    try {
+                        Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
+                        if (cursor.moveToFirst()) {
+                            photo_path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                        }
+                        cursor.close();
+                        startCrop(photo_path);
+                    } catch (Exception e) {
+                        Toast.makeText(CaptureActivity.this, "未识别的二维码", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+        } else if (resultCode == 20) {
+            switch (requestCode) {
+                case CROPIMAGES:
+                    try {
+                        if (data != null) {
+                            crop_photo_path = data.getStringExtra("path");
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Result result = scanningImage(crop_photo_path);
+                                    if (result != null) {
+                                        Message m = mHandler.obtainMessage();
+                                        m.what = PARSE_BARCODE_SUC;
+                                        m.obj = result.getText();
+                                        mHandler.sendMessage(m);
+                                    } else {
+                                        String result2 = scanningImage2(crop_photo_path);
+                                        if (result != null) {
+                                            Message m = mHandler.obtainMessage();
+                                            m.what = PARSE_BARCODE_SUC;
+                                            m.obj = result2;
+                                            mHandler.sendMessage(m);
+                                        } else {
+                                            Message m = mHandler.obtainMessage();
+                                            m.what = PARSE_BARCODE_FAIL;
+                                            m.obj = "未识别的二维码!";
+                                            mHandler.sendMessage(m);
+                                        }
+                                    }
+                                }
+                            }).start();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(CaptureActivity.this, "未识别的二维码", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+        }
+    }
+
+    public void startCrop(String path) {
+        Intent intent = new Intent();
+        intent.putExtra("path", path);
+        intent.putExtra("flag", false);
+        intent.setClass(this, ImageCropActivity.class);
+        startActivityForResult(intent, CROPIMAGES);
+    }
+
+    public Result scanningImage(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return null;
+        }
+        Hashtable<DecodeHintType, String> hints = new Hashtable<DecodeHintType, String>();
+        hints.put(DecodeHintType.CHARACTER_SET, "UTF8"); //????????????????
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true; // ????????
+//		scanBitmap = BitmapFactory.decodeFile(path, options);
+        options.inJustDecodeBounds = false; // ????????
+        int sampleSize = (int) (options.outHeight / (float) 200);
+        if (sampleSize <= 0)
+            sampleSize = 1;
+        options.inSampleSize = sampleSize;
+        scanBitmap = BitmapFactory.decodeFile(path, options);
+//		int sampleSize=(int)(options.outHeight/(float)200);
+//		options.inJustDecodeBounds=false;
+//		if(sampleSize<=0){
+//			options.inSampleSize=1;
+//			scanBitmap=BitmapFactory.decodeFile(path, options);
+//			Matrix matrix=new Matrix();
+//			matrix.postScale(1.5f,1.5f);
+//			scanBitmap=Bitmap.createBitmap(scanBitmap,0,0,scanBitmap.getWidth(),scanBitmap.getHeight(),matrix,true);
+//		}else{
+//			options.inSampleSize=sampleSize;
+//			scanBitmap=BitmapFactory.decodeFile(path,options);
+//		}
+        RGBLuminanceSource source = new RGBLuminanceSource(scanBitmap);
+        BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
+        QRCodeReader reader = new QRCodeReader();
+        try {
+            return reader.decode(bitmap1, hints);
+
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        } catch (ChecksumException e) {
+            e.printStackTrace();
+        } catch (FormatException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String scanningImage2(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return null;
+        }
+        Hashtable<DecodeHintType, String> hints = new Hashtable<DecodeHintType, String>();
+        hints.put(DecodeHintType.CHARACTER_SET, "UTF8");
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        //		scanBitmap = BitmapFactory.decodeFile(path, options);
+        options.inJustDecodeBounds = false;
+        int sampleSize = (int) (options.outHeight / (float) 200);
+        if (sampleSize <= 0)
+            sampleSize = 1;
+        options.inSampleSize = sampleSize;
+        scanBitmap = BitmapFactory.decodeFile(path, options);
+        String resultZbar = new DecodeUtils(DecodeUtils.DECODE_DATA_MODE_ALL)
+                .decodeWithZbar(scanBitmap);
+        return resultZbar;
+    }
+
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what) {
+                case PARSE_BARCODE_SUC:
+                    onResultHandler((String) msg.obj);
+                    break;
+                case PARSE_BARCODE_FAIL:
+                    Toast.makeText(CaptureActivity.this, (String) msg.obj, Toast.LENGTH_LONG).show();
+                    break;
+
+            }
+        }
+    };
+
+    private void onResultHandler(String resultString) {
+        try {
+            if (TextUtils.isEmpty(resultString)) {
+                Toast.makeText(CaptureActivity.this, "未识别的二维码", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(CaptureActivity.this, resultString, Toast.LENGTH_SHORT).show();
+            //TODO 识别声音
+            playBeepSoundAndVibrate();
+            Intent intent = new Intent();
+            intent.putExtra("info", resultString);
+            setResult(RESULT_OK, intent);
+            finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

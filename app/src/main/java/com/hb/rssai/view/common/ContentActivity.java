@@ -30,7 +30,6 @@ import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.subscription.QrCodeActivity;
 
 import java.util.Date;
 
