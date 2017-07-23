@@ -240,12 +240,12 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", "分享");
         map.put("id", 1);
-        map.put("url", R.mipmap.ic_place);
+        map.put("url", R.mipmap.ic_share);
         list.add(map);
         HashMap<String, Object> map2 = new HashMap<>();
         map2.put("name", "删除");
         map2.put("id", 2);
-        map2.put("url", R.mipmap.ic_place);
+        map2.put("url", R.mipmap.ic_delete);
         list.add(map2);
         return list;
     }
@@ -276,7 +276,7 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
                 } else if (list.get(position).get("id").equals(2)) {
                     materialDialog.dismiss();
                     LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSource.getId()});
-                    mRssSourceAdapter.notifyDataSetChanged();
+                   initData();
                     T.ShowToast(getContext(), "删除成功！");
                 }
             });

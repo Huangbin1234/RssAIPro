@@ -94,6 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
         android:src="@mipmap/ic_scan_album"
         android:contentDescription="@string/app_name" />
 

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:padding="10dp"
-    android:orientation="horizontal">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:padding="10dp">
 
     <ImageView
         android:id="@+id/dialog_item_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_place" />
+        android:src="@mipmap/ic_place"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:text="12"
         android:id="@+id/dialog_item_tv"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/s16p"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"/>
 </LinearLayout>
