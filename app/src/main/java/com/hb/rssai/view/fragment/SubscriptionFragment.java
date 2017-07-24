@@ -62,7 +62,6 @@ import me.yuqirong.cardswipelayout.CardLayoutManager;
 import me.yuqirong.cardswipelayout.OnSwipeListener;
 
 import static android.app.Activity.RESULT_OK;
-import static com.hb.rssai.app.ProjectApplication.mContext;
 
 public class SubscriptionFragment extends Fragment implements View.OnClickListener, RssSourceAdapter.onItemLongClickedListener {
     private static final String ARG_PARAM1 = "param1";
@@ -142,7 +141,7 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
         mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 2);
         mSfRecyclerView.setLayoutManager(mFullyGridLayoutManager);
 //        mSfRecyclerView.addItemDecoration(new DividerGridItemDecoration(getContext()));
-        mSfRecyclerView.addItemDecoration(new SpaceItemDecoration(10));
+        mSfRecyclerView.addItemDecoration(new SpaceItemDecoration( DisplayUtil.dip2px(getContext(), 16)));
 
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
@@ -199,6 +198,9 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
     private void initData() {
         List<RssSource> dbList = LiteOrmDBUtil.getQueryAll(RssSource.class);
         if (dbList == null || dbList.size() <= 0) {
+            if(mRssSourceAdapter!=null){
+                mRssSourceAdapter.notifyDataSetChanged();
+            }
             return;
         }
         if (list != null && list.size() > 0) {
@@ -254,9 +256,10 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
                 break;
         }
     }
-
+    RssSource rssSourcNew;
     @Override
     public void onItemLongClicked(RssSource rssSource) {
+        this.rssSourcNew=rssSource;
         sureCollection(rssSource);
     }
 
@@ -301,11 +304,11 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
                     materialDialog.dismiss();
                     Intent intent = new Intent(getContext(), QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
-                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSource.getLink()));
+                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSourcNew.getLink()));
                     startActivity(intent);
                 } else if (list.get(position).get("id").equals(2)) {
                     materialDialog.dismiss();
-                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSource.getId()});
+                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSourcNew.getId()});
                    initData();
                     T.ShowToast(getContext(), "删除成功！");
                 }

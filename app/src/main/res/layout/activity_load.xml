@@ -18,7 +18,7 @@
         android:layout_below="@id/la_iv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:textColor="@color/color_txt"
-        android:text="阅读优质内容"/>
+        android:text="@string/str_load_txt"
+        android:textColor="@color/color_txt"/>
 
 </RelativeLayout>

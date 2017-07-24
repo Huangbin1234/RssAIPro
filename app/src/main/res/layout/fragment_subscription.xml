@@ -46,35 +46,34 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:orientation="vertical"
-                            android:paddingBottom="10dp">
+                            >
 
-                            <LinearLayout
-                                android:id="@+id/tv_label"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="vertical"
-                                android:paddingTop="16dp">
+                            <!--<LinearLayout-->
+                                <!--android:id="@+id/tv_label"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:gravity="center"-->
+                                <!--android:orientation="vertical"-->
+                                <!--android:paddingTop="16dp">-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/sub_label"
-                                    android:textSize="@dimen/s18p"/>
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:text="@string/sub_label"-->
+                                    <!--android:textSize="@dimen/s18p"/>-->
 
-                                <View
-                                    android:layout_width="40dp"
-                                    android:layout_height="1dp"
-                                    android:layout_marginTop="5dp"
-                                    android:background="#DDDDDD"/>
-                            </LinearLayout>
-
+                                <!--<View-->
+                                    <!--android:layout_width="40dp"-->
+                                    <!--android:layout_height="1dp"-->
+                                    <!--android:layout_marginTop="5dp"-->
+                                    <!--android:background="#DDDDDD"/>-->
+                            <!--</LinearLayout>-->
+                            <!--android:layout_below="@id/tv_label"-->
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/sf_recycler_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/tv_label"
-                                android:layout_marginTop="10dp"
+
                                 android:padding="16dp"
                                 android:background="@color/white"/>
                         </LinearLayout>

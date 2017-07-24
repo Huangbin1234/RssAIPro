@@ -44,5 +44,6 @@
     <string name="str_sf_new_share">分享</string>
     <string name="sub_label">专属.订阅</string>
     <string name="sub_recommend_label">热门.推荐</string>
+    <string name="str_load_txt">阅读优质内容</string>
 
 </resources>
