@@ -12,8 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.rss.bean.RSSItemBean;
@@ -33,12 +35,13 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     private LayoutInflater layoutInflater;
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
     private List<String> images = null;
+    private boolean isLoadImage=true;
 
     public RssListAdapter(Context mContext, List<RSSItemBean> rssList) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
-
+        isLoadImage= SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE,true);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
         images = rssList.get(position).getImages();
         if (images != null && images.size() > 0) {
             if (images.size() >= 3) {
-                holder.item_na_group_ll.setVisibility(View.VISIBLE);
+
                 holder.item_na_img.setVisibility(View.GONE);
                 holder.irl_bottom_a.setVisibility(View.GONE);
                 holder.irl_bottom_b.setVisibility(View.VISIBLE);
@@ -61,19 +64,31 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 holder.item_na_type_b.setText(rssList.get(position).getType());
                 holder.item_na_time_b.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
 
-                HttpLoadImg.loadImg(mContext, images.get(0), holder.item_na_group_a);
-                HttpLoadImg.loadImg(mContext, images.get(1), holder.item_na_group_b);
-                HttpLoadImg.loadImg(mContext, images.get(2), holder.item_na_group_c);
+                if(isLoadImage){
+                    holder.item_na_group_ll.setVisibility(View.VISIBLE);
+                    HttpLoadImg.loadImg(mContext, images.get(0), holder.item_na_group_a);
+                    HttpLoadImg.loadImg(mContext, images.get(1), holder.item_na_group_b);
+                    HttpLoadImg.loadImg(mContext, images.get(2), holder.item_na_group_c);
+
+                }else{
+                    holder.item_na_group_ll.setVisibility(View.GONE);
+                }
             } else {
                 holder.item_na_group_ll.setVisibility(View.GONE);
-                holder.item_na_img.setVisibility(View.VISIBLE);
+
                 holder.irl_bottom_a.setVisibility(View.VISIBLE);
                 holder.irl_bottom_b.setVisibility(View.GONE);
 
                 holder.item_na_type_a.setText(rssList.get(position).getType());
                 holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
 
-                HttpLoadImg.loadImg(mContext, images.get(0), holder.item_na_img);
+                if(isLoadImage){
+                    holder.item_na_img.setVisibility(View.VISIBLE);
+                    HttpLoadImg.loadImg(mContext, images.get(0), holder.item_na_img);
+                }else{
+                    holder.item_na_img.setVisibility(View.GONE);
+                }
+
             }
         } else {
             holder.item_na_group_ll.setVisibility(View.GONE);

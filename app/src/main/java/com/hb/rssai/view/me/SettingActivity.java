@@ -19,7 +19,6 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.HomeSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
-import com.hb.rssai.util.T;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -70,6 +69,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else if (dateFrom == 1) {
             mSaSwChangeSource.setChecked(true);
         }
+        boolean isLoadImage=SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_LOAD_IMAGE, true);
+        if (isLoadImage) {
+            mSaSwNoImage.setChecked(true);
+        } else  {
+            mSaSwNoImage.setChecked(false);
+        }
     }
 
     @Override
@@ -116,12 +121,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         return super.onOptionsItemSelected(item);
     }
 
-    @OnCheckedChanged({R.id.sa_sw_change_source})
+    @OnCheckedChanged({R.id.sa_sw_change_source,R.id.sa_sw_no_image})
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.sa_sw_change_source:
-                T.ShowToast(this, "状态==" + isChecked);
                 if (isChecked) {
                     //changed subs source
                     SharedPreferencesUtil.setInt(this, Constant.KEY_DATA_FROM, 1);
@@ -130,6 +134,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     SharedPreferencesUtil.setInt(this, Constant.KEY_DATA_FROM, 0);
                     EventBus.getDefault().post(new HomeSourceEvent(0));
                 }
+                break;
+            case R.id.sa_sw_no_image:
+                if (isChecked) {
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_LOAD_IMAGE, true);
+                }else{
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_LOAD_IMAGE,false);
+                }
+                EventBus.getDefault().post(new HomeSourceEvent(3));
                 break;
         }
     }

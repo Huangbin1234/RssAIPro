@@ -54,8 +54,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     Unbinder unbinder;
     @BindView(R.id.hf_swipe_layout)
     SwipeRefreshLayout mHfSwipeLayout;
-    @BindView(R.id.hf_tv_empty)
-    TextView mHfTvEmpty;
     @BindView(R.id.hf_ll)
     LinearLayout mHfLl;
     @BindView(R.id.sys_tv_title)
@@ -107,6 +105,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             DF = 1;
         } else if (event.getMessage() == 0) {
             DF = 0;
+        }else if(event.getMessage()==3){
+            //TODO
         }
     }
 

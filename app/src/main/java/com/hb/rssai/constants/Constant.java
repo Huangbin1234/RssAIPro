@@ -20,4 +20,5 @@ public class Constant {
     public static final String FLAG_PRESS_URL_SOURCE="press_url_source|";
 
     public static final String TIPS_FILTER_SORT ="筛选排序" ;
+    public static String KEY_IS_LOAD_IMAGE="isLoadImage";//是否加载图片
 }

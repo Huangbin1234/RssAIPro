@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.CardAdapter;
 import com.hb.rssai.adapter.DialogAdapter;
@@ -35,10 +34,11 @@ import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
-import com.hb.rssai.view.subscription.HotTagActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
+import com.hb.rssai.view.subscription.AddSourceActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
 import com.hb.rssai.view.widget.FullListView;
+import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
 import com.zbar.lib.CaptureActivity;
@@ -54,7 +54,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.drakeet.materialdialog.MaterialDialog;
 import me.yuqirong.cardswipelayout.CardItemTouchHelperCallback;
 import me.yuqirong.cardswipelayout.CardLayoutManager;
@@ -78,8 +77,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     ImageView mSysIvAdd;
     @BindView(R.id.sf_swipe)
     SwipeRefreshLayout mSfSwipe;
-    @BindView(R.id.sf_iv_bg)
-    ImageView mSfIvBg;
+//    @BindView(R.id.sf_iv_bg)
+//    ImageView mSfIvBg;
     @BindView(R.id.sys_iv_scan)
     ImageView mSysIvScan;
 //    @BindView(R.id.index_function_gridview)
@@ -129,15 +128,16 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         return view;
     }
 
-
+private FullyGridLayoutManager mFullyGridLayoutManager;
     private void initView() {
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
         mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
 
         // 卡片式
-        mGridLayoutManager = new GridLayoutManager(getContext(), 2);
-        mSfRecyclerView.setLayoutManager(mGridLayoutManager);
+//        mGridLayoutManager = new GridLayoutManager(getContext(), 2);
+        mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 2);
+        mSfRecyclerView.setLayoutManager(mFullyGridLayoutManager);
 //        mSfRecyclerView.addItemDecoration(new DividerGridItemDecoration(getContext()));
 
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
@@ -215,7 +215,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sys_iv_add:
-                startActivity(new Intent(getContext(), HotTagActivity.class));
+//                startActivity(new Intent(getContext(), HotTagActivity.class));
+                startActivity(new Intent(getContext(), AddSourceActivity.class));
                 break;
             case R.id.sys_iv_scan:
 //                startActivity(new Intent(getContext(), AddSourceActivity.class));
@@ -239,12 +240,12 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", "分享");
         map.put("id", 1);
-        map.put("url", R.mipmap.ic_place);
+        map.put("url", R.mipmap.ic_share);
         list.add(map);
         HashMap<String, Object> map2 = new HashMap<>();
         map2.put("name", "删除");
         map2.put("id", 2);
-        map2.put("url", R.mipmap.ic_place);
+        map2.put("url", R.mipmap.ic_delete);
         list.add(map2);
         return list;
     }
@@ -275,7 +276,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 } else if (list.get(position).get("id").equals(2)) {
                     materialDialog.dismiss();
                     LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSource.getId()});
-                    mRssSourceAdapter.notifyDataSetChanged();
+                   initData();
                     T.ShowToast(getContext(), "删除成功！");
                 }
             });
@@ -322,7 +323,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(Void aVoid) {
             mSfSwipe.setRefreshing(false);
-            if (list.size() < 9) {
+            if (list.size() < 1) {
                 if (mCardAdapter == null) {
                     mCardAdapter = new CardAdapter(getContext(), list);
                     mSfRecyclerView.setAdapter(mCardAdapter);
@@ -332,10 +333,6 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 cardSetting();
             } else {
                 if (mRssSourceAdapter == null) {
-                    RssSource rssSource = new RssSource();
-                    rssSource.setName("添加更多");
-                    rssSource.setId(0);
-                    list.add(rssSource);
                     mRssSourceAdapter = new RssSourceAdapter(getContext(), list, SubscriptionFragment.this);
                     mSfRecyclerView.setAdapter(mRssSourceAdapter);
                 } else {
@@ -364,11 +361,11 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
             public void onSwiped(RecyclerView.ViewHolder viewHolder, RssSource rssSource, int direction) {
                 CardAdapter.MyViewHolder myHolder = (CardAdapter.MyViewHolder) viewHolder;
                 viewHolder.itemView.setAlpha(1f);
-                Glide.with(getContext())
-                        .load(rssSource.getImgUrl())
-                        .crossFade(1000)
-                        .bitmapTransform(new BlurTransformation(getContext(), 23, 4)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
-                        .into(mSfIvBg);
+//                Glide.with(getContext())
+//                        .load(rssSource.getImgUrl())
+//                        .crossFade(1000)
+//                        .bitmapTransform(new BlurTransformation(getContext(), 23, 4)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
+//                        .into(mSfIvBg);
             }
 
             @Override

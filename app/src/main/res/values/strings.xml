@@ -42,5 +42,7 @@
     <string name="str_hta_title">热门订阅</string>
     <string name="str_qa_title">二维码</string>
     <string name="str_sf_new_share">分享</string>
+    <string name="sub_label">专属.订阅</string>
+    <string name="sub_recommend_label">热门.推荐</string>
 
 </resources>
