@@ -32,14 +32,16 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     List<RssSource> rssList;
     private LayoutInflater layoutInflater;
     private SubscriptionFragment fragment;
+
     public interface onItemLongClickedListener {
         void onItemLongClicked(RssSource rssSource);
     }
+
     public RssSourceAdapter(Context mContext, List<RssSource> rssList, Fragment fragment) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
-        this.fragment = (SubscriptionFragment)fragment;
+        this.fragment = (SubscriptionFragment) fragment;
     }
 
     @Override
@@ -50,10 +52,11 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        System.out.println(rssList.get(position).getName());
         holder.irs_tv_name.setText(rssList.get(position).getName());
         holder.irs_tv_count.setText(rssList.get(position).getCount() + "人订阅");
         if (TextUtils.isEmpty(rssList.get(position).getImgUrl())) {
-            HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_sub, holder.irs_iv_logo);
+            HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.irs_iv_logo);
         } else {
             HttpLoadImg.loadImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
         }
@@ -86,7 +89,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            v=itemView;
+            v = itemView;
             irs_layout = (LinearLayout) itemView.findViewById(R.id.irs_layout);
 
             irs_tv_count = (TextView) itemView.findViewById(R.id.irs_tv_count);

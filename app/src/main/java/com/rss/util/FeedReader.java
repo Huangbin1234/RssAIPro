@@ -8,8 +8,6 @@ import com.rometools.rome.io.XmlReader;
 import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +67,11 @@ public class FeedReader {
         Matcher m = p.matcher(s);
         if (m.matches()) {
             return m.group(1);
-        } else {
-            return s;
         }
+        String res = s.replace("\r", "");
+        res = res.replace("\t", "");
+        res = res.replace("\n", "");
+        return res;
     }
 
     /**
