@@ -20,24 +20,15 @@ import java.util.regex.Pattern;
  * It Reads and prints any RSS/Atom feed type.
  */
 public class FeedReader {
-
-    private static BufferedReader getResponseRSS(String dataSource) throws IOException {
-        BufferedReader reader;
-        reader = CustomHttpUtils.httpGETReader(dataSource);
-        return reader;
-    }
-
     /**
      * @param url rss 网站地址  比如：http://www.ithome.com/rss/
      * @return 所有文章对象
      * @throws Exception
      */
-//    public List<RSSItemBean> getRss(String url) throws Exception {
     public RssChannel getRss(String url) throws Exception {
         SyndFeedInput input = new SyndFeedInput();//rome按SyndFeed类型生成rss和atom的实例,
         URL feedUrl = new URL(url);//SyndFeedInput:从远程读到xml结构的内容转成SyndFeedImpl实例
         SyndFeed feed = input.build(new XmlReader(feedUrl));   //SyndFeed是rss和atom实现类SyndFeedImpl的接口
-
         List<SyndEntry> entries = feed.getEntries();
         RSSItemBean item = null;
         RssChannel rssChannel = new RssChannel();
@@ -71,13 +62,11 @@ public class FeedReader {
         }
         rssChannel.setRSSItemBeen(rssItemBeans);
         return rssChannel;
-//        return rssItemBeans;
     }
 
     private String formatStr(String s) {
         Pattern p = Pattern.compile(".*<!\\[CDATA\\[(.*)\\]\\]>.*");
         Matcher m = p.matcher(s);
-
         if (m.matches()) {
             return m.group(1);
         } else {
@@ -103,7 +92,6 @@ public class FeedReader {
             Matcher m = Pattern.compile("src=\"?(.*?)(\"|>|\\s+)").matcher(ma.group());
             while (m.find()) {
                 if ("http".equals(m.group(1).substring(0, 4))) {//只提取http开头的图片地址
-                    //System.out.println(m.group(1));
                     list.add(m.group(1));
                 }
             }
@@ -118,19 +106,8 @@ public class FeedReader {
      * @return 加入了新闻正文的 RSS对象  对象链表
      * @throws Exception
      */
-//    public List<RSSItemBean> getContent(Website website) throws Exception {
     public RssChannel getContent(Website website) throws Exception {
-//        String content;
-//        List<RSSItemBean> rssList = getRss(website.getUrl());
         RssChannel rssList = getRss(website.getUrl());
-//        FindHtml findHtml = new FindHtml(website.getStartTag(), website.getEndTag(), website.getEncoding());
-//        for (RSSItemBean rsItem : rssList) {
-//            String link = rsItem.getUri();
-//
-//            content = findHtml.getContent(link);   //关键方法，获取新闻征文
-//            rsItem.setContent(content);
-//            rsItem.setFid(Integer.parseInt(website.getFid()));
-//        }
         return rssList;
     }
 }
