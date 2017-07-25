@@ -33,6 +33,7 @@
             android:id="@+id/sys_iv_scan"
             android:layout_width="20dp"
             android:padding="2dp"
+            android:visibility="gone"
             android:layout_height="20dp"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="16dp"

@@ -12,17 +12,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.bean.UserCollection;
+import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.Base64Util;
+import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.me.CollectionActivity;
 import com.hb.rssai.view.me.SettingActivity;
+import com.hb.rssai.view.subscription.SourceListActivity;
+import com.zbar.lib.CaptureActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class MineFragment extends Fragment implements View.OnClickListener {
@@ -43,12 +54,19 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     RelativeLayout mFmLlCollection;
     @BindView(R.id.fm_ll_setting)
     RelativeLayout mFmLlSetting;
+    @BindView(R.id.fm_iv_ava)
+    ImageView mFmIvAva;
+    @BindView(R.id.irs_tv_msg_count)
+    TextView mIrsTvMsgCount;
+    @BindView(R.id.fm_ll_scan)
+    RelativeLayout mFmLlScan;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    public final static int REQUESTCODE = 1;
 
     public MineFragment() {
         // Required empty public constructor
@@ -118,7 +136,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting})
+    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting,R.id.fm_ll_scan})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -128,6 +146,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.fm_ll_setting:
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
+            case R.id.fm_ll_scan:
+                startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
+                break;
         }
     }
 
@@ -135,5 +156,61 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (RESULT_OK == resultCode) {
+            if (requestCode == REQUESTCODE) {
+                String info = Base64Util.getDecodeStr(data.getStringExtra("info"));
+                if (info.startsWith(Constant.FLAG_RSS_SOURCE)) {
+                    //打开
+                    Intent intent = new Intent(getContext(), SourceListActivity.class);
+                    intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
+                    getContext().startActivity(intent);
+
+                } else if (info.startsWith(Constant.FLAG_COLLECTION_SOURCE)) {
+                    Intent intent = new Intent(getContext(), ContentActivity.class);
+                    intent.putExtra(ContentActivity.KEY_TITLE, "收藏");
+                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_COLLECTION_SOURCE, ""));
+                    getContext().startActivity(intent);
+                } else if (info.startsWith(Constant.FLAG_URL_SOURCE)) {
+                    Intent intent = new Intent(getContext(), ContentActivity.class);
+                    intent.putExtra(ContentActivity.KEY_TITLE, "访问");
+                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_URL_SOURCE, ""));
+                    getContext().startActivity(intent);
+                } else if (info.startsWith(Constant.FLAG_PRESS_RSS_SOURCE)) {
+                    RssSource rssSource = new RssSource();
+                    rssSource.setName("订阅");
+                    rssSource.setLink(info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
+                    LiteOrmDBUtil.insert(rssSource);
+                    // initData();
+                    //打开
+                    Intent intent = new Intent(getContext(), SourceListActivity.class);
+                    intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
+                    getContext().startActivity(intent);
+                } else if (info.startsWith(Constant.FLAG_PRESS_COLLECTION_SOURCE)) {
+                    UserCollection userCollection = new UserCollection();
+                    userCollection.setTitle("收藏");
+                    userCollection.setLink(info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE + Constant.FLAG_COLLECTION_SOURCE, ""));
+                    LiteOrmDBUtil.insert(userCollection);
+
+                    Intent intent = new Intent(getContext(), ContentActivity.class);
+                    intent.putExtra(ContentActivity.KEY_TITLE, "访问");
+                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE + Constant.FLAG_COLLECTION_SOURCE, ""));
+                    getContext().startActivity(intent);
+
+                } else if (info.startsWith(Constant.FLAG_PRESS_URL_SOURCE)) {
+                    Intent intent = new Intent(getContext(), ContentActivity.class);
+                    intent.putExtra(ContentActivity.KEY_TITLE, "访问");
+                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_PRESS_URL_SOURCE + Constant.FLAG_URL_SOURCE, ""));
+                    getContext().startActivity(intent);
+                }
+            }
+        }
     }
 }
