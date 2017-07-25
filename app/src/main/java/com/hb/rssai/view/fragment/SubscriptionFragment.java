@@ -142,7 +142,7 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
         mSfRecyclerView.setLayoutManager(mFullyGridLayoutManager);
 //        mSfRecyclerView.addItemDecoration(new DividerGridItemDecoration(getContext()));
         mSfRecyclerView.addItemDecoration(new SpaceItemDecoration( DisplayUtil.dip2px(getContext(), 16)));
-
+        mSfRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSfSwipe.setProgressViewOffset(true, 0, (int) TypedValue
@@ -196,15 +196,15 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
     }
 
     private void initData() {
-        List<RssSource> dbList = LiteOrmDBUtil.getQueryAll(RssSource.class);
-        if (dbList == null || dbList.size() <= 0) {
-            if(mRssSourceAdapter!=null){
-                mRssSourceAdapter.notifyDataSetChanged();
-            }
-            return;
-        }
         if (list != null && list.size() > 0) {
             list.clear();
+        }
+        if (mRssSourceAdapter != null) {
+            mRssSourceAdapter.notifyDataSetChanged();
+        }
+        List<RssSource> dbList = LiteOrmDBUtil.getQueryAll(RssSource.class);
+        if (dbList == null || dbList.size() <= 0) {
+            return;
         }
         list.addAll(dbList);
         new ReadRssTask().execute();

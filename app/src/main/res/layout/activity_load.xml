@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/ic_place"
-        android:contentDescription="@string/app_name"></ImageView>
+        android:contentDescription="@string/app_name">
+
+    </ImageView>
 
     <TextView
         android:id="@+id/la_text"
