@@ -79,7 +79,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     ImageView mSysIvAdd;
     @BindView(R.id.sf_swipe)
     SwipeRefreshLayout mSfSwipe;
-//    @BindView(R.id.sf_iv_bg)
+    //    @BindView(R.id.sf_iv_bg)
 //    ImageView mSfIvBg;
     @BindView(R.id.sys_iv_scan)
     ImageView mSysIvScan;
@@ -130,7 +130,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         return view;
     }
 
-private FullyGridLayoutManager mFullyGridLayoutManager;
+    private FullyGridLayoutManager mFullyGridLayoutManager;
+
     private void initView() {
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
@@ -138,10 +139,10 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
 
         // 卡片式
 //        mGridLayoutManager = new GridLayoutManager(getContext(), 2);
-        mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 2);
+        mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
         mSfRecyclerView.setLayoutManager(mFullyGridLayoutManager);
 //        mSfRecyclerView.addItemDecoration(new DividerGridItemDecoration(getContext()));
-        mSfRecyclerView.addItemDecoration(new SpaceItemDecoration( DisplayUtil.dip2px(getContext(), 16)));
+        mSfRecyclerView.addItemDecoration(new SpaceItemDecoration(DisplayUtil.dip2px(getContext(), 16)));
         mSfRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
@@ -162,23 +163,24 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;  //位移间距
+
         public SpaceItemDecoration(int space) {
             this.space = space;
         }
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            if (parent.getChildAdapterPosition(view) %2 == 0) {
+            if (parent.getChildAdapterPosition(view) % 3 == 0) {
                 outRect.left = 0; //第一列左边贴边
             } else {
-                if (parent.getChildAdapterPosition(view) %2 == 1) {
+                if (parent.getChildAdapterPosition(view) % 3 == 1) {
                     outRect.left = space;//第二列移动一个位移间距
                 } else {
                     outRect.left = space * 2;//由于第二列已经移动了一个间距，所以第三列要移动两个位移间距就能右边贴边，且item间距相等
                 }
             }
 
-            if (parent.getChildAdapterPosition(view) >= 2) {
+            if (parent.getChildAdapterPosition(view) >= 3) {
                 outRect.top = DisplayUtil.dip2px(getContext(), 10);
             } else {
                 outRect.top = 0;
@@ -256,10 +258,12 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
                 break;
         }
     }
+
     RssSource rssSourcNew;
+
     @Override
     public void onItemLongClicked(RssSource rssSource) {
-        this.rssSourcNew=rssSource;
+        this.rssSourcNew = rssSource;
         sureCollection(rssSource);
     }
 
@@ -309,7 +313,7 @@ private FullyGridLayoutManager mFullyGridLayoutManager;
                 } else if (list.get(position).get("id").equals(2)) {
                     materialDialog.dismiss();
                     LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSourcNew.getId()});
-                   initData();
+                    initData();
                     T.ShowToast(getContext(), "删除成功！");
                 }
             });

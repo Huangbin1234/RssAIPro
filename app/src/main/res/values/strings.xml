@@ -46,5 +46,7 @@
     <string name="sub_recommend_label">热门.推荐</string>
     <string name="str_load_txt">阅读优质内容</string>
     <string name="str_mf_scan">扫一扫</string>
+    <string name="str_sf_view_all"><![CDATA[全部>>]]></string>
+    <string name="str_sf_view_change">换一换</string>
 
 </resources>
