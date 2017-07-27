@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,7 +9,7 @@
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
-        <include layout="@layout/include_sub_add_toolbar"/>
+        <include layout="@layout/include_sub_add_toolbar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                                     android:layout_alignParentLeft="true"
                                     android:layout_centerVertical="true"
                                     android:text="@string/sub_label"
-                                    android:textSize="@dimen/s16p"/>
+                                    android:textSize="@dimen/s16p" />
 
                                 <!--<TextView-->
                                 <!--android:layout_width="wrap_content"-->
@@ -76,14 +76,14 @@
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_right"/>
+                                    android:src="@mipmap/ic_right" />
 
                                 <View
                                     android:layout_width="35dp"
                                     android:layout_height="1dp"
                                     android:layout_below="@id/tv_sub_label"
                                     android:layout_marginTop="5dp"
-                                    android:background="#DDDDDD"/>
+                                    android:background="#DDDDDD" />
 
                             </RelativeLayout>
                             <!--<LinearLayout-->
@@ -112,18 +112,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/white"
-                                android:padding="16dp"/>
+                                android:padding="16dp" />
                         </LinearLayout>
 
                         <View
                             style="@style/view_line_h"
-                            android:layout_below="@id/rl_ll"/>
+                            android:layout_below="@id/rl_ll" />
 
                         <View
                             android:id="@+id/view_line"
                             style="@style/view_line_h"
                             android:layout_below="@id/rl_ll"
-                            android:layout_marginTop="10dp"/>
+                            android:layout_marginTop="10dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -149,7 +149,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentLeft="true"
                                     android:text="@string/sub_recommend_label"
-                                    android:textSize="@dimen/s16p"/>
+                                    android:textSize="@dimen/s16p" />
 
                                 <!--<TextView-->
                                 <!--android:layout_width="wrap_content"-->
@@ -163,15 +163,14 @@
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_randon"
-                                    />
+                                    android:src="@mipmap/ic_randon" />
 
                                 <View
                                     android:layout_width="35dp"
                                     android:layout_height="1dp"
                                     android:layout_below="@id/tv_sub_recommend_label"
                                     android:layout_marginTop="5dp"
-                                    android:background="#DDDDDD"/>
+                                    android:background="#DDDDDD" />
                             </RelativeLayout>
 
                             <LinearLayout
@@ -192,7 +191,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
                                         android:scaleType="centerInside"
-                                        android:src="@mipmap/ic_no_sub"/>
+                                        android:src="@mipmap/ic_no_sub" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -202,7 +201,7 @@
                                         android:maxLength="6"
                                         android:maxLines="1"
                                         android:textColor="@color/color_txt"
-                                        android:textSize="@dimen/s14p"/>
+                                        android:textSize="@dimen/s14p" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -210,7 +209,7 @@
                                         android:ellipsize="end"
                                         android:gravity="right"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="@dimen/s12p"/>
+                                        android:textSize="@dimen/s12p" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -225,7 +224,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
                                         android:scaleType="centerInside"
-                                        android:src="@mipmap/ic_no_sub"/>
+                                        android:src="@mipmap/ic_no_sub" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -235,7 +234,7 @@
                                         android:maxLength="6"
                                         android:maxLines="1"
                                         android:textColor="@color/color_txt"
-                                        android:textSize="@dimen/s14p"/>
+                                        android:textSize="@dimen/s14p" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -243,7 +242,7 @@
                                         android:ellipsize="end"
                                         android:gravity="right"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="@dimen/s12p"/>
+                                        android:textSize="@dimen/s12p" />
                                 </LinearLayout>
 
                             </LinearLayout>

@@ -79,12 +79,12 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     ImageView mSysIvAdd;
     @BindView(R.id.sf_swipe)
     SwipeRefreshLayout mSfSwipe;
-    //    @BindView(R.id.sf_iv_bg)
-//    ImageView mSfIvBg;
+    //@BindView(R.id.sf_iv_bg)
+    //ImageView mSfIvBg;
     @BindView(R.id.sys_iv_scan)
     ImageView mSysIvScan;
-//    @BindView(R.id.index_function_gridview)
-//    FullGridView mIndexFunctionGridView;
+    //@BindView(R.id.index_function_gridview)
+    // FullGridView mIndexFunctionGridView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -138,17 +138,9 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
 
         // 卡片式
-//        mGridLayoutManager = new GridLayoutManager(getContext(), 2);
+        // mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
         mSfRecyclerView.setLayoutManager(mFullyGridLayoutManager);
-//        mSfRecyclerView.addItemDecoration(new DividerGridItemDecoration(getContext()));
-        int screenWidth = DisplayUtil.getMobileWidth(getActivity()); //屏幕宽度
-        int itemWidth = DisplayUtil.dip2px(getContext(), 10); //每个item的宽度
-        int spaceWidth = DisplayUtil.dip2px(getContext(), 16); //左右间距
-//        screenWidth-2*spaceWidth-3
-       // mRecyclerView.addItemDecoration(new SpaceItemDecoration((screenWidth / 3 + (2*itemWidth))));
-
-
         mSfRecyclerView.addItemDecoration(new SpaceItemDecoration(DisplayUtil.dip2px(getContext(), 10)));
         mSfRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
@@ -183,7 +175,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 if (parent.getChildAdapterPosition(view) % 3 == 1) {
                     outRect.left = space;//第二列移动一个位移间距
                 } else {
-                    outRect.left = space ;//由于第二列已经移动了一个间距，所以第三列要移动两个位移间距就能右边贴边，且item间距相等
+                    outRect.left = space;//由于第二列已经移动了一个间距，所以第三列要移动两个位移间距就能右边贴边，且item间距相等
                 }
             }
 
