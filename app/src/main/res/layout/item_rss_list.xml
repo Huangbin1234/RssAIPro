@@ -1,12 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_na_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:background="@drawable/ll_selector"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+              android:id="@+id/item_na_layout"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="10dp"
+              android:background="@drawable/ll_selector"
+              android:orientation="vertical"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 android:maxLines="2"
                 android:paddingTop="16dp"
                 android:textColor="@color/color_title"
-                android:textSize="@dimen/s16p" />
+                android:textSize="@dimen/s16p"/>
 
             <LinearLayout
                 android:id="@+id/irl_bottom_a"
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:textColor="@color/color_time"
-                    android:textSize="@dimen/s14p" />
+                    android:textSize="@dimen/s14p"/>
 
                 <TextView
                     android:id="@+id/item_na_time_a"
@@ -57,7 +57,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_toLeftOf="@+id/item_na_type"
                     android:textColor="@color/color_time"
-                    android:textSize="@dimen/s14p" />
+                    android:textSize="@dimen/s14p"/>
             </LinearLayout>
 
 
@@ -73,7 +73,7 @@
             android:layout_weight="3"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_place"
-            android:visibility="gone" />
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
@@ -95,11 +95,11 @@
                 android:layout_height="90dp"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_place" />
+                android:src="@mipmap/ic_place"/>
 
             <View
                 android:layout_width="10dp"
-                android:layout_height="90dp" />
+                android:layout_height="90dp"/>
 
             <ImageView
                 android:id="@+id/item_na_group_b"
@@ -107,11 +107,11 @@
                 android:layout_height="90dp"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_place" />
+                android:src="@mipmap/ic_place"/>
 
             <View
                 android:layout_width="10dp"
-                android:layout_height="90dp" />
+                android:layout_height="90dp"/>
 
             <ImageView
                 android:id="@+id/item_na_group_c"
@@ -119,7 +119,7 @@
                 android:layout_height="90dp"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_place" />
+                android:src="@mipmap/ic_place"/>
         </LinearLayout>
 
 
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:textColor="@color/color_time"
-                android:textSize="@dimen/s14p" />
+                android:textSize="@dimen/s14p"/>
 
             <TextView
                 android:id="@+id/item_na_time_b"
@@ -148,7 +148,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toLeftOf="@+id/item_na_type_b"
                 android:textColor="@color/color_time"
-                android:textSize="@dimen/s14p" />
+                android:textSize="@dimen/s14p"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

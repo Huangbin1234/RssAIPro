@@ -36,17 +36,35 @@ public class LoadActivity extends AppCompatActivity {
         rssSource.setLink("http://rss.huanqiu.com/mil/china.xml");
         LiteOrmDBUtil.insert(rssSource);
 
+        RssSource rssSource2 = new RssSource();
+        rssSource2.setId(2);
+        rssSource2.setName("善心汇新闻");
+        rssSource2.setLink("http://news.baidu.com/ns?word=%C9%C6%D0%C4%BB%E3&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
+        LiteOrmDBUtil.insert(rssSource2);
+
         RssSource rssSource3 = new RssSource();
-        rssSource3.setId(2);
-        rssSource3.setName("善心汇新闻");
-        rssSource3.setLink("http://news.baidu.com/ns?word=%C9%C6%D0%C4%BB%E3&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
+        rssSource3.setId(3);
+        rssSource3.setName("科学脱口秀");
+        rssSource3.setLink("http://rss.kaolafm.com/MZ_RSS/rss/1100000046016/album.xml");
         LiteOrmDBUtil.insert(rssSource3);
 
         RssSource rssSource4 = new RssSource();
-        rssSource4.setId(3);
+        rssSource4.setId(4);
         rssSource4.setName("海济生物");
         rssSource4.setLink("http://news.baidu.com/ns?word=%BA%A3%BC%C3%C9%FA%CE%EF&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
         LiteOrmDBUtil.insert(rssSource4);
+
+        RssSource rssSource5 = new RssSource();
+        rssSource5.setId(5);
+        rssSource5.setName("Engadget 中国版");
+        rssSource5.setLink("http://cn.engadget.com/rss.xml");
+        LiteOrmDBUtil.insert(rssSource5);
+
+        RssSource rssSource6 = new RssSource();
+        rssSource6.setId(6);
+        rssSource6.setName("图灵社区");
+        rssSource6.setLink("http://feed43.com/3267066686713821.xml");
+        LiteOrmDBUtil.insert(rssSource6);
 
 
         new Thread(() -> {

@@ -20,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -39,6 +41,7 @@ import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.subscription.AddSourceActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
+import com.hb.rssai.view.subscription.SubListActivity;
 import com.hb.rssai.view.widget.FullListView;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.rss.bean.Website;
@@ -81,8 +84,24 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     SwipeRefreshLayout mSfSwipe;
     //@BindView(R.id.sf_iv_bg)
     //ImageView mSfIvBg;
+//    @BindView(R.id.sys_iv_scan)
+//    ImageView mSysIvScan;
     @BindView(R.id.sys_iv_scan)
     ImageView mSysIvScan;
+    @BindView(R.id.tv_sub_label)
+    TextView mTvSubLabel;
+    @BindView(R.id.sf_iv_all)
+    ImageView mSfIvAll;
+    @BindView(R.id.rl_ll)
+    LinearLayout mRlLl;
+    @BindView(R.id.view_line)
+    View mViewLine;
+    @BindView(R.id.tv_sub_recommend_label)
+    TextView mTvSubRecommendLabel;
+    @BindView(R.id.tv_recommend_label)
+    RelativeLayout mTvRecommendLabel;
+    @BindView(R.id.irs_iv_logo)
+    ImageView mIrsIvLogo;
     //@BindView(R.id.index_function_gridview)
     // FullGridView mIndexFunctionGridView;
 
@@ -243,7 +262,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     }
 
 
-    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan})
+    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan,R.id.sf_iv_all})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -254,6 +273,9 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
             case R.id.sys_iv_scan:
 //                startActivity(new Intent(getContext(), AddSourceActivity.class));
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
+                break;
+            case R.id.sf_iv_all:
+                startActivity(new Intent(getContext(), SubListActivity.class));
                 break;
         }
     }
@@ -453,9 +475,9 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 for (int i = 0; i < len; i++) {
                     if (website.getFid().equals("" + list.get(i).getId())) {
                         list.get(i).setCount(rssTempList.getRSSItemBeen().size());
-                        list.get(i).setImgUrl(urls[i]);
+//                        list.get(i).setImgUrl(urls[i]);
                         if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
-//                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
+                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
                             if (rssTempList.getImage().getTitle() != null) {
                                 list.get(i).setName(rssTempList.getTitle());
                             }
