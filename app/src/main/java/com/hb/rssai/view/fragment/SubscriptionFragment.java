@@ -84,10 +84,6 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     SwipeRefreshLayout mSfSwipe;
     //@BindView(R.id.sf_iv_bg)
     //ImageView mSfIvBg;
-//    @BindView(R.id.sys_iv_scan)
-//    ImageView mSysIvScan;
-    @BindView(R.id.sys_iv_scan)
-    ImageView mSysIvScan;
     @BindView(R.id.tv_sub_label)
     TextView mTvSubLabel;
     @BindView(R.id.sf_iv_all)
@@ -102,6 +98,12 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     RelativeLayout mTvRecommendLabel;
     @BindView(R.id.irs_iv_logo)
     ImageView mIrsIvLogo;
+    @BindView(R.id.sys_iv_scan)
+    ImageView mSysIvScan;
+    @BindView(R.id.tv_sub_right_all)
+    TextView mTvSubRightAll;
+    @BindView(R.id.sub_ll_all)
+    LinearLayout mSubLlAll;
     //@BindView(R.id.index_function_gridview)
     // FullGridView mIndexFunctionGridView;
 
@@ -262,7 +264,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     }
 
 
-    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan,R.id.sf_iv_all})
+    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan, R.id.sub_ll_all})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -274,7 +276,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 //                startActivity(new Intent(getContext(), AddSourceActivity.class));
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
                 break;
-            case R.id.sf_iv_all:
+            case R.id.sub_ll_all:
                 startActivity(new Intent(getContext(), SubListActivity.class));
                 break;
         }
@@ -475,9 +477,9 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 for (int i = 0; i < len; i++) {
                     if (website.getFid().equals("" + list.get(i).getId())) {
                         list.get(i).setCount(rssTempList.getRSSItemBeen().size());
-//                        list.get(i).setImgUrl(urls[i]);
+                        list.get(i).setImgUrl(urls[i]);
                         if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
-                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
+//                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
                             if (rssTempList.getImage().getTitle() != null) {
                                 list.get(i).setName(rssTempList.getTitle());
                             }

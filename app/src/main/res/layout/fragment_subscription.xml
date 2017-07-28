@@ -41,7 +41,7 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp"
+                                android:layout_marginBottom="16dp"
                                 android:layout_marginTop="16dp"
                                 android:paddingLeft="16dp"
                                 android:paddingRight="16dp">
@@ -53,23 +53,42 @@
                                     android:layout_alignParentLeft="true"
                                     android:layout_centerVertical="true"
                                     android:text="@string/sub_label"
+                                    android:textColor="@color/color_name"
                                     android:textSize="@dimen/s16p"/>
 
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:id="@+id/sf_iv_all"
+                                <LinearLayout
+                                    android:id="@+id/sub_ll_all"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
-                                    android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_right"/>
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+
+                                    <TextView
+                                        android:id="@+id/tv_sub_right_all"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="5dp"
+                                        android:text="@string/str_sub_tv_all"
+                                        android:textSize="@dimen/s12p"/>
+
+                                    <ImageView
+                                        android:id="@+id/sf_iv_all"
+                                        android:layout_width="10dp"
+                                        android:layout_height="10dp"
+
+                                        android:src="@mipmap/ic_right_all"/>
+                                </LinearLayout>
 
                                 <View
                                     android:layout_width="35dp"
                                     android:layout_height="1dp"
                                     android:layout_below="@id/tv_sub_label"
                                     android:layout_marginTop="5dp"
-                                    android:background="#DDDDDD"/>
+                                    android:background="#DDDDDD"
+                                    android:visibility="gone"/>
 
                             </RelativeLayout>
 
@@ -116,6 +135,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentLeft="true"
                                     android:text="@string/sub_recommend_label"
+                                    android:textColor="@color/color_name"
                                     android:textSize="@dimen/s16p"/>
 
                                 <ImageView
@@ -131,7 +151,8 @@
                                     android:layout_height="1dp"
                                     android:layout_below="@id/tv_sub_recommend_label"
                                     android:layout_marginTop="5dp"
-                                    android:background="#DDDDDD"/>
+                                    android:background="#DDDDDD"
+                                    android:visibility="gone"/>
                             </RelativeLayout>
 
                             <LinearLayout
@@ -191,7 +212,6 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-
                                         android:ellipsize="end"
                                         android:maxLength="6"
                                         android:maxLines="1"

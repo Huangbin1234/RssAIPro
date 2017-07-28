@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:background="@color/bg"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,8 +30,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/color_txt"
+                android:lines="1"
+                android:textColor="#292929"
+                android:maxEms="6"
                 android:textSize="@dimen/s14p"/>
 
 
@@ -43,7 +44,8 @@
                 android:ellipsize="end"
                 android:gravity="right"
                 android:textColor="#CCCCCC"
-                android:textSize="@dimen/s12p"/>
+                android:textSize="@dimen/s12p"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

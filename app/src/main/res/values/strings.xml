@@ -49,5 +49,6 @@
     <string name="str_sf_view_all"><![CDATA[>]]></string>
     <string name="str_sf_view_change">换一换</string>
     <string name="str_sub_title">我的订阅</string>
+    <string name="str_sub_tv_all">查看全部</string>
 
 </resources>

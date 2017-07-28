@@ -36,14 +36,14 @@ public class HttpLoadImg {
      * @param imageView
      */
     public static void loadImg(Context context, String url, ImageView imageView) {
-        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
 
     /**
      * 加载本地图片资源ID
      */
     public static void loadImg(Context context, Integer resId, ImageView imageView) {
-        Glide.with(context).load(resId).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(resId).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
 
     /**
