@@ -52,6 +52,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -224,7 +225,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         if (mRssSourceAdapter != null) {
             mRssSourceAdapter.notifyDataSetChanged();
         }
-        List<RssSource> dbList = LiteOrmDBUtil.getQueryAll(RssSource.class);
+        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class,0,6,"sort");
         if (dbList == null || dbList.size() <= 0) {
             return;
         }
@@ -282,12 +283,12 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    RssSource rssSourcNew;
+    RssSource rssSourceNew;
 
     @Override
     public void onItemLongClicked(RssSource rssSource) {
-        this.rssSourcNew = rssSource;
-        sureCollection(rssSource);
+        this.rssSourceNew = rssSource;
+        openMenu();
     }
 
     /**
@@ -298,18 +299,23 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     private List<HashMap<String, Object>> initDialogData() {
         List<HashMap<String, Object>> list = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
-        map.put("name", "分享");
+        map.put("name", "置顶");
         map.put("id", 1);
-        map.put("url", R.mipmap.ic_share);
+        map.put("url", R.mipmap.ic_top);
         list.add(map);
         HashMap<String, Object> map2 = new HashMap<>();
-        map2.put("name", "删除");
+        map2.put("name", "分享");
         map2.put("id", 2);
-        map2.put("url", R.mipmap.ic_delete);
+        map2.put("url", R.mipmap.ic_share);
         list.add(map2);
+
+        HashMap<String, Object> map3 = new HashMap<>();
+        map3.put("name", "删除");
+        map3.put("id", 3);
+        map3.put("url", R.mipmap.ic_delete);
+        list.add(map3);
         return list;
     }
-
     /**
      * 菜单对话框
      *
@@ -318,7 +324,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     DialogAdapter dialogAdapter;
     MaterialDialog materialDialog;
 
-    private void sureCollection(RssSource rssSource) {
+    private void openMenu() {
         if (materialDialog == null) {
             materialDialog = new MaterialDialog(getContext());
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -328,14 +334,21 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
             List<HashMap<String, Object>> list = initDialogData();
             listView.setOnItemClickListener((parent, view1, position, id) -> {
                 if (list.get(position).get("id").equals(1)) {
+                    //TODO 置顶
+                    materialDialog.dismiss();
+                    rssSourceNew.setSort(new Date().getTime());
+                    LiteOrmDBUtil.update(rssSourceNew);
+                    initData();
+                } else if (list.get(position).get("id").equals(2)) {
                     materialDialog.dismiss();
                     Intent intent = new Intent(getContext(), QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
-                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSourcNew.getLink()));
+                    intent.putExtra(QrCodeActivity.KEY_TITLE, rssSourceNew.getName());
+                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSourceNew.getLink()));
                     startActivity(intent);
-                } else if (list.get(position).get("id").equals(2)) {
+                }else if (list.get(position).get("id").equals(3)) {
                     materialDialog.dismiss();
-                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSourcNew.getId()});
+                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSourceNew.getId()});
                     initData();
                     T.ShowToast(getContext(), "删除成功！");
                 }
@@ -477,9 +490,9 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 for (int i = 0; i < len; i++) {
                     if (website.getFid().equals("" + list.get(i).getId())) {
                         list.get(i).setCount(rssTempList.getRSSItemBeen().size());
-                        list.get(i).setImgUrl(urls[i]);
+//                        list.get(i).setImgUrl(urls[i]);
                         if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
-//                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
+                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
                             if (rssTempList.getImage().getTitle() != null) {
                                 list.get(i).setName(rssTempList.getTitle());
                             }

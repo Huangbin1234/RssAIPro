@@ -15,6 +15,7 @@ public class RssSource {
     private int id;
     private String name;
     private String link;
+    private long sort;
 
     public String getImgUrl() {
         return imgUrl;
@@ -58,5 +59,13 @@ public class RssSource {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public long getSort() {
+        return sort;
+    }
+
+    public void setSort(long sort) {
+        this.sort = sort;
     }
 }

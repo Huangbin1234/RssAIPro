@@ -50,5 +50,6 @@
     <string name="str_sf_view_change">换一换</string>
     <string name="str_sub_title">我的订阅</string>
     <string name="str_sub_tv_all">查看全部</string>
+    <string name="str_sa_advice">反馈意见</string>
 
 </resources>

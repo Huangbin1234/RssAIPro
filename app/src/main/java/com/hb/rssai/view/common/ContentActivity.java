@@ -210,12 +210,11 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
             case R.id.toolbar_add_share:
                 Intent intent = new Intent(this, QrCodeActivity.class);
                 intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[2]);
+                intent.putExtra(QrCodeActivity.KEY_TITLE, title);
                 intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_URL_SOURCE + contentUrl));
                 startActivity(intent);
                 break;
         }
         return false;
     }
-
-
 }

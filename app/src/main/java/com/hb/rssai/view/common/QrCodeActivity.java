@@ -1,5 +1,7 @@
 package com.hb.rssai.view.common;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -36,13 +38,17 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
     LinearLayout mActivityAddSource;
 
     public final static String KEY_CONTENT = "key_content";
-    public final static String KEY_FROM =  "key_from";
+    public final static String KEY_FROM = "key_from";
+    public final static String KEY_TITLE = "key_title";
     public final static String[] FROM_VALUES = {"sub", "content", "coll"};
     public final static String[] FROM_TEXT_VALUES = {"是否订阅", "是否收藏", ""};
     @BindView(R.id.qa_btn)
     Button mQaBtn;
+    @BindView(R.id.qa_tv_title)
+    TextView mQaTvTitle;
     private String content = null;
     private String from = null;
+    private String title = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +62,18 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
         if (bundle != null) {
             content = bundle.getString(KEY_CONTENT);
             from = bundle.getString(KEY_FROM);
+            title = bundle.getString(KEY_TITLE);
         }
     }
 
     @Override
     protected void initView() {
+        mQaTvTitle.setText(title);
         if (content != null) {
             try {
-                mQaIv.setImageBitmap(QRCodeUtil.createCode(this, content));
+                Bitmap logo= BitmapFactory.decodeResource(super.getResources(),R.mipmap.ic_launcher);
+                mQaIv.setImageBitmap(QRCodeUtil.createCode(this, content,logo));
+                logo.recycle();
                 if (FROM_VALUES[0].equals(from)) {
                     mQaBtn.setText(FROM_TEXT_VALUES[0]);
                 } else if (FROM_VALUES[1].equals(from)) {
@@ -93,6 +103,7 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
         }
         mSysTvTitle.setText(getResources().getString(R.string.str_qa_title));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -104,6 +115,7 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -114,28 +126,30 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.qa_btn:
+                Bitmap logo= BitmapFactory.decodeResource(super.getResources(),R.mipmap.ic_launcher);
                 if (FROM_VALUES[0].equals(from)) {
                     String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_RSS_SOURCE + Base64Util.getDecodeStr(content));
                     try {
-                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s));
+                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s,logo));
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
                 } else if (FROM_VALUES[1].equals(from)) {
                     String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_COLLECTION_SOURCE + Base64Util.getDecodeStr(content));
                     try {
-                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s));
+                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s,logo));
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
                 } else if (FROM_VALUES[2].equals(from)) {
                     String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_URL_SOURCE + Base64Util.getDecodeStr(content));
                     try {
-                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s));
+                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s,logo));
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
                 }
+                logo.recycle();
                 break;
         }
     }

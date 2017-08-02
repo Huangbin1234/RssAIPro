@@ -99,7 +99,18 @@
             </RelativeLayout>
 
             <View style="@style/view_line_h" />
+            <RelativeLayout
+                android:id="@+id/sa_rl_advice"
+                style="@style/InfoDetail"
+                android:padding="16dp">
 
+                <TextView
+                    style="@style/TextLabel"
+                    android:text="@string/str_sa_advice" />
+
+            </RelativeLayout>
+
+            <View style="@style/view_line_h" />
             <RelativeLayout
                 android:id="@+id/sa_rl_update"
                 style="@style/InfoDetail"

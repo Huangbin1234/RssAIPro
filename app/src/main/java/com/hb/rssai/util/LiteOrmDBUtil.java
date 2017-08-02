@@ -55,6 +55,12 @@ public class LiteOrmDBUtil {
         return liteOrm.query(cla);
     }
 
+    public static <T> List<T> getQueryAllSort(Class<T> cla,String col) {
+        QueryBuilder<T> qb = new QueryBuilder<T>(cla)
+                .appendOrderDescBy(col) ;       //降序
+        return liteOrm.query(qb);
+    }
+
     /**
      * 查询  某字段 等于 Value的值
      *
@@ -80,7 +86,10 @@ public class LiteOrmDBUtil {
     public static <T> List<T> getQueryByWhereLength(Class<T> cla, String field, String[] value, int start, int length) {
         return liteOrm.<T>query(new QueryBuilder(cla).where(field + "=?", value).limit(start, length));
     }
+    public static <T> List<T> getQueryAllLengthSort(Class<T> cla,  int start, int length,String col) {
 
+        return liteOrm.<T>query(new QueryBuilder(cla).limit(start, length).appendOrderDescBy(col));
+    }
     /**
      * 删除所有 某字段等于 Vlaue的值
      *

@@ -1,5 +1,6 @@
 package com.hb.rssai.view.subscription;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -9,27 +10,36 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.adapter.SubListAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.QrCodeActivity;
+import com.hb.rssai.view.widget.FullListView;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class SubListActivity extends BaseActivity implements SubListAdapter.onItemLongClickedListener {
     LinearLayoutManager mLayoutManager;
@@ -65,7 +75,7 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
         if (mSubListAdapter != null) {
             mSubListAdapter.notifyDataSetChanged();
         }
-        List<RssSource> dbList = LiteOrmDBUtil.getQueryAll(RssSource.class);
+        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllSort(RssSource.class,"sort");
         if (dbList == null || dbList.size() <= 0) {
             return;
         }
@@ -115,11 +125,88 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
         }
         return super.onOptionsItemSelected(item);
     }
+    RssSource rssSourceNew;
     @Override
     public void onItemLongClicked(RssSource rssSource) {
         //TODO
-        T.ShowToast(this, "置顶，删除");
+        this.rssSourceNew = rssSource;
+        openMenu();
     }
+    /**
+     * 构造对话框数据
+     *
+     * @return
+     */
+    private List<HashMap<String, Object>> initDialogData() {
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", "置顶");
+        map.put("id", 1);
+        map.put("url", R.mipmap.ic_top);
+        list.add(map);
+        HashMap<String, Object> map2 = new HashMap<>();
+        map2.put("name", "分享");
+        map2.put("id", 2);
+        map2.put("url", R.mipmap.ic_share);
+        list.add(map2);
+
+        HashMap<String, Object> map3 = new HashMap<>();
+        map3.put("name", "删除");
+        map3.put("id", 3);
+        map3.put("url", R.mipmap.ic_delete);
+        list.add(map3);
+        return list;
+    }
+    /**
+     * 菜单对话框
+     *
+     * @return
+     */
+    DialogAdapter dialogAdapter;
+    MaterialDialog materialDialog;
+
+    private void openMenu() {
+        if (materialDialog == null) {
+            materialDialog = new MaterialDialog(this);
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View view = inflater.inflate(R.layout.view_dialog, null);
+            FullListView listView = (FullListView) view.findViewById(R.id.dialog_listView);
+
+            List<HashMap<String, Object>> list = initDialogData();
+            listView.setOnItemClickListener((parent, view1, position, id) -> {
+                if (list.get(position).get("id").equals(1)) {
+                    //TODO 置顶
+                    materialDialog.dismiss();
+                    rssSourceNew.setSort(new Date().getTime());
+                    LiteOrmDBUtil.update(rssSourceNew);
+                    initData();
+                } else if (list.get(position).get("id").equals(2)) {
+                    materialDialog.dismiss();
+                    Intent intent = new Intent(this, QrCodeActivity.class);
+                    intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
+                    intent.putExtra(QrCodeActivity.KEY_TITLE, rssSourceNew.getName());
+                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSourceNew.getLink()));
+                    startActivity(intent);
+                }else if (list.get(position).get("id").equals(3)) {
+                    materialDialog.dismiss();
+                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSourceNew.getId()});
+                    initData();
+                    T.ShowToast(this, "删除成功！");
+                }
+            });
+            if (dialogAdapter == null) {
+                dialogAdapter = new DialogAdapter(this, list);
+                listView.setAdapter(dialogAdapter);
+            }
+            dialogAdapter.notifyDataSetChanged();
+            materialDialog.setContentView(view).setTitle(Constant.TIPS_SYSTEM).setNegativeButton("关闭", v -> {
+                materialDialog.dismiss();
+            }).show();
+        } else {
+            materialDialog.show();
+        }
+    }
+
 
     class ReadRssTask extends AsyncTask<Void, Void, Void> {
 

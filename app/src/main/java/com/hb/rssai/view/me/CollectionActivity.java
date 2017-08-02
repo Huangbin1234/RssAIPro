@@ -158,10 +158,11 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
             List<HashMap<String, Object>> list = initDialogData();
             listView.setOnItemClickListener((parent, view1, position, id) -> {
                 if (list.get(position).get("id").equals(1)) {
-                    //TODO 取消
+                    //TODO 分享
                     materialDialog.dismiss();
                     Intent intent = new Intent(CollectionActivity.this, QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[1]);
+                    intent.putExtra(QrCodeActivity.KEY_TITLE, userCollection.getTitle());
                     intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_COLLECTION_SOURCE + userCollection.getLink()));
                     startActivity(intent);
                 } else if (list.get(position).get("id").equals(2)) {

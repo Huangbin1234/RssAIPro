@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.zxing.common.StringUtils;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.view.common.ContentActivity;
