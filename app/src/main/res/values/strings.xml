@@ -38,7 +38,7 @@
     <string name="app_about">人的思维不应该被固化，思维边界不应该被限定，思想更不应该被禁锢在盒子里。阅读是我们获取知识的一种方式，引发我们思考，从思考中获得启发。</string>
     <string name="app_desigin_think">设计理念：极简主义</string>
     <string name="str_mf_no_login">登录体验更多功能</string>
-    <string name="str_sa_change_source">切换资讯源</string>
+    <string name="str_sa_change_source">订阅资讯</string>
     <string name="str_hta_title">热门订阅</string>
     <string name="str_qa_title">二维码</string>
     <string name="str_sf_new_share">分享</string>
@@ -51,5 +51,6 @@
     <string name="str_sub_title">我的订阅</string>
     <string name="str_sub_tv_all">查看全部</string>
     <string name="str_sa_advice">反馈意见</string>
+    <string name="str_asa_btn_opml">导入OPML文件</string>
 
 </resources>

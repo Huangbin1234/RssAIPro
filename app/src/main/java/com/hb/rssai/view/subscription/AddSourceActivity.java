@@ -2,6 +2,7 @@ package com.hb.rssai.view.subscription;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -20,9 +21,17 @@ import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
+import com.rss.bean.RssBean;
+import com.rss.bean.RssTeamBean;
+import com.rss.util.ReadXML;
 import com.zbar.lib.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,6 +54,10 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     ImageView mAsaIvScan;
 
     public final static int REQUESTCODE = 1;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.asa_btn_opml)
+    Button mAsaBtnOpml;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +104,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         return null;
     }
 
-    @OnClick({R.id.asa_btn_save, R.id.asa_iv_scan})
+    @OnClick({R.id.asa_btn_save, R.id.asa_iv_scan, R.id.asa_btn_opml})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -118,6 +131,39 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             case R.id.asa_iv_scan:
                 startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
                 break;
+            case R.id.asa_btn_opml:
+                String link2 = mAsaEtUrl.getText().toString().trim();
+                readOPML(link2);
+                break;
+        }
+    }
+
+    private void readOPML(String opmlUrl) {
+
+        URL feedUrl = null;//SyndFeedInput:从远程读到xml结构的内容转成SyndFeedImpl实例
+        try {
+            feedUrl = new URL(opmlUrl);
+            ReadXML readXML = ReadXML.getInstance();
+            readXML.readRss(feedUrl);
+            List<RssTeamBean> rssTemBeanList = readXML.getRssTemBeanList();
+
+            for (RssTeamBean rssTeamBean : rssTemBeanList) {
+                System.out.println("【分组title:" + rssTeamBean.getTitle() + "   text:" + rssTeamBean.getText() + "】");
+                for (RssBean rssBean : rssTeamBean.getRssBeanList()) {
+                    System.out.print("<outline htmlUrl=\"" + rssBean.getHtmlUrl() + "\" ");
+                    //System.out.print("xmlUrl=\"" + rssBean.getXmlUrl() + "\" ");
+                    System.out.print("version=\"" + rssBean.getVersion() + "\" ");
+                    System.out.print("type=\"" + rssBean.getType() + "\" ");
+                    System.out.print("title=\"" + rssBean.getTitle() + "\" ");
+                    System.out.println("text=\"" + rssBean.getText() + "\" />");
+
+                }
+                System.out.println("-------------------------------------------------");
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

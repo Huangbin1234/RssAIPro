@@ -33,11 +33,10 @@
 
         <View
             style="@style/view_line_h"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="10dp"/>
 
         <LinearLayout
             style="@style/InfoDetail"
-
             android:gravity="center">
 
             <EditText
@@ -62,19 +61,29 @@
 
         <View style="@style/view_line_h"/>
 
-        <View
-            style="@style/view_line_h"
-            android:layout_marginTop="16dp"/>
-
         <Button
             android:id="@+id/asa_btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/opr_bg_selector"
             android:text="@string/str_asa_btn_save"
             android:textColor="@color/orange"
             android:textSize="@dimen/s16p"/>
 
-        <View style="@style/view_line_h"/>
+        <Button
+            android:id="@+id/asa_btn_opml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/opr_bg_selector"
+            android:text="@string/str_asa_btn_opml"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/s16p"/>
+
     </LinearLayout>
 </LinearLayout>

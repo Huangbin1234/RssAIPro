@@ -54,7 +54,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         System.out.println(rssList.get(position).getName());
         holder.irs_tv_name.setText(rssList.get(position).getName());
-        holder.irs_tv_count.setText(rssList.get(position).getCount() + "人订阅");
+        holder.irs_tv_count.setText(rssList.get(position).getCount() + "条资讯");
         if (TextUtils.isEmpty(rssList.get(position).getImgUrl())) {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.irs_iv_logo);
         } else {

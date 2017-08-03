@@ -163,8 +163,10 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         // mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
         mSfRecyclerView.setLayoutManager(mFullyGridLayoutManager);
-        mSfRecyclerView.addItemDecoration(new SpaceItemDecoration(DisplayUtil.dip2px(getContext(), 10)));
+
+        mSfRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3,DisplayUtil.dip2px(getContext(), 10),false));
         mSfRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
+        mSfRecyclerView.setHasFixedSize(true);
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSfSwipe.setProgressViewOffset(true, 0, (int) TypedValue
@@ -182,34 +184,40 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 //        });
     }
 
-    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;  //位移间距
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
-        public SpaceItemDecoration(int space) {
-            this.space = space;
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
         }
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            if (parent.getChildAdapterPosition(view) % 3 == 0) {
-                outRect.left = 0; //第一列左边贴边
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing;
+                }
+                outRect.bottom = spacing; // item bottom
             } else {
-                if (parent.getChildAdapterPosition(view) % 3 == 1) {
-                    outRect.left = space;//第二列移动一个位移间距
-                } else {
-                    outRect.left = space;//由于第二列已经移动了一个间距，所以第三列要移动两个位移间距就能右边贴边，且item间距相等
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
                 }
             }
-
-            if (parent.getChildAdapterPosition(view) >= 3) {
-                outRect.top = DisplayUtil.dip2px(getContext(), 10);
-            } else {
-                outRect.top = 0;
-            }
         }
-
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -396,22 +404,22 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(Void aVoid) {
             mSfSwipe.setRefreshing(false);
-            if (list.size() < 1) {
-                if (mCardAdapter == null) {
-                    mCardAdapter = new CardAdapter(getContext(), list);
-                    mSfRecyclerView.setAdapter(mCardAdapter);
-                } else {
-                    mCardAdapter.notifyDataSetChanged();
-                }
-                cardSetting();
-            } else {
+//            if (list.size() < 1) {
+//                if (mCardAdapter == null) {
+//                    mCardAdapter = new CardAdapter(getContext(), list);
+//                    mSfRecyclerView.setAdapter(mCardAdapter);
+//                } else {
+//                    mCardAdapter.notifyDataSetChanged();
+//                }
+//                cardSetting();
+//            } else {
                 if (mRssSourceAdapter == null) {
                     mRssSourceAdapter = new RssSourceAdapter(getContext(), list, SubscriptionFragment.this);
                     mSfRecyclerView.setAdapter(mRssSourceAdapter);
                 } else {
                     mRssSourceAdapter.notifyDataSetChanged();
                 }
-            }
+//            }
         }
     }
 
