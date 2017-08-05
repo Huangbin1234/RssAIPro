@@ -1,6 +1,7 @@
 package com.hb.rssai.view.subscription;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -21,14 +22,15 @@ import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
-import com.rss.bean.RssBean;
-import com.rss.bean.RssTeamBean;
+import com.rometools.opml.feed.opml.Outline;
+import com.rometools.rome.io.XmlReader;
 import com.rss.util.ReadXML;
 import com.zbar.lib.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -58,6 +60,8 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     AppBarLayout mAppBarLayout;
     @BindView(R.id.asa_btn_opml)
     Button mAsaBtnOpml;
+    @BindView(R.id.asa_tv_opml)
+    TextView mAsaTvOpml;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,38 +137,78 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.asa_btn_opml:
                 String link2 = mAsaEtUrl.getText().toString().trim();
-                readOPML(link2);
+                opmlTask = new OpmlTask();
+                opmlTask.execute(link2);
                 break;
         }
     }
 
-    private void readOPML(String opmlUrl) {
+    OpmlTask opmlTask;
 
+    class OpmlTask extends AsyncTask<String, Void, List<Outline>> {
+
+        @Override
+        protected List<Outline> doInBackground(String... params) {
+            return readOPML(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<Outline> outlines) {
+            if (outlines != null && outlines.size() > 0) {
+                RssSource rssSource;
+                for (Outline outline : outlines) {
+                    if (!TextUtils.isEmpty(outline.getXmlUrl())) {
+                        rssSource = new RssSource();
+                        try {
+                            String strUTF = new String(outline.getTitle().getBytes(), "UTF-8");
+                            rssSource.setName(strUTF);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+
+                        rssSource.setLink(outline.getXmlUrl());
+                        LiteOrmDBUtil.insert(rssSource);
+                    }
+                    for (Outline subOutline : outline.getChildren()) {
+                        if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
+                            rssSource = new RssSource();
+                            try {
+                                String strUTF = new String(subOutline.getTitle().getBytes(), "UTF-8");
+                                rssSource.setName(strUTF);
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            rssSource.setLink(subOutline.getXmlUrl());
+                            LiteOrmDBUtil.insert(rssSource);
+                        }
+                    }
+                }
+                T.ShowToast(AddSourceActivity.this, "添加成功");
+                EventBus.getDefault().post(new RssSourceEvent(0));
+                finish();
+            }
+        }
+    }
+
+    private List<Outline> readOPML(String opmlUrl) {
+        opmlUrl = "http://www.williamlong.info/download/opml.xml";
         URL feedUrl = null;//SyndFeedInput:从远程读到xml结构的内容转成SyndFeedImpl实例
+        ReadXML readXML = ReadXML.getInstance();
         try {
             feedUrl = new URL(opmlUrl);
-            ReadXML readXML = ReadXML.getInstance();
-            readXML.readRss(feedUrl);
-            List<RssTeamBean> rssTemBeanList = readXML.getRssTemBeanList();
-
-            for (RssTeamBean rssTeamBean : rssTemBeanList) {
-                System.out.println("【分组title:" + rssTeamBean.getTitle() + "   text:" + rssTeamBean.getText() + "】");
-                for (RssBean rssBean : rssTeamBean.getRssBeanList()) {
-                    System.out.print("<outline htmlUrl=\"" + rssBean.getHtmlUrl() + "\" ");
-                    //System.out.print("xmlUrl=\"" + rssBean.getXmlUrl() + "\" ");
-                    System.out.print("version=\"" + rssBean.getVersion() + "\" ");
-                    System.out.print("type=\"" + rssBean.getType() + "\" ");
-                    System.out.print("title=\"" + rssBean.getTitle() + "\" ");
-                    System.out.println("text=\"" + rssBean.getText() + "\" />");
-
-                }
-                System.out.println("-------------------------------------------------");
+            XmlReader xmlReader = null;
+            try {
+                xmlReader = new XmlReader(feedUrl);
+                xmlReader.setDefaultEncoding("UTF-8");
+                System.out.println("编码：=================="+xmlReader.getEncoding());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            return readXML.readRss(xmlReader);
         } catch (MalformedURLException e) {
             e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
         }
+        return null;
     }
 
     @Override

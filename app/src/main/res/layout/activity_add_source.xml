@@ -85,5 +85,10 @@
             android:textColor="@color/orange"
             android:textSize="@dimen/s16p"/>
 
+        <TextView
+            android:id="@+id/asa_tv_opml"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </LinearLayout>
