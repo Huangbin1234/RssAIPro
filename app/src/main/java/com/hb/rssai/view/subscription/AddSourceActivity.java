@@ -198,8 +198,8 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             feedUrl = new URL(opmlUrl);
             XmlReader xmlReader = null;
             try {
-                xmlReader = new XmlReader(feedUrl);
                 xmlReader.setDefaultEncoding("UTF-8");
+                xmlReader = new XmlReader(feedUrl);
                 System.out.println("编码：=================="+xmlReader.getEncoding());
             } catch (IOException e) {
                 e.printStackTrace();
