@@ -147,12 +147,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private synchronized void loadData(int dataFrom) {
-        if (rssList != null && rssList.size() > 0) {
-            rssList.clear();
-            if (rssListAdapter != null) {
-                rssListAdapter.notifyDataSetChanged();
-            }
-        }
+
         if (sites != null && sites.size() > 0) {
             sites.clear();
         }
@@ -309,7 +304,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             materialDialogMe.show();
         }
     }
-    class ReadRssTask extends AsyncTask<Void, Void, Void> {
+    class ReadRssTask extends AsyncTask<Void, Void, List<RSSItemBean>> {
 
         @Override
         protected void onPreExecute() {
@@ -317,23 +312,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected List<RSSItemBean>  doInBackground(Void... params) {
             List<RSSItemBean> tempList = null;
+            List<RSSItemBean> resList = new ArrayList<>();
             for (Website website : sites) {
                 tempList = RssDataSourceUtil.getRssData(website, 5);
                 if (tempList != null && tempList.size() > 0) {
-                    rssList.addAll(tempList);
+                    resList.addAll(tempList);
                 }
                 System.out.println(website.getName());
             }
-            return null;
+            return resList;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(List<RSSItemBean> resList) {
             mHfSwipeLayout.setRefreshing(false);
             mHfLl.setVisibility(View.GONE);
+
             if (rssList != null && rssList.size() > 0) {
+                rssList.clear();
+//                if (rssListAdapter != null) {
+//                    rssListAdapter.notifyDataSetChanged();
+//                }
+            }
+
+            if (resList != null && resList.size() > 0) {
+                rssList.addAll(resList);
                 RssSort cm = new RssSort();
                 Collections.sort(rssList, cm);
                 if (rssListAdapter == null) {
