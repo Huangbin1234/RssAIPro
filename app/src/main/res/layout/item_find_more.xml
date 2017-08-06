@@ -2,31 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginBottom="1dp"
-              android:orientation="vertical">
+              android:layout_marginBottom="10dp"
+              android:orientation="vertical"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:orientation="horizontal"
         android:paddingBottom="10dp"
-        android:orientation="horizontal">
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/ifm_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="1222"
             android:textColor="#4a4b4d"
-            android:textSize="@dimen/s18p"/>
+            android:textSize="@dimen/s16p"/>
 
         <ImageView
             android:id="@+id/ifm_iv_add"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            />
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -53,17 +53,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:lines="3"
-                android:text="12222222222"
-                android:textColor="#9c9c9c"
-                android:textSize="@dimen/s14p"/>
+                android:maxLines="3"
+                android:textColor="#9c9c9c"/>
 
             <TextView
                 android:id="@+id/ifm_tv_people"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="1234"
                 android:textColor="#9c9c9c"
                 android:textSize="@dimen/s12p"/>
         </LinearLayout>

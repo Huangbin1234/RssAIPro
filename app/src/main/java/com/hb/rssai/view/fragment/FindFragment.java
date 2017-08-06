@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.FindMoreAdapter;
 import com.hb.rssai.bean.ResFindMore;
+import com.hb.rssai.view.widget.MyDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,14 +122,20 @@ public class FindFragment extends Fragment {
         mLinearManager1 = new LinearLayoutManager(getContext());
         mLinearManager.setOrientation(LinearLayoutManager.VERTICAL);
         mLinearManager1.setOrientation(LinearLayoutManager.VERTICAL);
+        mFfTopicRecyclerView.addItemDecoration(new MyDecoration(getContext(),LinearLayoutManager.VERTICAL));
 
         mFfTopicRecyclerView.setLayoutManager(mLinearManager1);
         mFfTopicRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mFfTopicRecyclerView.setHasFixedSize(true);
 
+
+
         mFfFindRecyclerView.setLayoutManager(mLinearManager);
         mFfFindRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mFfFindRecyclerView.setHasFixedSize(true);
+
+        mFfFindRecyclerView.addItemDecoration(new MyDecoration(getContext(),LinearLayoutManager.VERTICAL));
+
         mFfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mFfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
@@ -144,32 +151,32 @@ public class FindFragment extends Fragment {
     private void initData() {
         List<ResFindMore> resFindMores = new ArrayList<>();
         ResFindMore resFindMore = new ResFindMore();
-        resFindMore.setTitle("全展开的列表式RecyclerView");
+        resFindMore.setTitle("全展开的列表式");
         resFindMore.setAddFlag(false);
         resFindMore.setContent("测试内容1");
         resFindMore.setPeople(20000);
         resFindMore.setImg("http://p1.ifengimg.com/a/2017_31/701333c5881b75e_size93_w440_h330.jpg");
 
-        resFindMore.setAbstractContent("以上就是比较通用的RecyclerView使用场景及所做的兼容 ，最后附上Github链接RecyclerItemDecoration，欢迎star，fork。");
+        resFindMore.setAbstractContent("以上就是比较通用的使用场景及所做的兼容 ，最后附上Github链接RecyclerItemDecoration，欢迎star，fork。");
         resFindMores.add(resFindMore);
 
         ResFindMore resFindMore1 = new ResFindMore();
-        resFindMore1.setTitle("全展开的列表式RecyclerView");
+        resFindMore1.setTitle("全展开的列表式");
         resFindMore1.setAddFlag(false);
         resFindMore1.setContent("测试内容2");
         resFindMore1.setPeople(80000);
         resFindMore1.setImg("http://p2.ifengimg.com/a/2017_31/e5725ce2f7926fc_size145_w690_h518.jpg");
 
-        resFindMore1.setAbstractContent("几乎所有的app都会遇到列表的展开与收起功能，最近公司的产品也用了，相信大家都知道Recyclerview已经逐步替代了listview成为主流，原因不仅仅是在于它的缓存机制，还在于它对于条目的数据更新设置了更多动画。接下来我们就来实现一个万能的条目展开与收起。");
+        resFindMore1.setAbstractContent("几乎所有的app都会遇到列表的展开与收起功能，最近公司的产品也用了，相信大家都知道已经逐步替代了listview成为主流，原因不仅仅是在于它的缓存机制，还在于它对于条目的数据更新设置了更多动画。接下来我们就来实现一个万能的条目展开与收起。");
         resFindMores.add(resFindMore1);
 
         ResFindMore resFindMore2 = new ResFindMore();
-        resFindMore2.setTitle("全展开的列表式RecyclerView");
+        resFindMore2.setTitle("全展开的列表式");
         resFindMore2.setAddFlag(false);
         resFindMore2.setContent("测试内容3");
         resFindMore2.setPeople(60000);
         resFindMore2.setImg("http://p2.ifengimg.com/a/2017_31/2757a57c4bbf7a6_size152_w690_h414.jpg");
-        resFindMore2.setAbstractContent("其实上面的代码就是根据RecyclerView滑动方向（横向或者纵向）以及child的位置（是不是最后一行或者最后一列），对附属区域进行限制，同样，如果不是特殊的分割线样式，通过背景就基本可以实现需求，不用特殊draw。");
+        resFindMore2.setAbstractContent("其实上面的代码就是根据滑动方向（横向或者纵向）以及child的位置（是不是最后一行或者最后一列），对附属区域进行限制，同样，如果不是特殊的分割线样式，通过背景就基本可以实现需求，不用特殊draw。");
         resFindMores.add(resFindMore2);
 
         if (mAdapter == null) {

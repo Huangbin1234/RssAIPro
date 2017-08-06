@@ -3,46 +3,45 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:background="@color/white"
-    android:orientation="vertical"
-
-    android:paddingBottom="16dp">
+    android:orientation="vertical" >
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/ff_find_tv_more"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="@string/ff_find_more_label"
-                android:textColor="@color/color_name"
-                android:textSize="@dimen/s16p"/>
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
+                <TextView
+                    android:id="@+id/ff_find_tv_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ff_find_more_label"
+                    android:textColor="@color/color_name"
+                    android:textSize="@dimen/s16p"/>
+
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/ff_find_tv_more"
-                android:layout_marginTop="5dp"
+                android:layout_height="1px"
                 android:background="#DDDDDD"
-                android:visibility="gone"/>
-
-        </RelativeLayout>
-
-
+                android:visibility="visible"/>
+        </LinearLayout>
     </FrameLayout>
 
     <RelativeLayout
@@ -56,7 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"/>
+            />
     </RelativeLayout>
 </LinearLayout>
