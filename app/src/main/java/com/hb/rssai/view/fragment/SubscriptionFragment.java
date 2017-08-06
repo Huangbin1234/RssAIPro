@@ -222,8 +222,6 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initData();
-
-
     }
 
     private void initData() {

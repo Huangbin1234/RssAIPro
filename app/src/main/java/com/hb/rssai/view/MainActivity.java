@@ -3,12 +3,10 @@ package com.hb.rssai.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -23,6 +21,7 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.runtimePermissions.PermissionsActivity;
 import com.hb.rssai.runtimePermissions.PermissionsChecker;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.fragment.FindFragment;
 import com.hb.rssai.view.fragment.HomeFragment;
 import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
@@ -30,7 +29,7 @@ import com.hb.rssai.view.fragment.SubscriptionFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, HomeFragment.OnFragmentInteractionListener, SubscriptionFragment.OnFragmentInteractionListener, MineFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, HomeFragment.OnFragmentInteractionListener, SubscriptionFragment.OnFragmentInteractionListener, MineFragment.OnFragmentInteractionListener, FindFragment.OnFragmentInteractionListener {
 
     @BindView(R.id.main_bottom_home_iv)
     ImageView mMainBottomHomeIv;
@@ -58,10 +57,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     TextView mMainBottomMineTv;
     @BindView(R.id.main_bottom_layout_mine)
     LinearLayout mMainBottomLayoutMine;
+    @BindView(R.id.main_bottom_find_iv)
+    ImageView mMainBottomFindIv;
+    @BindView(R.id.main_bottom_find_tv)
+    TextView mMainBottomFindTv;
+    @BindView(R.id.main_bottom_layout_find)
+    LinearLayout mMainBottomLayoutFind;
     private Context mContext;
     private HomeFragment homeFragment;
     private SubscriptionFragment subscriptionFragment;
     private MineFragment mineFragment;
+    private FindFragment findFragment;
     private int positionId;//positionId 关闭应用时的Fragment ID
     // 退出程序
     private long firstTime = 0;
@@ -84,10 +90,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initView() {
         homeFragment = new HomeFragment();
+        findFragment = new FindFragment();
         subscriptionFragment = new SubscriptionFragment();
         mineFragment = new MineFragment();
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.ma_frame_layout, homeFragment);
+        fragmentTransaction.add(R.id.ma_frame_layout, findFragment);
         fragmentTransaction.add(R.id.ma_frame_layout, subscriptionFragment);
         fragmentTransaction.add(R.id.ma_frame_layout, mineFragment);
         fragmentTransaction.commit();
@@ -118,11 +127,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         positionId = id;
         FragmentTransaction mTransaction = getSupportFragmentManager().beginTransaction();
         mTransaction.hide(homeFragment);
+        mTransaction.hide(findFragment);
         mTransaction.hide(subscriptionFragment);
         mTransaction.hide(mineFragment);
         // 设置按钮 图片为普通颜色
         mMainBottomHomeTv.setTextColor(getResources().getColor(R.color.main_bottom_txt_normal));
         mMainBottomHomeIv.setImageResource(R.mipmap.main_home);
+
+        mMainBottomFindTv.setTextColor(getResources().getColor(R.color.main_bottom_txt_normal));
+        mMainBottomFindIv.setImageResource(R.mipmap.main_find);
 
         mMainBottomSubscriptionTv.setTextColor(getResources().getColor(R.color.main_bottom_txt_normal));
         mMainBottomSubscriptionIv.setImageResource(R.mipmap.main_subscription);
@@ -134,6 +147,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 mTransaction.show(homeFragment);
                 mMainBottomHomeTv.setTextColor(getResources().getColor(R.color.main_bottom_txt_press));
                 mMainBottomHomeIv.setImageResource(R.mipmap.main_home_active);
+                break;
+            case R.id.main_bottom_layout_find:
+                mTransaction.show(findFragment);
+                mMainBottomFindTv.setTextColor(getResources().getColor(R.color.main_bottom_txt_press));
+                mMainBottomFindIv.setImageResource(R.mipmap.main_find_active);
                 break;
             case R.id.main_bottom_layout_subscription:
                 mTransaction.show(subscriptionFragment);
@@ -150,12 +168,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    @OnClick({R.id.main_bottom_layout_home, R.id.main_bottom_layout_subscription, R.id.main_bottom_layout_mine})
+    @OnClick({R.id.main_bottom_layout_home, R.id.main_bottom_layout_find, R.id.main_bottom_layout_subscription, R.id.main_bottom_layout_mine})
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_bottom_layout_home:
                 showFragment(R.id.main_bottom_layout_home);
+                break;
+            case R.id.main_bottom_layout_find:
+                showFragment(R.id.main_bottom_layout_find);
                 break;
             case R.id.main_bottom_layout_subscription:
                 showFragment(R.id.main_bottom_layout_subscription);

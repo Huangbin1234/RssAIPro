@@ -64,6 +64,31 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/main_bottom_layout_find"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/main_bottom_find_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/main_find"/>
+
+            <TextView
+                android:id="@+id/main_bottom_find_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:text="@string/str_main_find"
+                android:textSize="@dimen/s12p"/>
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/main_bottom_layout_mine"
             android:layout_width="0dp"
             android:layout_height="match_parent"

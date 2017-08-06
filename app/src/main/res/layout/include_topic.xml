@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="16dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/ff_find_tv_topic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/ff_find_topic_label"
+                android:textColor="@color/color_name"
+                android:textSize="@dimen/s16p"/>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ff_find_tv_topic"
+                android:layout_marginTop="5dp"
+                android:background="#DDDDDD"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/sub_ll_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/ff_tv_right_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="@string/str_ff_tv_more"
+                android:textSize="@dimen/s12p"/>
+
+            <ImageView
+                android:id="@+id/ff_topic_iv_all"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@mipmap/ic_right_all"/>
+        </LinearLayout>
+    </FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ff_topic_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"/>
+    </RelativeLayout>
+</LinearLayout>

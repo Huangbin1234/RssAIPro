@@ -52,5 +52,11 @@
     <string name="str_sub_tv_all">查看全部</string>
     <string name="str_sa_advice">反馈意见</string>
     <string name="str_asa_btn_opml">导入OPML文件</string>
+    <string name="str_main_find">发现</string>
+    <string name="ff_find_more_label">发现更多</string>
+    <string name="ff_find_topic_label">专题推荐</string>
+    <string name="ff_find_hot_label">热门推荐</string>
+    <string name="str_ff_tv_change">换一换</string>
+    <string name="str_ff_tv_more">更多</string>
 
 </resources>
