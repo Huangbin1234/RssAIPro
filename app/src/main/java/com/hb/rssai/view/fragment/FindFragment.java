@@ -21,7 +21,13 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.FindMoreAdapter;
+import com.hb.rssai.adapter.HotAdapter;
 import com.hb.rssai.bean.ResFindMore;
+import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.util.DisplayUtil;
+import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.view.widget.FullyGridLayoutManager;
+import com.hb.rssai.view.widget.GridSpacingItemDecoration;
 import com.hb.rssai.view.widget.MyDecoration;
 
 import java.util.ArrayList;
@@ -71,6 +77,8 @@ public class FindFragment extends Fragment {
     SwipeRefreshLayout mFfSwipeLayout;
     @BindView(R.id.ff_topic_recycler_view)
     RecyclerView mFfTopicRecyclerView;
+    @BindView(R.id.ff_hot_recycler_view)
+    RecyclerView mFfHotRecyclerView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -80,6 +88,8 @@ public class FindFragment extends Fragment {
     private LinearLayoutManager mLinearManager;
     private LinearLayoutManager mLinearManager1;
     private FindMoreAdapter mAdapter;
+    private FullyGridLayoutManager mFullyGridLayoutManager;
+    HotAdapter hotAdapter;
 
     public FindFragment() {
         // Required empty public constructor
@@ -120,21 +130,26 @@ public class FindFragment extends Fragment {
 
         mLinearManager = new LinearLayoutManager(getContext());
         mLinearManager1 = new LinearLayoutManager(getContext());
+        mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
+
         mLinearManager.setOrientation(LinearLayoutManager.VERTICAL);
         mLinearManager1.setOrientation(LinearLayoutManager.VERTICAL);
-        mFfTopicRecyclerView.addItemDecoration(new MyDecoration(getContext(),LinearLayoutManager.VERTICAL));
-
-        mFfTopicRecyclerView.setLayoutManager(mLinearManager1);
-        mFfTopicRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
-        mFfTopicRecyclerView.setHasFixedSize(true);
-
-
+        mFfTopicRecyclerView.addItemDecoration(new MyDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
         mFfFindRecyclerView.setLayoutManager(mLinearManager);
         mFfFindRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mFfFindRecyclerView.setHasFixedSize(true);
 
-        mFfFindRecyclerView.addItemDecoration(new MyDecoration(getContext(),LinearLayoutManager.VERTICAL));
+        mFfTopicRecyclerView.setLayoutManager(mLinearManager1);
+        mFfTopicRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
+        mFfTopicRecyclerView.setHasFixedSize(true);
+
+        mFfHotRecyclerView.setLayoutManager(mFullyGridLayoutManager);
+        mFfHotRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
+        mFfHotRecyclerView.setHasFixedSize(true);
+
+        mFfFindRecyclerView.addItemDecoration(new MyDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        mFfHotRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DisplayUtil.dip2px(getContext(), 16), false));
 
         mFfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
@@ -181,11 +196,18 @@ public class FindFragment extends Fragment {
 
         if (mAdapter == null) {
             mAdapter = new FindMoreAdapter(getContext(), resFindMores);
+
+            List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class, 0, 6, "sort");
+            if (dbList != null && dbList.size() > 0) {
+                hotAdapter = new HotAdapter(getContext(), dbList);
+                mFfHotRecyclerView.setAdapter(hotAdapter);
+            }
             mFfFindRecyclerView.setAdapter(mAdapter);
             mFfTopicRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();
         }
+
     }
 
 
@@ -211,6 +233,11 @@ public class FindFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     public interface OnFragmentInteractionListener {

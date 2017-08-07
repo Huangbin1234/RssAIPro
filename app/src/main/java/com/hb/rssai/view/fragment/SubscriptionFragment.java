@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +43,7 @@ import com.hb.rssai.view.subscription.SourceListActivity;
 import com.hb.rssai.view.subscription.SubListActivity;
 import com.hb.rssai.view.widget.FullListView;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
+import com.hb.rssai.view.widget.GridSpacingItemDecoration;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
 import com.zbar.lib.CaptureActivity;
@@ -61,9 +61,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.drakeet.materialdialog.MaterialDialog;
-import me.yuqirong.cardswipelayout.CardItemTouchHelperCallback;
-import me.yuqirong.cardswipelayout.CardLayoutManager;
-import me.yuqirong.cardswipelayout.OnSwipeListener;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -83,22 +80,13 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     ImageView mSysIvAdd;
     @BindView(R.id.sf_swipe)
     SwipeRefreshLayout mSfSwipe;
-    //@BindView(R.id.sf_iv_bg)
-    //ImageView mSfIvBg;
     @BindView(R.id.tv_sub_label)
     TextView mTvSubLabel;
     @BindView(R.id.sf_iv_all)
     ImageView mSfIvAll;
     @BindView(R.id.rl_ll)
     LinearLayout mRlLl;
-    @BindView(R.id.view_line)
-    View mViewLine;
-    @BindView(R.id.tv_sub_recommend_label)
-    TextView mTvSubRecommendLabel;
-    @BindView(R.id.tv_recommend_label)
-    RelativeLayout mTvRecommendLabel;
-    @BindView(R.id.irs_iv_logo)
-    ImageView mIrsIvLogo;
+
     @BindView(R.id.sys_iv_scan)
     ImageView mSysIvScan;
     @BindView(R.id.tv_sub_right_all)
@@ -184,40 +172,6 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 //        });
     }
 
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
-    }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -421,45 +375,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    private void cardSetting() {
-        CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(mSfRecyclerView.getAdapter(), list);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback);
-        CardLayoutManager cardLayoutManager = new CardLayoutManager(mSfRecyclerView, touchHelper);
-        mSfRecyclerView.setLayoutManager(cardLayoutManager);
-        touchHelper.attachToRecyclerView(mSfRecyclerView);
-        cardCallback.setOnSwipedListener(new OnSwipeListener<RssSource>() {
 
-            @Override
-            public void onSwiping(RecyclerView.ViewHolder viewHolder, float ratio, int direction) {
-                CardAdapter.MyViewHolder myHolder = (CardAdapter.MyViewHolder) viewHolder;
-                viewHolder.itemView.setAlpha(1 - Math.abs(ratio) * 0.2f);
-
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, RssSource rssSource, int direction) {
-                CardAdapter.MyViewHolder myHolder = (CardAdapter.MyViewHolder) viewHolder;
-                viewHolder.itemView.setAlpha(1f);
-//                Glide.with(getContext())
-//                        .load(rssSource.getImgUrl())
-//                        .crossFade(1000)
-//                        .bitmapTransform(new BlurTransformation(getContext(), 23, 4)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
-//                        .into(mSfIvBg);
-            }
-
-            @Override
-            public void onSwipedClear() {
-                mSfRecyclerView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        initData();
-                        mSfRecyclerView.getAdapter().notifyDataSetChanged();
-                    }
-                }, 1500L);
-            }
-        });
-
-    }
 
     private void readRssXml() {
         List<Website> websiteList = new ArrayList<>();

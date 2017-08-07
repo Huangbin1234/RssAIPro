@@ -56,7 +56,6 @@ dependencies {
     //rome解析相关
     compile files('libs/dom4j-2.0.1.jar')
     compile files('libs/slf4j-api-1.7.25.jar')
-    compile project(':Cardlib')
     compile files('libs/core-3.3.0.jar')
     compile files('libs/ZBarDecoder.jar')
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -77,5 +76,4 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile 'com.github.bluejamesbond:textjustify-android:2.1.6'
 }

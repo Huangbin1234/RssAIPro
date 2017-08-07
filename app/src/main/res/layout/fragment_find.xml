@@ -1,13 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/include_toolbar"/>
+        <include layout="@layout/include_toolbar" />
         <!-- TODO: Update blank fragment layout -->
 
 
@@ -31,41 +31,43 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <include layout="@layout/include_hot"/>
+                        <include layout="@layout/include_hot" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1px"
                             android:background="#DDDDDD"
-                            android:visibility="visible"/>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:layout_marginTop="10dp"
-                            android:background="#DDDDDD"
-                            android:visibility="visible"/>
-
-                        <include layout="@layout/include_topic"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="#DDDDDD"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1px"
                             android:layout_marginTop="10dp"
                             android:background="#DDDDDD"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
 
-                        <include layout="@layout/include_find_more"/>
+                        <include layout="@layout/include_topic" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="#DDDDDD"
+                            android:visibility="visible" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginTop="10dp"
+                            android:background="#DDDDDD"
+                            android:visibility="visible" />
+
+                        <include layout="@layout/include_find_more" />
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:background="@color/bg"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
 
 
                     </LinearLayout>

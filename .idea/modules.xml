@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Cardlib/Cardlib.iml" filepath="$PROJECT_DIR$/Cardlib/Cardlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/RssAIPro.iml" filepath="$PROJECT_DIR$/RssAIPro.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
