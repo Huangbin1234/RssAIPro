@@ -166,32 +166,32 @@ public class FindFragment extends Fragment {
     private void initData() {
         List<ResFindMore> resFindMores = new ArrayList<>();
         ResFindMore resFindMore = new ResFindMore();
-        resFindMore.setTitle("全展开的列表式");
+        resFindMore.setTitle("新发展理念结“硕果”  砥砺奋进  治国理政");
         resFindMore.setAddFlag(false);
         resFindMore.setContent("测试内容1");
         resFindMore.setPeople(20000);
-        resFindMore.setImg("http://p1.ifengimg.com/a/2017_31/701333c5881b75e_size93_w440_h330.jpg");
+        resFindMore.setImg("https://imgsa.baidu.com/news/q%3D100/sign=7254f5363cd12f2ec805aa607fc3d5ff/a71ea8d3fd1f41349eb2919f2f1f95cad0c85e4d.jpg");
 
-        resFindMore.setAbstractContent("以上就是比较通用的使用场景及所做的兼容 ，最后附上Github链接RecyclerItemDecoration，欢迎star，fork。");
+        resFindMore.setAbstractContent("辽阔草原，骏马驰骋彩云飘；亮丽北疆，和泰吉祥谱新篇。我国首个省级少数民族自治区——内蒙古自治区迎来成立７０周年大庆。７０载砥砺奋进，民族区域自治制度在草原落地生根，结出丰硕果实，全区各族人民携手前行，共同谱写了团结奋进、发展繁荣的壮丽诗篇。");
         resFindMores.add(resFindMore);
 
         ResFindMore resFindMore1 = new ResFindMore();
-        resFindMore1.setTitle("全展开的列表式");
+        resFindMore1.setTitle("守望相助共奋进 祖国北疆更亮丽");
         resFindMore1.setAddFlag(false);
         resFindMore1.setContent("测试内容2");
         resFindMore1.setPeople(80000);
-        resFindMore1.setImg("http://p2.ifengimg.com/a/2017_31/e5725ce2f7926fc_size145_w690_h518.jpg");
+        resFindMore1.setImg("https://imgsa.baidu.com/news/q%3D100/sign=c57e751b71cb0a4683228f395b62f63e/30adcbef76094b3665228c0ca9cc7cd98c109d9b.jpg");
 
-        resFindMore1.setAbstractContent("几乎所有的app都会遇到列表的展开与收起功能，最近公司的产品也用了，相信大家都知道已经逐步替代了listview成为主流，原因不仅仅是在于它的缓存机制，还在于它对于条目的数据更新设置了更多动画。接下来我们就来实现一个万能的条目展开与收起。");
+        resFindMore1.setAbstractContent("念兹在兹，心系北疆。中南海的阳光雨露，始终润泽着大草原。党的十八大以来，以习近平同志为核心的党中央高瞻远瞩，立足全局谋划内蒙古经济社会发展，为祖国北疆制定清晰的发展蓝图。２０１４年春节前夕，习近平总书记冒着严寒来到内蒙古，行程数千公里，看望慰问各族干部群众，对内蒙古长远发展提出战略指引、作出重大部署。从提出“把内蒙古建成祖国北疆安全稳定的屏障”“建设美丽草原”，到希望“内蒙古各族干部群众守望相助”，习近平总书记为内蒙古自治区改革发展指明前进方向，为各族人民团结奋斗注入强大精神动力。");
         resFindMores.add(resFindMore1);
 
         ResFindMore resFindMore2 = new ResFindMore();
-        resFindMore2.setTitle("全展开的列表式");
+        resFindMore2.setTitle("锤子手机还值得投资吗？");
         resFindMore2.setAddFlag(false);
         resFindMore2.setContent("测试内容3");
         resFindMore2.setPeople(60000);
-        resFindMore2.setImg("http://p2.ifengimg.com/a/2017_31/2757a57c4bbf7a6_size152_w690_h414.jpg");
-        resFindMore2.setAbstractContent("其实上面的代码就是根据滑动方向（横向或者纵向）以及child的位置（是不是最后一行或者最后一列），对附属区域进行限制，同样，如果不是特殊的分割线样式，通过背景就基本可以实现需求，不用特殊draw。");
+        resFindMore2.setImg("https://imgsa.baidu.com/news/q%3D100/sign=229959c179f082022b92953f7bf9fb8a/4d086e061d950a7b8ddaf32600d162d9f3d3c961.jpg");
+        resFindMore2.setAbstractContent("日前，锥子科技CEO罗永浩在参加“2017极客公园奇点创新者峰会”透露，锥子科技融到了10亿元左右的资金，接下来锤子科技会和全球正规的手机厂商一样，每年会推出5～6款产品，覆盖高中低三个档位，明年春天或者最晚明天夏天，锤子科技会推出一款有他自己带队，系统中深度整合了准革命性人工智能的手机产品。其实我们好奇的是，就锤子科技成立5年来的表现、手机产业格局的变化及锤子科技未来的计划（主要是根据罗永浩对外的言谈），为何还会有投资人为锤子科技投资呢？");
         resFindMores.add(resFindMore2);
 
         if (mAdapter == null) {
