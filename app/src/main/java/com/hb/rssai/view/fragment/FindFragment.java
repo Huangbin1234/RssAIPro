@@ -197,7 +197,7 @@ public class FindFragment extends Fragment {
         if (mAdapter == null) {
             mAdapter = new FindMoreAdapter(getContext(), resFindMores);
 
-            List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class, 0, 6, "sort");
+            List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class, 0, 3, "sort");
             if (dbList != null && dbList.size() > 0) {
                 hotAdapter = new HotAdapter(getContext(), dbList);
                 mFfHotRecyclerView.setAdapter(hotAdapter);
