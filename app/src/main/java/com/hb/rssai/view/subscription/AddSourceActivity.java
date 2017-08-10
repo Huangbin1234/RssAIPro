@@ -161,6 +161,9 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
                 LiteOrmDBUtil.insert(keySource);
+                T.ShowToast(this, "添加成功");
+                EventBus.getDefault().post(new RssSourceEvent(0));
+                finish();
                 break;
         }
     }
