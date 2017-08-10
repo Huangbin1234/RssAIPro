@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.FindMoreAdapter;
-import com.hb.rssai.adapter.HotAdapter;
+import com.hb.rssai.adapter.RecommendAdapter;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.util.DisplayUtil;
@@ -89,7 +89,7 @@ public class FindFragment extends Fragment {
     private LinearLayoutManager mLinearManager1;
     private FindMoreAdapter mAdapter;
     private FullyGridLayoutManager mFullyGridLayoutManager;
-    HotAdapter hotAdapter;
+    RecommendAdapter recommandAdapter;
 
     public FindFragment() {
         // Required empty public constructor
@@ -199,8 +199,8 @@ public class FindFragment extends Fragment {
 
             List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class, 0, 3, "sort");
             if (dbList != null && dbList.size() > 0) {
-                hotAdapter = new HotAdapter(getContext(), dbList);
-                mFfHotRecyclerView.setAdapter(hotAdapter);
+                recommandAdapter = new RecommendAdapter(getContext(), dbList);
+                mFfHotRecyclerView.setAdapter(recommandAdapter);
             }
             mFfFindRecyclerView.setAdapter(mAdapter);
             mFfTopicRecyclerView.setAdapter(mAdapter);

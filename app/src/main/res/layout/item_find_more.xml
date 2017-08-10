@@ -15,12 +15,12 @@
         android:paddingTop="10dp">
 
         <TextView
-            android:singleLine="true"
             android:id="@+id/ifm_tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="9"
+            android:singleLine="true"
             android:textColor="#4a4b4d"
             android:textSize="@dimen/s18p"/>
 
@@ -28,8 +28,8 @@
             android:id="@+id/ifm_iv_add"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginLeft="16dp"
             android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="16dp"
             android:scaleType="centerInside"
             />
     </LinearLayout>
@@ -47,38 +47,38 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_place"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:gravity="bottom"
             android:orientation="vertical">
 
 
-            <!--<TextView-->
-            <!--android:id="@+id/ifm_tv_abstract"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:ellipsize="end"-->
-            <!--android:maxLines="3"-->
-            <!--android:textColor="#9c9c9c" />-->
-            <com.hb.rssai.view.widget.JustifyTextView
+            <TextView
                 android:id="@+id/ifm_tv_abstract"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text="12222222"
                 android:textColor="#9c9c9c"/>
+            <!--<com.hb.rssai.view.widget.JustifyTextView-->
+            <!--android:id="@+id/ifm_tv_abstract"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:ellipsize="end"-->
+            <!--android:maxLines="3"-->
+            <!--android:text="12222222"-->
+            <!--android:textColor="#9c9c9c"/>-->
 
             <TextView
                 android:id="@+id/ifm_tv_people"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12222222"
+                android:layout_alignParentBottom="true"
                 android:textColor="#9c9c9c"
                 android:textSize="10sp"/>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

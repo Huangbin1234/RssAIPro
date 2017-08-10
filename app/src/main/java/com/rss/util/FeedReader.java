@@ -26,7 +26,10 @@ public class FeedReader {
     public RssChannel getRss(String url) throws Exception {
         SyndFeedInput input = new SyndFeedInput();//rome按SyndFeed类型生成rss和atom的实例,
         URL feedUrl = new URL(url);//SyndFeedInput:从远程读到xml结构的内容转成SyndFeedImpl实例
-        SyndFeed feed = input.build(new XmlReader(feedUrl));   //SyndFeed是rss和atom实现类SyndFeedImpl的接口
+        XmlReader xmlReader = null;
+        xmlReader.setDefaultEncoding("UTF-8");
+        xmlReader = new XmlReader(feedUrl);
+        SyndFeed feed = input.build(xmlReader);   //SyndFeed是rss和atom实现类SyndFeedImpl的接口
         List<SyndEntry> entries = feed.getEntries();
         RSSItemBean item = null;
         RssChannel rssChannel = new RssChannel();

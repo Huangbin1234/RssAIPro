@@ -2,7 +2,6 @@ package com.hb.rssai.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -185,7 +183,8 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         if (mRssSourceAdapter != null) {
             mRssSourceAdapter.notifyDataSetChanged();
         }
-        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class,0,6,"sort");
+//        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class,0,6,"sort");
+        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllSort(RssSource.class,"sort");
         if (dbList == null || dbList.size() <= 0) {
             return;
         }
@@ -349,7 +348,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 
         @Override
         protected Void doInBackground(Void... voids) {
-            readRssXml();
+//            readRssXml();
             return null;
         }
 

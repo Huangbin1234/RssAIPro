@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.util.HttpLoadImg;
-import com.hb.rssai.view.widget.JustifyTextView;
 
 import java.util.List;
 
@@ -61,7 +60,8 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public View v;
         TextView ifm_tv_people;
-        JustifyTextView ifm_tv_abstract;
+//        JustifyTextView ifm_tv_abstract;
+        TextView ifm_tv_abstract;
         ImageView ifm_iv_img;
         ImageView ifm_iv_add;
         TextView ifm_tv_title;
@@ -70,7 +70,8 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
             super(itemView);
             v = itemView;
             ifm_tv_people = (TextView) itemView.findViewById(R.id.ifm_tv_people);
-            ifm_tv_abstract = (JustifyTextView) itemView.findViewById(R.id.ifm_tv_abstract);
+//            ifm_tv_abstract = (JustifyTextView) itemView.findViewById(R.id.ifm_tv_abstract);
+            ifm_tv_abstract = (TextView) itemView.findViewById(R.id.ifm_tv_abstract);
             ifm_tv_title = (TextView) itemView.findViewById(R.id.ifm_tv_title);
             ifm_iv_img = (ImageView) itemView.findViewById(R.id.ifm_iv_img);
             ifm_iv_add = (ImageView) itemView.findViewById(R.id.ifm_iv_add);
