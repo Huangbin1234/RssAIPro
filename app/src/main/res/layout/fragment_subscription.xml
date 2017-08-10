@@ -106,9 +106,6 @@
                                 android:paddingRight="16dp" />
                         </LinearLayout>
 
-                        <View
-                            style="@style/view_line_h"
-                            android:layout_below="@id/rl_ll" />
 
                     </RelativeLayout>
                 </ScrollView>
