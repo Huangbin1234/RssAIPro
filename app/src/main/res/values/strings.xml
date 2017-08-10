@@ -58,5 +58,6 @@
     <string name="ff_find_hot_label">热门推荐</string>
     <string name="str_ff_tv_change">切换</string>
     <string name="str_ff_tv_more">更多</string>
+    <string name="str_asa_hint_key">百度新闻关键字订阅</string>
 
 </resources>

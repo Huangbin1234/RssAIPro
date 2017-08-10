@@ -73,6 +73,37 @@
             android:textColor="@color/orange"
             android:textSize="@dimen/s16p"/>
 
+
+        <LinearLayout
+            android:layout_marginTop="16dp"
+            style="@style/InfoDetail"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/asa_et_key"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/trans"
+                android:hint="@string/str_asa_hint_key"
+                android:padding="16dp"
+                android:textColorHint="#DDDDDD"
+                android:textSize="@dimen/s16p"/>
+        </LinearLayout>
+
+        <View style="@style/view_line_h"/>
+
+        <Button
+            android:id="@+id/asa_btn_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/opr_bg_selector"
+            android:text="@string/str_asa_btn_save"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/s16p"/>
+
         <Button
             android:id="@+id/asa_btn_opml"
             android:layout_width="match_parent"
@@ -88,7 +119,7 @@
         <TextView
             android:id="@+id/asa_tv_opml"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </LinearLayout>

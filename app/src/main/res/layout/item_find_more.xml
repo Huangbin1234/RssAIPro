@@ -30,8 +30,7 @@
             android:layout_height="25dp"
             android:layout_gravity="right|center_vertical"
             android:layout_marginLeft="16dp"
-            android:scaleType="centerInside"
-            />
+            android:scaleType="centerInside" />
     </LinearLayout>
 
     <LinearLayout

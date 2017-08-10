@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 import butterknife.BindView;
@@ -62,6 +63,11 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     Button mAsaBtnOpml;
     @BindView(R.id.asa_tv_opml)
     TextView mAsaTvOpml;
+    OpmlTask opmlTask;
+    @BindView(R.id.asa_et_key)
+    EditText mAsaEtKey;
+    @BindView(R.id.asa_btn_key)
+    Button mAsaBtnKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +114,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         return null;
     }
 
-    @OnClick({R.id.asa_btn_save, R.id.asa_iv_scan, R.id.asa_btn_opml})
+    @OnClick({R.id.asa_btn_save, R.id.asa_iv_scan, R.id.asa_btn_opml, R.id.asa_btn_key})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -140,10 +146,25 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 opmlTask = new OpmlTask();
                 opmlTask.execute(link2);
                 break;
+            case R.id.asa_btn_key:
+                String keyWord = mAsaEtKey.getText().toString().trim();
+                if (TextUtils.isEmpty(keyWord)) {
+                    T.ShowToast(this, "请输入关键字");
+                    return;
+                }
+                RssSource keySource = new RssSource();
+                keySource.setName(keyWord);
+                try {
+                    keySource.setLink("http://news.baidu.com/ns?word="+ URLEncoder.encode(keyWord,"UTF-8")+"&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
+                    System.out.println("http://news.baidu.com/ns?word="+ URLEncoder.encode(keyWord,"UTF-8")+"&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                LiteOrmDBUtil.insert(keySource);
+                break;
         }
     }
 
-    OpmlTask opmlTask;
 
     class OpmlTask extends AsyncTask<String, Void, List<Outline>> {
 
@@ -200,7 +221,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             try {
                 xmlReader.setDefaultEncoding("UTF-8");
                 xmlReader = new XmlReader(feedUrl);
-                System.out.println("编码：=================="+xmlReader.getEncoding());
             } catch (IOException e) {
                 e.printStackTrace();
             }
