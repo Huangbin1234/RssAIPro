@@ -51,6 +51,10 @@
         <activity android:name=".zxing.ImageCropActivity"/>
         <activity android:name=".view.subscription.SubListActivity">
         </activity>
+        <activity android:name=".view.me.AdviceActivity">
+        </activity>
+        <activity android:name=".view.common.LoginActivity">
+        </activity>
     </application>
 
 </manifest>

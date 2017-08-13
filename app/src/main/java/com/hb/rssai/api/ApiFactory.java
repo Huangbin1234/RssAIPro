@@ -6,13 +6,24 @@ package com.hb.rssai.api;
 
 public class ApiFactory {
     protected static final Object monitor = new Object();
-    static LoginApi loginApiSingleton=null;
-    public static LoginApi getLoginApiSingleton(){
+    static LoginApi loginApiSingleton = null;
+    static AdviceApi adviceApiSingleton = null;
+
+    public static LoginApi getLoginApiSingleton() {
         synchronized (monitor) {
-            if(loginApiSingleton==null){
-                loginApiSingleton=new ApiRetrofit().getLoginApiService();
+            if (loginApiSingleton == null) {
+                loginApiSingleton = new ApiRetrofit().getLoginApiService();
             }
             return loginApiSingleton;
+        }
+    }
+
+    public static AdviceApi getAdviceApiSingleton() {
+        synchronized (monitor) {
+            if (adviceApiSingleton == null) {
+                adviceApiSingleton = new ApiRetrofit().getAdviceApiService();
+            }
+            return adviceApiSingleton;
         }
     }
 }

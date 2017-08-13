@@ -20,5 +20,12 @@ public class Constant {
     public static final String FLAG_PRESS_URL_SOURCE="press_url_source|";
 
     public static final String TIPS_FILTER_SORT ="筛选排序" ;
+    public static final String TOKEN = "token";
+    public static final String SP_LOGIN_USER_NAME = "sp_login_user_name";
+    public static final String SP_LOGIN_PSD = "sp_login_password";
     public static String KEY_IS_LOAD_IMAGE="isLoadImage";//是否加载图片
+
+    public static String MSG_NETWORK_ERROR ="网络慢或链接失败";
+
+
 }

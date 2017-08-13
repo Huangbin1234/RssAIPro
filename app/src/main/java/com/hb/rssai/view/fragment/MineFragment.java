@@ -24,6 +24,7 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.view.common.ContentActivity;
+import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.me.CollectionActivity;
 import com.hb.rssai.view.me.SettingActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
@@ -136,7 +137,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting,R.id.fm_ll_scan})
+    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -149,6 +150,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.fm_ll_scan:
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
                 break;
+            case R.id.fm_ll_avatar:
+                getActivity().startActivity(new Intent(getContext(), LoginActivity.class));
+                break;
         }
     }
 
@@ -157,6 +161,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub

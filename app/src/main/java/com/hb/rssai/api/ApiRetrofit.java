@@ -2,6 +2,8 @@ package com.hb.rssai.api;
 
 
 import com.hb.rssai.app.ProjectApplication;
+import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StateUtils;
 
 import java.io.File;
@@ -23,7 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofit {
     public LoginApi loginApiService;
-    public static final String LOGIN_BASE_URL = "http://182.137.14.194:8080/deviceDataAcquisition/";
+    private AdviceApi adviceService;
+    public static final String LOGIN_BASE_URL = "http://192.168.0.109:8009/";
 
     public ApiRetrofit() {
         File httpCacheDirectory = new File(ProjectApplication.mContext.getCacheDir(), "responses");
@@ -40,8 +43,15 @@ public class ApiRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+        Retrofit retrofit_advice = new Retrofit.Builder()
+                .baseUrl(LOGIN_BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
 
         loginApiService = retrofit_login.create(LoginApi.class);
+        adviceService = retrofit_advice.create(AdviceApi.class);
     }
 
     Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
@@ -53,6 +63,7 @@ public class ApiRetrofit {
         if (StateUtils.isNetworkAvailable(ProjectApplication.mContext)) {
             request = request.newBuilder()
                     .cacheControl(cacheControl)
+                    .addHeader("token", SharedPreferencesUtil.getString(ProjectApplication.mContext, Constant.TOKEN, ""))
                     .build();
         }
         Response originalResponse = chain.proceed(request);
@@ -73,5 +84,9 @@ public class ApiRetrofit {
 
     public LoginApi getLoginApiService() {
         return loginApiService;
+    }
+
+    public AdviceApi getAdviceApiService() {
+        return adviceService;
     }
 }

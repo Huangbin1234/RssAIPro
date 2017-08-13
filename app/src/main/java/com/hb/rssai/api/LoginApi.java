@@ -1,6 +1,8 @@
 package com.hb.rssai.api;
 
 
+import com.hb.rssai.bean.ResLogin;
+
 import java.util.Map;
 
 import retrofit2.http.FieldMap;
@@ -13,7 +15,7 @@ import rx.Observable;
  */
 
 public interface LoginApi {
-//    @FormUrlEncoded
-//    @POST("user/userLogin")
-//    Observable<ResLogin> doLogin(@FieldMap Map<String, String> params);
+    @FormUrlEncoded
+    @POST("user/login")
+    Observable<ResLogin> doLogin(@FieldMap Map<String, String> params);
 }

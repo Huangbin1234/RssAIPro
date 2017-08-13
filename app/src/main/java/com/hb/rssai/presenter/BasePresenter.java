@@ -2,6 +2,7 @@ package com.hb.rssai.presenter;
 
 
 
+import com.hb.rssai.api.AdviceApi;
 import com.hb.rssai.api.ApiFactory;
 import com.hb.rssai.api.LoginApi;
 
@@ -14,7 +15,8 @@ import java.lang.ref.WeakReference;
 
 public abstract class BasePresenter<V> {
     protected Reference<V> mViewRef;
-    public static final LoginApi loginAPi = ApiFactory.getLoginApiSingleton();
+    public static final LoginApi loginApi = ApiFactory.getLoginApiSingleton();
+    public static final AdviceApi adviceApi = ApiFactory.getAdviceApiSingleton();
 
     public void attachView(V view) {
         mViewRef = new WeakReference<V>(view);

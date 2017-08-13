@@ -69,10 +69,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else if (dateFrom == 1) {
             mSaSwChangeSource.setChecked(true);
         }
-        boolean isLoadImage=SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_LOAD_IMAGE, true);
+        boolean isLoadImage = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_LOAD_IMAGE, true);
         if (isLoadImage) {
             mSaSwNoImage.setChecked(true);
-        } else  {
+        } else {
             mSaSwNoImage.setChecked(false);
         }
     }
@@ -99,12 +99,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         return null;
     }
 
-    @OnClick({R.id.sa_rl_about})
+    @OnClick({R.id.sa_rl_about, R.id.sa_rl_advice})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sa_rl_about:
                 startActivity(new Intent(this, AboutActivity.class));
+                break;
+            case R.id.sa_rl_advice:
+                startActivity(new Intent(this, AdviceActivity.class));
                 break;
         }
     }
@@ -121,7 +124,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         return super.onOptionsItemSelected(item);
     }
 
-    @OnCheckedChanged({R.id.sa_sw_change_source,R.id.sa_sw_no_image})
+    @OnCheckedChanged({R.id.sa_sw_change_source, R.id.sa_sw_no_image})
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
@@ -138,8 +141,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.sa_sw_no_image:
                 if (isChecked) {
                     SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_LOAD_IMAGE, true);
-                }else{
-                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_LOAD_IMAGE,false);
+                } else {
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_LOAD_IMAGE, false);
                 }
                 EventBus.getDefault().post(new HomeSourceEvent(3));
                 break;
