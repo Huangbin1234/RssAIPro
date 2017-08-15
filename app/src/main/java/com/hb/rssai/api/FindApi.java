@@ -1,5 +1,6 @@
 package com.hb.rssai.api;
 
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
 
 import java.util.Map;
@@ -20,4 +21,10 @@ public interface FindApi {
     @FormUrlEncoded
     @POST("subscription/recommendList")
     Observable<ResFindMore> recommendList(@FieldMap Map<String, String> params);
+    @FormUrlEncoded
+    @POST("subscription/userSubscribeList")
+    Observable<ResFindMore> userSubscribeList(@FieldMap Map<String, String> params);
+    @FormUrlEncoded
+    @POST("subscription/addRssByUser")
+    Observable<ResBase> addRssByUser(@FieldMap Map<String, String> params);
 }

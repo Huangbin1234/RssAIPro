@@ -140,18 +140,18 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
     private List<HashMap<String, Object>> initDialogData() {
         List<HashMap<String, Object>> list = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
-        map.put("name", "置顶");
+        map.put("rssTitle", "置顶");
         map.put("id", 1);
         map.put("url", R.mipmap.ic_top);
         list.add(map);
         HashMap<String, Object> map2 = new HashMap<>();
-        map2.put("name", "分享");
+        map2.put("rssTitle", "分享");
         map2.put("id", 2);
         map2.put("url", R.mipmap.ic_share);
         list.add(map2);
 
         HashMap<String, Object> map3 = new HashMap<>();
-        map3.put("name", "删除");
+        map3.put("rssTitle", "删除");
         map3.put("id", 3);
         map3.put("url", R.mipmap.ic_delete);
         list.add(map3);

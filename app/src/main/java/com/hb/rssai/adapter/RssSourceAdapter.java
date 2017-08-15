@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
-import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.rssai.view.subscription.SourceListActivity;
@@ -29,15 +29,15 @@ import java.util.List;
  */
 public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyViewHolder> {
     private Context mContext;
-    List<RssSource> rssList;
+    List<ResFindMore.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
     private SubscriptionFragment fragment;
 
     public interface onItemLongClickedListener {
-        void onItemLongClicked(RssSource rssSource);
+        void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rowsBean);
     }
 
-    public RssSourceAdapter(Context mContext, List<RssSource> rssList, Fragment fragment) {
+    public RssSourceAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> rssList, Fragment fragment) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
@@ -55,10 +55,10 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         System.out.println(rssList.get(position).getName());
         holder.irs_tv_name.setText(rssList.get(position).getName());
         holder.irs_tv_count.setText(rssList.get(position).getCount() + "条资讯");
-        if (TextUtils.isEmpty(rssList.get(position).getImgUrl())) {
+        if (TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.irs_iv_logo);
         } else {
-            HttpLoadImg.loadImg(mContext, rssList.get(position).getImgUrl(), holder.irs_iv_logo);
+            HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.irs_iv_logo);
         }
 
         holder.v.setOnClickListener(v -> {
@@ -95,7 +95,6 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
             irs_tv_count = (TextView) itemView.findViewById(R.id.irs_tv_count);
             irs_tv_name = (TextView) itemView.findViewById(R.id.irs_tv_name);
             irs_iv_logo = (ImageView) itemView.findViewById(R.id.irs_iv_logo);
-
 //            irs_iv_logo.setLayoutParams(new LinearLayout.LayoutParams());
 
         }

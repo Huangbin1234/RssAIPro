@@ -19,9 +19,11 @@ import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.event.RssSourceEvent;
+import com.hb.rssai.presenter.AddRssPresenter;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.iView.IAddRssView;
 import com.rometools.opml.feed.opml.Outline;
 import com.rometools.rome.io.XmlReader;
 import com.rss.util.ReadXML;
@@ -39,7 +41,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AddSourceActivity extends BaseActivity implements View.OnClickListener {
+public class AddSourceActivity extends BaseActivity implements View.OnClickListener, IAddRssView {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -111,8 +113,11 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected BasePresenter createPresenter() {
-        return null;
+        return new AddRssPresenter(this, this);
     }
+
+    String rssTitle = "";
+    String rssLink = "";
 
     @OnClick({R.id.asa_btn_save, R.id.asa_iv_scan, R.id.asa_btn_opml, R.id.asa_btn_key})
     @Override
@@ -120,23 +125,23 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.asa_btn_save:
                 //TODO 写入首选
-                String name = mAsaEtName.getText().toString().trim();
-                String link = mAsaEtUrl.getText().toString().trim();
-                if (TextUtils.isEmpty(name)) {
+                rssTitle = mAsaEtName.getText().toString().trim();
+                rssLink = mAsaEtUrl.getText().toString().trim();
+                if (TextUtils.isEmpty(rssTitle)) {
                     T.ShowToast(this, "请输入名称");
                     return;
                 }
-                if (TextUtils.isEmpty(link)) {
+                if (TextUtils.isEmpty(rssLink)) {
                     T.ShowToast(this, "请输入链接地址");
                     return;
                 }
                 RssSource rssSource = new RssSource();
-                rssSource.setName(name);
-                rssSource.setLink(link);
+                rssSource.setName(rssTitle);
+                rssSource.setLink(rssLink);
                 LiteOrmDBUtil.insert(rssSource);
                 T.ShowToast(this, "添加成功");
                 EventBus.getDefault().post(new RssSourceEvent(0));
-                finish();
+                ((AddRssPresenter) mPresenter).addRss();
                 break;
             case R.id.asa_iv_scan:
                 startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
@@ -147,25 +152,35 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 opmlTask.execute(link2);
                 break;
             case R.id.asa_btn_key:
-                String keyWord = mAsaEtKey.getText().toString().trim();
-                if (TextUtils.isEmpty(keyWord)) {
+                rssTitle = mAsaEtKey.getText().toString().trim();
+                if (TextUtils.isEmpty(rssTitle)) {
                     T.ShowToast(this, "请输入关键字");
                     return;
                 }
                 RssSource keySource = new RssSource();
-                keySource.setName(keyWord);
+                keySource.setName(rssTitle);
                 try {
-                    keySource.setLink("http://news.baidu.com/ns?word="+ URLEncoder.encode(keyWord,"UTF-8")+"&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
-                    System.out.println("http://news.baidu.com/ns?word="+ URLEncoder.encode(keyWord,"UTF-8")+"&tn=newsrss&sr=0&cl=2&rn=20&ct=0");
+                    rssLink = "http://news.baidu.com/ns?word=" + URLEncoder.encode(rssTitle, "UTF-8") + "&tn=newsrss&sr=0&cl=2&rn=20&ct=0";
+                    keySource.setLink(rssLink);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
                 LiteOrmDBUtil.insert(keySource);
                 T.ShowToast(this, "添加成功");
                 EventBus.getDefault().post(new RssSourceEvent(0));
-                finish();
+                ((AddRssPresenter) mPresenter).addRss();
                 break;
         }
+    }
+
+    @Override
+    public String getRssLink() {
+        return rssLink;
+    }
+
+    @Override
+    public String getRssTitle() {
+        return rssTitle;
     }
 
 

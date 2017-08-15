@@ -91,6 +91,7 @@ public class ResFindMore {
             private String id;
             private boolean isTag;
             private String parentId;
+            private long sort;
 
             public boolean isIsRecommend() {
                 return isRecommend;
@@ -170,6 +171,14 @@ public class ResFindMore {
 
             public void setParentId(String parentId) {
                 this.parentId = parentId;
+            }
+
+            public long getSort() {
+                return sort;
+            }
+
+            public void setSort(long sort) {
+                this.sort = sort;
             }
         }
     }

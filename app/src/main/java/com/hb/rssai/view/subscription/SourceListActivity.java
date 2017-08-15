@@ -29,8 +29,8 @@ import butterknife.BindView;
 
 public class SourceListActivity extends BaseActivity {
 
-    public static final String KEY_LINK = "link";
-    public static final String KEY_TITLE ="name" ;
+    public static final String KEY_LINK = "rssLink";
+    public static final String KEY_TITLE ="rssTitle" ;
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
     @BindView(R.id.sys_toolbar)

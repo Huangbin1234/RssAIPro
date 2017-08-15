@@ -25,7 +25,9 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
     private Context mContext;
     List<ResFindMore.RetObjBean.RowsBean> resList;
     private LayoutInflater layoutInflater;
-
+    public interface onItemLongClickedListener {
+        void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rowsBean);
+    }
     public FindMoreAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> resList) {
         this.mContext = mContext;
         this.resList = resList;

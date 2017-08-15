@@ -3,14 +3,12 @@ package com.hb.rssai.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -25,17 +23,22 @@ import com.hb.rssai.R;
 import com.hb.rssai.adapter.CardAdapter;
 import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.adapter.RssSourceAdapter;
+import com.hb.rssai.base.BaseFragment;
+import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
+import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.presenter.SubscriptionPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
+import com.hb.rssai.view.iView.ISubscriptionView;
 import com.hb.rssai.view.subscription.AddSourceActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
 import com.hb.rssai.view.subscription.SubListActivity;
@@ -55,14 +58,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.drakeet.materialdialog.MaterialDialog;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SubscriptionFragment extends Fragment implements View.OnClickListener, RssSourceAdapter.onItemLongClickedListener {
+public class SubscriptionFragment extends BaseFragment implements View.OnClickListener, RssSourceAdapter.onItemLongClickedListener, ISubscriptionView {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.sys_tv_title)
@@ -99,12 +101,14 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private GridLayoutManager mGridLayoutManager;
+//    private GridLayoutManager mGridLayoutManager;
     private RssSourceAdapter mRssSourceAdapter;
     private List<RssSource> list = new ArrayList<>();
 
     CardAdapter mCardAdapter;
-    public final static int REQUESTCODE = 1;
+    public final static int REQUEST_CODE = 1;
+    private FullyGridLayoutManager mFullyGridLayoutManager;
+    ResFindMore.RetObjBean.RowsBean rowsBean;
 
     public SubscriptionFragment() {
     }
@@ -132,25 +136,34 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_subscription, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        initView();
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private FullyGridLayoutManager mFullyGridLayoutManager;
-
-    private void initView() {
+    @Override
+    protected void setAppTitle() {
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
         mSysTvTitle.setText(getResources().getString(R.string.str_main_subscription));
+    }
 
+    @Override
+    protected BasePresenter createPresenter() {
+        return new SubscriptionPresenter(getContext(),this);
+    }
+
+    @Override
+    protected int providerContentViewId() {
+        return R.layout.fragment_subscription;
+    }
+
+    @Override
+    protected void initView(View rootView) {
         // 卡片式
         // mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
         mSfRecyclerView.setLayoutManager(mFullyGridLayoutManager);
 
-        mSfRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3,DisplayUtil.dip2px(getContext(), 10),false));
+        mSfRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DisplayUtil.dip2px(getContext(), 10), false));
         mSfRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mSfRecyclerView.setHasFixedSize(true);
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
@@ -159,8 +172,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
         //TODO 设置下拉刷新
-        mSfSwipe.setOnRefreshListener(() -> initData());
-
+//        mSfSwipe.setOnRefreshListener(() -> initData());
 
 //        mIndexFunctionGridView.setOnItemClickListener((parent, view, position, id) -> {
 //            Intent intent = new Intent(getContext(), SourceListActivity.class);
@@ -170,32 +182,35 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
 //        });
     }
 
+
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initData();
+        ((SubscriptionPresenter)mPresenter).getUserSubscribeList();
+//        initData();
     }
 
-    private void initData() {
-        if (list != null && list.size() > 0) {
-            list.clear();
-        }
-        if (mRssSourceAdapter != null) {
-            mRssSourceAdapter.notifyDataSetChanged();
-        }
-//        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class,0,6,"sort");
-        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllSort(RssSource.class,"sort");
-        if (dbList == null || dbList.size() <= 0) {
-            return;
-        }
-        list.addAll(dbList);
-        new ReadRssTask().execute();
-    }
+//    private void initData() {
+//        if (list != null && list.size() > 0) {
+//            list.clear();
+//        }
+//        if (mRssSourceAdapter != null) {
+//            mRssSourceAdapter.notifyDataSetChanged();
+//        }
+////        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class,0,6,"sort");
+//        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllSort(RssSource.class, "sort");
+//        if (dbList == null || dbList.size() <= 0) {
+//            return;
+//        }
+//        list.addAll(dbList);
+//        new ReadRssTask().execute();
+//    }
 
     @Subscribe
     public void onEventMainThread(RssSourceEvent event) {
         if (event.getMessage() == 0) {
-            initData();
+            ((SubscriptionPresenter)mPresenter).getUserSubscribeList();
         }
     }
 
@@ -234,7 +249,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.sys_iv_scan:
 //                startActivity(new Intent(getContext(), AddSourceActivity.class));
-                startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
+                startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUEST_CODE);
                 break;
             case R.id.sub_ll_all:
                 startActivity(new Intent(getContext(), SubListActivity.class));
@@ -242,11 +257,11 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    RssSource rssSourceNew;
+
 
     @Override
-    public void onItemLongClicked(RssSource rssSource) {
-        this.rssSourceNew = rssSource;
+    public void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rowsBean) {
+        this.rowsBean = rowsBean;
         openMenu();
     }
 
@@ -275,6 +290,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         list.add(map3);
         return list;
     }
+
     /**
      * 菜单对话框
      *
@@ -295,20 +311,20 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
                 if (list.get(position).get("id").equals(1)) {
                     //TODO 置顶
                     materialDialog.dismiss();
-                    rssSourceNew.setSort(new Date().getTime());
-                    LiteOrmDBUtil.update(rssSourceNew);
-                    initData();
+                    rowsBean.setSort(new Date().getTime());
+//                    LiteOrmDBUtil.update(rowsBean);
+//                    ((SubscriptionPresenter)mPresenter).getUserSubscribeList();
                 } else if (list.get(position).get("id").equals(2)) {
                     materialDialog.dismiss();
                     Intent intent = new Intent(getContext(), QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
-                    intent.putExtra(QrCodeActivity.KEY_TITLE, rssSourceNew.getName());
-                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSourceNew.getLink()));
+                    intent.putExtra(QrCodeActivity.KEY_TITLE, rowsBean.getName());
+                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rowsBean.getLink()));
                     startActivity(intent);
-                }else if (list.get(position).get("id").equals(3)) {
+                } else if (list.get(position).get("id").equals(3)) {
                     materialDialog.dismiss();
-                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSourceNew.getId()});
-                    initData();
+//                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rowsBean.getId()});
+//                    initData();
                     T.ShowToast(getContext(), "删除成功！");
                 }
             });
@@ -325,6 +341,33 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    @Override
+    public RecyclerView getRecyclerView() {
+        return mSfRecyclerView;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSwipeLayout() {
+        return mSfSwipe;
+    }
+
+    @Override
+    public FullyGridLayoutManager getManager() {
+        return mFullyGridLayoutManager;
+    }
+
+    @Override
+    public Fragment getFragment() {
+        return SubscriptionFragment.this;
+    }
+
+    @Override
+    protected void lazyLoad() {
+
+    }
+
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -339,41 +382,40 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         mListener = null;
     }
 
-    class ReadRssTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-//            readRssXml();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            mSfSwipe.setRefreshing(false);
-//            if (list.size() < 1) {
-//                if (mCardAdapter == null) {
-//                    mCardAdapter = new CardAdapter(getContext(), list);
-//                    mSfRecyclerView.setAdapter(mCardAdapter);
-//                } else {
-//                    mCardAdapter.notifyDataSetChanged();
-//                }
-//                cardSetting();
+//    class ReadRssTask extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+////            readRssXml();
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            mSfSwipe.setRefreshing(false);
+////            if (list.size() < 1) {
+////                if (mCardAdapter == null) {
+////                    mCardAdapter = new CardAdapter(getContext(), list);
+////                    mSfRecyclerView.setAdapter(mCardAdapter);
+////                } else {
+////                    mCardAdapter.notifyDataSetChanged();
+////                }
+////                cardSetting();
+////            } else {
+//            if (mRssSourceAdapter == null) {
+//                mRssSourceAdapter = new RssSourceAdapter(getContext(), list, SubscriptionFragment.this);
+//                mSfRecyclerView.setAdapter(mRssSourceAdapter);
 //            } else {
-                if (mRssSourceAdapter == null) {
-                    mRssSourceAdapter = new RssSourceAdapter(getContext(), list, SubscriptionFragment.this);
-                    mSfRecyclerView.setAdapter(mRssSourceAdapter);
-                } else {
-                    mRssSourceAdapter.notifyDataSetChanged();
-                }
+//                mRssSourceAdapter.notifyDataSetChanged();
 //            }
-        }
-    }
-
+////            }
+//        }
+//    }
 
 
     private void readRssXml() {
@@ -433,7 +475,7 @@ public class SubscriptionFragment extends Fragment implements View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data);
 
         if (RESULT_OK == resultCode) {
-            if (requestCode == REQUESTCODE) {
+            if (requestCode == REQUEST_CODE) {
                 String info = Base64Util.getDecodeStr(data.getStringExtra("info"));
                 if (info.startsWith(Constant.FLAG_RSS_SOURCE)) {
                     //打开
