@@ -23,10 +23,10 @@ import java.util.List;
  */
 public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyViewHolder> {
     private Context mContext;
-    List<ResFindMore> resList;
+    List<ResFindMore.RetObjBean.RowsBean> resList;
     private LayoutInflater layoutInflater;
 
-    public FindMoreAdapter(Context mContext, List<ResFindMore> resList) {
+    public FindMoreAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> resList) {
         this.mContext = mContext;
         this.resList = resList;
         layoutInflater = LayoutInflater.from(mContext);
@@ -40,11 +40,11 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.ifm_tv_people.setText("订阅：" + resList.get(position).getPeople());
+        holder.ifm_tv_people.setText("订阅：" + resList.get(position).getCount());
         holder.ifm_tv_abstract.setText(resList.get(position).getAbstractContent());
-        holder.ifm_tv_title.setText(resList.get(position).getTitle());
+        holder.ifm_tv_title.setText(resList.get(position).getName());
         HttpLoadImg.loadImg(mContext, resList.get(position).getImg(), holder.ifm_iv_img);
-        if (resList.get(position).isAddFlag()) {
+        if (resList.get(position).isIsRecommend()) {
             holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_no_add);
         } else {
             holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_add);

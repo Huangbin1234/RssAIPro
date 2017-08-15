@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.google.zxing.common.StringUtils;
 import com.hb.rssai.R;
+import com.hb.rssai.bean.ResCollection;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.me.CollectionActivity;
@@ -27,14 +28,14 @@ import java.util.List;
  */
 public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.MyViewHolder> {
     private Context mContext;
-    List<UserCollection> collections;
+    List<ResCollection.RetObjBean.RowsBean> collections;
     private LayoutInflater layoutInflater;
 
     public interface onItemLongClickedListener {
-        void onItemLongClicked(UserCollection userCollection);
+        void onItemLongClicked(ResCollection.RetObjBean.RowsBean rowsBean);
     }
 
-    public CollectionAdapter(Activity mContext, List<UserCollection> collections) {
+    public CollectionAdapter(Context mContext, List<ResCollection.RetObjBean.RowsBean> collections) {
         this.mContext = mContext;
         this.collections = collections;
         layoutInflater = LayoutInflater.from(mContext);
@@ -50,7 +51,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.cs_tv_name.setText(collections.get(position).getTitle());
         holder.cs_tv_link.setText(collections.get(position).getLink());
-        holder.cs_tv_time.setText(collections.get(position).getTime());
+        holder.cs_tv_time.setText(collections.get(position).getCreateTime());
 
         holder.v.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, ContentActivity.class);

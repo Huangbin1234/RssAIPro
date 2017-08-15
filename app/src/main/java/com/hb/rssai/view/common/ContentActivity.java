@@ -26,16 +26,18 @@ import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.presenter.ContentPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.iView.IContentView;
 
 import java.util.Date;
 
 import butterknife.BindView;
 
-public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener {
+public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, IContentView {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -177,7 +179,7 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
 
     @Override
     protected BasePresenter createPresenter() {
-        return null;
+        return new ContentPresenter(this, this);
     }
 
     private boolean isWIFIkAvailable() {
@@ -203,6 +205,7 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
                     collection.setTitle(title);
                     LiteOrmDBUtil.insert(collection);
                     T.ShowToast(ContentActivity.this, "收藏成功！");
+                    ((ContentPresenter) mPresenter).add();
                 } else {
                     T.ShowToast(this, "收藏失败，链接错误！");
                 }
@@ -216,5 +219,15 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
                 break;
         }
         return false;
+    }
+
+    @Override
+    public String getNewTitle() {
+        return title;
+    }
+
+    @Override
+    public String getNewLink() {
+        return contentUrl;
     }
 }

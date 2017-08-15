@@ -21,16 +21,17 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = createPresenter();
-        if(mPresenter!=null){
-            mPresenter.attachView((V) this);
-        }
+
         setTranslucentStatus(this);
         setContentView(providerContentViewId());
         ButterKnife.bind(this);
         setAppTitle();
         initIntent();
         initView();
+        mPresenter = createPresenter();
+        if(mPresenter!=null){
+            mPresenter.attachView((V) this);
+        }
     }
     public static void setTranslucentStatus(Activity activity){
         Window window = activity.getWindow();

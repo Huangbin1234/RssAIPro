@@ -26,7 +26,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiRetrofit {
     public LoginApi loginApiService;
     private AdviceApi adviceService;
-    public static final String LOGIN_BASE_URL = "http://192.168.0.109:8009/";
+    private FindApi findApiService;
+    private CollectionApi collectionApiService;
+    public static final String LOGIN_BASE_URL = "http://192.168.58.226:8010/";
 
     public ApiRetrofit() {
         File httpCacheDirectory = new File(ProjectApplication.mContext.getCacheDir(), "responses");
@@ -49,9 +51,23 @@ public class ApiRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+        Retrofit retrofit_find = new Retrofit.Builder()
+                .baseUrl(LOGIN_BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        Retrofit retrofit_collection = new Retrofit.Builder()
+                .baseUrl(LOGIN_BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
 
         loginApiService = retrofit_login.create(LoginApi.class);
         adviceService = retrofit_advice.create(AdviceApi.class);
+        findApiService = retrofit_find.create(FindApi.class);
+        collectionApiService = retrofit_collection.create(CollectionApi.class);
     }
 
     Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
@@ -88,5 +104,12 @@ public class ApiRetrofit {
 
     public AdviceApi getAdviceApiService() {
         return adviceService;
+    }
+
+    public FindApi getFindApiService() {
+        return findApiService;
+    }
+    public CollectionApi getCollectionApiService() {
+        return collectionApiService;
     }
 }

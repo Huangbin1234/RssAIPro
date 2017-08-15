@@ -1,81 +1,176 @@
 package com.hb.rssai.bean;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/8/6 0006.
  */
 
 public class ResFindMore {
-    private String id;
-    private String title;
-    private long people;
-    private String abstractContent;
-    private String content;
-    private String createTime;
-    private String img;
-    private boolean addFlag;
 
-    public String getId() {
-        return id;
+    /**
+     * retObj : {"total":11,"rows":[{"isRecommend":true,"img":"\"\"","pubTime":"2017-08-16 00:00:00","abstractContent":"\"\"","count":12,"link":"www.baidu.com","name":"测试1","id":"7dc6dc90-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":"\"\""},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"7f202c21-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"7fb2c3c8-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"8037004f-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"80bdc362-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"813cecf3-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":null,"link":"www.baidu.com","name":"测试1","id":"9b2e76d3-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":1245,"link":"www.baidu.com","name":"测试1","id":"a09f19dd-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":1245,"link":"www.baidu.com","name":"测试1","id":"a1304dee-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":1245,"link":"www.baidu.com","name":"测试1","id":"a1a7e24b-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":1245,"link":"www.baidu.com","name":"测试1","id":"a22ad9d1-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null}]}
+     * retCode : 0
+     * retMsg : 操作成功
+     */
+
+    private RetObjBean retObj;
+    private int retCode;
+    private String retMsg;
+
+    public RetObjBean getRetObj() {
+        return retObj;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setRetObj(RetObjBean retObj) {
+        this.retObj = retObj;
     }
 
-    public String getTitle() {
-        return title;
+    public int getRetCode() {
+        return retCode;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setRetCode(int retCode) {
+        this.retCode = retCode;
     }
 
-    public long getPeople() {
-        return people;
+    public String getRetMsg() {
+        return retMsg;
     }
 
-    public void setPeople(long people) {
-        this.people = people;
+    public void setRetMsg(String retMsg) {
+        this.retMsg = retMsg;
     }
 
-    public String getAbstractContent() {
-        return abstractContent;
-    }
+    public static class RetObjBean {
+        /**
+         * total : 11
+         * rows : [{"isRecommend":true,"img":"\"\"","pubTime":"2017-08-16 00:00:00","abstractContent":"\"\"","count":12,"link":"www.baidu.com","name":"测试1","id":"7dc6dc90-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":"\"\""},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"7f202c21-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"7fb2c3c8-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"8037004f-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"80bdc362-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":null,"count":null,"link":"www.baidu.com","name":"测试1","id":"813cecf3-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":null,"link":"www.baidu.com","name":"测试1","id":"9b2e76d3-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":1245,"link":"www.baidu.com","name":"测试1","id":"a09f19dd-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":1245,"link":"www.baidu.com","name":"测试1","id":"a1304dee-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":1245,"link":"www.baidu.com","name":"测试1","id":"a1a7e24b-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null},{"isRecommend":true,"img":null,"pubTime":"2017-08-16 00:00:00","abstractContent":"12sadxzasdsadasdasdasdasdsadsad","count":1245,"link":"www.baidu.com","name":"测试1","id":"a22ad9d1-816d-11e7-af84-b083fe8f693c","isTag":false,"parentId":null}]
+         */
 
-    public void setAbstractContent(String abstractContent) {
-        this.abstractContent = abstractContent;
-    }
+        private int total;
+        private List<RowsBean> rows;
 
-    public String getContent() {
-        return content;
-    }
+        public int getTotal() {
+            return total;
+        }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+        public void setTotal(int total) {
+            this.total = total;
+        }
 
-    public String getCreateTime() {
-        return createTime;
-    }
+        public List<RowsBean> getRows() {
+            return rows;
+        }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
+        public void setRows(List<RowsBean> rows) {
+            this.rows = rows;
+        }
 
-    public String getImg() {
-        return img;
-    }
+        public static class RowsBean {
+            /**
+             * isRecommend : true
+             * img : ""
+             * pubTime : 2017-08-16 00:00:00
+             * abstractContent : ""
+             * count : 12
+             * link : www.baidu.com
+             * name : 测试1
+             * id : 7dc6dc90-816d-11e7-af84-b083fe8f693c
+             * isTag : false
+             * parentId : ""
+             */
 
-    public void setImg(String img) {
-        this.img = img;
-    }
+            private boolean isRecommend;
+            private String img;
+            private String pubTime;
+            private String abstractContent;
+            private int count;
+            private String link;
+            private String name;
+            private String id;
+            private boolean isTag;
+            private String parentId;
 
+            public boolean isIsRecommend() {
+                return isRecommend;
+            }
 
-    public boolean isAddFlag() {
-        return addFlag;
-    }
+            public void setIsRecommend(boolean isRecommend) {
+                this.isRecommend = isRecommend;
+            }
 
-    public void setAddFlag(boolean addFlag) {
-        this.addFlag = addFlag;
+            public String getImg() {
+                return img;
+            }
+
+            public void setImg(String img) {
+                this.img = img;
+            }
+
+            public String getPubTime() {
+                return pubTime;
+            }
+
+            public void setPubTime(String pubTime) {
+                this.pubTime = pubTime;
+            }
+
+            public String getAbstractContent() {
+                return abstractContent;
+            }
+
+            public void setAbstractContent(String abstractContent) {
+                this.abstractContent = abstractContent;
+            }
+
+            public int getCount() {
+                return count;
+            }
+
+            public void setCount(int count) {
+                this.count = count;
+            }
+
+            public String getLink() {
+                return link;
+            }
+
+            public void setLink(String link) {
+                this.link = link;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public boolean isIsTag() {
+                return isTag;
+            }
+
+            public void setIsTag(boolean isTag) {
+                this.isTag = isTag;
+            }
+
+            public String getParentId() {
+                return parentId;
+            }
+
+            public void setParentId(String parentId) {
+                this.parentId = parentId;
+            }
+        }
     }
 }

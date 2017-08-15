@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
-import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.util.HttpLoadImg;
 
 import java.util.List;
@@ -24,11 +24,11 @@ import java.util.List;
  */
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyViewHolder> {
     private Context mContext;
-    List<RssSource> rssList;
+    List<ResFindMore.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
 
 
-    public RecommendAdapter(Context mContext, List<RssSource> rssList) {
+    public RecommendAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> rssList) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
@@ -43,10 +43,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.ir_tv_name.setText(rssList.get(position).getName());
-        if (TextUtils.isEmpty(rssList.get(position).getImgUrl())) {
+        if (TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.ir_iv_logo);
         } else {
-            HttpLoadImg.loadImg(mContext, rssList.get(position).getImgUrl(), holder.ir_iv_logo);
+            HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
         }
         holder.v.setOnClickListener(v -> {
 
@@ -64,14 +64,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         TextView ir_tv_name;
         ImageView ir_iv_logo;
 
-
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-
             ir_tv_name = (TextView) itemView.findViewById(R.id.ir_tv_name);
             ir_iv_logo = (ImageView) itemView.findViewById(R.id.ir_iv_logo);
-
         }
     }
 }

@@ -23,7 +23,6 @@ import rx.schedulers.Schedulers;
 public class AdvicePresenter extends BasePresenter<IAdviceView> {
     private Context mContext;
     private IAdviceView iAdviceView;
-    private Activity activity;
     private EditText etContent;
 
     public AdvicePresenter(Context context, IAdviceView iAdviceView) {
