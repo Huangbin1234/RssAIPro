@@ -101,7 +101,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-//    private GridLayoutManager mGridLayoutManager;
+    //    private GridLayoutManager mGridLayoutManager;
     private RssSourceAdapter mRssSourceAdapter;
     private List<RssSource> list = new ArrayList<>();
 
@@ -148,7 +148,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected BasePresenter createPresenter() {
-        return new SubscriptionPresenter(getContext(),this);
+        return new SubscriptionPresenter(getContext(), this);
     }
 
     @Override
@@ -183,11 +183,10 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((SubscriptionPresenter)mPresenter).getUserSubscribeList();
+        ((SubscriptionPresenter) mPresenter).getUserSubscribeList();
 //        initData();
     }
 
@@ -210,7 +209,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Subscribe
     public void onEventMainThread(RssSourceEvent event) {
         if (event.getMessage() == 0) {
-            ((SubscriptionPresenter)mPresenter).getUserSubscribeList();
+            ((SubscriptionPresenter) mPresenter).refreshList();
         }
     }
 
@@ -256,7 +255,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 break;
         }
     }
-
 
 
     @Override
@@ -325,7 +323,8 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                     materialDialog.dismiss();
 //                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rowsBean.getId()});
 //                    initData();
-                    T.ShowToast(getContext(), "删除成功！");
+                    ((SubscriptionPresenter) mPresenter).delSubscription();
+//                    T.ShowToast(getContext(), "删除成功！");
                 }
             });
             if (dialogAdapter == null) {
@@ -362,10 +361,19 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
+    public String getSubscribeId() {
+        return rowsBean.getId();
+    }
+
+    @Override
+    public void update() {
+        EventBus.getDefault().post(new RssSourceEvent(0));
+    }
+
+    @Override
     protected void lazyLoad() {
 
     }
-
 
 
     public interface OnFragmentInteractionListener {

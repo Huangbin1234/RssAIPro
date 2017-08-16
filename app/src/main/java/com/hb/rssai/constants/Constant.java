@@ -27,7 +27,7 @@ public class Constant {
 
     public static final String MSG_NETWORK_ERROR = "网络慢或链接失败";
 
-    public static final int PAGE_SIZE = 4;    //页码尺寸
+    public static final int PAGE_SIZE = 10;    //页码尺寸
     public static final int RECOMMEND_PAGE_SIZE = 3;//推荐
     public static final String USER_ID ="user_id" ;
 }

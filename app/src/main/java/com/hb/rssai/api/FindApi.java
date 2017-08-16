@@ -18,13 +18,24 @@ public interface FindApi {
     @FormUrlEncoded
     @POST("subscription/findMoreList")
     Observable<ResFindMore> findMoreList(@FieldMap Map<String, String> params);
+
     @FormUrlEncoded
     @POST("subscription/recommendList")
     Observable<ResFindMore> recommendList(@FieldMap Map<String, String> params);
+
     @FormUrlEncoded
     @POST("subscription/userSubscribeList")
     Observable<ResFindMore> userSubscribeList(@FieldMap Map<String, String> params);
+
     @FormUrlEncoded
     @POST("subscription/addRssByUser")
     Observable<ResBase> addRssByUser(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("subscription/subscribe")
+    Observable<ResBase> subscribe(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("subscription/delSubscription")
+    Observable<ResBase> delSubscription(@FieldMap Map<String, String> params);
 }

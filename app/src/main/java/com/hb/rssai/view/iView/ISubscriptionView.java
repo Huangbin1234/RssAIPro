@@ -11,6 +11,7 @@ import com.hb.rssai.view.widget.FullyGridLayoutManager;
  */
 
 public interface ISubscriptionView {
+
     RecyclerView getRecyclerView();
 
     SwipeRefreshLayout getSwipeLayout();
@@ -18,4 +19,8 @@ public interface ISubscriptionView {
     FullyGridLayoutManager getManager();
 
     Fragment getFragment();
+
+    String getSubscribeId();
+
+    void update();
 }

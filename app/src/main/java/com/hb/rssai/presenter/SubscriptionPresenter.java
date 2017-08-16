@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 
 import com.hb.rssai.adapter.RssSourceAdapter;
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -37,11 +38,12 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     private RssSourceAdapter adapter;
 
 
-    public SubscriptionPresenter( Context context,ISubscriptionView ISubscriptionView) {
+    public SubscriptionPresenter(Context context, ISubscriptionView ISubscriptionView) {
         mISubscriptionView = ISubscriptionView;
         mContext = context;
         initView();
     }
+
     private void initView() {
         subscribeRecyclerView = mISubscriptionView.getRecyclerView();
         swipeLayout = mISubscriptionView.getSwipeLayout();
@@ -80,6 +82,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
             }
         });
     }
+
     /**
      * 刷新数据
      */
@@ -93,14 +96,40 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         swipeLayout.setRefreshing(true);
         getUserSubscribeList();
     }
+
     public void getUserSubscribeList() {
         findApi.userSubscribeList(getUserSubscribeParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resFindMore -> {
                     setUserSubscribeResult(resFindMore);
-                },this::loadError);
+                }, this::loadError);
     }
+
+    public void delSubscription() {
+        findApi.delSubscription(getDelParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setDelResult(resBase);
+                }, this::loadError);
+    }
+
+    private void setDelResult(ResBase resBase) {
+        mISubscriptionView.update();
+        T.ShowToast(mContext, resBase.getRetMsg());
+    }
+
+    private Map<String, String> getDelParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String subscribeId = mISubscriptionView.getSubscribeId();
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"subscribeId\":\"" + subscribeId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
+
 
     private Map<String, String> getUserSubscribeParams() {
         Map<String, String> map = new HashMap<>();
@@ -120,7 +149,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
                 resFindMores.addAll(resFindMore.getRetObj().getRows());
                 if (adapter == null) {
-                    adapter = new RssSourceAdapter(mContext, resFindMores,mISubscriptionView.getFragment());
+                    adapter = new RssSourceAdapter(mContext, resFindMores, mISubscriptionView.getFragment());
                     subscribeRecyclerView.setAdapter(adapter);
                 } else {
                     adapter.notifyDataSetChanged();

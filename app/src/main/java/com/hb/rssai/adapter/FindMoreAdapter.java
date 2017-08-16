@@ -25,8 +25,17 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
     private Context mContext;
     List<ResFindMore.RetObjBean.RowsBean> resList;
     private LayoutInflater layoutInflater;
-    public interface onItemLongClickedListener {
+    private OnAddClickedListener onAddClickedListener;
+
+    public void setOnAddClickedListener(OnAddClickedListener onAddClickedListener) {
+        this.onAddClickedListener = onAddClickedListener;
+    }
+
+    public interface OnItemLongClickedListener {
         void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rowsBean);
+    }
+    public interface OnAddClickedListener {
+        void onAdd(ResFindMore.RetObjBean.RowsBean rowsBean);
     }
     public FindMoreAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> resList) {
         this.mContext = mContext;
@@ -51,8 +60,13 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         } else {
             holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_add);
         }
+        holder.ifm_iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onAddClickedListener.onAdd(resList.get(position));
+            }
+        });
     }
-
 
     @Override
     public int getItemCount() {

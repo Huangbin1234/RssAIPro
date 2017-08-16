@@ -4,9 +4,12 @@ import android.content.Context;
 
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IAddRssView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,5 +56,6 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
 
     private void setAddResult(ResBase resBase) {
         T.ShowToast(mContext, resBase.getRetMsg());
+        EventBus.getDefault().post(new RssSourceEvent(0));
     }
 }

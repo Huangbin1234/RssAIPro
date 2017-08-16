@@ -8,10 +8,15 @@ import android.support.v7.widget.RecyclerView;
 
 import com.hb.rssai.adapter.FindMoreAdapter;
 import com.hb.rssai.adapter.RecommendAdapter;
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.RssSourceEvent;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IFindView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,6 +140,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
         }
     }
 
+
     public void recommendList() {
         if (iFindView != null) {
             findApi.recommendList(getRecommendParams())
@@ -146,11 +152,21 @@ public class FindPresenter extends BasePresenter<IFindView> {
         }
     }
 
+    public void addSubscription() {
+        findApi.subscribe(getSubscribeParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setAddResult(resBase);
+                }, this::loadError);
+    }
+
     private void loadError(Throwable throwable) {
         swipeLayout.setRefreshing(false);
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
     }
+    private ResFindMore.RetObjBean.RowsBean rowsBean;
 
     private void setFindMoreResult(ResFindMore resFindMore) {
         isLoad = false;
@@ -161,6 +177,11 @@ public class FindPresenter extends BasePresenter<IFindView> {
                 resFindMores.addAll(resFindMore.getRetObj().getRows());
                 if (findMoreAdapter == null) {
                     findMoreAdapter = new FindMoreAdapter(mContext, resFindMores);
+                    findMoreAdapter.setOnAddClickedListener(rowsBean -> {
+                         //TODO 开始点击
+                        this.rowsBean=rowsBean;
+                        addSubscription();
+                    });
                     mFfFindRecyclerView.setAdapter(findMoreAdapter);
                 } else {
                     findMoreAdapter.notifyDataSetChanged();
@@ -193,6 +214,10 @@ public class FindPresenter extends BasePresenter<IFindView> {
             T.ShowToast(mContext, resFindMore.getRetMsg());
         }
     }
+    private void setAddResult(ResBase resBase) {
+        T.ShowToast(mContext, resBase.getRetMsg());
+        EventBus.getDefault().post(new RssSourceEvent(0));
+    }
 
     private Map<String, String> getFindMoreParams() {
         Map<String, String> map = new HashMap<>();
@@ -205,6 +230,14 @@ public class FindPresenter extends BasePresenter<IFindView> {
     private Map<String, String> getRecommendParams() {
         Map<String, String> map = new HashMap<>();
         String jsonParams = "{\"page\":\"" + page + "\",\"size\":\"" + Constant.RECOMMEND_PAGE_SIZE + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+    private Map<String, String> getSubscribeParams() {
+        Map<String, String> map = new HashMap<>();
+        String subscribeId = rowsBean.getId();
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"subscribeId\":\"" + subscribeId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }

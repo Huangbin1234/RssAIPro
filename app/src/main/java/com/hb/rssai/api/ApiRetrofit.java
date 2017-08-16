@@ -28,8 +28,8 @@ public class ApiRetrofit {
     private AdviceApi adviceService;
     private FindApi findApiService;
     private CollectionApi collectionApiService;
-//    public static final String LOGIN_BASE_URL = "http://192.168.58.226:8010/";
-    public static final String LOGIN_BASE_URL = "http://192.168.0.109:8009/";
+    public static final String LOGIN_BASE_URL = "http://192.168.58.226:8010/";
+//    public static final String LOGIN_BASE_URL = "http://192.168.0.109:8009/";
 
     public ApiRetrofit() {
         File httpCacheDirectory = new File(ProjectApplication.mContext.getCacheDir(), "responses");
