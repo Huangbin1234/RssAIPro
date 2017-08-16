@@ -321,7 +321,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                     startActivity(intent);
                 } else if (list.get(position).get("id").equals(3)) {
                     materialDialog.dismiss();
-//                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rowsBean.getId()});
+//                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rowsBean.getCollectionId()});
 //                    initData();
                     ((SubscriptionPresenter) mPresenter).delSubscription();
 //                    T.ShowToast(getContext(), "删除成功！");

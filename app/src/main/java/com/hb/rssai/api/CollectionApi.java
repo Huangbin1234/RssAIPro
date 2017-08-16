@@ -21,4 +21,7 @@ public interface CollectionApi {
     @FormUrlEncoded
     @POST("collection/add")
     Observable<ResBase> add(@FieldMap Map<String, String> params);
+    @FormUrlEncoded
+    @POST("collection/del")
+    Observable<ResBase> del(@FieldMap Map<String, String> params);
 }

@@ -26,7 +26,6 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.CollectionPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
-import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ICollectionView;
 import com.hb.rssai.view.widget.FullListView;
@@ -38,7 +37,7 @@ import java.util.List;
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class CollectionActivity extends BaseActivity implements CollectionAdapter.onItemLongClickedListener,ICollectionView {
+public class CollectionActivity extends BaseActivity implements CollectionAdapter.onItemLongClickedListener, ICollectionView {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -55,12 +54,14 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     @BindView(R.id.coll_swipe_layout)
     SwipeRefreshLayout mCollSwipeLayout;
     private LinearLayoutManager mLayoutManager;
-    CollectionAdapter adapter;
+    //    CollectionAdapter adapter;
+    private String collectionId = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((CollectionPresenter)mPresenter).getList();
+        ((CollectionPresenter) mPresenter).getList();
     }
 
 
@@ -94,7 +95,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
 
     @Override
     protected BasePresenter createPresenter() {
-        return new CollectionPresenter(this,this);
+        return new CollectionPresenter(this, this);
     }
 
     @Override
@@ -109,10 +110,12 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onItemLongClicked(ResCollection.RetObjBean.RowsBean rowsBean) {
         sureCollection(rowsBean);
     }
+
     /**
      * 构造对话框数据
      *
@@ -122,12 +125,12 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
         List<HashMap<String, Object>> list = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", "分享");
-        map.put("id", 1);
+        map.put("collectionId", 1);
         map.put("url", R.mipmap.ic_share);
         list.add(map);
         HashMap<String, Object> map2 = new HashMap<>();
         map2.put("name", "删除");
-        map2.put("id", 2);
+        map2.put("collectionId", 2);
         map2.put("url", R.mipmap.ic_delete);
         list.add(map2);
         return list;
@@ -150,7 +153,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
 
             List<HashMap<String, Object>> list = initDialogData();
             listView.setOnItemClickListener((parent, view1, position, id) -> {
-                if (list.get(position).get("id").equals(1)) {
+                if (list.get(position).get("collectionId").equals(1)) {
                     //TODO 分享
                     materialDialog.dismiss();
                     Intent intent = new Intent(CollectionActivity.this, QrCodeActivity.class);
@@ -158,11 +161,13 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
                     intent.putExtra(QrCodeActivity.KEY_TITLE, rowsBean.getTitle());
                     intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_COLLECTION_SOURCE + rowsBean.getLink()));
                     startActivity(intent);
-                } else if (list.get(position).get("id").equals(2)) {
+                } else if (list.get(position).get("collectionId").equals(2)) {
                     materialDialog.dismiss();
-                    LiteOrmDBUtil.deleteWhere(UserCollection.class, "id", new String[]{"" + rowsBean.getId()});
-                    adapter.notifyDataSetChanged();
-                    T.ShowToast(CollectionActivity.this, "删除成功！");
+                    LiteOrmDBUtil.deleteWhere(UserCollection.class, "collectionId", new String[]{"" + rowsBean.getId()});
+                    //adapter.notifyDataSetChanged();
+                    collectionId = rowsBean.getId();
+                    ((CollectionPresenter) mPresenter).del();
+                    //T.ShowToast(CollectionActivity.this, "删除成功！");
                 }
             });
             if (dialogAdapter == null) {
@@ -191,5 +196,9 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     @Override
     public LinearLayoutManager getManager() {
         return mLayoutManager;
+    }
+
+    public String getCollectionId() {
+        return collectionId;
     }
 }

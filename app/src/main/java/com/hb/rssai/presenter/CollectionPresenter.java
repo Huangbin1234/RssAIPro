@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.hb.rssai.adapter.CollectionAdapter;
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -101,6 +102,34 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
                 .subscribe(resCollection -> {
                     setListResult(resCollection);
                 }, this::loadError);
+    }
+
+    public void del() {
+        collectionApi.del(getDelParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setDelResult(resBase);
+                }, this::loadError);
+    }
+
+    private Map<String, String> getDelParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String id = iCollectionView.getCollectionId();
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"id\":\"" + id + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
+
+    private void setDelResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            //TODO 确认删除
+            refreshList();
+        } else {
+            T.ShowToast(mContext, resBase.getRetMsg());
+        }
     }
 
     private Map<String, String> getListParams() {

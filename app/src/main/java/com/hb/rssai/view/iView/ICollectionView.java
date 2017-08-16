@@ -14,4 +14,6 @@ public interface ICollectionView {
     SwipeRefreshLayout getSwipeLayout();
 
     LinearLayoutManager getManager();
+
+    String getCollectionId();
 }
