@@ -10,6 +10,8 @@ public class ApiFactory {
     static AdviceApi adviceApiSingleton = null;
     static FindApi findApiSingleton = null;
     static CollectionApi collectionApiSingleton = null;
+    static InformationApi informationApiSingleton = null;
+    static DataGroupApi dataGroupApiSingleton=null;
 
     public static LoginApi getLoginApiSingleton() {
         synchronized (monitor) {
@@ -45,5 +47,23 @@ public class ApiFactory {
             }
             return collectionApiSingleton;
         }
+    }
+
+    public static InformationApi getInformationApiSingleton() {
+        synchronized (monitor) {
+            if (informationApiSingleton == null) {
+                informationApiSingleton = new ApiRetrofit().getInformationApiService();
+            }
+            return informationApiSingleton;
+        }
+    }
+
+    public static  DataGroupApi getDataGroupApiSingleton(){
+       synchronized (monitor){
+           if(dataGroupApiSingleton==null){
+               dataGroupApiSingleton=new ApiRetrofit().getDataGroupApiService();
+           }
+       }
+        return dataGroupApiSingleton;
     }
 }

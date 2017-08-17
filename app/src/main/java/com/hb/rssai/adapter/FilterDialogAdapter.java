@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.util.HttpLoadImg;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,11 +19,11 @@ import java.util.List;
  */
 
 public class FilterDialogAdapter extends BaseAdapter {
-    private List<HashMap<String, Object>> list;
+    private List<ResDataGroup.RetObjBean.RowsBean> list;
     private Context mContext;
     LayoutInflater inflater;
 
-    public FilterDialogAdapter(Context context, List<HashMap<String, Object>> list) {
+    public FilterDialogAdapter(Context context, List<ResDataGroup.RetObjBean.RowsBean> list) {
         this.mContext = context;
         this.list = list;
         inflater = LayoutInflater.from(mContext);
@@ -56,8 +56,8 @@ public class FilterDialogAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.dialog_item_tv.setText(list.get(position).get("name").toString());
-        HttpLoadImg.loadCircleImg(mContext, Integer.valueOf(list.get(position).get("url").toString()), holder.dialog_item_iv);
+        holder.dialog_item_tv.setText(list.get(position).getName());
+        HttpLoadImg.loadCircleImg(mContext,list.get(position).getUrl(), holder.dialog_item_iv);
         return convertView;
     }
 

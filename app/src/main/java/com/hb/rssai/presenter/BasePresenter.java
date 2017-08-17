@@ -4,7 +4,9 @@ package com.hb.rssai.presenter;
 import com.hb.rssai.api.AdviceApi;
 import com.hb.rssai.api.ApiFactory;
 import com.hb.rssai.api.CollectionApi;
+import com.hb.rssai.api.DataGroupApi;
 import com.hb.rssai.api.FindApi;
+import com.hb.rssai.api.InformationApi;
 import com.hb.rssai.api.LoginApi;
 
 import java.lang.ref.Reference;
@@ -20,6 +22,8 @@ public abstract class BasePresenter<V> {
     public static final AdviceApi adviceApi = ApiFactory.getAdviceApiSingleton();
     public static final FindApi findApi = ApiFactory.getFindApiSingleton();
     public static final CollectionApi collectionApi = ApiFactory.getCollectionApiSingleton();
+    public static final InformationApi informationApi = ApiFactory.getInformationApiSingleton();
+    public static final DataGroupApi dataGroupApi = ApiFactory.getDataGroupApiSingleton();
 
     public void attachView(V view) {
         mViewRef = new WeakReference<V>(view);

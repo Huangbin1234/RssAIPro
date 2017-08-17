@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,11 +22,16 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.FilterDialogAdapter;
 import com.hb.rssai.adapter.RssListAdapter;
+import com.hb.rssai.base.BaseFragment;
+import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.bean.RssSort;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.HomeSourceEvent;
+import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.presenter.InformationPresenter;
 import com.hb.rssai.util.RssDataSourceUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.view.iView.IInformationView;
 import com.hb.rssai.view.widget.FullGridView;
 import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
@@ -41,17 +45,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener, IInformationView {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.hf_recycler_view)
     RecyclerView mHfRecyclerView;
-    Unbinder unbinder;
+    //    Unbinder unbinder;
     @BindView(R.id.hf_swipe_layout)
     SwipeRefreshLayout mHfSwipeLayout;
     @BindView(R.id.hf_ll)
@@ -105,7 +107,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             DF = 1;
         } else if (event.getMessage() == 0) {
             DF = 0;
-        }else if(event.getMessage()==3){
+        } else if (event.getMessage() == 3) {
             //TODO
         }
     }
@@ -113,37 +115,50 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        initView();
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void setAppTitle() {
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
         mSysTvTitle.setText(getResources().getString(R.string.str_main_home));
     }
 
-    private void initView() {
+    @Override
+    protected BasePresenter createPresenter() {
+        return new InformationPresenter(getContext(), this);
+    }
+
+    @Override
+    protected int providerContentViewId() {
+        return R.layout.fragment_home;
+    }
+
+    @Override
+    protected void initView(View rootView) {
         mLayoutManager = new LinearLayoutManager(getContext());
         mHfRecyclerView.setLayoutManager(mLayoutManager);
         mHfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
         mHfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
         //TODO 设置下拉刷新
-        mHfSwipeLayout.setOnRefreshListener(() -> {
-            loadData(DF);
-        });
+//        mHfSwipeLayout.setOnRefreshListener(() -> {
+//            loadData(DF);
+//        });
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
-        loadData(DF);
+//        loadData(DF);
+        ((InformationPresenter) mPresenter).getList();
+        ((InformationPresenter) mPresenter).getDataGroupList();
     }
 
     private synchronized void loadData(int dataFrom) {
@@ -159,13 +174,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (sites != null && sites.size() > 0) {
             new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
     @OnClick({R.id.sys_iv_filter})
@@ -173,15 +189,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sys_iv_filter:
-                int dataFrom=SharedPreferencesUtil.getInt(getContext(),Constant.KEY_DATA_FROM,0);
-                if(dataFrom==0){
+                int dataFrom = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
+                if (dataFrom == 0) {
                     openSysFilter();
-                }else if(dataFrom==1){
+                } else if (dataFrom == 1) {
                     openMeFilter();
                 }
                 break;
         }
     }
+
     /**
      * 构造对话框数据
      *
@@ -248,15 +265,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         return list;
     }
+
     /**
      * 菜单对话框
      *
      * @return
      */
-    FilterDialogAdapter dialogAdapter;
-    FilterDialogAdapter dialogAdapterMe;
-    MaterialDialog materialDialog;
-    MaterialDialog materialDialogMe;
+    private FilterDialogAdapter dialogAdapter;
+    private FilterDialogAdapter dialogAdapterMe;
+    private MaterialDialog materialDialog;
+    private MaterialDialog materialDialogMe;
+
+    private int dataType = 0;//选择的数据类型
 
     private void openSysFilter() {
         if (materialDialog == null) {
@@ -265,9 +285,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             View view = inflater.inflate(R.layout.view_filter, null);
             FullGridView listView = (FullGridView) view.findViewById(R.id.dialog_gridView);
 
-            List<HashMap<String, Object>> list = initDialogData();
-            listView.setOnItemClickListener((parent, view1, position, id) -> {
+            List<ResDataGroup.RetObjBean.RowsBean> list = ((InformationPresenter) mPresenter).getGroupList();
 
+            listView.setOnItemClickListener((parent, view1, position, id) -> {
+                dataType = list.get(position).getVal();
+                ((InformationPresenter) mPresenter).refreshList();
+                materialDialog.dismiss();
             });
             if (dialogAdapter == null) {
                 dialogAdapter = new FilterDialogAdapter(getContext(), list);
@@ -281,6 +304,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             materialDialog.show();
         }
     }
+
     private void openMeFilter() {
         if (materialDialogMe == null) {
             materialDialogMe = new MaterialDialog(getContext());
@@ -288,8 +312,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             View view = inflater.inflate(R.layout.view_filter, null);
             FullGridView listView = (FullGridView) view.findViewById(R.id.dialog_gridView);
 
-            List<HashMap<String, Object>> list = initDialogDataByMe();
+            List<ResDataGroup.RetObjBean.RowsBean> list = ((InformationPresenter) mPresenter).getMeGroupList();
             listView.setOnItemClickListener((parent, view1, position, id) -> {
+                //TODO 刷新数据
 
             });
             if (dialogAdapterMe == null) {
@@ -304,6 +329,38 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             materialDialogMe.show();
         }
     }
+
+    @Override
+    public RecyclerView getRecyclerView() {
+        return mHfRecyclerView;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSwipeLayout() {
+        return mHfSwipeLayout;
+    }
+
+    @Override
+    public LinearLayoutManager getManager() {
+        return mLayoutManager;
+    }
+
+    @Override
+    public LinearLayout getLlLoad() {
+        return mHfLl;
+    }
+
+    @Override
+    public int getDataType() {
+        return dataType;
+    }
+
+
+    @Override
+    protected void lazyLoad() {
+
+    }
+
     class ReadRssTask extends AsyncTask<Void, Void, List<RSSItemBean>> {
 
         @Override
@@ -312,7 +369,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
 
         @Override
-        protected List<RSSItemBean>  doInBackground(Void... params) {
+        protected List<RSSItemBean> doInBackground(Void... params) {
             List<RSSItemBean> tempList = null;
             List<RSSItemBean> resList = new ArrayList<>();
             for (Website website : sites) {

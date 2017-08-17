@@ -28,8 +28,10 @@ public class ApiRetrofit {
     private AdviceApi adviceService;
     private FindApi findApiService;
     private CollectionApi collectionApiService;
-    public static final String LOGIN_BASE_URL = "http://192.168.58.226:8010/";
-//    public static final String LOGIN_BASE_URL = "http://192.168.0.109:8010/";
+    private InformationApi informationApiService;
+    private DataGroupApi dataGroupApiService;
+    //    public static final String BASE_URL = "http://192.168.58.226:8010/";
+    public static final String BASE_URL = "http://192.168.0.109:8010/";
 
     public ApiRetrofit() {
         File httpCacheDirectory = new File(ProjectApplication.mContext.getCacheDir(), "responses");
@@ -41,25 +43,39 @@ public class ApiRetrofit {
                 .cache(cache)
                 .build();
         Retrofit retrofit_login = new Retrofit.Builder()
-                .baseUrl(LOGIN_BASE_URL)
+                .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         Retrofit retrofit_advice = new Retrofit.Builder()
-                .baseUrl(LOGIN_BASE_URL)
+                .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         Retrofit retrofit_find = new Retrofit.Builder()
-                .baseUrl(LOGIN_BASE_URL)
+                .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         Retrofit retrofit_collection = new Retrofit.Builder()
-                .baseUrl(LOGIN_BASE_URL)
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        Retrofit retrofit_information = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        Retrofit retrofit_data_group = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -69,6 +85,8 @@ public class ApiRetrofit {
         adviceService = retrofit_advice.create(AdviceApi.class);
         findApiService = retrofit_find.create(FindApi.class);
         collectionApiService = retrofit_collection.create(CollectionApi.class);
+        informationApiService = retrofit_information.create(InformationApi.class);
+        dataGroupApiService = retrofit_data_group.create(DataGroupApi.class);
     }
 
     Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
@@ -110,7 +128,16 @@ public class ApiRetrofit {
     public FindApi getFindApiService() {
         return findApiService;
     }
+
     public CollectionApi getCollectionApiService() {
         return collectionApiService;
+    }
+
+    public InformationApi getInformationApiService() {
+        return informationApiService;
+    }
+
+    public DataGroupApi getDataGroupApiService() {
+        return dataGroupApiService;
     }
 }
