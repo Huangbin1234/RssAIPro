@@ -25,14 +25,17 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
     private Context mContext;
     List<ResFindMore.RetObjBean.RowsBean> resList;
     private LayoutInflater layoutInflater;
+    private OnItemClickedListener onItemClickedListener;
     private OnAddClickedListener onAddClickedListener;
 
     public void setOnAddClickedListener(OnAddClickedListener onAddClickedListener) {
         this.onAddClickedListener = onAddClickedListener;
     }
-
-    public interface OnItemLongClickedListener {
-        void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rowsBean);
+    public void setOnItemClickedListener(OnItemClickedListener onItemClickedListener) {
+        this.onItemClickedListener = onItemClickedListener;
+    }
+    public interface OnItemClickedListener {
+        void onItemClicked(ResFindMore.RetObjBean.RowsBean rowsBean);
     }
     public interface OnAddClickedListener {
         void onAdd(ResFindMore.RetObjBean.RowsBean rowsBean);
@@ -60,12 +63,8 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         } else {
             holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_add);
         }
-        holder.ifm_iv_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAddClickedListener.onAdd(resList.get(position));
-            }
-        });
+        holder.ifm_iv_add.setOnClickListener(v -> onAddClickedListener.onAdd(resList.get(position)));
+        holder.v.setOnClickListener(v->onItemClickedListener.onItemClicked(resList.get(position)));
     }
 
     @Override

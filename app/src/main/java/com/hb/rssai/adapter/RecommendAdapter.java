@@ -1,6 +1,7 @@
 package com.hb.rssai.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.util.HttpLoadImg;
+import com.hb.rssai.view.subscription.SourceListActivity;
 
 import java.util.List;
 
@@ -27,6 +29,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
     List<ResFindMore.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
 
+    private FindMoreAdapter.OnAddClickedListener onAddClickedListener;
+
+    public void setOnAddClickedListener(FindMoreAdapter.OnAddClickedListener onAddClickedListener) {
+        this.onAddClickedListener = onAddClickedListener;
+    }
 
     public RecommendAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> rssList) {
         this.mContext = mContext;
@@ -48,8 +55,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         } else {
             HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
         }
+        holder.ir_iv_add.setOnClickListener(v -> onAddClickedListener.onAdd(rssList.get(position)));
         holder.v.setOnClickListener(v -> {
-
+            Intent intent = new Intent(mContext, SourceListActivity.class);
+            intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
+            intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
+            mContext.startActivity(intent);
         });
     }
 
@@ -63,12 +74,14 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         public View v;
         TextView ir_tv_name;
         ImageView ir_iv_logo;
+        ImageView ir_iv_add;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
             ir_tv_name = (TextView) itemView.findViewById(R.id.ir_tv_name);
             ir_iv_logo = (ImageView) itemView.findViewById(R.id.ir_iv_logo);
+            ir_iv_add = (ImageView) itemView.findViewById(R.id.ir_iv_add);
         }
     }
 }

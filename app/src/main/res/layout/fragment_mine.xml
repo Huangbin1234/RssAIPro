@@ -28,6 +28,7 @@
                     android:src="@mipmap/ic_user_picture" />
 
                 <TextView
+                    android:id="@+id/fm_tv_account"
                     style="@style/TextLabel"
                     android:layout_marginLeft="10dp"
                     android:text="@string/str_mf_no_login" />

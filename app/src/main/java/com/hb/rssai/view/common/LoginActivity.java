@@ -71,6 +71,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
 
     @Override
     public void toFinish() {
+        setResult(RESULT_OK);
         finish();
     }
 

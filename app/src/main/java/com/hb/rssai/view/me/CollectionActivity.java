@@ -111,8 +111,10 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     }
 
 
+    private ResCollection.RetObjBean.RowsBean newRowsBean;
     @Override
     public void onItemLongClicked(ResCollection.RetObjBean.RowsBean rowsBean) {
+        newRowsBean=rowsBean;
         sureCollection(rowsBean);
     }
 
@@ -158,14 +160,14 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
                     materialDialog.dismiss();
                     Intent intent = new Intent(CollectionActivity.this, QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[1]);
-                    intent.putExtra(QrCodeActivity.KEY_TITLE, rowsBean.getTitle());
-                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_COLLECTION_SOURCE + rowsBean.getLink()));
+                    intent.putExtra(QrCodeActivity.KEY_TITLE, newRowsBean.getTitle());
+                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_COLLECTION_SOURCE + newRowsBean.getLink()));
                     startActivity(intent);
                 } else if (list.get(position).get("collectionId").equals(2)) {
                     materialDialog.dismiss();
-                    LiteOrmDBUtil.deleteWhere(UserCollection.class, "collectionId", new String[]{"" + rowsBean.getId()});
+                    LiteOrmDBUtil.deleteWhere(UserCollection.class, "collectionId", new String[]{"" + newRowsBean.getId()});
                     //adapter.notifyDataSetChanged();
-                    collectionId = rowsBean.getId();
+                    collectionId = newRowsBean.getId();
                     ((CollectionPresenter) mPresenter).del();
                     //T.ShowToast(CollectionActivity.this, "删除成功！");
                 }

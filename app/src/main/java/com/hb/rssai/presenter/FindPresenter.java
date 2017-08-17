@@ -1,6 +1,7 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IFindView;
+import com.hb.rssai.view.subscription.SourceListActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -166,6 +168,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
     }
+
     private ResFindMore.RetObjBean.RowsBean rowsBean;
 
     private void setFindMoreResult(ResFindMore resFindMore) {
@@ -177,9 +180,15 @@ public class FindPresenter extends BasePresenter<IFindView> {
                 resFindMores.addAll(resFindMore.getRetObj().getRows());
                 if (findMoreAdapter == null) {
                     findMoreAdapter = new FindMoreAdapter(mContext, resFindMores);
+                    findMoreAdapter.setOnItemClickedListener(rowsBean1 -> {
+                        Intent intent = new Intent(mContext, SourceListActivity.class);
+                        intent.putExtra(SourceListActivity.KEY_LINK, rowsBean1.getLink());
+                        intent.putExtra(SourceListActivity.KEY_TITLE, rowsBean1.getName());
+                        mContext.startActivity(intent);
+                    });
                     findMoreAdapter.setOnAddClickedListener(rowsBean -> {
-                         //TODO 开始点击
-                        this.rowsBean=rowsBean;
+                        //TODO 开始点击
+                        this.rowsBean = rowsBean;
                         addSubscription();
                     });
                     mFfFindRecyclerView.setAdapter(findMoreAdapter);
@@ -205,6 +214,11 @@ public class FindPresenter extends BasePresenter<IFindView> {
                 resRecommends = resFindMore.getRetObj().getRows();
                 if (recommendAdapter == null) {
                     recommendAdapter = new RecommendAdapter(mContext, resRecommends);
+                    recommendAdapter.setOnAddClickedListener(rowsBean1 -> {
+                        //TODO 开始点击
+                        this.rowsBean = rowsBean1;
+                        addSubscription();
+                    });
                     mFfHotRecyclerView.setAdapter(recommendAdapter);
                 } else {
                     findMoreAdapter.notifyDataSetChanged();
@@ -214,6 +228,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
             T.ShowToast(mContext, resFindMore.getRetMsg());
         }
     }
+
     private void setAddResult(ResBase resBase) {
         T.ShowToast(mContext, resBase.getRetMsg());
         EventBus.getDefault().post(new RssSourceEvent(0));
@@ -233,6 +248,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
+
     private Map<String, String> getSubscribeParams() {
         Map<String, String> map = new HashMap<>();
         String subscribeId = rowsBean.getId();

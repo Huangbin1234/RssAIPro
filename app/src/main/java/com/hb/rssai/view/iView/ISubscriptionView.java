@@ -20,7 +20,7 @@ public interface ISubscriptionView {
 
     Fragment getFragment();
 
-    String getSubscribeId();
+    String getUsId();
 
     void update();
 }

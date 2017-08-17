@@ -361,8 +361,8 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public String getSubscribeId() {
-        return rowsBean.getId();
+    public String getUsId() {
+        return rowsBean.getUsId();
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.me.CollectionActivity;
@@ -61,6 +62,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     TextView mIrsTvMsgCount;
     @BindView(R.id.fm_ll_scan)
     RelativeLayout mFmLlScan;
+    @BindView(R.id.fm_tv_account)
+    TextView mFmTvAccount;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -68,6 +71,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
     public final static int REQUESTCODE = 1;
+    public final static int REQUEST_LOGIN = 2;
 
     public MineFragment() {
         // Required empty public constructor
@@ -132,11 +136,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
+  
     @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar})
     @Override
     public void onClick(View v) {
@@ -151,7 +151,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
                 break;
             case R.id.fm_ll_avatar:
-                getActivity().startActivity(new Intent(getContext(), LoginActivity.class));
+                startActivityForResult(new Intent(getContext(), LoginActivity.class), REQUEST_LOGIN);
                 break;
         }
     }
@@ -215,6 +215,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_PRESS_URL_SOURCE + Constant.FLAG_URL_SOURCE, ""));
                     getContext().startActivity(intent);
                 }
+            } else if (requestCode == REQUEST_LOGIN) {
+                mFmTvAccount.setText(SharedPreferencesUtil.getString(getContext(), Constant.SP_LOGIN_USER_NAME, ""));
             }
         }
     }
