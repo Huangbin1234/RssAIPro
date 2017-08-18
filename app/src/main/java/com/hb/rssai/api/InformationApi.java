@@ -17,4 +17,7 @@ public interface InformationApi {
     @FormUrlEncoded
     @POST("info/list")
     Observable<ResInformation> getList(@FieldMap Map<String, String> params);
+    @FormUrlEncoded
+    @POST("info/listById")
+    Observable<ResInformation> getListById(@FieldMap Map<String, String> params);
 }

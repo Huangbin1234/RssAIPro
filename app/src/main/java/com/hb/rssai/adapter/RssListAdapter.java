@@ -34,14 +34,14 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     private List<RSSItemBean> rssList;
     private LayoutInflater layoutInflater;
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
-    private List<String> images = null;
-    private boolean isLoadImage=true;
+    private String[] images = null;
+    private boolean isLoadImage = true;
 
     public RssListAdapter(Context mContext, List<RSSItemBean> rssList) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
-        isLoadImage= SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE,true);
+        isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE, true);
     }
 
     @Override
@@ -53,9 +53,9 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_na_name.setText(rssList.get(position).getTitle());
-        images = rssList.get(position).getImages();
-        if (images != null && images.size() > 0) {
-            if (images.size() >= 3) {
+        images = TextUtils.isEmpty(rssList.get(position).getImages()) ? null : rssList.get(position).getImages().split(",");
+        if (images != null && images.length > 0) {
+            if (images.length >= 3) {
 
                 holder.item_na_img.setVisibility(View.GONE);
                 holder.irl_bottom_a.setVisibility(View.GONE);
@@ -64,13 +64,13 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 holder.item_na_type_b.setText(rssList.get(position).getType());
                 holder.item_na_time_b.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
 
-                if(isLoadImage){
+                if (isLoadImage) {
                     holder.item_na_group_ll.setVisibility(View.VISIBLE);
-                    HttpLoadImg.loadImg(mContext, images.get(0), holder.item_na_group_a);
-                    HttpLoadImg.loadImg(mContext, images.get(1), holder.item_na_group_b);
-                    HttpLoadImg.loadImg(mContext, images.get(2), holder.item_na_group_c);
+                    HttpLoadImg.loadImg(mContext, images[0], holder.item_na_group_a);
+                    HttpLoadImg.loadImg(mContext, images[1], holder.item_na_group_b);
+                    HttpLoadImg.loadImg(mContext, images[2], holder.item_na_group_c);
 
-                }else{
+                } else {
                     holder.item_na_group_ll.setVisibility(View.GONE);
                 }
             } else {
@@ -82,10 +82,10 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
                 holder.item_na_type_a.setText(rssList.get(position).getType());
                 holder.item_na_time_a.setText(DateUtil.showDate(rssList.get(position).getPubDate(), longDatePat));
 
-                if(isLoadImage){
+                if (isLoadImage) {
                     holder.item_na_img.setVisibility(View.VISIBLE);
-                    HttpLoadImg.loadImg(mContext, images.get(0), holder.item_na_img);
-                }else{
+                    HttpLoadImg.loadImg(mContext, images[0], holder.item_na_img);
+                } else {
                     holder.item_na_img.setVisibility(View.GONE);
                 }
 

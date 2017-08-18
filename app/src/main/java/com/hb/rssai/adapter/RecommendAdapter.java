@@ -60,6 +60,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
             Intent intent = new Intent(mContext, SourceListActivity.class);
             intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
             intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
+            intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
             mContext.startActivity(intent);
         });
     }

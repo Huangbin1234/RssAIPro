@@ -184,6 +184,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
                         Intent intent = new Intent(mContext, SourceListActivity.class);
                         intent.putExtra(SourceListActivity.KEY_LINK, rowsBean1.getLink());
                         intent.putExtra(SourceListActivity.KEY_TITLE, rowsBean1.getName());
+                        intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
                         mContext.startActivity(intent);
                     });
                     findMoreAdapter.setOnAddClickedListener(rowsBean -> {

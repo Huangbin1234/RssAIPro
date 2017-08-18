@@ -56,7 +56,7 @@ public class FeedReader {
             item.setAuthor(entry.getAuthor());
             if (entry.getDescription() != null) {
                 item.setDescription(entry.getDescription().getValue());
-                item.setImages(getRegexImages(entry.getDescription().getValue()));
+                item.setImages(listToString(getRegexImages(entry.getDescription().getValue())));
             }
             item.setLink(entry.getLink());
             rssItemBeans.add(item);
@@ -64,7 +64,22 @@ public class FeedReader {
         rssChannel.setRSSItemBeen(rssItemBeans);
         return rssChannel;
     }
-
+    public static String listToString(List<String> stringList){
+        if (stringList==null) {
+            return null;
+        }
+        StringBuilder result=new StringBuilder();
+        boolean flag=false;
+        for (String string : stringList) {
+            if (flag) {
+                result.append(",");
+            }else {
+                flag=true;
+            }
+            result.append(string);
+        }
+        return result.toString();
+    }
     private String formatStr(String s) {
         Pattern p = Pattern.compile(".*<!\\[CDATA\\[(.*)\\]\\]>.*");
         Matcher m = p.matcher(s);

@@ -17,7 +17,9 @@ import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssListAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.presenter.SourceListPresenter;
 import com.hb.rssai.util.RssDataSourceUtil;
+import com.hb.rssai.view.iView.ISourceListView;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
@@ -27,10 +29,11 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class SourceListActivity extends BaseActivity {
+public class SourceListActivity extends BaseActivity implements ISourceListView {
 
     public static final String KEY_LINK = "rssLink";
-    public static final String KEY_TITLE ="rssTitle" ;
+    public static final String KEY_TITLE = "rssTitle";
+    public static String KEY_SUBSCRIBE_ID = "subscribeId";
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
     @BindView(R.id.sys_toolbar)
@@ -48,12 +51,14 @@ public class SourceListActivity extends BaseActivity {
     private ArrayList<RSSItemBean> rssList = new ArrayList<>();
     private PrgDialog slaDialog;
     RssListAdapter rssListAdapter;
-    private String titleValue="";
+    private String titleValue = "";
+    private String subscribeId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
+//        initData();
+        ((SourceListPresenter) mPresenter).getListById();
     }
 
     private void initData() {
@@ -84,6 +89,7 @@ public class SourceListActivity extends BaseActivity {
         if (bundle != null) {
             linkValue = bundle.getString(KEY_LINK, "");
             titleValue = bundle.getString(KEY_TITLE, "");
+            subscribeId = bundle.getString(KEY_SUBSCRIBE_ID, "");
         }
     }
 
@@ -97,6 +103,7 @@ public class SourceListActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -111,7 +118,32 @@ public class SourceListActivity extends BaseActivity {
 
     @Override
     protected BasePresenter createPresenter() {
-        return null;
+        return new SourceListPresenter(this, this);
+    }
+
+    @Override
+    public String getSubscribeId() {
+        return subscribeId;
+    }
+
+    @Override
+    public RecyclerView getRecyclerView() {
+        return mSlaRecyclerView;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSwipeLayout() {
+        return mSlaSwipeLayout;
+    }
+
+    @Override
+    public LinearLayoutManager getManager() {
+        return mLayoutManager;
+    }
+
+    @Override
+    public LinearLayout getLlLoad() {
+        return mSlaLl;
     }
 
     class ReadRssTask extends AsyncTask<Void, Void, Void> {
@@ -151,12 +183,11 @@ public class SourceListActivity extends BaseActivity {
         website.setEndTag("");
         website.setFid("67");
 
-        List<RSSItemBean> rssTempList = RssDataSourceUtil.getRssData(website,-1);
+        List<RSSItemBean> rssTempList = RssDataSourceUtil.getRssData(website, -1);
         if (rssTempList != null) {
             rssList.addAll(rssTempList);
         }
     }
-
 
 
     @Override
