@@ -63,5 +63,7 @@
     <string name="hint_str_aa_advice">请输入反馈内容，限140字</string>
     <string name="str_la_btn_login">登录</string>
     <string name="str_la_title">登录</string>
+    <string name="str_message_title">消息中心</string>
+    <string name="str_message_content_title">消息详情</string>
 
 </resources>

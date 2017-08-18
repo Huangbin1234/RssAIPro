@@ -27,6 +27,7 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.me.CollectionActivity;
+import com.hb.rssai.view.me.MessageActivity;
 import com.hb.rssai.view.me.SettingActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
 import com.zbar.lib.CaptureActivity;
@@ -137,12 +138,15 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
   
-    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar})
+    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar,R.id.fm_ll_message})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fm_ll_collection:
                 getActivity().startActivity(new Intent(getContext(), CollectionActivity.class));
+                break;
+            case R.id.fm_ll_message:
+                getActivity().startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
             case R.id.fm_ll_setting:
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));

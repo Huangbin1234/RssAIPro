@@ -186,7 +186,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((SubscriptionPresenter) mPresenter).getUserSubscribeList();
+        ((SubscriptionPresenter) mPresenter).refreshList();
 //        initData();
     }
 

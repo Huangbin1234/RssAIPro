@@ -12,6 +12,7 @@ public class ApiFactory {
     static CollectionApi collectionApiSingleton = null;
     static InformationApi informationApiSingleton = null;
     static DataGroupApi dataGroupApiSingleton=null;
+    static MessageApi messageApiSingleton=null;
 
     public static LoginApi getLoginApiSingleton() {
         synchronized (monitor) {
@@ -65,5 +66,14 @@ public class ApiFactory {
            }
        }
         return dataGroupApiSingleton;
+    }
+
+    public static  MessageApi getMessageApiSingleton(){
+        synchronized (monitor){
+            if(messageApiSingleton==null){
+                messageApiSingleton=new ApiRetrofit().getMessageApiService();
+            }
+        }
+        return messageApiSingleton;
     }
 }

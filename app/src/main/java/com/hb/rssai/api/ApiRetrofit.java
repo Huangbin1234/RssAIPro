@@ -30,8 +30,9 @@ public class ApiRetrofit {
     private CollectionApi collectionApiService;
     private InformationApi informationApiService;
     private DataGroupApi dataGroupApiService;
-    //    public static final String BASE_URL = "http://192.168.58.226:8010/";
-    public static final String BASE_URL = "http://192.168.0.109:8010/";
+    private MessageApi messageApiService;
+        public static final String BASE_URL = "http://192.168.58.226:8010/";
+//    public static final String BASE_URL = "http://192.168.0.109:8010/";
 
     public ApiRetrofit() {
         File httpCacheDirectory = new File(ProjectApplication.mContext.getCacheDir(), "responses");
@@ -80,6 +81,13 @@ public class ApiRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+        Retrofit retrofit_message = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
 
         loginApiService = retrofit_login.create(LoginApi.class);
         adviceService = retrofit_advice.create(AdviceApi.class);
@@ -87,6 +95,7 @@ public class ApiRetrofit {
         collectionApiService = retrofit_collection.create(CollectionApi.class);
         informationApiService = retrofit_information.create(InformationApi.class);
         dataGroupApiService = retrofit_data_group.create(DataGroupApi.class);
+        messageApiService = retrofit_message.create(MessageApi.class);
     }
 
     Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
@@ -139,5 +148,9 @@ public class ApiRetrofit {
 
     public DataGroupApi getDataGroupApiService() {
         return dataGroupApiService;
+    }
+
+    public MessageApi getMessageApiService() {
+        return messageApiService;
     }
 }

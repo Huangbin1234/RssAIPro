@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_msg_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
+
+
+        <TextView
+            android:id="@+id/item_msg_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingTop="16dp"
+            android:textColor="@color/color_title"
+            android:textSize="@dimen/s16p" />
+
+        <TextView
+            android:id="@+id/item_msg_tv_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_time"
+            android:textSize="@dimen/s14p" />
+
+
+        <TextView
+            android:id="@+id/item_msg_tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_time"
+            android:textSize="@dimen/s14p" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
