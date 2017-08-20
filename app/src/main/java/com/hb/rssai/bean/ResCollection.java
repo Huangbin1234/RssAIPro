@@ -83,6 +83,7 @@ public class ResCollection {
             private String id;
             private String title;
             private String userId;
+            private String informationId;
 
             public String getImg() {
                 return img;
@@ -130,6 +131,14 @@ public class ResCollection {
 
             public void setUserId(String userId) {
                 this.userId = userId;
+            }
+
+            public String getInformationId() {
+                return informationId;
+            }
+
+            public void setInformationId(String informationId) {
+                this.informationId = informationId;
             }
         }
     }

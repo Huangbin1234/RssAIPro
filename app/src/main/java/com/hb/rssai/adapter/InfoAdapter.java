@@ -36,15 +36,15 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
     private List<ResInformation.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
-    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String[] images = null;
-    private boolean isLoadImage=true;
+    private boolean isLoadImage = true;
 
     public InfoAdapter(Context mContext, List<ResInformation.RetObjBean.RowsBean> rssList) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
-        isLoadImage= SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE,true);
+        isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE, true);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_na_name.setText(rssList.get(position).getTitle());
-        images = rssList.get(position).getImageUrls().split(",");
+        images = TextUtils.isEmpty(rssList.get(position).getImageUrls()) ? null : rssList.get(position).getImageUrls().split(",");
         if (images != null && images.length > 0) {
             if (images.length >= 3) {
 
@@ -71,13 +71,13 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                     e.printStackTrace();
                 }
 
-                if(isLoadImage){
+                if (isLoadImage) {
                     holder.item_na_group_ll.setVisibility(View.VISIBLE);
                     HttpLoadImg.loadImg(mContext, images[0], holder.item_na_group_a);
                     HttpLoadImg.loadImg(mContext, images[1], holder.item_na_group_b);
                     HttpLoadImg.loadImg(mContext, images[2], holder.item_na_group_c);
 
-                }else{
+                } else {
                     holder.item_na_group_ll.setVisibility(View.GONE);
                 }
             } else {
@@ -93,10 +93,10 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                     e.printStackTrace();
                 }
 
-                if(isLoadImage){
+                if (isLoadImage) {
                     holder.item_na_img.setVisibility(View.VISIBLE);
                     HttpLoadImg.loadImg(mContext, images[0], holder.item_na_img);
-                }else{
+                } else {
                     holder.item_na_img.setVisibility(View.GONE);
                 }
 
@@ -121,6 +121,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                 Intent intent = new Intent(mContext, ContentActivity.class);//创建Intent对象
                 intent.putExtra(ContentActivity.KEY_TITLE, rssList.get(position).getTitle());
                 intent.putExtra(ContentActivity.KEY_URL, rssList.get(position).getLink());
+                intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rssList.get(position).getId());
                 mContext.startActivity(intent);//将Intent传递给Activity
             } else {
                 T.ShowToast(mContext, "链接错误，无法跳转！");

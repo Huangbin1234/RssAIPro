@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,14 +17,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.presenter.MinePresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.LoginActivity;
+import com.hb.rssai.view.iView.IMineView;
 import com.hb.rssai.view.me.CollectionActivity;
 import com.hb.rssai.view.me.MessageActivity;
 import com.hb.rssai.view.me.SettingActivity;
@@ -39,7 +42,7 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_OK;
 
 
-public class MineFragment extends Fragment implements View.OnClickListener {
+public class MineFragment extends BaseFragment implements View.OnClickListener, IMineView {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -65,6 +68,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     RelativeLayout mFmLlScan;
     @BindView(R.id.fm_tv_account)
     TextView mFmTvAccount;
+    @BindView(R.id.mf_tv_read_count)
+    TextView mMfTvReadCount;
+    @BindView(R.id.mf_tv_subcribe_count)
+    TextView mMfTvSubscribeCount;
+    @BindView(R.id.fm_ll_data)
+    LinearLayout mFmLlData;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -99,18 +108,36 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_mine, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    protected void setAppTitle() {
+        mSysToolbar.setTitle("");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
+        mSysTvTitle.setText(getResources().getString(R.string.str_main_mine));
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return new MinePresenter(getContext(), this);
+    }
+
+    @Override
+    protected int providerContentViewId() {
+        return R.layout.fragment_mine;
+    }
+
+    @Override
+    protected void initView(View rootView) {
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSysToolbar.setTitle("");
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
-        mSysTvTitle.setText(getResources().getString(R.string.str_main_mine));
+        ((MinePresenter) mPresenter).getUser();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -137,8 +164,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-  
-    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar,R.id.fm_ll_message})
+
+    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -158,6 +185,21 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 startActivityForResult(new Intent(getContext(), LoginActivity.class), REQUEST_LOGIN);
                 break;
         }
+    }
+
+    @Override
+    protected void lazyLoad() {
+
+    }
+
+    @Override
+    public TextView getTvReadCount() {
+        return mMfTvReadCount;
+    }
+
+    @Override
+    public TextView getTvSubscribeCount() {
+        return mMfTvSubscribeCount;
     }
 
 
@@ -221,6 +263,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 }
             } else if (requestCode == REQUEST_LOGIN) {
                 mFmTvAccount.setText(SharedPreferencesUtil.getString(getContext(), Constant.SP_LOGIN_USER_NAME, ""));
+                ((MinePresenter) mPresenter).getUser();
             }
         }
     }

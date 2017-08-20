@@ -1,5 +1,6 @@
 package com.hb.rssai.api;
 
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResInformation;
 
 import java.util.Map;
@@ -20,4 +21,7 @@ public interface InformationApi {
     @FormUrlEncoded
     @POST("info/listById")
     Observable<ResInformation> getListById(@FieldMap Map<String, String> params);
+    @FormUrlEncoded
+    @POST("info/updateCount")
+    Observable<ResBase> updateCount(@FieldMap Map<String, String> params);
 }

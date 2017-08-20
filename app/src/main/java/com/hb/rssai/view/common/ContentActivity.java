@@ -52,12 +52,15 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
 
     public static final String KEY_URL = "url";
     public static final String KEY_TITLE = "title";
+    public static final String KEY_INFORMATION_ID = "information_id";
     private String contentUrl;
     private String title = "";
+    private String informationId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((ContentPresenter) mPresenter).updateCount();
     }
 
     @Override
@@ -66,7 +69,42 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
         if (null != bundle) {
             contentUrl = bundle.getString(KEY_URL);
             title = bundle.getString(KEY_TITLE);
+            informationId = bundle.getString(KEY_INFORMATION_ID);
         }
+    }
+
+    @Override
+    protected int providerContentViewId() {
+        return R.layout.activity_content;
+    }
+
+    @Override
+    protected void setAppTitle() {
+        mSysToolbar.setTitle("");
+        setSupportActionBar(mSysToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        mSysToolbar.setOnMenuItemClickListener(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return new ContentPresenter(this, this);
     }
 
     @Override
@@ -148,39 +186,6 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
         });
     }
 
-    @Override
-    protected int providerContentViewId() {
-        return R.layout.activity_content;
-    }
-
-    @Override
-    protected void setAppTitle() {
-        mSysToolbar.setTitle("");
-        setSupportActionBar(mSysToolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-        mSysToolbar.setOnMenuItemClickListener(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected BasePresenter createPresenter() {
-        return new ContentPresenter(this, this);
-    }
 
     private boolean isWIFIkAvailable() {
         ConnectivityManager cwjManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -229,5 +234,10 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
     @Override
     public String getNewLink() {
         return contentUrl;
+    }
+
+    @Override
+    public String getInformationId() {
+        return informationId;
     }
 }

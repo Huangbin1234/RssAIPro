@@ -1,6 +1,5 @@
 package com.hb.rssai.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.zxing.common.StringUtils;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResCollection;
-import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.me.CollectionActivity;
 
@@ -57,6 +54,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
             Intent intent = new Intent(mContext, ContentActivity.class);
             intent.putExtra(ContentActivity.KEY_URL, collections.get(position).getLink());
             intent.putExtra(ContentActivity.KEY_TITLE, collections.get(position).getTitle());
+            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, collections.get(position).getInformationId());
             mContext.startActivity(intent);
         });
         holder.v.setOnLongClickListener(v -> {

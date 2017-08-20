@@ -93,6 +93,7 @@ public class ResFindMore {
             private String parentId;
             private long sort;
             private String usId;//用户订阅关系ID
+            private int findCount;//发现新资讯数
 
             public boolean isIsRecommend() {
                 return isRecommend;
@@ -188,6 +189,14 @@ public class ResFindMore {
 
             public void setUsId(String usId) {
                 this.usId = usId;
+            }
+
+            public int getFindCount() {
+                return findCount;
+            }
+
+            public void setFindCount(int findCount) {
+                this.findCount = findCount;
             }
         }
     }

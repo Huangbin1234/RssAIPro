@@ -9,4 +9,6 @@ public interface IContentView {
     String getNewTitle();
 
     String getNewLink();
+
+    String getInformationId();
 }

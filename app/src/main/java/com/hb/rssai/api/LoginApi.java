@@ -2,6 +2,7 @@ package com.hb.rssai.api;
 
 
 import com.hb.rssai.bean.ResLogin;
+import com.hb.rssai.bean.ResUser;
 
 import java.util.Map;
 
@@ -18,4 +19,12 @@ public interface LoginApi {
     @FormUrlEncoded
     @POST("user/login")
     Observable<ResLogin> doLogin(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("user/register")
+    Observable<ResLogin> register(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("user/getUserInfo")
+    Observable<ResUser> getUserInfo(@FieldMap Map<String, String> params);
 }

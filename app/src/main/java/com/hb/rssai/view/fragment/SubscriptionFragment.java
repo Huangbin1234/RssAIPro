@@ -35,7 +35,6 @@ import com.hb.rssai.presenter.SubscriptionPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
-import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISubscriptionView;
