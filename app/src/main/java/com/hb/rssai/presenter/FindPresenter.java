@@ -6,6 +6,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.LinearLayout;
 
 import com.hb.rssai.adapter.FindMoreAdapter;
 import com.hb.rssai.adapter.RecommendAdapter;
@@ -48,7 +49,10 @@ public class FindPresenter extends BasePresenter<IFindView> {
     private LinearLayoutManager findMoreManager;
     private NestedScrollView mNestRefresh;
     private int page = 1;
+    private int recommendPage = 1;
     private boolean isEnd = false, isLoad = false;
+    private boolean isRecommendEnd = false, isRecommendLoad = false;
+    private LinearLayout mLlRecommend;
 
     public FindPresenter(Context mContext, IFindView iFindView) {
         this.mContext = mContext;
@@ -63,7 +67,13 @@ public class FindPresenter extends BasePresenter<IFindView> {
         swipeLayout = iFindView.getFfSwipeLayout();
         findMoreManager = iFindView.getFindMoreManager();
         mNestRefresh = iFindView.getNestScrollView();
-
+        mLlRecommend = iFindView.getLlRecommend();
+        mLlRecommend.setOnClickListener(v -> {
+            if (!isRecommendEnd && !isRecommendLoad) {
+                recommendPage++;
+                recommendList();
+            }
+        });
         //TODO 设置下拉刷新
         swipeLayout.setOnRefreshListener(() -> refreshList());
         mNestRefresh.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -119,12 +129,22 @@ public class FindPresenter extends BasePresenter<IFindView> {
     /**
      * 刷新数据
      */
+
+
     public void refreshList() {
         page = 1;
+        recommendPage = 1;
         isLoad = true;
+        isRecommendLoad = true;
+
         isEnd = false;
+        isRecommendEnd = false;
+
         if (resFindMores != null) {
             resFindMores.clear();
+        }
+        if (resRecommends != null) {
+            resRecommends.clear();
         }
         swipeLayout.setRefreshing(true);
         findMoreList();
@@ -206,13 +226,15 @@ public class FindPresenter extends BasePresenter<IFindView> {
     }
 
     private void setRecommendResult(ResFindMore resFindMore) {
+        isRecommendLoad = false;
         //TODO 填充数据
         if (resFindMore.getRetCode() == 0) {
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
                 if (resRecommends.size() > 0) {
                     resRecommends.clear();
+                    recommendAdapter.notifyDataSetChanged();
                 }
-                resRecommends = resFindMore.getRetObj().getRows();
+                resRecommends.addAll(resFindMore.getRetObj().getRows());
                 if (recommendAdapter == null) {
                     recommendAdapter = new RecommendAdapter(mContext, resRecommends);
                     recommendAdapter.setOnAddClickedListener(rowsBean1 -> {
@@ -222,7 +244,10 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     });
                     mFfHotRecyclerView.setAdapter(recommendAdapter);
                 } else {
-                    findMoreAdapter.notifyDataSetChanged();
+                    recommendAdapter.notifyDataSetChanged();
+                }
+                if (recommendPage * Constant.RECOMMEND_PAGE_SIZE + resRecommends.size() >= resFindMore.getRetObj().getTotal()) {
+                    isRecommendEnd = true;
                 }
             }
         } else {
@@ -245,7 +270,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
 
     private Map<String, String> getRecommendParams() {
         Map<String, String> map = new HashMap<>();
-        String jsonParams = "{\"page\":\"" + page + "\",\"size\":\"" + Constant.RECOMMEND_PAGE_SIZE + "\"}";
+        String jsonParams = "{\"page\":\"" + recommendPage + "\",\"size\":\"" + Constant.RECOMMEND_PAGE_SIZE + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }

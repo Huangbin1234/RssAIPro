@@ -1,6 +1,7 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 
@@ -36,6 +37,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     private SwipeRefreshLayout swipeLayout;
     private FullyGridLayoutManager subscribeManager;
     private RssSourceAdapter adapter;
+    private NestedScrollView mNestRefresh;
 
 
     public SubscriptionPresenter(Context context, ISubscriptionView ISubscriptionView) {
@@ -48,24 +50,15 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         subscribeRecyclerView = mISubscriptionView.getRecyclerView();
         swipeLayout = mISubscriptionView.getSwipeLayout();
         subscribeManager = mISubscriptionView.getManager();
+        mNestRefresh = mISubscriptionView.getNestScrollView();
 
         //TODO 设置下拉刷新
         swipeLayout.setOnRefreshListener(() -> refreshList());
-
-        //TODO 设置上拉加载更多
-        subscribeRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem;
-
+        mNestRefresh.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (adapter == null) {
-                    isLoad = false;
-                    swipeLayout.setRefreshing(false);
-                    return;
-                }
-                // 在最后两条的时候就自动加载
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= adapter.getItemCount()) {
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                if (v.getChildAt(0) != null && isBottomForNestedScrollView(v, scrollY)) {
                     // 加载更多
                     if (!isEnd && !isLoad) {
                         swipeLayout.setRefreshing(true);
@@ -74,15 +67,41 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
                     }
                 }
             }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = subscribeManager.findLastVisibleItemPosition();
-            }
         });
+        //TODO 设置上拉加载更多
+//        subscribeRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            int lastVisibleItem;
+//
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (adapter == null) {
+//                    isLoad = false;
+//                    swipeLayout.setRefreshing(false);
+//                    return;
+//                }
+//                // 在最后两条的时候就自动加载
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= adapter.getItemCount()) {
+//                    // 加载更多
+//                    if (!isEnd && !isLoad) {
+//                        swipeLayout.setRefreshing(true);
+//                        page++;
+//                        getUserSubscribeList();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                lastVisibleItem = subscribeManager.findLastVisibleItemPosition();
+//            }
+//        });
     }
-
+    // TODO: 判断是不是在底部
+    private boolean isBottomForNestedScrollView(NestedScrollView v, int scrollY) {
+        return (scrollY + v.getHeight()) == (v.getChildAt(0).getHeight() + v.getPaddingTop() + v.getPaddingBottom());
+    }
     /**
      * 刷新数据
      */

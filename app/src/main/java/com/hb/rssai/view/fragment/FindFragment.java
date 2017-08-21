@@ -80,6 +80,8 @@ public class FindFragment extends BaseFragment implements IFindView {
     @BindView(R.id.ff_nest_scrollview)
     NestedScrollView mFfNestScrollview;
     Unbinder unbinder;
+    @BindView(R.id.ll_recommend)
+    LinearLayout mLlRecommend;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -90,6 +92,7 @@ public class FindFragment extends BaseFragment implements IFindView {
     private LinearLayoutManager mTopicLinearManager1;
 
     private FullyGridLayoutManager mRecommendGridLayoutManager;
+
 
 
     public FindFragment() {
@@ -240,6 +243,11 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Override
     public NestedScrollView getNestScrollView() {
         return mFfNestScrollview;
+    }
+
+    @Override
+    public LinearLayout getLlRecommend() {
+        return mLlRecommend;
     }
 
     public interface OnFragmentInteractionListener {

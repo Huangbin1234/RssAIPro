@@ -1,6 +1,7 @@
 package com.hb.rssai.view.iView;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 
@@ -23,4 +24,6 @@ public interface ISubscriptionView {
     String getUsId();
 
     void update();
+
+    NestedScrollView getNestScrollView();
 }

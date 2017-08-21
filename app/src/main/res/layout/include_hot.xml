@@ -49,11 +49,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_recommend"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:clickable="true"
             android:padding="16dp">
 
             <TextView

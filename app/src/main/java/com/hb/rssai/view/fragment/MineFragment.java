@@ -202,6 +202,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         return mMfTvSubscribeCount;
     }
 
+    @Override
+    public TextView getTvAccount() {
+        return mFmTvAccount;
+    }
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

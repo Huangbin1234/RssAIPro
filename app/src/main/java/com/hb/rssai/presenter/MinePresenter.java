@@ -24,6 +24,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
     private IMineView iMineView;
     private TextView tvReadCount;
     private TextView tvSubscribeCount;
+    private TextView tvAccount;
 
     public MinePresenter(Context context, IMineView iMineView) {
         mContext = context;
@@ -34,6 +35,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
     private void initView() {
         tvReadCount = iMineView.getTvReadCount();
         tvSubscribeCount = iMineView.getTvSubscribeCount();
+        tvAccount = iMineView.getTvAccount();
     }
 
     public void getUser() {
@@ -54,6 +56,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         if (user.getRetCode() == 0) {
             tvReadCount.setText("" + user.getRetObj().getReadCount());
             tvSubscribeCount.setText("" + user.getRetObj().getSubscribeCount());
+            tvAccount.setText(user.getRetObj().getNickName());
         } else {
             T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
         }

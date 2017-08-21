@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -57,6 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.drakeet.materialdialog.MaterialDialog;
@@ -92,6 +94,8 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     TextView mTvSubRightAll;
     @BindView(R.id.sub_ll_all)
     LinearLayout mSubLlAll;
+    @BindView(R.id.sf_nest_scrollview)
+    NestedScrollView mSfNestScrollview;
     //@BindView(R.id.index_function_gridview)
     // FullGridView mIndexFunctionGridView;
 
@@ -135,6 +139,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -367,6 +372,11 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void update() {
         EventBus.getDefault().post(new RssSourceEvent(0));
+    }
+
+    @Override
+    public NestedScrollView getNestScrollView() {
+        return mSfNestScrollview;
     }
 
     @Override

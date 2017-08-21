@@ -10,4 +10,5 @@ public interface IMineView {
     TextView getTvReadCount();
 
     TextView getTvSubscribeCount();
+    TextView getTvAccount();
 }
