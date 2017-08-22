@@ -1,6 +1,7 @@
 package com.hb.rssai.api;
 
 
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResLogin;
 import com.hb.rssai.bean.ResUser;
 
@@ -22,7 +23,7 @@ public interface LoginApi {
 
     @FormUrlEncoded
     @POST("user/register")
-    Observable<ResLogin> register(@FieldMap Map<String, String> params);
+    Observable<ResBase> register(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("user/getUserInfo")

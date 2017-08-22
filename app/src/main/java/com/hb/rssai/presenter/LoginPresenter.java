@@ -64,8 +64,8 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             String uPsd = etPsd.getText().toString().trim();
             SharedPreferencesUtil.setString(mContext, Constant.SP_LOGIN_USER_NAME, uName);
             SharedPreferencesUtil.setString(mContext, Constant.SP_LOGIN_PSD, uPsd);
-            SharedPreferencesUtil.setString(mContext, Constant.TOKEN, bean.getRetObj() != null ? bean.getRetObj().getToken(): "");
-            SharedPreferencesUtil.setString(mContext, Constant.USER_ID, bean.getRetObj() != null ? bean.getRetObj().getUserId(): "");
+            SharedPreferencesUtil.setString(mContext, Constant.TOKEN, bean.getRetObj() != null ? bean.getRetObj().getToken() : "");
+            SharedPreferencesUtil.setString(mContext, Constant.USER_ID, bean.getRetObj() != null ? bean.getRetObj().getUserId() : "");
             iLoginView.toFinish();
         }
         T.ShowToast(mContext, bean.getRetMsg());
