@@ -31,8 +31,8 @@ public class ApiRetrofit {
     private InformationApi informationApiService;
     private DataGroupApi dataGroupApiService;
     private MessageApi messageApiService;
-//        public static final String BASE_URL = "http://192.168.58.226:8010/";
-    public static final String BASE_URL = "http://192.168.0.109:8010/";
+        public static final String BASE_URL = "http://192.168.58.226:8010/";
+//    public static final String BASE_URL = "http://192.168.0.109:8010/";
 //    public static final String BASE_URL = "http://192.168.1.103:8010/";
 
     public ApiRetrofit() {
@@ -42,6 +42,9 @@ public class ApiRetrofit {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
+                .connectTimeout(30,TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .cache(cache)
                 .build();
         Retrofit retrofit_login = new Retrofit.Builder()
