@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/ir_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:gravity="center"
-              android:orientation="horizontal">
+    android:id="@+id/ir_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,9 +14,7 @@
         <ImageView
             android:id="@+id/ir_iv_logo"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/bg"
-            android:scaleType="centerCrop"/>
+            android:layout_height="100dp" />
 
         <ImageView
             android:id="@+id/ir_iv_add"
@@ -26,7 +24,7 @@
             android:layout_alignParentRight="true"
             android:paddingBottom="10dp"
             android:paddingRight="10dp"
-            android:src="@mipmap/ic_recommend_add"/>
+            android:src="@mipmap/ic_recommend_add" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,8 +40,8 @@
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:lines="2"
-                android:textColor="#9c9c9c"
-                android:textSize="@dimen/s12p"/>
+                android:textColor="@color/color_txt"
+                android:textSize="@dimen/s12p" />
 
         </LinearLayout>
 

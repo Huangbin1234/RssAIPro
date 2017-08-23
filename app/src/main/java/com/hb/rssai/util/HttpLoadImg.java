@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hb.rssai.R;
 
 import java.io.File;
@@ -95,7 +96,7 @@ public class HttpLoadImg {
      * 下载图片转圆角
      */
     public static void loadRoundImg(Context context, String url, ImageView imageView) {
-        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideRoundTransform(context, 10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new CenterCrop(context),new GlideRoundTransform(context, 5)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
 
     }
     /**

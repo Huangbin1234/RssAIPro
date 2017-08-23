@@ -57,7 +57,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         if (TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.irs_iv_logo);
         } else {
-            HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.irs_iv_logo);
+            HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.irs_iv_logo);
         }
 
         holder.v.setOnClickListener(v -> {

@@ -53,7 +53,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         if (TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.ir_iv_logo);
         } else {
-            HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
+            HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
         }
         holder.ir_iv_add.setOnClickListener(v -> onAddClickedListener.onAdd(rssList.get(position)));
         holder.v.setOnClickListener(v -> {

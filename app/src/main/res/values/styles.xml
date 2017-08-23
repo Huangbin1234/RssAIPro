@@ -18,6 +18,7 @@
         <item name="colorControlActivated">#05896f</item>
         <item name="toolbarStyle">@style/ClubToolbar</item>
         <item name="colorAccent">@color/color_toolbar_bg</item>
+        <item name="android:listDivider">@drawable/divider</item>
     </style>
 
     <style name="AppTheme.NoActionBar.Night">

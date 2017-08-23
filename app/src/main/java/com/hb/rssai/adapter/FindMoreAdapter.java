@@ -57,7 +57,7 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         holder.ifm_tv_people.setText("订阅：" + resList.get(position).getCount());
         holder.ifm_tv_abstract.setText(resList.get(position).getAbstractContent());
         holder.ifm_tv_title.setText(resList.get(position).getName());
-        HttpLoadImg.loadImg(mContext, resList.get(position).getImg(), holder.ifm_iv_img);
+        HttpLoadImg.loadRoundImg(mContext, resList.get(position).getImg(), holder.ifm_iv_img);
         if (resList.get(position).isIsRecommend()) {
             holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_no_add);
         } else {
