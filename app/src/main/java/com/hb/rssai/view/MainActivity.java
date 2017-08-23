@@ -25,6 +25,7 @@ import com.hb.rssai.view.fragment.FindFragment;
 import com.hb.rssai.view.fragment.HomeFragment;
 import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
+import com.zzhoujay.richtext.RichText;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -200,6 +201,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     firstTime = secondTime;
                     return true;
                 } else {
+                    RichText.recycle();
                     finish();
                     System.exit(0);
                 }

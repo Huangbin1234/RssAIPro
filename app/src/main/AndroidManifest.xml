@@ -56,6 +56,8 @@
         <activity android:name=".view.me.MessageContentActivity"/>
         <activity android:name=".view.common.RegisterActivity">
         </activity>
+        <activity android:name=".view.common.RichTextActivity">
+        </activity>
     </application>
 
 </manifest>
