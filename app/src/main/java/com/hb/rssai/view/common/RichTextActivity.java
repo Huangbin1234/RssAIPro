@@ -1,9 +1,14 @@
 package com.hb.rssai.view.common;
 
+import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -11,8 +16,13 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.util.DateUtil;
+import com.hb.rssai.util.HtmlImageGetter;
 import com.zzhoujay.richtext.RichText;
+
+import java.text.ParseException;
 
 import butterknife.BindView;
 
@@ -30,8 +40,21 @@ public class RichTextActivity extends BaseActivity {
     TextView mRtaTvContent;
     @BindView(R.id.activity_add_source)
     LinearLayout mActivityAddSource;
+    @BindView(R.id.rta_tv_title)
+    TextView mRtaTvTitle;
+    @BindView(R.id.rta_tv_date)
+    TextView mRtaTvDate;
+    @BindView(R.id.rta_tv_whereFrom)
+    TextView mRtaTvWhereFrom;
+    @BindView(R.id.rta_tv_view)
+    TextView mRtaTvView;
 
-    private String abstractContent;
+    private String abstractContent = "";
+    private String pubDate = "";
+    private String title = "";
+    private String whereFrom = "";
+    private String url = "";
+    private String id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +66,36 @@ public class RichTextActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             abstractContent = bundle.getString("abstractContent");
+            title = bundle.getString(ContentActivity.KEY_TITLE);
+            whereFrom = bundle.getString("whereFrom");
+            pubDate = bundle.getString("pubDate");
+            url = bundle.getString("url");
+            id = bundle.getString("id");
         }
 
     }
 
     @Override
     protected void initView() {
-        RichText.initCacheDir(this);
-        RichText.from(abstractContent).into(mRtaTvContent);
+        try {
+            if (!TextUtils.isEmpty(pubDate))
+                mRtaTvDate.setText(DateUtil.showDate(new SimpleDateFormat(Constant.DATE_LONG_PATTERN).parse(pubDate), Constant.DATE_LONG_PATTERN));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mRtaTvTitle.setText(title);
+        mRtaTvWhereFrom.setText(whereFrom);
+
+        HtmlImageGetter htmlImageGetter = new HtmlImageGetter(this, this, mRtaTvContent);
+        Spanned spanned = Html.fromHtml(abstractContent, Html.FROM_HTML_MODE_LEGACY, htmlImageGetter, null);
+        mRtaTvContent.setText(spanned);
+        mRtaTvView.setOnClickListener(v -> {
+            Intent intent = new Intent(RichTextActivity.this, ContentActivity.class);//创建Intent对象
+            intent.putExtra(ContentActivity.KEY_TITLE, title);
+            intent.putExtra(ContentActivity.KEY_URL, url);
+            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, id);
+            startActivity(intent);
+        });
     }
 
     @Override
