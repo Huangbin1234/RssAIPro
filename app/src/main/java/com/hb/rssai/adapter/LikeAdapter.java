@@ -53,7 +53,7 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.item_find_more, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_like_more, parent, false);
         return new MyViewHolder(view);
     }
 
