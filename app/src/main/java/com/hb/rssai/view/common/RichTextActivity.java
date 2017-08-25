@@ -5,6 +5,8 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
@@ -18,15 +20,17 @@ import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.presenter.RichTextPresenter;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HtmlImageGetter;
+import com.hb.rssai.view.iView.IRichTextView;
 import com.zzhoujay.richtext.RichText;
 
 import java.text.ParseException;
 
 import butterknife.BindView;
 
-public class RichTextActivity extends BaseActivity {
+public class RichTextActivity extends BaseActivity implements IRichTextView {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -48,6 +52,10 @@ public class RichTextActivity extends BaseActivity {
     TextView mRtaTvWhereFrom;
     @BindView(R.id.rta_tv_view)
     TextView mRtaTvView;
+    @BindView(R.id.rta_recycler_view)
+    RecyclerView mRtaRecyclerView;
+
+    private LinearLayoutManager linearLayoutManager;
 
     private String abstractContent = "";
     private String pubDate = "";
@@ -59,6 +67,8 @@ public class RichTextActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((RichTextPresenter) mPresenter).getLikeByTitle();
+        ((RichTextPresenter) mPresenter).updateCount();
     }
 
     @Override
@@ -72,8 +82,8 @@ public class RichTextActivity extends BaseActivity {
             url = bundle.getString("url");
             id = bundle.getString("id");
         }
-
     }
+
 
     @Override
     protected void initView() {
@@ -96,6 +106,11 @@ public class RichTextActivity extends BaseActivity {
             intent.putExtra(ContentActivity.KEY_INFORMATION_ID, id);
             startActivity(intent);
         });
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        mRtaRecyclerView.setLayoutManager(linearLayoutManager);
+        mRtaRecyclerView.setNestedScrollingEnabled(false);
+        mRtaRecyclerView.setHasFixedSize(true);
     }
 
     @Override
@@ -129,12 +144,27 @@ public class RichTextActivity extends BaseActivity {
 
     @Override
     protected BasePresenter createPresenter() {
-        return null;
+        return new RichTextPresenter(this, this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         RichText.recycle();
+    }
+
+    @Override
+    public RecyclerView getRtaRecyclerView() {
+        return mRtaRecyclerView;
+    }
+
+    @Override
+    public String getNewTitle() {
+        return title;
+    }
+
+    @Override
+    public String getInformationId() {
+        return id;
     }
 }

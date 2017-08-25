@@ -127,6 +127,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                 intent.putExtra("pubDate", rssList.get(position).getPubTime());
                 intent.putExtra("whereFrom", rssList.get(position).getWhereFrom());
                 intent.putExtra("abstractContent", rssList.get(position).getAbstractContent());
+                intent.putExtra("id", rssList.get(position).getId());
                 mContext.startActivity(intent);//将Intent传递给Activity
             } else {
                 T.ShowToast(mContext, "链接错误，无法跳转！");

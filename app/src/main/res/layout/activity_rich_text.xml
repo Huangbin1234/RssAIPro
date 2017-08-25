@@ -36,8 +36,8 @@
                     android:id="@+id/rta_tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2112"
                     android:layout_marginTop="16dp"
+                    android:text="2112"
                     android:textColor="@color/black"
                     android:textSize="22sp" />
 
@@ -83,10 +83,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
                     android:layout_marginTop="16dp"
+                    android:padding="10dp"
                     android:text="查看原文"
                     android:textColor="@color/color_line_blue" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rta_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
 

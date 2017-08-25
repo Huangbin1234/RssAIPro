@@ -97,13 +97,13 @@ public class FindPresenter extends BasePresenter<IFindView> {
 //            @Override
 //            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 //                super.onScrollStateChanged(recyclerView, newState);
-//                if (findMoreAdapter == null) {
+//                if (likeAdapter == null) {
 //                    isLoad = false;
 //                    swipeLayout.setRefreshing(false);
 //                    return;
 //                }
 //                // 在最后两条的时候就自动加载
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= findMoreAdapter.getItemCount()) {
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= likeAdapter.getItemCount()) {
 //                    // 加载更多
 //                    if (!isEnd && !isLoad) {
 //                        swipeLayout.setRefreshing(true);
