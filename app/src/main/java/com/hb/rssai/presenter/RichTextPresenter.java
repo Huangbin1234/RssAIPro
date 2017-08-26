@@ -104,7 +104,7 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     private Map<String, String> getParams() {
         Map<String, String> map = new HashMap<>();
 //        String title = iRichTextView.getNewTitle();
-        String title = "技";
+        String title = "创业";
         String jsonParams = "{\"title\":\"" + title + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
