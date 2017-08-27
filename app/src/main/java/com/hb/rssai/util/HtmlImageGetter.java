@@ -40,7 +40,7 @@ public class HtmlImageGetter implements Html.ImageGetter {
     @Override
     public Drawable getDrawable(String source) {
         LevelListDrawable d = new LevelListDrawable();
-        Drawable empty = mContext.getResources().getDrawable(R.mipmap.ic_place);
+        Drawable empty = mContext.getResources().getDrawable(R.drawable.material_card);
         d.addLevel(0, 0, empty);
         d.setBounds(0, 0, DisplayUtil.getMobileWidth(mAct),
                 empty.getIntrinsicHeight());

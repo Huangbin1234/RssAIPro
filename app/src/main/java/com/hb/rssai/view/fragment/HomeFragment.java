@@ -78,6 +78,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     List<Website> sites = null;
     private int DF = 0; //0默认系统数据源1订阅
+    private boolean isUser = false;
 
     public HomeFragment() {
     }
@@ -156,8 +157,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
+        if (DF == 0) {
+            isUser = false;
+            ((InformationPresenter) mPresenter).getList();
+        } else if (DF == 1) {
+            isUser = true;
+            dataType = 10;
+            ((InformationPresenter) mPresenter).getUserList();
+        }
 //        loadData(DF);
-        ((InformationPresenter) mPresenter).getList();
         ((InformationPresenter) mPresenter).getDataGroupList();
     }
 
@@ -176,12 +184,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        unbinder.unbind();
     }
 
     @OnClick({R.id.sys_iv_filter})
@@ -288,6 +290,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             List<ResDataGroup.RetObjBean.RowsBean> list = ((InformationPresenter) mPresenter).getGroupList();
 
             listView.setOnItemClickListener((parent, view1, position, id) -> {
+                isUser = false;
                 dataType = list.get(position).getVal();
                 ((InformationPresenter) mPresenter).refreshList();
                 materialDialog.dismiss();
@@ -315,7 +318,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             List<ResDataGroup.RetObjBean.RowsBean> list = ((InformationPresenter) mPresenter).getMeGroupList();
             listView.setOnItemClickListener((parent, view1, position, id) -> {
                 //TODO 刷新数据
-
+                isUser = true;
+                dataType = list.get(position).getVal();
+                ((InformationPresenter) mPresenter).refreshList();
+                materialDialogMe.dismiss();
             });
             if (dialogAdapterMe == null) {
                 dialogAdapterMe = new FilterDialogAdapter(getContext(), list);
@@ -353,6 +359,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public int getDataType() {
         return dataType;
+    }
+
+    @Override
+    public boolean getIsUser() {
+        return isUser;
     }
 
 

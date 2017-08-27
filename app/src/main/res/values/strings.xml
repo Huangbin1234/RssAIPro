@@ -73,6 +73,6 @@
     <!--密码限制-->
     <string name="dig_str">0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM</string>
     <string name="str_ra_title">注册</string>
-    <string name="ff_find_like_label">相关新闻</string>
+    <string name="ff_find_like_label">相关资讯</string>
 
 </resources>

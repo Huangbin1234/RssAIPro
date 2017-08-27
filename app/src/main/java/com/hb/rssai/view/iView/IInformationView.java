@@ -4,7 +4,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 /**
  * Created by Administrator on 2017/8/17 0017.
@@ -22,4 +21,5 @@ public interface IInformationView {
 
     int getDataType();
 
+    boolean getIsUser();
 }

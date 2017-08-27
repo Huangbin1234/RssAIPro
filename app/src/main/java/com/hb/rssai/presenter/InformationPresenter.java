@@ -71,7 +71,12 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
                     if (!isEnd && !isLoad) {
                         mSwipeRefreshLayout.setRefreshing(true);
                         page++;
-                        getList();
+                        boolean isUser=iInformationView.getIsUser();
+                        if(isUser){
+                            getUserList();
+                        }else{
+                            getList();
+                        }
                     }
                 }
             }
@@ -86,6 +91,15 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
 
     public void getList() {
         informationApi.getList(getListParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resInformation -> {
+                    setListResult(resInformation);
+                }, this::loadError);
+    }
+
+    public void getUserList() {
+        informationApi.getUserInformation(getListParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resInformation -> {
@@ -144,7 +158,12 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
             infoList.clear();
         }
         mSwipeRefreshLayout.setRefreshing(true);
-        getList();
+        boolean isUser=iInformationView.getIsUser();
+        if(isUser){
+            getUserList();
+        }else{
+            getList();
+        }
     }
 
     private Map<String, String> getListParams() {

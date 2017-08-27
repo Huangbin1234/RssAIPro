@@ -59,11 +59,10 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.ifm_tv_people.setText("阅读：" + resList.get(position).getCount());
-        holder.ifm_tv_abstract.setText(resList.get(position).getAbstractContent());
+        holder.ifm_tv_whereFrom.setText(resList.get(position).getWhereFrom());
         holder.ifm_tv_title.setText(resList.get(position).getTitle());
         if (!TextUtils.isEmpty(resList.get(position).getImageUrls())) {
-            HttpLoadImg.loadRoundImg(mContext, resList.get(position).getImageUrls().split(",")[0], holder.ifm_iv_img);
+            HttpLoadImg.loadImg(mContext, resList.get(position).getImageUrls().split(",")[0], holder.ifm_iv_img);
         }
         holder.v.setOnClickListener(v -> onItemClickedListener.onItemClicked(resList.get(position)));
     }
@@ -75,16 +74,14 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public View v;
-        TextView ifm_tv_people;
-        TextView ifm_tv_abstract;
+        TextView ifm_tv_whereFrom;
         ImageView ifm_iv_img;
         TextView ifm_tv_title;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            ifm_tv_people = (TextView) itemView.findViewById(R.id.ifm_tv_people);
-            ifm_tv_abstract = (TextView) itemView.findViewById(R.id.ifm_tv_abstract);
+            ifm_tv_whereFrom = (TextView) itemView.findViewById(R.id.ifm_tv_whereFrom);
             ifm_tv_title = (TextView) itemView.findViewById(R.id.ifm_tv_title);
             ifm_iv_img = (ImageView) itemView.findViewById(R.id.ifm_iv_img);
         }

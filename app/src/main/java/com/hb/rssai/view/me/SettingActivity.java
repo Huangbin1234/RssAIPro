@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -19,6 +20,7 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.HomeSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.T;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -129,6 +131,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.sa_sw_change_source:
+                //初始化
+                if (TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.SP_LOGIN_USER_NAME, ""))) {
+                    mSaSwChangeSource.setChecked(false);
+                    T.ShowToast(this,"未登录，无法设置！");
+                    return;
+                }
                 if (isChecked) {
                     //changed subs source
                     SharedPreferencesUtil.setInt(this, Constant.KEY_DATA_FROM, 1);
