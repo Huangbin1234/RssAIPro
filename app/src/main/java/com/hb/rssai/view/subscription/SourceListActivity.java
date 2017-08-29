@@ -47,6 +47,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     @BindView(R.id.sla_swipe_layout)
     SwipeRefreshLayout mSlaSwipeLayout;
     private LinearLayoutManager mLayoutManager;
+//    private GridLayoutManager mLayoutManager;
     private String linkValue;
     private ArrayList<RSSItemBean> rssList = new ArrayList<>();
     private PrgDialog slaDialog;
@@ -71,6 +72,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
         mSysTvTitle.setText(titleValue);
 
         mLayoutManager = new LinearLayoutManager(this);
+//        mLayoutManager = new GridLayoutManager(this,2);
         mSlaRecyclerView.setLayoutManager(mLayoutManager);
         mSlaSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);

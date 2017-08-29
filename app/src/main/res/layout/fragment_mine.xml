@@ -64,6 +64,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="资讯阅读量"
+                        android:textColor="#9c9c9c"
                         android:textSize="@dimen/s12p"/>
                 </LinearLayout>
 
@@ -89,6 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="订阅资讯源"
+                        android:textColor="#9c9c9c"
                         android:textSize="@dimen/s12p"/>
                 </LinearLayout>
             </LinearLayout>
@@ -151,7 +153,14 @@
                     style="@style/TextLabel"
                     android:layout_centerVertical="true"
                     android:text="@string/str_mf_scan"/>
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/s12p"
+                    android:textColor="#9c9c9c"
+                    android:text="@string/str_mf_scan_label"/>
             </RelativeLayout>
 
             <View style="@style/view_line_h"/>

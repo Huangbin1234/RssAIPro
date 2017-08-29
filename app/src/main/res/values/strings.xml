@@ -74,5 +74,6 @@
     <string name="dig_str">0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM</string>
     <string name="str_ra_title">注册</string>
     <string name="ff_find_like_label">相关资讯</string>
+    <string name="str_mf_scan_label">资讯分享与互动</string>
 
 </resources>
