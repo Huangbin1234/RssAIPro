@@ -18,23 +18,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/material_card"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="4dp">
+            android:paddingBottom="10dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/space_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
                 android:background="@color/white"
                 android:gravity="center">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:text="账号"
+                    android:textColor="@color/text_color_new"
+                    android:textSize="@dimen/s16p"/>
+
                 <EditText
                     android:id="@+id/ra_et_userName"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="8"
                     android:background="@color/trans"
                     android:digits="@string/dig_str"
                     android:hint="@string/str_la_hint_uname"
@@ -47,8 +59,14 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg"/>
+                android:layout_height="1px"
+                android:background="@color/space_line"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="10dp"
+                android:background="@color/space_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
@@ -56,11 +74,22 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:text="密码"
+                    android:textColor="@color/text_color_new"
+                    android:textSize="@dimen/s16p"/>
+
                 <EditText
                     android:id="@+id/ra_et_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="8"
+
                     android:background="@color/trans"
                     android:digits="@string/dig_str"
                     android:hint="@string/str_ra_hint_psd"
@@ -74,50 +103,78 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg"/>
+                android:layout_height="1px"
+                android:background="@color/space_line"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="10dp"
+                android:background="@color/space_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
+
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/ra_et_spassword"
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/trans"
-                    android:digits="@string/dig_str"
-                    android:ems="16"
-                    android:hint="@string/str_ra_hint_spsd"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:padding="16dp"
-                    android:textColorHint="#BBBBBB"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:text="确认密码"
+                    android:textColor="@color/text_color_new"
                     android:textSize="@dimen/s16p"/>
 
-                <CheckedTextView
-                    android:id="@+id/ra_chktv_spsd_control"
-                    android:layout_width="30dp"
-                    android:layout_height="18dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/chktv_selector"
-                    android:button="@null"
-                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8">
+
+                    <EditText
+                        android:id="@+id/ra_et_spassword"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/trans"
+                        android:digits="@string/dig_str"
+                        android:ems="16"
+                        android:hint="@string/str_ra_hint_spsd"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:padding="16dp"
+                        android:textColorHint="#BBBBBB"
+                        android:textSize="@dimen/s16p"/>
+
+                    <CheckedTextView
+                        android:id="@+id/ra_chktv_spsd_control"
+                        android:layout_width="30dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/chktv_selector"
+                        android:button="@null"
+                        />
+                </LinearLayout>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/space_line"/>
         </LinearLayout>
 
         <Button
             android:id="@+id/ra_btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/opr_bg_selector"
             android:text="@string/str_ra_btn_register"
             android:textColor="@color/orange"

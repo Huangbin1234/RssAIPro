@@ -18,49 +18,79 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/material_card"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="4dp">
+            android:paddingBottom="10dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/space_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
                 android:background="@color/white"
                 android:gravity="center">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:text="账号"
+                    android:textColor="@color/text_color_new"
+                    android:textSize="@dimen/s16p"/>
+
                 <EditText
                     android:id="@+id/la_et_userName"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="8"
                     android:background="@color/trans"
                     android:hint="@string/str_la_hint_uname"
                     android:padding="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
                     android:textSize="@dimen/s16p"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg"/>
+                android:layout_height="1px"
+                android:background="@color/space_line"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="10dp"
+                android:background="@color/space_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:text="密码"
+                    android:textColor="@color/text_color_new"
+                    android:textSize="@dimen/s16p"/>
+
                 <EditText
                     android:id="@+id/la_et_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="8"
                     android:background="@color/trans"
                     android:hint="@string/str_la_hint_upsd"
                     android:inputType="textPassword"
                     android:padding="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
                     android:textSize="@dimen/s16p"/>
 
@@ -74,15 +104,20 @@
                     android:button="@null"
                     android:visibility="gone"/>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/space_line"/>
         </LinearLayout>
 
         <Button
             android:id="@+id/la_btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/opr_bg_selector"
             android:text="@string/str_la_btn_login"
             android:textColor="@color/orange"

@@ -65,11 +65,11 @@
     <string name="str_la_title">登录</string>
     <string name="str_message_title">消息中心</string>
     <string name="str_message_content_title">消息详情</string>
-    <string name="str_la_hint_uname">输入账号</string>
-    <string name="str_la_hint_upsd">输入密码</string>
+    <string name="str_la_hint_uname">请输入账号</string>
+    <string name="str_la_hint_upsd">请输入密码</string>
     <string name="str_ra_btn_register">注册</string>
     <string name="str_ra_hint_spsd">确认新密码</string>
-    <string name="str_ra_hint_psd">输入新密码</string>
+    <string name="str_ra_hint_psd">请输入密码</string>
     <!--密码限制-->
     <string name="dig_str">0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM</string>
     <string name="str_ra_title">注册</string>
