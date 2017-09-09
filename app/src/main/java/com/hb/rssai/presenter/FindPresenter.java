@@ -40,7 +40,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
     private RecommendAdapter recommendAdapter;
     private FindMoreAdapter findMoreAdapter;
 
-    private RecyclerView mFfTopicRecyclerView;
+//    private RecyclerView mFfTopicRecyclerView;
     private RecyclerView mFfHotRecyclerView;
     private RecyclerView mFfFindRecyclerView;
     private SwipeRefreshLayout swipeLayout;
@@ -61,7 +61,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
     }
 
     private void initView() {
-        mFfTopicRecyclerView = iFindView.getFfTopicRecyclerView();
+//        mFfTopicRecyclerView = iFindView.getFfTopicRecyclerView();
         mFfHotRecyclerView = iFindView.getFfHotRecyclerView();
         mFfFindRecyclerView = iFindView.getFfFindRecyclerView();
         swipeLayout = iFindView.getFfSwipeLayout();
@@ -257,7 +257,9 @@ public class FindPresenter extends BasePresenter<IFindView> {
 
     private void setAddResult(ResBase resBase) {
         T.ShowToast(mContext, resBase.getRetMsg());
-        EventBus.getDefault().post(new RssSourceEvent(0));
+        if (resBase.getRetCode() == 0) {
+            EventBus.getDefault().post(new RssSourceEvent(0));
+        }
     }
 
     private Map<String, String> getFindMoreParams() {

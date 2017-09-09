@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_vline" />
+                    android:src="@mipmap/ic_vline"/>
 
                 <TextView
                     android:id="@+id/ff_find_hot_label"
@@ -37,7 +37,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/ff_find_hot_label"
                     android:textColor="@color/color_name"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"/>
 
             </RelativeLayout>
 
@@ -45,33 +45,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="#DDDDDD"
-                android:visibility="visible" />
+                android:visibility="visible"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_recommend"
+            android:id="@+id/sub_ll_all"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"
+            android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:clickable="true"
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/tv_sub_right_all"
+                android:id="@+id/ff_tv_right_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/str_ff_tv_change"
-                android:textSize="@dimen/s12p" />
+                android:text="@string/str_ff_tv_more"
+                android:textSize="@dimen/s12p"/>
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_randon" />
+                android:id="@+id/ff_topic_iv_all"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@mipmap/ic_right_all"/>
+
         </LinearLayout>
 
     </FrameLayout>
@@ -85,11 +84,39 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ff_hot_recycler_view"
             android:layout_width="match_parent"
-            android:paddingLeft="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:paddingRight="16dp"
             android:layout_height="wrap_content"
-            android:background="@color/white" />
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"/>
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/chang_bg_selector"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/tv_sub_right_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/str_ff_tv_change"
+            android:textColor="@color/color_name"
+            android:textSize="@dimen/s14p"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_randon"/>
+    </LinearLayout>
 </LinearLayout>

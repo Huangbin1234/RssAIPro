@@ -58,6 +58,8 @@
         </activity>
         <activity android:name=".view.common.RichTextActivity">
         </activity>
+        <activity android:name=".view.subscription.tab.TabResourceActivity">
+        </activity>
     </application>
 
 </manifest>

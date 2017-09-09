@@ -40,20 +40,20 @@
                             android:background="#DDDDDD"
                             android:visibility="visible" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:layout_marginTop="10dp"
-                            android:background="#DDDDDD"
-                            android:visibility="visible" />
+                        <!--<View-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="1px"-->
+                            <!--android:layout_marginTop="10dp"-->
+                            <!--android:background="#DDDDDD"-->
+                            <!--android:visibility="visible" />-->
 
-                        <include layout="@layout/include_topic" />
+                        <!--<include layout="@layout/include_topic" />-->
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="#DDDDDD"
-                            android:visibility="visible" />
+                        <!--<View-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="1px"-->
+                            <!--android:background="#DDDDDD"-->
+                            <!--android:visibility="visible" />-->
 
                         <View
                             android:layout_width="match_parent"

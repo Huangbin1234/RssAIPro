@@ -20,6 +20,10 @@ public interface FindApi {
     Observable<ResFindMore> findMoreList(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
+    @POST("subscription/getListByType")
+    Observable<ResFindMore> getListByType(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
     @POST("subscription/recommendList")
     Observable<ResFindMore> recommendList(@FieldMap Map<String, String> params);
 

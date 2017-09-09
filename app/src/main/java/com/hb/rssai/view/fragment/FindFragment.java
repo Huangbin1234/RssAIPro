@@ -1,6 +1,7 @@
 package com.hb.rssai.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +17,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +26,7 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.FindPresenter;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.view.iView.IFindView;
+import com.hb.rssai.view.subscription.tab.TabResourceActivity;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
 import com.hb.rssai.view.widget.MyDecoration;
@@ -57,12 +58,12 @@ public class FindFragment extends BaseFragment implements IFindView {
     TextView mFfFindHotLabel;
     @BindView(R.id.tv_sub_right_all)
     TextView mTvSubRightAll;
-    @BindView(R.id.ff_find_tv_topic)
-    TextView mFfFindTvTopic;
+//    @BindView(R.id.ff_find_tv_topic)
+//    TextView mFfFindTvTopic;
     @BindView(R.id.ff_tv_right_all)
     TextView mFfTvRightAll;
-    @BindView(R.id.ff_topic_iv_all)
-    ImageView mFfTopicIvAll;
+//    @BindView(R.id.ff_topic_iv_all)
+//    ImageView mFfTopicIvAll;
     @BindView(R.id.sub_ll_all)
     LinearLayout mSubLlAll;
     @BindView(R.id.ff_find_tv_more)
@@ -73,8 +74,8 @@ public class FindFragment extends BaseFragment implements IFindView {
     LinearLayout mRlLl;
     @BindView(R.id.ff_swipe_layout)
     SwipeRefreshLayout mFfSwipeLayout;
-    @BindView(R.id.ff_topic_recycler_view)
-    RecyclerView mFfTopicRecyclerView;
+    //    @BindView(R.id.ff_topic_recycler_view)
+//    RecyclerView mFfTopicRecyclerView;
     @BindView(R.id.ff_hot_recycler_view)
     RecyclerView mFfHotRecyclerView;
     @BindView(R.id.ff_nest_scrollview)
@@ -92,7 +93,6 @@ public class FindFragment extends BaseFragment implements IFindView {
     private LinearLayoutManager mTopicLinearManager1;
 
     private FullyGridLayoutManager mRecommendGridLayoutManager;
-
 
 
     public FindFragment() {
@@ -149,16 +149,16 @@ public class FindFragment extends BaseFragment implements IFindView {
         mRecommendGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
 
         mFindMoreLinearManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mTopicLinearManager1.setOrientation(LinearLayoutManager.VERTICAL);
-        mFfTopicRecyclerView.addItemDecoration(new MyDecoration(getContext(), LinearLayoutManager.VERTICAL));
+//        mTopicLinearManager1.setOrientation(LinearLayoutManager.VERTICAL);
+//        mFfTopicRecyclerView.addItemDecoration(new MyDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
         mFfFindRecyclerView.setLayoutManager(mFindMoreLinearManager);
         mFfFindRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mFfFindRecyclerView.setHasFixedSize(true);
 
-        mFfTopicRecyclerView.setLayoutManager(mTopicLinearManager1);
-        mFfTopicRecyclerView.setNestedScrollingEnabled(false);
-        mFfTopicRecyclerView.setHasFixedSize(true);
+//        mFfTopicRecyclerView.setLayoutManager(mTopicLinearManager1);
+//        mFfTopicRecyclerView.setNestedScrollingEnabled(false);
+//        mFfTopicRecyclerView.setHasFixedSize(true);
 
         mFfHotRecyclerView.setLayoutManager(mRecommendGridLayoutManager);
         mFfHotRecyclerView.setNestedScrollingEnabled(false);
@@ -170,6 +170,14 @@ public class FindFragment extends BaseFragment implements IFindView {
         mFfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mFfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
+        mSubLlAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), TabResourceActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -222,7 +230,8 @@ public class FindFragment extends BaseFragment implements IFindView {
 
     @Override
     public RecyclerView getFfTopicRecyclerView() {
-        return mFfTopicRecyclerView;
+//        return mFfTopicRecyclerView;
+        return null;
     }
 
     @Override
