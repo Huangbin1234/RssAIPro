@@ -31,9 +31,10 @@ public class ApiRetrofit {
     private InformationApi informationApiService;
     private DataGroupApi dataGroupApiService;
     private MessageApi messageApiService;
-//        public static final String BASE_URL = "http://192.168.58.226:8010/";
-    public static final String BASE_URL = "http://192.168.2.128:8010/";
-//    public static final String BASE_URL = "http://192.168.1.103:8010/";
+    public static final String BASE_URL = "http://192.168.58.226:8010/";
+    //public static final String BASE_URL = "http://192.168.2.128:8010/";
+    //public static final String BASE_URL = "http://192.168.1.103:8010/";
+    public static final String JSON_URL = BASE_URL + "app_update/checkvercode.json";//此处修改你的json文件地址
 
     public ApiRetrofit() {
         File httpCacheDirectory = new File(ProjectApplication.mContext.getCacheDir(), "responses");
@@ -42,7 +43,7 @@ public class ApiRetrofit {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
-                .connectTimeout(30,TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .cache(cache)
