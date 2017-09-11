@@ -1,0 +1,20 @@
+﻿{
+    "ios": {
+        "rssai": {
+            "verCode": "1",
+            "downloadUrl": null,
+            "verName": "",
+            "content": ""
+        }
+    },
+    "android": {
+        "rssai": {
+            "verCode": "2",
+            "downloadUrl": "app_acquition.apk",
+            "verName": "1.0.1",
+            "content": "【更新通知】：\nV1.0.1:\n1、版本上线"
+        }
+    },
+    "appid": "acquisition20170410"
+}
+
