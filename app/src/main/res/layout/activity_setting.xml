@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:id="@+id/sa_rl_change_source"
                 style="@style/InfoDetail"
@@ -40,6 +41,7 @@
             </RelativeLayout>
 
             <View style="@style/view_line_h" />
+
             <RelativeLayout
                 android:id="@+id/sa_rl_day_night"
                 style="@style/InfoDetail"
@@ -99,6 +101,7 @@
             </RelativeLayout>
 
             <View style="@style/view_line_h" />
+
             <RelativeLayout
                 android:id="@+id/sa_rl_advice"
                 style="@style/InfoDetail"
@@ -111,6 +114,7 @@
             </RelativeLayout>
 
             <View style="@style/view_line_h" />
+
             <RelativeLayout
                 android:id="@+id/sa_rl_update"
                 style="@style/InfoDetail"
@@ -119,6 +123,15 @@
                 <TextView
                     style="@style/TextLabel"
                     android:text="@string/str_sa_update" />
+
+                <TextView
+                    android:id="@+id/sa_tv_ver"
+                    android:textSize="@dimen/s12p"
+                    android:textColor="#9c9c9c"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 

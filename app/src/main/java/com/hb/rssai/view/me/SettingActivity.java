@@ -1,11 +1,18 @@
 package com.hb.rssai.view.me;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -15,18 +22,28 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.HomeSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.widget.PrgDialog;
+import com.hb.update.Config;
+import com.hb.update.UpdateManager;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+
+import static com.hb.generalupdate.TestTwoActivity.SAVE_ISUPDATE;
+import static com.hb.update.UpdateManager.SAVE_VER_CODE;
+import static com.hb.update.UpdateManager.SAVE_VER_CONTENT;
+import static com.hb.update.UpdateManager.SAVE_VER_UPDATEURL;
+import static com.hb.update.UpdateManager.SAVE_VER_VERNAME;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -56,11 +73,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     Switch mSaSwChangeSource;
     @BindView(R.id.sa_rl_change_source)
     RelativeLayout mSaRlChangeSource;
+    @BindView(R.id.sa_rl_advice)
+    RelativeLayout mSaRlAdvice;
+    @BindView(R.id.sa_tv_ver)
+    TextView mSaTvVer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -77,6 +97,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else {
             mSaSwNoImage.setChecked(false);
         }
+        mSaTvVer.setText("V " + Config.getVerName(this));
     }
 
     @Override
@@ -101,7 +122,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         return null;
     }
 
-    @OnClick({R.id.sa_rl_about, R.id.sa_rl_advice})
+    @OnClick({R.id.sa_rl_about, R.id.sa_rl_advice, R.id.sa_rl_update})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -111,8 +132,78 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.sa_rl_advice:
                 startActivity(new Intent(this, AdviceActivity.class));
                 break;
+            case R.id.sa_rl_update:
+                checkUpdate();
         }
     }
+
+    PrgDialog dialog;
+
+    public void checkUpdate() {
+        ConnectivityManager cwjManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cwjManager.getActiveNetworkInfo();
+        if (info != null && info.isAvailable()) {
+            dialog = new PrgDialog(this, true);
+            CheckVerRunnable checkRunnable = new CheckVerRunnable();
+            Thread checkThread = new Thread(checkRunnable);
+            checkThread.start();
+        } else {
+            T.ShowToast(this, Constant.FAILED_NETWORK);
+        }
+    }
+
+    /**
+     * request server checkvercode.json file.
+     */
+    class CheckVerRunnable implements Runnable {
+        @Override
+        public void run() {
+            // replace your .json file url.
+            boolean isUpdate = UpdateManager.getUpdateInfo(SettingActivity.this, ApiRetrofit.JSON_URL);
+            if (isUpdate) {
+                updateHandler.sendEmptyMessage(1);
+            } else {
+                updateHandler.sendEmptyMessage(0);
+            }
+        }
+    }
+
+    /**
+     * handler rec.
+     */
+    @SuppressLint("HandlerLeak")
+    Handler updateHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            dialog.closeDialog();
+            switch (msg.what) {
+                case 0:
+                    // To do something.
+                    com.hb.util.SharedPreferencesUtil.setBoolean(SettingActivity.this, SAVE_ISUPDATE, false);//置为更新标记false
+                    T.ShowToast(SettingActivity.this, "当前已是最新版本");
+                    Log.d("GeneralUpdateLib", "There's no new version here.");
+                    break;
+                case 1:
+                    // Find new version.
+                    com.hb.util.SharedPreferencesUtil.setString(SettingActivity.this, SAVE_VER_UPDATEURL, UpdateManager.getVerUpdateURL());
+                    com.hb.util.SharedPreferencesUtil.setString(SettingActivity.this, SAVE_VER_VERNAME, UpdateManager.getVerVerName());
+                    com.hb.util.SharedPreferencesUtil.setString(SettingActivity.this, SAVE_VER_CODE, UpdateManager.getVerVerCode());
+                    com.hb.util.SharedPreferencesUtil.setString(SettingActivity.this, SAVE_VER_CONTENT, UpdateManager.getVerContent());
+
+                    com.hb.util.SharedPreferencesUtil.setBoolean(SettingActivity.this, SAVE_ISUPDATE, true);//置为更新标记true
+                    //进入对应的页面判断标记是否有更新在进行调用此方法
+                    if (SharedPreferencesUtil.getBoolean(SettingActivity.this, Constant.SAVE_IS_UPDATE, false)) {
+                        UpdateManager.update(SettingActivity.this);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            //弹出更新对话框
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -134,7 +225,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 //初始化
                 if (TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.SP_LOGIN_USER_NAME, ""))) {
                     mSaSwChangeSource.setChecked(false);
-                    T.ShowToast(this,"未登录，无法设置！");
+                    T.ShowToast(this, "未登录，无法设置！");
                     return;
                 }
                 if (isChecked) {

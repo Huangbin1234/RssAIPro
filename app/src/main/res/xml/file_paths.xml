@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resource>
+    <!--这里的"acquisitionUpdate/"就是问题中抛出异常的那个路径-->
+    <external-path
+        name="RssAiUpdate"
+        path="GeneralUpdateLib" />
+    <files-path
+        name="cache"
+        path="GeneralUpdateLib" />
+    <cache-path
+        name="cache"
+        path="GeneralUpdateLib" />
+</resource>

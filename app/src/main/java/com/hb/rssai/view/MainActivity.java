@@ -17,14 +17,17 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.runtimePermissions.PermissionsActivity;
 import com.hb.rssai.runtimePermissions.PermissionsChecker;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.fragment.FindFragment;
 import com.hb.rssai.view.fragment.HomeFragment;
 import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
+import com.hb.update.UpdateManager;
 import com.zzhoujay.richtext.RichText;
 
 import butterknife.BindView;
@@ -86,6 +89,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPermissionsChecker = new PermissionsChecker(this);
+        //进入对应的页面判断标记是否有更新在进行调用此方法
+        if (SharedPreferencesUtil.getBoolean(mContext, Constant.SAVE_IS_UPDATE, false)) {
+            UpdateManager.update(mContext);
+        }
     }
 
     @Override
