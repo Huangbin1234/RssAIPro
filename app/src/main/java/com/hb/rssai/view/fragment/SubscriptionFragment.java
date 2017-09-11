@@ -370,6 +370,11 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
+    public String getSubscribeId() {
+        return rowsBean.getId();
+    }
+
+    @Override
     public void update() {
         EventBus.getDefault().post(new RssSourceEvent(0));
     }

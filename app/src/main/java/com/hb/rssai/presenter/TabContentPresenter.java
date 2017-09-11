@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.hb.rssai.adapter.FindMoreAdapter;
 import com.hb.rssai.bean.ResBase;
@@ -127,10 +128,13 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
                         intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
                         mContext.startActivity(intent);
                     });
-                    findMoreAdapter.setOnAddClickedListener(rowsBean -> {
-                        //TODO 开始点击
-                        this.rowsBean = rowsBean;
-                        addSubscription();
+                    findMoreAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {
+                        @Override
+                        public void onAdd(ResFindMore.RetObjBean.RowsBean bean, View v) {
+                            //TODO 开始点击
+                            rowsBean = bean;
+                            addSubscription();
+                        }
                     });
                     recyclerView.setAdapter(findMoreAdapter);
                 } else {

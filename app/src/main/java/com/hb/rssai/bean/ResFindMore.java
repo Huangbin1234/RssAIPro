@@ -81,7 +81,9 @@ public class ResFindMore {
              * parentId : ""
              */
 
+            private boolean deleteFlag;
             private boolean isRecommend;
+            private String userId;
             private String img;
             private String pubTime;
             private String abstractContent;
@@ -197,6 +199,22 @@ public class ResFindMore {
 
             public void setFindCount(int findCount) {
                 this.findCount = findCount;
+            }
+
+            public boolean isDeleteFlag() {
+                return deleteFlag;
+            }
+
+            public void setDeleteFlag(boolean deleteFlag) {
+                this.deleteFlag = deleteFlag;
+            }
+
+            public String getUserId() {
+                return userId;
+            }
+
+            public void setUserId(String userId) {
+                this.userId = userId;
             }
         }
     }

@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResFindMore;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.HttpLoadImg;
+import com.hb.rssai.util.SharedPreferencesUtil;
 
 import java.util.List;
 
@@ -27,23 +29,30 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
     private LayoutInflater layoutInflater;
     private OnItemClickedListener onItemClickedListener;
     private OnAddClickedListener onAddClickedListener;
+    String userId = "";
 
     public void setOnAddClickedListener(OnAddClickedListener onAddClickedListener) {
         this.onAddClickedListener = onAddClickedListener;
     }
+
     public void setOnItemClickedListener(OnItemClickedListener onItemClickedListener) {
         this.onItemClickedListener = onItemClickedListener;
     }
+
     public interface OnItemClickedListener {
         void onItemClicked(ResFindMore.RetObjBean.RowsBean rowsBean);
     }
+
     public interface OnAddClickedListener {
-        void onAdd(ResFindMore.RetObjBean.RowsBean rowsBean);
+        void onAdd(ResFindMore.RetObjBean.RowsBean rowsBean, View v);
     }
+
+
     public FindMoreAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> resList) {
         this.mContext = mContext;
         this.resList = resList;
         layoutInflater = LayoutInflater.from(mContext);
+        userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
     }
 
     @Override
@@ -52,19 +61,22 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         return new MyViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.ifm_tv_people.setText("订阅：" + resList.get(position).getCount());
         holder.ifm_tv_abstract.setText(resList.get(position).getAbstractContent());
         holder.ifm_tv_title.setText(resList.get(position).getName());
         HttpLoadImg.loadRoundImg(mContext, resList.get(position).getImg(), holder.ifm_iv_img);
-        if (resList.get(position).isIsRecommend()) {
-            holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_no_add);
-        } else {
+        if (resList.get(position).isDeleteFlag() && userId.equals(resList.get(position).getUserId())) {
             holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_add);
+        } else {
+            holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_no_add);
         }
-        holder.ifm_iv_add.setOnClickListener(v -> onAddClickedListener.onAdd(resList.get(position)));
-        holder.v.setOnClickListener(v->onItemClickedListener.onItemClicked(resList.get(position)));
+        holder.ifm_iv_add.setOnClickListener(v -> {
+            onAddClickedListener.onAdd(resList.get(position), v);
+        });
+        holder.v.setOnClickListener(v -> onItemClickedListener.onItemClicked(resList.get(position)));
     }
 
     @Override
@@ -75,7 +87,7 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public View v;
         TextView ifm_tv_people;
-//        JustifyTextView ifm_tv_abstract;
+        //        JustifyTextView ifm_tv_abstract;
         TextView ifm_tv_abstract;
         ImageView ifm_iv_img;
         ImageView ifm_iv_add;

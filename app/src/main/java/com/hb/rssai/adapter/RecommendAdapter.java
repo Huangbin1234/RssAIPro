@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResFindMore;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.HttpLoadImg;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.subscription.SourceListActivity;
 
 import java.util.List;
@@ -28,8 +30,8 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
     private Context mContext;
     List<ResFindMore.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
-
     private FindMoreAdapter.OnAddClickedListener onAddClickedListener;
+    String userId = "";
 
     public void setOnAddClickedListener(FindMoreAdapter.OnAddClickedListener onAddClickedListener) {
         this.onAddClickedListener = onAddClickedListener;
@@ -39,6 +41,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
+        userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
     }
 
     @Override
@@ -55,7 +58,17 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         } else {
             HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
         }
-        holder.ir_iv_add.setOnClickListener(v -> onAddClickedListener.onAdd(rssList.get(position)));
+        if (rssList.get(position).isDeleteFlag() && userId.equals(rssList.get(position).getUserId())) {
+            holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
+        } else {
+            holder.ir_iv_add.setImageResource(R.color.trans);
+        }
+        holder.ir_iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onAddClickedListener.onAdd(rssList.get(position), v);
+            }
+        });
         holder.v.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SourceListActivity.class);
             intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());

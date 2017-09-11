@@ -23,6 +23,8 @@ public interface ISubscriptionView {
 
     String getUsId();
 
+    String getSubscribeId();
+
     void update();
 
     NestedScrollView getNestScrollView();

@@ -55,7 +55,7 @@
     <string name="str_main_find">发现</string>
     <string name="ff_find_more_label">发现更多</string>
     <string name="ff_find_topic_label">专题推荐</string>
-    <string name="ff_find_hot_label">热门推荐</string>
+    <string name="ff_find_hot_label">推荐主题</string>
     <string name="str_ff_tv_change">换一换</string>
     <string name="str_ff_tv_more">更多</string>
     <string name="str_asa_hint_key">百度新闻关键字订阅</string>

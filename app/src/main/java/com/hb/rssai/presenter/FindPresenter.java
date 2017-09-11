@@ -6,8 +6,11 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.hb.rssai.R;
 import com.hb.rssai.adapter.FindMoreAdapter;
 import com.hb.rssai.adapter.RecommendAdapter;
 import com.hb.rssai.bean.ResBase;
@@ -40,7 +43,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
     private RecommendAdapter recommendAdapter;
     private FindMoreAdapter findMoreAdapter;
 
-//    private RecyclerView mFfTopicRecyclerView;
+    //    private RecyclerView mFfTopicRecyclerView;
     private RecyclerView mFfHotRecyclerView;
     private RecyclerView mFfFindRecyclerView;
     private SwipeRefreshLayout swipeLayout;
@@ -174,12 +177,21 @@ public class FindPresenter extends BasePresenter<IFindView> {
         }
     }
 
-    public void addSubscription() {
+    public void addSubscription(View v, boolean isRecommend) {
         findApi.subscribe(getSubscribeParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resBase -> {
-                    setAddResult(resBase);
+                    setAddResult(resBase, v, isRecommend);
+                }, this::loadError);
+    }
+
+    public void delSubscription(View v, boolean isRecommend) {
+        findApi.delSubscription(getDelParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setDelResult(resBase, v, isRecommend);
                 }, this::loadError);
     }
 
@@ -190,6 +202,27 @@ public class FindPresenter extends BasePresenter<IFindView> {
     }
 
     private ResFindMore.RetObjBean.RowsBean rowsBean;
+
+    private void setDelResult(ResBase resBase, View v, boolean isRecommend) {
+        T.ShowToast(mContext, resBase.getRetMsg());
+        if (resBase.getRetCode() == 0) {
+            EventBus.getDefault().post(new RssSourceEvent(0));
+        }
+
+        if (isRecommend) {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setImageResource(R.mipmap.ic_recommend_add);
+            } else {
+                ((ImageView) v).setImageResource(R.color.trans);
+            }
+        } else {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setBackgroundResource(R.mipmap.ic_add);
+            } else {
+                ((ImageView) v).setBackgroundResource(R.mipmap.ic_no_add);
+            }
+        }
+    }
 
     private void setFindMoreResult(ResFindMore resFindMore) {
         isLoad = false;
@@ -207,11 +240,19 @@ public class FindPresenter extends BasePresenter<IFindView> {
                         intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
                         mContext.startActivity(intent);
                     });
-                    findMoreAdapter.setOnAddClickedListener(rowsBean -> {
-                        //TODO 开始点击
-                        this.rowsBean = rowsBean;
-                        addSubscription();
+                    findMoreAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {
+                        @Override
+                        public void onAdd(ResFindMore.RetObjBean.RowsBean bean, View v) {
+                            //TODO 开始点击
+                            rowsBean = bean;
+                            if (bean.isDeleteFlag()) {
+                                addSubscription(v, false);
+                            } else {
+                                delSubscription(v, false);
+                            }
+                        }
                     });
+
                     mFfFindRecyclerView.setAdapter(findMoreAdapter);
                 } else {
                     findMoreAdapter.notifyDataSetChanged();
@@ -237,10 +278,17 @@ public class FindPresenter extends BasePresenter<IFindView> {
                 resRecommends.addAll(resFindMore.getRetObj().getRows());
                 if (recommendAdapter == null) {
                     recommendAdapter = new RecommendAdapter(mContext, resRecommends);
-                    recommendAdapter.setOnAddClickedListener(rowsBean1 -> {
-                        //TODO 开始点击
-                        this.rowsBean = rowsBean1;
-                        addSubscription();
+                    recommendAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {
+                        @Override
+                        public void onAdd(ResFindMore.RetObjBean.RowsBean bean, View v) {
+                            //TODO 开始点击
+                            rowsBean = bean;
+                            if (bean.isDeleteFlag()) {
+                                addSubscription(v, true);
+                            } else {
+                                delSubscription(v, true);
+                            }
+                        }
                     });
                     mFfHotRecyclerView.setAdapter(recommendAdapter);
                 } else {
@@ -255,11 +303,34 @@ public class FindPresenter extends BasePresenter<IFindView> {
         }
     }
 
-    private void setAddResult(ResBase resBase) {
+    private void setAddResult(ResBase resBase, View v, boolean isRecommend) {
         T.ShowToast(mContext, resBase.getRetMsg());
         if (resBase.getRetCode() == 0) {
             EventBus.getDefault().post(new RssSourceEvent(0));
         }
+        if (isRecommend) {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setImageResource(R.color.trans);
+            } else {
+                ((ImageView) v).setImageResource(R.mipmap.ic_recommend_add);
+            }
+        } else {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setBackgroundResource(R.mipmap.ic_no_add);
+            } else {
+                ((ImageView) v).setBackgroundResource(R.mipmap.ic_add);
+            }
+        }
+    }
+
+    private Map<String, String> getDelParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String subscribeId = rowsBean.getId();
+        String jsonParams = "{\"subscribeId\":\"" + subscribeId + "\",\"usId\":\"" + userId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
     }
 
     private Map<String, String> getFindMoreParams() {
