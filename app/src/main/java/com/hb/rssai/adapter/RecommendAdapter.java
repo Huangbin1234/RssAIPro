@@ -58,11 +58,24 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         } else {
             HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
         }
-        if (rssList.get(position).isDeleteFlag() && userId.equals(rssList.get(position).getUserId())) {
+        if (rssList.get(position).isDeleteFlag()) {
             holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
         } else {
-            holder.ir_iv_add.setImageResource(R.color.trans);
+            if (TextUtils.isEmpty(rssList.get(position).getUserId())) {
+                holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
+            } else {
+                if (userId.equals(rssList.get(position).getUserId())) {
+                    holder.ir_iv_add.setImageResource(R.color.trans);
+                } else {
+                    holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
+                }
+            }
         }
+//        if (rssList.get(position).isDeleteFlag() && userId.equals(rssList.get(position).getUserId())) {
+//            holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
+//        } else {
+//            holder.ir_iv_add.setImageResource(R.color.trans);
+//        }
         holder.ir_iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

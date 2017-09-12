@@ -1,8 +1,10 @@
 package com.hb.rssai.view.subscription.tab;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import butterknife.BindView;
 
@@ -36,20 +39,13 @@ public class TabResourceActivity extends BaseActivity implements ITabResourceVie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         ((TabResourcePresenter) mPresenter).getGroupType();
     }
 
     @Override
     protected void initView() {
-        mColorArray = new int[]{
-                android.R.color.holo_blue_light,
-                android.R.color.holo_red_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light};
+
     }
 
     @Override
@@ -66,7 +62,6 @@ public class TabResourceActivity extends BaseActivity implements ITabResourceVie
     protected BasePresenter createPresenter() {
         return new TabResourcePresenter(this, this);
     }
-
 
 
     private void initFragments(List<ResDataGroup.RetObjBean.RowsBean> rows) {
@@ -88,10 +83,12 @@ public class TabResourceActivity extends BaseActivity implements ITabResourceVie
     public void setUi(List<ResDataGroup.RetObjBean.RowsBean> rowsBeen) {
         initFragments(rowsBeen);
         initViewPager();
-        mCoordinatorTabLayout.setTransulcentStatusBar(this)
+        getRandomColors();
+        mCoordinatorTabLayout
+                .setTransulcentStatusBar(this)
                 .setTitle("")
                 .setBackEnable(true)
-                // .setContentScrimColorArray(mColorArray)
+                .setContentScrimColorArray(mColorArray)
                 .setLoadHeaderImagesListener((imageView, tab) -> {
 
                     if (null == loadMap.get(tab.getPosition())) {
@@ -102,6 +99,28 @@ public class TabResourceActivity extends BaseActivity implements ITabResourceVie
                     }
                 })
                 .setupWithViewPager(mViewPager);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void getRandomColors() {
+        //生成随机颜色
+        Random randomGenerator = new Random();
+        int red = randomGenerator.nextInt(256);
+        int green = randomGenerator.nextInt(256);
+        int blue = randomGenerator.nextInt(256);
+        mColorArray = new int[mRowsBeanList.size()];
+        for (int i = 0; i < mRowsBeanList.size(); i++) {
+            mColorArray[i] = Color.argb(255, red, green, blue);
+        }
     }
 
     private Map<Integer, Boolean> loadMap = new HashMap<>();

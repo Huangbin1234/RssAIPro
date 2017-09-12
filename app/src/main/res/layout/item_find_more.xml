@@ -30,7 +30,6 @@
             android:layout_height="25dp"
             android:layout_gravity="right|center_vertical"
             android:layout_marginLeft="16dp"
-            android:background="@color/bg"
             android:scaleType="centerInside" />
     </LinearLayout>
 

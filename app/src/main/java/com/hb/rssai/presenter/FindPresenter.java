@@ -6,6 +6,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import com.hb.rssai.adapter.FindMoreAdapter;
 import com.hb.rssai.adapter.RecommendAdapter;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
+import com.hb.rssai.bean.ResSubscription;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -43,7 +45,6 @@ public class FindPresenter extends BasePresenter<IFindView> {
     private RecommendAdapter recommendAdapter;
     private FindMoreAdapter findMoreAdapter;
 
-    //    private RecyclerView mFfTopicRecyclerView;
     private RecyclerView mFfHotRecyclerView;
     private RecyclerView mFfFindRecyclerView;
     private SwipeRefreshLayout swipeLayout;
@@ -56,6 +57,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
     private boolean isEnd = false, isLoad = false;
     private boolean isRecommendEnd = false, isRecommendLoad = false;
     private LinearLayout mLlRecommend;
+    private ResFindMore.RetObjBean.RowsBean rowsBean;
 
     public FindPresenter(Context mContext, IFindView iFindView) {
         this.mContext = mContext;
@@ -64,7 +66,6 @@ public class FindPresenter extends BasePresenter<IFindView> {
     }
 
     private void initView() {
-//        mFfTopicRecyclerView = iFindView.getFfTopicRecyclerView();
         mFfHotRecyclerView = iFindView.getFfHotRecyclerView();
         mFfFindRecyclerView = iFindView.getFfFindRecyclerView();
         swipeLayout = iFindView.getFfSwipeLayout();
@@ -77,7 +78,6 @@ public class FindPresenter extends BasePresenter<IFindView> {
                 recommendList();
             }
         });
-        //TODO 设置下拉刷新
         swipeLayout.setOnRefreshListener(() -> refreshList());
         mNestRefresh.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -93,35 +93,6 @@ public class FindPresenter extends BasePresenter<IFindView> {
                 }
             }
         });
-        //TODO 设置上拉加载更多
-//        mFfFindRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            int lastVisibleItem;
-//
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (likeAdapter == null) {
-//                    isLoad = false;
-//                    swipeLayout.setRefreshing(false);
-//                    return;
-//                }
-//                // 在最后两条的时候就自动加载
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= likeAdapter.getItemCount()) {
-//                    // 加载更多
-//                    if (!isEnd && !isLoad) {
-//                        swipeLayout.setRefreshing(true);
-//                        page++;
-//                        findMoreList();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                lastVisibleItem = findMoreManager.findLastVisibleItemPosition();
-//            }
-//        });
     }
 
     // TODO: 判断是不是在底部
@@ -132,8 +103,6 @@ public class FindPresenter extends BasePresenter<IFindView> {
     /**
      * 刷新数据
      */
-
-
     public void refreshList() {
         page = 1;
         recommendPage = 1;
@@ -165,7 +134,6 @@ public class FindPresenter extends BasePresenter<IFindView> {
         }
     }
 
-
     public void recommendList() {
         if (iFindView != null) {
             findApi.recommendList(getRecommendParams())
@@ -173,6 +141,17 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(resFindMore -> {
                         setRecommendResult(resFindMore);
+                    }, this::loadError);
+        }
+    }
+
+    public void findMoreListById(View v, boolean isRecommend) {
+        if (iFindView != null) {
+            findApi.findMoreListById(getFindMoreByIdParams())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(resSubscription -> {
+                        setFindMoreByIdResult(resSubscription, v, isRecommend);
                     }, this::loadError);
         }
     }
@@ -195,33 +174,31 @@ public class FindPresenter extends BasePresenter<IFindView> {
                 }, this::loadError);
     }
 
+    private void setFindMoreByIdResult(ResSubscription resSubscription, View v, boolean isRecommend) {
+        if (resSubscription.getRetCode() == 0) {
+            if (resSubscription.getRetObj().isDeleteFlag()) {
+                addSubscription(v, isRecommend);
+            } else { //如果发现没有被删除
+                if (TextUtils.isEmpty(resSubscription.getRetObj().getUserId())) {//如果也没有被添加过
+                    addSubscription(v, isRecommend);
+                } else {//如果被添加过
+                    String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+                    if (userId.equals(resSubscription.getRetObj().getUserId())) {//如果是等于当前登录ID
+                        delSubscription(v, isRecommend);
+                    } else {//不等于
+                        addSubscription(v, isRecommend);
+                    }
+                }
+            }
+        } else {
+            T.ShowToast(mContext, resSubscription.getRetMsg());
+        }
+    }
+
     private void loadError(Throwable throwable) {
         swipeLayout.setRefreshing(false);
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
-    }
-
-    private ResFindMore.RetObjBean.RowsBean rowsBean;
-
-    private void setDelResult(ResBase resBase, View v, boolean isRecommend) {
-        T.ShowToast(mContext, resBase.getRetMsg());
-        if (resBase.getRetCode() == 0) {
-            EventBus.getDefault().post(new RssSourceEvent(0));
-        }
-
-        if (isRecommend) {
-            if (resBase.getRetCode() == 0) {
-                ((ImageView) v).setImageResource(R.mipmap.ic_recommend_add);
-            } else {
-                ((ImageView) v).setImageResource(R.color.trans);
-            }
-        } else {
-            if (resBase.getRetCode() == 0) {
-                ((ImageView) v).setBackgroundResource(R.mipmap.ic_add);
-            } else {
-                ((ImageView) v).setBackgroundResource(R.mipmap.ic_no_add);
-            }
-        }
     }
 
     private void setFindMoreResult(ResFindMore resFindMore) {
@@ -243,16 +220,11 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     findMoreAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {
                         @Override
                         public void onAdd(ResFindMore.RetObjBean.RowsBean bean, View v) {
-                            //TODO 开始点击
                             rowsBean = bean;
-                            if (bean.isDeleteFlag()) {
-                                addSubscription(v, false);
-                            } else {
-                                delSubscription(v, false);
-                            }
+                            //TODO 先去查询服务器上此条数据
+                            findMoreListById(v, false);
                         }
                     });
-
                     mFfFindRecyclerView.setAdapter(findMoreAdapter);
                 } else {
                     findMoreAdapter.notifyDataSetChanged();
@@ -281,13 +253,9 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     recommendAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {
                         @Override
                         public void onAdd(ResFindMore.RetObjBean.RowsBean bean, View v) {
-                            //TODO 开始点击
                             rowsBean = bean;
-                            if (bean.isDeleteFlag()) {
-                                addSubscription(v, true);
-                            } else {
-                                delSubscription(v, true);
-                            }
+                            //TODO 先去查询服务器上此条数据
+                            findMoreListById(v, true);
                         }
                     });
                     mFfHotRecyclerView.setAdapter(recommendAdapter);
@@ -300,6 +268,26 @@ public class FindPresenter extends BasePresenter<IFindView> {
             }
         } else {
             T.ShowToast(mContext, resFindMore.getRetMsg());
+        }
+    }
+
+    private void setDelResult(ResBase resBase, View v, boolean isRecommend) {
+        T.ShowToast(mContext, resBase.getRetMsg());
+        if (resBase.getRetCode() == 0) {
+            EventBus.getDefault().post(new RssSourceEvent(0));
+        }
+        if (isRecommend) {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setImageResource(R.mipmap.ic_recommend_add);
+            } else {
+                ((ImageView) v).setImageResource(R.color.trans);
+            }
+        } else {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setImageResource(R.mipmap.ic_add);
+            } else {
+                ((ImageView) v).setImageResource(R.mipmap.ic_no_add);
+            }
         }
     }
 
@@ -316,9 +304,9 @@ public class FindPresenter extends BasePresenter<IFindView> {
             }
         } else {
             if (resBase.getRetCode() == 0) {
-                ((ImageView) v).setBackgroundResource(R.mipmap.ic_no_add);
+                ((ImageView) v).setImageResource(R.mipmap.ic_no_add);
             } else {
-                ((ImageView) v).setBackgroundResource(R.mipmap.ic_add);
+                ((ImageView) v).setImageResource(R.mipmap.ic_add);
             }
         }
     }
@@ -336,6 +324,15 @@ public class FindPresenter extends BasePresenter<IFindView> {
     private Map<String, String> getFindMoreParams() {
         Map<String, String> map = new HashMap<>();
         String jsonParams = "{\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
+
+    private Map<String, String> getFindMoreByIdParams() {
+        Map<String, String> map = new HashMap<>();
+        String subscribeId = rowsBean.getId();
+        String jsonParams = "{\"subscribeId\":\"" + subscribeId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         System.out.println(map);
         return map;

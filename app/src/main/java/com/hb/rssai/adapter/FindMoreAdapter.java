@@ -2,6 +2,7 @@ package com.hb.rssai.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +21,13 @@ import java.util.List;
  * Created by Administrator on 2017/7/6.
  */
 
-/**
- * Created by Administrator on 2016/12/10 0010.
- */
 public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyViewHolder> {
     private Context mContext;
-    List<ResFindMore.RetObjBean.RowsBean> resList;
+    private List<ResFindMore.RetObjBean.RowsBean> resList;
     private LayoutInflater layoutInflater;
     private OnItemClickedListener onItemClickedListener;
     private OnAddClickedListener onAddClickedListener;
-    String userId = "";
+    private String userId = "";
 
     public void setOnAddClickedListener(OnAddClickedListener onAddClickedListener) {
         this.onAddClickedListener = onAddClickedListener;
@@ -47,7 +45,6 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         void onAdd(ResFindMore.RetObjBean.RowsBean rowsBean, View v);
     }
 
-
     public FindMoreAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> resList) {
         this.mContext = mContext;
         this.resList = resList;
@@ -61,17 +58,32 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         return new MyViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        HttpLoadImg.loadRoundImg(mContext, resList.get(position).getImg(), holder.ifm_iv_img);
         holder.ifm_tv_people.setText("订阅：" + resList.get(position).getCount());
         holder.ifm_tv_abstract.setText(resList.get(position).getAbstractContent());
         holder.ifm_tv_title.setText(resList.get(position).getName());
-        HttpLoadImg.loadRoundImg(mContext, resList.get(position).getImg(), holder.ifm_iv_img);
-        if (resList.get(position).isDeleteFlag() && userId.equals(resList.get(position).getUserId())) {
-            holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_add);
+//        1、如果被删除 true
+//        那么高亮
+//        3、如果没删除fasle ，
+//          userId 是空:
+//                那么高亮
+//          userId 不是空:
+//               如果userId等于当前登录的用户ID 那么置灰
+//               否则 userId不等于当前登录的用户ID 那么高亮
+        if (resList.get(position).isDeleteFlag()) {
+            holder.ifm_iv_add.setImageResource(R.mipmap.ic_add);
         } else {
-            holder.ifm_iv_add.setBackgroundResource(R.mipmap.ic_no_add);
+            if (TextUtils.isEmpty(resList.get(position).getUserId())) {
+                holder.ifm_iv_add.setImageResource(R.mipmap.ic_add);
+            } else {
+                if (userId.equals(resList.get(position).getUserId())) {
+                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_no_add);
+                } else {
+                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_add);
+                }
+            }
         }
         holder.ifm_iv_add.setOnClickListener(v -> {
             onAddClickedListener.onAdd(resList.get(position), v);

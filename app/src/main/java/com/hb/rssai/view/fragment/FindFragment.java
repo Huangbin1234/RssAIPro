@@ -22,14 +22,20 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseFragment;
+import com.hb.rssai.event.FindMoreEvent;
+import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.FindPresenter;
+import com.hb.rssai.presenter.SubscriptionPresenter;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.view.iView.IFindView;
 import com.hb.rssai.view.subscription.tab.TabResourceActivity;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
 import com.hb.rssai.view.widget.MyDecoration;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,6 +121,8 @@ public class FindFragment extends BaseFragment implements IFindView {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        // 注册
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -188,6 +196,12 @@ public class FindFragment extends BaseFragment implements IFindView {
         ((FindPresenter) mPresenter).recommendList();
     }
 
+    @Subscribe
+    public void onEventMainThread(FindMoreEvent event) {
+        if (event.getMessage() == 0) {
+            ((FindPresenter) mPresenter).refreshList();
+        }
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

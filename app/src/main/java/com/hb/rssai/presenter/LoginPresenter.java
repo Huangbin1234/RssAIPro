@@ -6,9 +6,13 @@ import android.widget.EditText;
 
 import com.hb.rssai.bean.ResLogin;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.FindMoreEvent;
+import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.ILoginView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +71,10 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             SharedPreferencesUtil.setString(mContext, Constant.TOKEN, bean.getRetObj() != null ? bean.getRetObj().getToken() : "");
             SharedPreferencesUtil.setString(mContext, Constant.USER_ID, bean.getRetObj() != null ? bean.getRetObj().getUserId() : "");
             iLoginView.toFinish();
+
+            //TODO 更新数据
+            EventBus.getDefault().post(new RssSourceEvent(0));
+            EventBus.getDefault().post(new FindMoreEvent(0));
         }
         T.ShowToast(mContext, bean.getRetMsg());
 
