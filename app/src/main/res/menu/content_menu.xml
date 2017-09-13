@@ -6,12 +6,12 @@
         android:icon="@mipmap/ic_collection_normal"
         android:orderInCategory="67"
         android:title="@string/str_sf_new_collection"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/toolbar_add_share"
         android:icon="@mipmap/ic_share_menu"
         android:orderInCategory="67"
         android:title="@string/str_sf_new_share"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>
 

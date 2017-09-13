@@ -11,5 +11,8 @@ public interface IRichTextView {
 
     String getNewTitle();
 
+    String getNewLink();
+
+
     String getInformationId();
 }

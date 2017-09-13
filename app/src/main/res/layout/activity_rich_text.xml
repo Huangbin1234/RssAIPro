@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar" />
+    <include layout="@layout/include_sub_toolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:padding="10dp"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -42,9 +42,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="2112"
                         android:textColor="@color/black"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -56,18 +55,16 @@
                             android:id="@+id/rta_tv_whereFrom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2112"
                             android:textColor="#9C9C9C"
-                            android:textSize="@dimen/s14p" />
+                            android:textSize="@dimen/s14p"/>
 
                         <TextView
                             android:id="@+id/rta_tv_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="2112"
                             android:textColor="#9C9C9C"
-                            android:textSize="@dimen/s14p" />
+                            android:textSize="@dimen/s14p"/>
 
                     </LinearLayout>
 
@@ -78,10 +75,9 @@
                         android:layout_marginTop="25dp"
                         android:autoLink="all"
                         android:lineSpacingExtra="5dp"
-                        android:text="12212"
                         android:textColor="@color/color_txt"
                         android:textColorLink="@color/color_txt"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"/>
 
                     <TextView
                         android:id="@+id/rta_tv_view"
@@ -91,7 +87,7 @@
                         android:layout_marginTop="16dp"
                         android:padding="10dp"
                         android:text="查看原文"
-                        android:textColor="@color/color_line_blue" />
+                        android:textColor="@color/color_line_blue"/>
                 </LinearLayout>
 
                 <RelativeLayout
@@ -105,7 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="16dp"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_vline" />
+                        android:src="@mipmap/ic_vline"/>
 
                     <TextView
                         android:id="@+id/ff_find_hot_label"
@@ -116,14 +112,14 @@
                         android:layout_marginLeft="10dp"
                         android:text="@string/ff_find_like_label"
                         android:textColor="@color/color_name"
-                        android:textSize="@dimen/s16p" />
+                        android:textSize="@dimen/s16p"/>
 
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:background="@color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rta_recycler_view"

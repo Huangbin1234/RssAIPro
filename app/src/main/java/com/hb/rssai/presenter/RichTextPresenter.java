@@ -8,6 +8,7 @@ import com.hb.rssai.adapter.LikeAdapter;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
@@ -41,6 +42,7 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     private void initView() {
         recyclerView = iRichTextView.getRtaRecyclerView();
     }
+
     public void updateCount() {
         informationApi.updateCount(getUpdateParams()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -52,6 +54,7 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     private void setUpdateResult(ResBase resBase) {
         //TODO 更新数量成功
     }
+
     private Map<String, String> getUpdateParams() {
         Map<String, String> map = new HashMap<>();
         String informationId = iRichTextView.getInformationId();
@@ -59,6 +62,7 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
+
     public void getLikeByTitle() {
         informationApi.getLikeByTitle(getParams()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -106,6 +110,29 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
 //        String title = iRichTextView.getNewTitle();
         String title = "创业";
         String jsonParams = "{\"title\":\"" + title + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+
+    public void add() {
+        collectionApi.add(getAddParams()).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setAddResult(resBase);
+                }, this::loadError);
+    }
+
+    private void setAddResult(ResBase resBase) {
+        T.ShowToast(mContext, resBase.getRetMsg());
+    }
+
+    private Map<String, String> getAddParams() {
+        Map<String, String> map = new HashMap<>();
+        String newLink = iRichTextView.getNewLink();
+        String newTitle = iRichTextView.getNewTitle();
+        String informationId = iRichTextView.getInformationId();
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\",\"link\":\"" + newLink + "\",\"title\":\"" + newTitle + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }

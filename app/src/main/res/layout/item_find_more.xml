@@ -43,7 +43,7 @@
             android:id="@+id/ifm_iv_img"
             android:layout_width="85dp"
             android:layout_height="85dp"
-            android:src="@mipmap/ic_place" />
+            android:background="@drawable/more_round_corner" />
 
         <RelativeLayout
             android:layout_width="match_parent"
