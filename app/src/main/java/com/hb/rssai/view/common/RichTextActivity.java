@@ -133,16 +133,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         setSupportActionBar(mSysToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
+            actionBar.setDisplayHomeAsUpEnabled(false);//设置ActionBar一个返回箭头，主界面没有，次级界面有
             actionBar.setDisplayShowTitleEnabled(false);
         }
-//        mSysToolbar.setNavigationIcon(R.mipmap.ic_back);
-//        mSysToolbar .setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
+        mSysToolbar.setNavigationIcon(R.mipmap.ic_back);
+        mSysToolbar .setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mSysToolbar.setOnMenuItemClickListener(this);
         //修改状态栏文字图标为深色
         StatusBarUtil.StatusBarLightMode(this);

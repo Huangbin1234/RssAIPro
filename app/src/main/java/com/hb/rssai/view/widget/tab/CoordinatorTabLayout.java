@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -24,6 +25,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.util.AppBarStateChangeListener;
 import com.hb.rssai.view.widget.tab.listener.LoadHeaderImagesListener;
 import com.hb.rssai.view.widget.tab.utils.SystemView;
 
@@ -42,6 +44,7 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
     private ImageView mImageView;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private LoadHeaderImagesListener mLoadHeaderImagesListener;
+    private AppBarLayout vctAppbarLayout;
 
     public CoordinatorTabLayout(Context context) {
         super(context);
@@ -71,7 +74,36 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
         initToolbar();
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingtoolbarlayout);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        vctAppbarLayout = (AppBarLayout) findViewById(R.id.vct_abl);
         mImageView = (ImageView) findViewById(R.id.imageview);
+
+        vctAppbarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            //如果折叠后固定，那么以下判断则是折叠完成时为true
+            if (((AppCompatActivity)mContext).getSupportActionBar().getHeight() - appBarLayout.getHeight() == verticalOffset) {
+                mToolbar.setVisibility(View.GONE);
+                mImageView.setVisibility(View.GONE);
+            }else{
+                mToolbar.setVisibility(View.VISIBLE);
+                mImageView.setVisibility(View.VISIBLE);
+            }
+        });
+        vctAppbarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if( state == State.EXPANDED ) {
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mImageView.setVisibility(View.VISIBLE);
+                    //展开状态
+                }else if(state == State.COLLAPSED){
+                    //折叠状态
+                    mToolbar.setVisibility(View.GONE);
+                    mImageView.setVisibility(View.GONE);
+                }else {
+                    //中间状态
+                    mImageView.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void initWidget(Context context, AttributeSet attrs) {

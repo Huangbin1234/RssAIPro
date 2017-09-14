@@ -7,6 +7,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
+        android:id="@+id/vct_abl"
         android:layout_height="wrap_content"
         android:stateListAnimator="@drawable/appbarlayout_elevated"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

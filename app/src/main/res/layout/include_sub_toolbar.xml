@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="@color/white"
+            android:layout_marginLeft="16dp"
             android:textSize="@dimen/s16p"/>
 
     </android.support.v7.widget.Toolbar>
