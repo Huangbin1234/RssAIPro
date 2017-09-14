@@ -55,7 +55,7 @@ public class TabResourceActivity extends BaseActivity implements ITabResourceVie
 
     @Override
     protected void setAppTitle() {
-
+        mCoordinatorTabLayout.setTitle("");
     }
 
     @Override

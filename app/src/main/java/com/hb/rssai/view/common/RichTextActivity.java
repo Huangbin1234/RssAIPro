@@ -13,6 +13,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HtmlImageGetter;
 import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IRichTextView;
 import com.zzhoujay.richtext.RichText;
@@ -36,7 +38,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 
-public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, IRichTextView{
+public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, IRichTextView {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -88,7 +90,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             url = bundle.getString("url");
             id = bundle.getString("id");
 
-            mSysTvTitle.setText(title);
+            //mSysTvTitle.setText(title);
         }
     }
 
@@ -134,7 +136,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
             actionBar.setDisplayShowTitleEnabled(false);
         }
+//        mSysToolbar.setNavigationIcon(R.mipmap.ic_back);
+//        mSysToolbar .setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
         mSysToolbar.setOnMenuItemClickListener(this);
+        //修改状态栏文字图标为深色
+        StatusBarUtil.StatusBarLightMode(this);
     }
 
     @Override

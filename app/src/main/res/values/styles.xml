@@ -19,8 +19,13 @@
         <item name="toolbarStyle">@style/ClubToolbar</item>
         <item name="colorAccent">@color/color_toolbar_bg</item>
         <item name="android:listDivider">@drawable/divider</item>
+        <item name="toolbarNavigationButtonStyle">@style/myToolbarNavigationButtonStyle</item>
     </style>
-
+    <style name="myToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
     <style name="AppTheme.NoActionBar.Night">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -39,6 +44,11 @@
 
     <style name="title_all">
         <item name="android:background">@color/color_toolbar_bg</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <style name="title_all_content">
+        <item name="android:background">@color/white</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
@@ -76,4 +86,17 @@
 
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--TODO 修改actionbar返回按钮颜色为黑色-->
+    <style name="backWhite" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@android:color/black</item>
+    </style>
+
+    <style name="CustomActionBarStyle" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetEnd">0dp</item>
+        <item name="contentInsetLeft">0dp</item>
+        <item name="contentInsetRight">0dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:padding">0dp</item>
+    </style>
 </resources>
