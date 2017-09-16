@@ -96,6 +96,18 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     LinearLayout mSubLlAll;
     @BindView(R.id.sf_nest_scrollview)
     NestedScrollView mSfNestScrollview;
+    @BindView(R.id.tv_sub_label_topic)
+    TextView mTvSubLabelTopic;
+    @BindView(R.id.tv_sub_right_all_topic)
+    TextView mTvSubRightAllTopic;
+    @BindView(R.id.sf_iv_all_topic)
+    ImageView mSfIvAllTopic;
+    @BindView(R.id.sub_ll_all_topic)
+    LinearLayout mSubLlAllTopic;
+    @BindView(R.id.sf_recycler_view_topic)
+    RecyclerView mSfRecyclerViewTopic;
+    @BindView(R.id.rl_ll_topic)
+    LinearLayout mRlLlTopic;
     //@BindView(R.id.index_function_gridview)
     // FullGridView mIndexFunctionGridView;
 
@@ -111,6 +123,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     CardAdapter mCardAdapter;
     public final static int REQUEST_CODE = 1;
     private FullyGridLayoutManager mFullyGridLayoutManager;
+    private FullyGridLayoutManager mFullyGridLayoutManagerTopic;
     ResFindMore.RetObjBean.RowsBean rowsBean;
 
     public SubscriptionFragment() {
@@ -167,9 +180,17 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
         mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
         mSfRecyclerView.setLayoutManager(mFullyGridLayoutManager);
 
+        mFullyGridLayoutManagerTopic = new FullyGridLayoutManager(getContext(), 3);
+        mSfRecyclerViewTopic.setLayoutManager(mFullyGridLayoutManagerTopic);
+
         mSfRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DisplayUtil.dip2px(getContext(), 10), false));
         mSfRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mSfRecyclerView.setHasFixedSize(true);
+
+        mSfRecyclerViewTopic.addItemDecoration(new GridSpacingItemDecoration(3, DisplayUtil.dip2px(getContext(), 10), false));
+        mSfRecyclerViewTopic.setNestedScrollingEnabled(false);//解决卡顿
+        mSfRecyclerViewTopic.setHasFixedSize(true);
+
         mSfSwipe.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSfSwipe.setProgressViewOffset(true, 0, (int) TypedValue
@@ -242,7 +263,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
 
-    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan, R.id.sub_ll_all})
+    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan, R.id.sub_ll_all, R.id.sub_ll_all_topic})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -255,7 +276,14 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUEST_CODE);
                 break;
             case R.id.sub_ll_all:
-                startActivity(new Intent(getContext(), SubListActivity.class));
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(SubListActivity.KEY_IS_TAG, true);
+                startActivity(new Intent(getContext(), SubListActivity.class).putExtras(bundle));
+                break;
+            case R.id.sub_ll_all_topic:
+                Bundle bundle2 = new Bundle();
+                bundle2.putBoolean(SubListActivity.KEY_IS_TAG, false);
+                startActivity(new Intent(getContext(), SubListActivity.class).putExtras(bundle2));
                 break;
         }
     }
@@ -347,6 +375,11 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public RecyclerView getRecyclerView() {
         return mSfRecyclerView;
+    }
+
+    @Override
+    public RecyclerView getTopicRecyclerView() {
+        return mSfRecyclerViewTopic;
     }
 
     @Override

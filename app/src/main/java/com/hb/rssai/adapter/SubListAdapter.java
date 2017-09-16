@@ -12,11 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
-import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.bean.ResFindMore;
+import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.view.subscription.SourceListActivity;
 import com.hb.rssai.view.subscription.SubListActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -28,15 +31,18 @@ import java.util.List;
  */
 public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHolder> {
     private Context mContext;
-    List<RssSource> rssList;
+    List<ResFindMore.RetObjBean.RowsBean> rssList;
+    //    List<RssSource> rssList;
     private LayoutInflater layoutInflater;
     private SubListActivity activity;
+    private String longDatePat = "yyyy-MM-dd HH:mm:ss";
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public interface onItemLongClickedListener {
-        void onItemLongClicked(RssSource rssSource);
+        void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rssSource);
     }
 
-    public SubListAdapter(Context mContext, List<RssSource> rssList, Activity activity) {
+    public SubListAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> rssList, Activity activity) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
@@ -53,17 +59,29 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         System.out.println(rssList.get(position).getName());
         holder.item_sla_tv_name.setText(rssList.get(position).getName());
-        holder.item_sla_tv_count.setText(rssList.get(position).getCount() + "条资讯");
-        if (TextUtils.isEmpty(rssList.get(position).getImgUrl())) {
+
+
+        try {
+            holder.item_sla_tv_count.setText("[" + rssList.get(position).getCount() + "条]");
+            holder.item_sla_tv_date.setText(TextUtils.isEmpty(rssList.get(position).getLastTime()) ? "" : DateUtil.showDate(sdf.parse(rssList.get(position).getLastTime()), longDatePat));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.item_sla_iv);
         } else {
-            HttpLoadImg.loadImg(mContext, rssList.get(position).getImgUrl(), holder.item_sla_iv);
+            HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.item_sla_iv);
         }
 
         holder.v.setOnClickListener(v -> {
+//            Intent intent = new Intent(mContext, SourceListActivity.class);
+//            intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
+//            intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
+//            mContext.startActivity(intent);
             Intent intent = new Intent(mContext, SourceListActivity.class);
             intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
             intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
+            intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
             mContext.startActivity(intent);
         });
         holder.v.setOnLongClickListener(v -> {
@@ -82,6 +100,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
         public View v;
         TextView item_sla_tv_name;
         TextView item_sla_tv_count;
+        TextView item_sla_tv_date;
         ImageView item_sla_iv;
 
 
@@ -91,6 +110,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
             item_sla_tv_count = (TextView) itemView.findViewById(R.id.item_sla_tv_count);
             item_sla_tv_name = (TextView) itemView.findViewById(R.id.item_sla_tv_name);
             item_sla_iv = (ImageView) itemView.findViewById(R.id.item_sla_iv);
+            item_sla_tv_date = (TextView) itemView.findViewById(R.id.item_sla_tv_date);
         }
     }
 }

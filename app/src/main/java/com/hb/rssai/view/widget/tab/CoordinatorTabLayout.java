@@ -25,7 +25,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.hb.rssai.R;
-import com.hb.rssai.util.AppBarStateChangeListener;
 import com.hb.rssai.view.widget.tab.listener.LoadHeaderImagesListener;
 import com.hb.rssai.view.widget.tab.utils.SystemView;
 
@@ -77,34 +76,31 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
         vctAppbarLayout = (AppBarLayout) findViewById(R.id.vct_abl);
         mImageView = (ImageView) findViewById(R.id.imageview);
 
-        vctAppbarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            //如果折叠后固定，那么以下判断则是折叠完成时为true
-            if (((AppCompatActivity)mContext).getSupportActionBar().getHeight() - appBarLayout.getHeight() == verticalOffset) {
-                mToolbar.setVisibility(View.GONE);
-                mImageView.setVisibility(View.GONE);
-            }else{
-                mToolbar.setVisibility(View.VISIBLE);
-                mImageView.setVisibility(View.VISIBLE);
-            }
-        });
-        vctAppbarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                if( state == State.EXPANDED ) {
-                    mToolbar.setVisibility(View.VISIBLE);
-                    mImageView.setVisibility(View.VISIBLE);
-                    //展开状态
-                }else if(state == State.COLLAPSED){
-                    //折叠状态
-                    mToolbar.setVisibility(View.GONE);
-                    mImageView.setVisibility(View.GONE);
-                }else {
-                    //中间状态
-                    mImageView.setVisibility(View.GONE);
-                }
-            }
-        });
+
+
+//        vctAppbarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+//            @Override
+//            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+//                if (state == State.EXPANDED) {
+//                    mToolbar.setVisibility(View.VISIBLE);
+//                    mImageView.setVisibility(View.VISIBLE);
+//                    s = 1;
+//                    //展开状态
+//                } else if (state == State.COLLAPSED) {
+//                    //折叠状态
+//                    s = 2;
+//                    mToolbar.setVisibility(View.GONE);
+//                    mImageView.setVisibility(View.GONE);
+//                } else {
+//                    s = 3;
+//                    //中间状态
+////                    mImageView.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
+
+    private int s = 0;
 
     private void initWidget(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs
@@ -201,21 +197,28 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mImageView.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_dismiss));
-                if (mLoadHeaderImagesListener == null) {
-                    if (mImageArray != null) {
-                        mImageView.setImageResource(mImageArray[tab.getPosition()]);
+//                if (s == 2) {//折叠
+//                    mImageView.setVisibility(View.GONE);
+//                }else{
+                    mImageView.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_dismiss));
+                    if (mLoadHeaderImagesListener == null) {
+                        if (mImageArray != null) {
+                            mImageView.setImageResource(mImageArray[tab.getPosition()]);
+                        }
+                    } else {
+                        mLoadHeaderImagesListener.loadHeaderImages(mImageView, tab);
                     }
-                } else {
-                    mLoadHeaderImagesListener.loadHeaderImages(mImageView, tab);
-                }
+//                }
+
                 if (mColorArray != null) {
-                    mCollapsingToolbarLayout.setContentScrimColor(
-//                            ContextCompat.getColor(
-//                                    mContext, mColorArray[tab.getPosition()]));
-                            mColorArray[tab.getPosition()]);
+                    mCollapsingToolbarLayout.setContentScrimColor(mColorArray[tab.getPosition()]);
+                    //ContextCompat.getColor(
+                    //mContext, mColorArray[tab.getPosition()]));
                 }
-                mImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_show));
+//                if(s!=2){
+                    mImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_show));
+//                }
+
             }
 
             @Override

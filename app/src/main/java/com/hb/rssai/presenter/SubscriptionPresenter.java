@@ -32,12 +32,15 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     private int page = 1;
     private boolean isEnd = false, isLoad = false;
     private List<ResFindMore.RetObjBean.RowsBean> resFindMores = new ArrayList<>();
+    private List<ResFindMore.RetObjBean.RowsBean> resTopMores = new ArrayList<>();
 
     private RecyclerView subscribeRecyclerView;
+    private RecyclerView topicRecyclerView;
     private SwipeRefreshLayout swipeLayout;
     private FullyGridLayoutManager subscribeManager;
     private RssSourceAdapter adapter;
     private NestedScrollView mNestRefresh;
+    private RssSourceAdapter topicAdapter;
 
 
     public SubscriptionPresenter(Context context, ISubscriptionView ISubscriptionView) {
@@ -48,26 +51,27 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
 
     private void initView() {
         subscribeRecyclerView = mISubscriptionView.getRecyclerView();
+        topicRecyclerView = mISubscriptionView.getTopicRecyclerView();
         swipeLayout = mISubscriptionView.getSwipeLayout();
         subscribeManager = mISubscriptionView.getManager();
         mNestRefresh = mISubscriptionView.getNestScrollView();
 
         //TODO 设置下拉刷新
         swipeLayout.setOnRefreshListener(() -> refreshList());
-        mNestRefresh.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                if (v.getChildAt(0) != null && isBottomForNestedScrollView(v, scrollY)) {
-                    // 加载更多
-                    if (!isEnd && !isLoad) {
-                        swipeLayout.setRefreshing(true);
-                        page++;
-                        getUserSubscribeList();
-                    }
-                }
-            }
-        });
+//        mNestRefresh.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//
+//                if (v.getChildAt(0) != null && isBottomForNestedScrollView(v, scrollY)) {
+//                    // 加载更多
+//                    if (!isEnd && !isLoad) {
+//                        swipeLayout.setRefreshing(true);
+//                        page++;
+//                        getUserSubscribeList();
+//                    }
+//                }
+//            }
+//        });
         //TODO 设置上拉加载更多
 //        subscribeRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //            int lastVisibleItem;
@@ -98,10 +102,12 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
 //            }
 //        });
     }
+
     // TODO: 判断是不是在底部
     private boolean isBottomForNestedScrollView(NestedScrollView v, int scrollY) {
         return (scrollY + v.getHeight()) == (v.getChildAt(0).getHeight() + v.getPaddingTop() + v.getPaddingBottom());
     }
+
     /**
      * 刷新数据
      */
@@ -111,9 +117,12 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         isEnd = false;
         if (resFindMores != null) {
             resFindMores.clear();
+        } if (resTopMores != null) {
+            resTopMores.clear();
         }
         swipeLayout.setRefreshing(true);
         getUserSubscribeList();
+        getSubscribeList();
     }
 
     public void getUserSubscribeList() {
@@ -122,6 +131,15 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resFindMore -> {
                     setUserSubscribeResult(resFindMore);
+                }, this::loadError);
+    }
+
+    public void getSubscribeList() {
+        findApi.userSubscribeList(getSubscribeParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resFindMore -> {
+                    setSubscribeResult(resFindMore);
                 }, this::loadError);
     }
 
@@ -154,12 +172,20 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     private Map<String, String> getUserSubscribeParams() {
         Map<String, String> map = new HashMap<>();
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
-        String jsonParams = "{\"userId\":\"" + userId + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"isTag\":\"" + true + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.SUBSCRIBE_PAGE_SIZE + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         System.out.println(map);
         return map;
     }
 
+    private Map<String, String> getSubscribeParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"isTag\":\"" + false + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.SUBSCRIBE_PAGE_SIZE + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
 
     private void setUserSubscribeResult(ResFindMore resFindMore) {
         isLoad = false;
@@ -176,6 +202,28 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
                 }
             }
             if (resFindMores.size() == resFindMore.getRetObj().getTotal()) {
+                isEnd = true;
+            }
+        } else {
+            T.ShowToast(mContext, resFindMore.getRetMsg());
+        }
+    }
+
+    private void setSubscribeResult(ResFindMore resFindMore) {
+        isLoad = false;
+        swipeLayout.setRefreshing(false);
+        //TODO 填充数据
+        if (resFindMore.getRetCode() == 0) {
+            if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
+                resTopMores.addAll(resFindMore.getRetObj().getRows());
+                if (topicAdapter == null) {
+                    topicAdapter = new RssSourceAdapter(mContext, resTopMores, mISubscriptionView.getFragment());
+                    topicRecyclerView.setAdapter(topicAdapter);
+                } else {
+                    topicAdapter.notifyDataSetChanged();
+                }
+            }
+            if (resTopMores.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
         } else {

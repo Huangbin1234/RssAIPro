@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
@@ -114,12 +112,9 @@ public class TabResourceActivity extends BaseActivity implements ITabResourceVie
     private void getRandomColors() {
         //生成随机颜色
         Random randomGenerator = new Random();
-        int red = randomGenerator.nextInt(256);
-        int green = randomGenerator.nextInt(256);
-        int blue = randomGenerator.nextInt(256);
         mColorArray = new int[mRowsBeanList.size()];
         for (int i = 0; i < mRowsBeanList.size(); i++) {
-            mColorArray[i] = Color.argb(255, red, green, blue);
+            mColorArray[i] = Color.argb(255, randomGenerator.nextInt(256), randomGenerator.nextInt(256), randomGenerator.nextInt(256));
         }
     }
 

@@ -28,4 +28,6 @@ public interface ISubscriptionView {
     void update();
 
     NestedScrollView getNestScrollView();
+
+     RecyclerView getTopicRecyclerView();
 }

@@ -1,7 +1,6 @@
 package com.hb.rssai.view.subscription;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,15 +19,19 @@ import com.hb.rssai.R;
 import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.adapter.SubListAdapter;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.presenter.SubListPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.QrCodeActivity;
+import com.hb.rssai.view.iView.ISubListView;
 import com.hb.rssai.view.widget.FullListView;
+import com.hb.rssai.view.widget.MyDecoration;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
@@ -41,7 +44,7 @@ import java.util.List;
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class SubListActivity extends BaseActivity implements SubListAdapter.onItemLongClickedListener {
+public class SubListActivity extends BaseActivity implements SubListAdapter.onItemLongClickedListener, ISubListView {
     LinearLayoutManager mLayoutManager;
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -61,6 +64,8 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
     private SubListAdapter mSubListAdapter;
     private List<RssSource> list = new ArrayList<>();
     private PrgDialog dialog;
+    private boolean isTag = false;
+    public static final String KEY_IS_TAG = "key_is_tag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,25 +73,37 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
         initData();
     }
 
+    @Override
+    protected void initIntent() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            isTag = bundle.getBoolean(KEY_IS_TAG);
+        }
+    }
+
     private void initData() {
-        if (list != null && list.size() > 0) {
-            list.clear();
-        }
-        if (mSubListAdapter != null) {
-            mSubListAdapter.notifyDataSetChanged();
-        }
-        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllSort(RssSource.class,"sort");
-        if (dbList == null || dbList.size() <= 0) {
-            return;
-        }
-        list.addAll(dbList);
-        new ReadRssTask().execute();
+        ((SubListPresenter) mPresenter).refreshList();
+//        if (list != null && list.size() > 0) {
+//            list.clear();
+//        }
+//        if (mSubListAdapter != null) {
+//            mSubListAdapter.notifyDataSetChanged();
+//        }
+//        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllSort(RssSource.class, "sort");
+//        if (dbList == null || dbList.size() <= 0) {
+//            return;
+//        }
+//        list.addAll(dbList);
+//        new ReadRssTask().execute();
     }
 
     @Override
     protected void initView() {
         mLayoutManager = new LinearLayoutManager(this);
         mSubRecyclerView.setLayoutManager(mLayoutManager);
+        mSubRecyclerView.setHasFixedSize(true);
+        mSubRecyclerView.addItemDecoration(new MyDecoration(this, LinearLayoutManager.VERTICAL));
+
         mSubSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSubSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
@@ -112,8 +129,9 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
 
     @Override
     protected BasePresenter createPresenter() {
-        return null;
+        return new SubListPresenter(this, this);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -125,13 +143,16 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
         }
         return super.onOptionsItemSelected(item);
     }
-    RssSource rssSourceNew;
+
+    ResFindMore.RetObjBean.RowsBean rssSourceNew;
+
     @Override
-    public void onItemLongClicked(RssSource rssSource) {
+    public void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rssSource) {
         //TODO
         this.rssSourceNew = rssSource;
         openMenu();
     }
+
     /**
      * 构造对话框数据
      *
@@ -157,6 +178,7 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
         list.add(map3);
         return list;
     }
+
     /**
      * 菜单对话框
      *
@@ -187,7 +209,7 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
                     intent.putExtra(QrCodeActivity.KEY_TITLE, rssSourceNew.getName());
                     intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSourceNew.getLink()));
                     startActivity(intent);
-                }else if (list.get(position).get("id").equals(3)) {
+                } else if (list.get(position).get("id").equals(3)) {
                     materialDialog.dismiss();
                     LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSourceNew.getId()});
                     initData();
@@ -207,34 +229,59 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
         }
     }
 
-
-    class ReadRssTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new PrgDialog(SubListActivity.this, true);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            readRssXml();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            dialog.closeDialog();
-            mSubSwipeLayout.setRefreshing(false);
-            mSubLl.setVisibility(View.GONE);
-            if (mSubListAdapter == null) {
-                mSubListAdapter = new SubListAdapter(SubListActivity.this, list, SubListActivity.this);
-                mSubRecyclerView.setAdapter(mSubListAdapter);
-            } else {
-                mSubListAdapter.notifyDataSetChanged();
-            }
-        }
+    @Override
+    public RecyclerView getRecyclerView() {
+        return mSubRecyclerView;
     }
+
+    @Override
+    public LinearLayoutManager getManager() {
+        return mLayoutManager;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSwipeLayout() {
+        return mSubSwipeLayout;
+    }
+
+    @Override
+    public boolean getIsTag() {
+        return isTag;
+    }
+
+    @Override
+    public LinearLayout getLlEmptyView() {
+        return mSubLl;
+    }
+
+
+//    class ReadRssTask extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            dialog = new PrgDialog(SubListActivity.this, true);
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            readRssXml();
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            dialog.closeDialog();
+//            mSubSwipeLayout.setRefreshing(false);
+//            mSubLl.setVisibility(View.GONE);
+//            if (mSubListAdapter == null) {
+//                mSubListAdapter = new SubListAdapter(SubListActivity.this, list, SubListActivity.this);
+//                mSubRecyclerView.setAdapter(mSubListAdapter);
+//            } else {
+//                mSubListAdapter.notifyDataSetChanged();
+//            }
+//        }
+//    }
 
     private void readRssXml() {
         List<Website> websiteList = new ArrayList<>();

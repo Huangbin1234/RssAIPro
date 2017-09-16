@@ -30,6 +30,7 @@ public class Constant {
 
     public static final int PAGE_SIZE = 10;    //页码尺寸
     public static final int RECOMMEND_PAGE_SIZE = 3;//推荐
+    public static final int SUBSCRIBE_PAGE_SIZE = 6;//订阅
     public static final String USER_ID ="user_id" ;
     public static final int DATA_TYPE_ALL = 0;
     public static final String SAVE_IS_UPDATE = "isupdate";

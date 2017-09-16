@@ -86,6 +86,7 @@ public class ResFindMore {
             private String userId;
             private String img;
             private String pubTime;
+            private String lastTime;
             private String abstractContent;
             private int count;
             private String link;
@@ -215,6 +216,14 @@ public class ResFindMore {
 
             public void setUserId(String userId) {
                 this.userId = userId;
+            }
+
+            public String getLastTime() {
+                return lastTime;
+            }
+
+            public void setLastTime(String lastTime) {
+                this.lastTime = lastTime;
             }
         }
     }

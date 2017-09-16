@@ -22,11 +22,11 @@ android {
 //            //设置支持的SO库架构
 //            abiFilters 'armeabi', 'armeabi-v7a'//,  'arm64-v8a', 'x86', 'armeabi-v7a', 'x86_64'
 //        }
-//        packagingOptions {
-//            exclude "lib/arm64-v8a/libzbar.so"
-//            exclude('META-INF/LICENSE.txt')
-//            exclude('META-INF/NOTICE.txt')
-//        }
+        packagingOptions {
+            exclude "lib/arm64-v8a/libzbar.so"
+            exclude('META-INF/LICENSE.txt')
+            exclude('META-INF/NOTICE.txt')
+        }
     }
     buildTypes {
         release {
