@@ -48,4 +48,8 @@ public interface FindApi {
     @POST("subscription/delSubscription")
     Observable<ResBase> delSubscription(@FieldMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("subscription/updateUsSort")
+    Observable<ResBase> updateUsSort(@FieldMap Map<String, String> params);
+
 }

@@ -9,10 +9,13 @@ import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.ISubscriptionView;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,7 +136,21 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
                     setUserSubscribeResult(resFindMore);
                 }, this::loadError);
     }
+    public void updateUsSort() {
+        findApi.updateUsSort(getUpdateParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setUpdateUsSortResult(resBase);
+                }, this::loadError);
+    }
 
+    private void setUpdateUsSortResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            EventBus.getDefault().post(new RssSourceEvent(0));
+        }
+        T.ShowToast(mContext, resBase.getRetMsg());
+    }
     public void getSubscribeList() {
         findApi.userSubscribeList(getSubscribeParams())
                 .subscribeOn(Schedulers.io())
@@ -156,7 +173,14 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         mISubscriptionView.update();
         T.ShowToast(mContext, resBase.getRetMsg());
     }
-
+    private Map<String, String> getUpdateParams() {
+        Map<String, String> map = new HashMap<>();
+        String usId = mISubscriptionView.getUsId();
+        String jsonParams = "{\"usId\":\"" + usId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
     private Map<String, String> getDelParams() {
         Map<String, String> map = new HashMap<>();
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");

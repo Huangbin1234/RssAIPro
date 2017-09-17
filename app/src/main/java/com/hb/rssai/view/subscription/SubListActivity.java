@@ -44,7 +44,7 @@ import java.util.List;
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class SubListActivity extends BaseActivity implements SubListAdapter.onItemLongClickedListener, ISubListView {
+public class SubListActivity extends BaseActivity implements  ISubListView {
     LinearLayoutManager mLayoutManager;
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -146,12 +146,12 @@ public class SubListActivity extends BaseActivity implements SubListAdapter.onIt
 
     ResFindMore.RetObjBean.RowsBean rssSourceNew;
 
-    @Override
-    public void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rssSource) {
-        //TODO
-        this.rssSourceNew = rssSource;
-        openMenu();
-    }
+//    @Override
+//    public void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rssSource) {
+//        //TODO
+//        this.rssSourceNew = rssSource;
+//        openMenu();
+//    }
 
     /**
      * 构造对话框数据

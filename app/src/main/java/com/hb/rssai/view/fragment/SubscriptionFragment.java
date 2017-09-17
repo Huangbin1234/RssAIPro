@@ -53,7 +53,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -341,9 +340,9 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 if (list.get(position).get("id").equals(1)) {
                     //TODO 置顶
                     materialDialog.dismiss();
-                    rowsBean.setSort(new Date().getTime());
+//                    rowsBean.setSort(new Date().getTime());
 //                    LiteOrmDBUtil.update(rowsBean);
-//                    ((SubscriptionPresenter)mPresenter).getUserSubscribeList();
+                    ((SubscriptionPresenter)mPresenter).updateUsSort();
                 } else if (list.get(position).get("id").equals(2)) {
                     materialDialog.dismiss();
                     Intent intent = new Intent(getContext(), QrCodeActivity.class);

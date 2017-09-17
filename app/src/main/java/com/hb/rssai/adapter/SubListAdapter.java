@@ -38,7 +38,18 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public interface onItemLongClickedListener {
+
+    public OnItemLongClickedListener getOnItemLongClickedListener() {
+        return mOnItemLongClickedListener;
+    }
+
+    public void setOnItemLongClickedListener(OnItemLongClickedListener onItemLongClickedListener) {
+        mOnItemLongClickedListener = onItemLongClickedListener;
+    }
+
+    public OnItemLongClickedListener mOnItemLongClickedListener;
+
+    public interface OnItemLongClickedListener {
         void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rssSource);
     }
 
@@ -57,22 +68,31 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        System.out.println(rssList.get(position).getName());
         holder.item_sla_tv_name.setText(rssList.get(position).getName());
-
-
         try {
             holder.item_sla_tv_count.setText("[" + rssList.get(position).getCount() + "条]");
             holder.item_sla_tv_date.setText(TextUtils.isEmpty(rssList.get(position).getLastTime()) ? "" : DateUtil.showDate(sdf.parse(rssList.get(position).getLastTime()), longDatePat));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        if (position < 6) {
+            holder.item_sla_iv_top.setImageResource(R.mipmap.ic_list_top);
+//            holder.item_sla_iv_top.setImageResource(R.color.trans);
+        } else {
+            holder.item_sla_iv_top.setImageResource(R.color.trans);
+        }
         if (TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.item_sla_iv);
         } else {
             HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.item_sla_iv);
         }
-
+//        holder.item_sla_iv_top.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                T.ShowToast(mContext, "2222");
+//            }
+//        });
+        holder.item_sla_iv_menu.setOnClickListener(v -> mOnItemLongClickedListener.onItemLongClicked(rssList.get(position)));
         holder.v.setOnClickListener(v -> {
 //            Intent intent = new Intent(mContext, SourceListActivity.class);
 //            intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
@@ -84,10 +104,10 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
             intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
             mContext.startActivity(intent);
         });
-        holder.v.setOnLongClickListener(v -> {
-            activity.onItemLongClicked(rssList.get(position));
-            return true;
-        });
+//        holder.v.setOnLongClickListener(v -> {
+//            activity.onItemLongClicked(rssList.get(position));
+//            return true;
+//        });
     }
 
 
@@ -102,7 +122,8 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
         TextView item_sla_tv_count;
         TextView item_sla_tv_date;
         ImageView item_sla_iv;
-
+        ImageView item_sla_iv_top;
+        ImageView item_sla_iv_menu;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -111,6 +132,9 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
             item_sla_tv_name = (TextView) itemView.findViewById(R.id.item_sla_tv_name);
             item_sla_iv = (ImageView) itemView.findViewById(R.id.item_sla_iv);
             item_sla_tv_date = (TextView) itemView.findViewById(R.id.item_sla_tv_date);
+
+            item_sla_iv_top = (ImageView) itemView.findViewById(R.id.item_sla_iv_top);
+            item_sla_iv_menu = (ImageView) itemView.findViewById(R.id.item_sla_iv_menu);
         }
     }
 }

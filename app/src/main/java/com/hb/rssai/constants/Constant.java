@@ -28,7 +28,7 @@ public class Constant {
     public static final String MSG_NETWORK_ERROR = "网络慢或连接失败";
     public static final String FAILED_NETWORK = "网络连接不可用，请稍后重试。";
 
-    public static final int PAGE_SIZE = 10;    //页码尺寸
+    public static final int PAGE_SIZE = 20;    //页码尺寸
     public static final int RECOMMEND_PAGE_SIZE = 3;//推荐
     public static final int SUBSCRIBE_PAGE_SIZE = 6;//订阅
     public static final String USER_ID ="user_id" ;
