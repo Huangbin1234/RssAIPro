@@ -1,6 +1,7 @@
 package com.hb.rssai.view.common;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,11 +35,13 @@ import com.hb.rssai.view.iView.IRichTextView;
 import com.zzhoujay.richtext.RichText;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
-public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, IRichTextView {
+public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, IRichTextView, View.OnClickListener {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -61,6 +65,20 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     TextView mRtaTvView;
     @BindView(R.id.rta_recycler_view)
     RecyclerView mRtaRecyclerView;
+    @BindView(R.id.rta_iv_good)
+    ImageView mRtaIvGood;
+    @BindView(R.id.rta_tv_good)
+    TextView mRtaTvGood;
+    @BindView(R.id.rta_ll_good)
+    LinearLayout mRtaLlGood;
+    @BindView(R.id.rta_iv_not_good)
+    ImageView mRtaIvNotGood;
+    @BindView(R.id.rta_tv_not_good)
+    TextView mRtaTvNotGood;
+    @BindView(R.id.rta_ll_not_good)
+    LinearLayout mRtaLlNotGood;
+    @BindView(R.id.ff_find_hot_label)
+    TextView mFfFindHotLabel;
 
     private LinearLayoutManager linearLayoutManager;
 
@@ -93,7 +111,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     }
 
 
-    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(Constant.DATE_LONG_PATTERN);
+    SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
 
     @Override
     protected void initView() {
@@ -108,7 +126,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
         HtmlImageGetter htmlImageGetter = new HtmlImageGetter(this, this, mRtaTvContent);
         Spanned spanned;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             spanned = Html.fromHtml(abstractContent, Html.FROM_HTML_MODE_LEGACY, htmlImageGetter, null);
         } else {
             spanned = Html.fromHtml(abstractContent, htmlImageGetter, null); // or for older api
@@ -228,5 +246,18 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     @Override
     public String getInformationId() {
         return id;
+    }
+
+    @OnClick({R.id.rta_ll_good, R.id.rta_ll_not_good})
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rta_ll_good:
+
+                break;
+            case R.id.rta_ll_not_good:
+
+                break;
+        }
     }
 }
