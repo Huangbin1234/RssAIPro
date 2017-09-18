@@ -29,6 +29,7 @@ import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HtmlImageGetter;
 import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IRichTextView;
@@ -88,6 +89,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     private String whereFrom = "";
     private String url = "";
     private String id = "";
+    private String evaluateType = "";
+    private long clickGood;
+    private long clickNotGood;
+    private SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,12 +111,13 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             pubDate = bundle.getString("pubDate");
             url = bundle.getString("url");
             id = bundle.getString("id");
+
+            clickGood = bundle.getLong("clickGood");
+            clickNotGood = bundle.getLong("clickNotGood");
             //mSysTvTitle.setText(title);
         }
     }
 
-
-    SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
 
     @Override
     protected void initView() {
@@ -123,6 +129,9 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         }
         mRtaTvTitle.setText(title.trim());
         mRtaTvWhereFrom.setText(whereFrom);
+
+        mRtaTvNotGood.setText("" + clickNotGood);
+        mRtaTvGood.setText("" + clickGood);
 
         HtmlImageGetter htmlImageGetter = new HtmlImageGetter(this, this, mRtaTvContent);
         Spanned spanned;
@@ -248,15 +257,54 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         return id;
     }
 
+    @Override
+    public String getEvaluateType() {
+        return evaluateType;
+    }
+
+    @Override
+    public TextView getTvNotGood() {
+        return mRtaTvNotGood;
+    }
+
+    @Override
+    public TextView getTvGood() {
+        return mRtaTvGood;
+    }
+
+    @Override
+    public LinearLayout getLlNotGood() {
+        return mRtaLlNotGood;
+    }
+
+    @Override
+    public LinearLayout getLlGood() {
+        return mRtaLlGood;
+    }
+
+
     @OnClick({R.id.rta_ll_good, R.id.rta_ll_not_good})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rta_ll_good:
-
+                evaluateType = "1";
+                if (!SharedPreferencesUtil.getBoolean(this, id, false)) {
+                    mRtaLlGood.setEnabled(false);
+                    ((RichTextPresenter) mPresenter).updateEvaluateCount();
+                } else {
+                    T.ShowToast(this, "您已评论过了！");
+                }
                 break;
             case R.id.rta_ll_not_good:
+                evaluateType = "0";
 
+                if (!SharedPreferencesUtil.getBoolean(this, id, false)) {
+                    mRtaLlNotGood.setEnabled(false);
+                    ((RichTextPresenter) mPresenter).updateEvaluateCount();
+                } else {
+                    T.ShowToast(this, "您已评论过了！");
+                }
                 break;
         }
     }

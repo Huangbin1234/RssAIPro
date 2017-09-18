@@ -97,6 +97,8 @@ public class ResInformation {
             private String imageUrls;
             private String id;
             private String oprTime;
+            private long clickGood;
+            private long clickNotGood;
 
             public String getAuthor() {
                 return author;
@@ -200,6 +202,22 @@ public class ResInformation {
 
             public void setOprTime(String oprTime) {
                 this.oprTime = oprTime;
+            }
+
+            public long getClickNotGood() {
+                return clickNotGood;
+            }
+
+            public void setClickNotGood(long clickNotGood) {
+                this.clickNotGood = clickNotGood;
+            }
+
+            public long getClickGood() {
+                return clickGood;
+            }
+
+            public void setClickGood(long clickGood) {
+                this.clickGood = clickGood;
             }
         }
     }

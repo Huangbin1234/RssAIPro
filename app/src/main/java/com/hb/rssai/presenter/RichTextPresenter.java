@@ -3,9 +3,12 @@ package com.hb.rssai.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.hb.rssai.adapter.LikeAdapter;
 import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -32,6 +35,10 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     private List<ResInformation.RetObjBean.RowsBean> resInfos = new ArrayList<>();
     private RecyclerView recyclerView;
     private LikeAdapter likeAdapter;
+    private TextView mRtaTvGood;
+    private TextView mRtaTvNotGood;
+    private LinearLayout mRtaLlGood;
+    private LinearLayout mRtaLlNotGood;
 
     public RichTextPresenter(Context mContext, IRichTextView iRichTextView) {
         this.mContext = mContext;
@@ -41,6 +48,11 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
 
     private void initView() {
         recyclerView = iRichTextView.getRtaRecyclerView();
+        mRtaTvGood = iRichTextView.getTvGood();
+        mRtaTvNotGood = iRichTextView.getTvNotGood();
+
+        mRtaLlGood = iRichTextView.getLlGood();
+        mRtaLlNotGood = iRichTextView.getLlNotGood();
     }
 
     public void updateCount() {
@@ -133,6 +145,68 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         String informationId = iRichTextView.getInformationId();
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
         String jsonParams = "{\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\",\"link\":\"" + newLink + "\",\"title\":\"" + newTitle + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+
+    public void updateEvaluateCount() {
+        informationApi.updateEvaluateCount(getUpdateEvaluateParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setUpdateEvaluateResult(resBase);
+                }, this::loadEvaluateError);
+    }
+
+    private void loadEvaluateError(Throwable throwable) {
+        mRtaLlGood.setEnabled(true);
+        mRtaLlNotGood.setEnabled(true);
+        throwable.printStackTrace();
+        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+    }
+
+    public void getInformation() {
+        informationApi.getInformation(getInfoParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resInfo -> {
+                    setInfoResult(resInfo);
+                }, this::loadError);
+    }
+
+    private void setInfoResult(ResInfo resInfo) {
+        if (resInfo.getRetCode() == 0) {
+            mRtaTvGood.setText("" + resInfo.getRetObj().getClickGood());
+            mRtaTvNotGood.setText("" + resInfo.getRetObj().getClickNotGood());
+        } else {
+            T.ShowToast(mContext, resInfo.getRetMsg());
+        }
+    }
+
+    private Map<String, String> getInfoParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = iRichTextView.getInformationId();
+        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+
+    private void setUpdateEvaluateResult(ResBase resBase) {
+        mRtaLlGood.setEnabled(true);
+        mRtaLlNotGood.setEnabled(true);
+        if (resBase.getRetCode() == 0) {
+            //刷新点赞点贬数量
+            SharedPreferencesUtil.setBoolean(mContext,iRichTextView.getInformationId(),true);
+            getInformation();
+        }
+        T.ShowToast(mContext, resBase.getRetMsg());
+    }
+
+    private Map<String, String> getUpdateEvaluateParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = iRichTextView.getInformationId();
+        String evaluateType = iRichTextView.getEvaluateType();
+        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"evaluateType\":\"" + evaluateType + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
