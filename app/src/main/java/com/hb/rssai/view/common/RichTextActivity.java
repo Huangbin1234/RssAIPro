@@ -1,7 +1,6 @@
 package com.hb.rssai.view.common;
 
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -94,11 +93,14 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         }
     }
 
+
+    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(Constant.DATE_LONG_PATTERN);
+
     @Override
     protected void initView() {
         try {
             if (!TextUtils.isEmpty(pubDate))
-                mRtaTvDate.setText(DateUtil.showDate(new SimpleDateFormat(Constant.DATE_LONG_PATTERN).parse(pubDate), Constant.DATE_LONG_PATTERN));
+                mRtaTvDate.setText(DateUtil.showDate(sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -106,7 +108,12 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mRtaTvWhereFrom.setText(whereFrom);
 
         HtmlImageGetter htmlImageGetter = new HtmlImageGetter(this, this, mRtaTvContent);
-        Spanned spanned = Html.fromHtml(abstractContent, Html.FROM_HTML_MODE_LEGACY, htmlImageGetter, null);
+        Spanned spanned;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            spanned = Html.fromHtml(abstractContent, Html.FROM_HTML_MODE_LEGACY, htmlImageGetter, null);
+        } else {
+            spanned = Html.fromHtml(abstractContent, htmlImageGetter, null); // or for older api
+        }
         mRtaTvContent.setText(spanned);
         mRtaTvView.setOnClickListener(v -> {
             Intent intent = new Intent(RichTextActivity.this, ContentActivity.class);//创建Intent对象
@@ -115,7 +122,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             intent.putExtra(ContentActivity.KEY_INFORMATION_ID, id);
             startActivity(intent);
         });
-
         linearLayoutManager = new LinearLayoutManager(this);
         mRtaRecyclerView.setLayoutManager(linearLayoutManager);
         mRtaRecyclerView.setNestedScrollingEnabled(false);
@@ -137,7 +143,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             actionBar.setDisplayShowTitleEnabled(false);
         }
         mSysToolbar.setNavigationIcon(R.mipmap.ic_back);
-        mSysToolbar .setNavigationOnClickListener(new View.OnClickListener() {
+        mSysToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
