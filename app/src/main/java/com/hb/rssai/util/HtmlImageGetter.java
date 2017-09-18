@@ -42,8 +42,7 @@ public class HtmlImageGetter implements Html.ImageGetter {
         LevelListDrawable d = new LevelListDrawable();
         Drawable empty = mContext.getResources().getDrawable(R.drawable.material_card);
         d.addLevel(0, 0, empty);
-        d.setBounds(0, 0, DisplayUtil.getMobileWidth(mAct),
-                empty.getIntrinsicHeight());
+        d.setBounds(0, 0, DisplayUtil.getMobileWidth(mAct), empty.getIntrinsicHeight());
         new LoadImage().execute(source, d);
         return d;
     }
@@ -88,8 +87,7 @@ public class HtmlImageGetter implements Html.ImageGetter {
                  * 默认大小：bitmap.getWidth(), bitmap.getHeight()<br/>
                  * 适配屏幕：getDrawableAdapter
                  */
-                mDrawable = getDrawableAdapter(mAct, mDrawable,
-                        bitmap.getWidth(), bitmap.getHeight());
+                mDrawable = getDrawableAdapter(mAct, mDrawable,  bitmap.getWidth(), bitmap.getHeight());
 
                 // mDrawable.setBounds(0, 0, bitmap.getWidth(),
                 // bitmap.getHeight());
@@ -104,7 +102,6 @@ public class HtmlImageGetter implements Html.ImageGetter {
                 tv.invalidate();
                 CharSequence t = tv.getText();
                 tv.setText(t);
-
             }
         }
 
@@ -119,8 +116,7 @@ public class HtmlImageGetter implements Html.ImageGetter {
          * @author Ruffian
          * @date 2016年1月15日
          */
-        public LevelListDrawable getDrawableAdapter(Activity activity,
-                                                    LevelListDrawable drawable, int oldWidth, int oldHeight) {
+        public LevelListDrawable getDrawableAdapter(Activity activity,  LevelListDrawable drawable, int oldWidth, int oldHeight) {
             LevelListDrawable newDrawable = drawable;
             long newHeight = 0;// 未知数
             int newWidth = DisplayUtil.getMobileWidth(activity);// 默认屏幕宽

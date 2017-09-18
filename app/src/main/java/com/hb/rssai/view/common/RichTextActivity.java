@@ -88,7 +88,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             pubDate = bundle.getString("pubDate");
             url = bundle.getString("url");
             id = bundle.getString("id");
-
             //mSysTvTitle.setText(title);
         }
     }
