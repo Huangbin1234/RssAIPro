@@ -22,11 +22,26 @@
         <item name="android:listDivider">@drawable/divider</item>
         <item name="toolbarNavigationButtonStyle">@style/myToolbarNavigationButtonStyle</item>
     </style>
+
     <style name="myToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="android:minWidth">0dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:scaleType">centerInside</item>
     </style>
+
+    <style name="myToolbarNavigationButtonStyleNew" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <!--代码设置主题风格 主要是控制toolbar左边距-->
+
+    <!-- toolbar菜单样式 -->
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="actionMenuTextColor">@android:color/white</item>
+    </style>
+
     <style name="AppTheme.NoActionBar.Night">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
