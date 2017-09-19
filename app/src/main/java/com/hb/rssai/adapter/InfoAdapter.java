@@ -56,7 +56,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.item_na_name.setText(rssList.get(position).getTitle());
+        holder.item_na_name.setText(rssList.get(position).getTitle()!=null?rssList.get(position).getTitle():"");
         images = TextUtils.isEmpty(rssList.get(position).getImageUrls()) ? null : rssList.get(position).getImageUrls().split(",");
         if (images != null && images.length > 0) {
             if (images.length >= 3) {
