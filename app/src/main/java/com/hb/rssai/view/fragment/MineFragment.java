@@ -22,6 +22,7 @@ import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.presenter.FindPresenter;
 import com.hb.rssai.presenter.MinePresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
@@ -83,6 +84,18 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public final static int REQUESTCODE = 1;
     public final static int REQUEST_LOGIN = 2;
 
+    private boolean isPrepared;
+
+    @Override
+    protected void lazyLoad() {
+
+        if (!isVisible || !isPrepared) {
+            return;
+        }
+        ((MinePresenter) mPresenter).getUser();
+        isPrepared = false;
+        System.out.println("====lazyLoad====");
+    }
     public MineFragment() {
         // Required empty public constructor
     }
@@ -108,7 +121,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -137,7 +149,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((MinePresenter) mPresenter).getUser();
+//        ((MinePresenter) mPresenter).getUser();
+        //初始化UI完成
+        System.out.println("====onActivityCreated====");
+        isPrepared = true;
+        lazyLoad();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -187,10 +203,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
-    @Override
-    protected void lazyLoad() {
 
-    }
 
     @Override
     public TextView getTvReadCount() {

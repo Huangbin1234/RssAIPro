@@ -80,6 +80,28 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private int DF = 0; //0默认系统数据源1订阅
     private boolean isUser = false;
 
+    private boolean isPrepared;
+
+    @Override
+    protected void lazyLoad() {
+
+        if (!isVisible || !isPrepared) {
+            return;
+        }
+        DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
+        if (DF == 0) {
+            isUser = false;
+            ((InformationPresenter) mPresenter).getList();
+        } else if (DF == 1) {
+            isUser = true;
+            dataType = 10;
+            ((InformationPresenter) mPresenter).getUserList();
+        }
+        //loadData(DF);
+        ((InformationPresenter) mPresenter).getDataGroupList();
+        isPrepared = false;
+        System.out.println("====lazyLoad====");
+    }
     public HomeFragment() {
     }
 
@@ -152,21 +174,28 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        System.out.println("====onActivityCreated====");
+        //初始化UI完成
+        isPrepared = true;
+        lazyLoad();
+
+//        DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
+//        if (DF == 0) {
+//            isUser = false;
+//            ((InformationPresenter) mPresenter).getList();
+//        } else if (DF == 1) {
+//            isUser = true;
+//            dataType = 10;
+//            ((InformationPresenter) mPresenter).getUserList();
+//        }
+//        //loadData(DF);
+//        ((InformationPresenter) mPresenter).getDataGroupList();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
-        if (DF == 0) {
-            isUser = false;
-            ((InformationPresenter) mPresenter).getList();
-        } else if (DF == 1) {
-            isUser = true;
-            dataType = 10;
-            ((InformationPresenter) mPresenter).getUserList();
-        }
-//        loadData(DF);
-        ((InformationPresenter) mPresenter).getDataGroupList();
+
     }
 
     private synchronized void loadData(int dataFrom) {
@@ -367,10 +396,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @Override
-    protected void lazyLoad() {
 
-    }
 
     class ReadRssTask extends AsyncTask<Void, Void, List<RSSItemBean>> {
 

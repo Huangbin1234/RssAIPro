@@ -124,6 +124,18 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     private FullyGridLayoutManager mFullyGridLayoutManager;
     private FullyGridLayoutManager mFullyGridLayoutManagerTopic;
     ResFindMore.RetObjBean.RowsBean rowsBean;
+    private boolean isPrepared;
+
+    @Override
+    protected void lazyLoad() {
+
+        if (!isVisible || !isPrepared) {
+            return;
+        }
+        ((SubscriptionPresenter) mPresenter).refreshList();
+        isPrepared = false;
+        System.out.println("====lazyLoad====");
+    }
 
     public SubscriptionFragment() {
     }
@@ -210,7 +222,11 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((SubscriptionPresenter) mPresenter).refreshList();
+//        ((SubscriptionPresenter) mPresenter).refreshList();
+        System.out.println("====onActivityCreated====");
+        //初始化UI完成
+        isPrepared = true;
+        lazyLoad();
 //        initData();
     }
 
@@ -342,7 +358,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                     materialDialog.dismiss();
 //                    rowsBean.setSort(new Date().getTime());
 //                    LiteOrmDBUtil.update(rowsBean);
-                    ((SubscriptionPresenter)mPresenter).updateUsSort();
+                    ((SubscriptionPresenter) mPresenter).updateUsSort();
                 } else if (list.get(position).get("id").equals(2)) {
                     materialDialog.dismiss();
                     Intent intent = new Intent(getContext(), QrCodeActivity.class);
@@ -414,11 +430,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public NestedScrollView getNestScrollView() {
         return mSfNestScrollview;
-    }
-
-    @Override
-    protected void lazyLoad() {
-
     }
 
 

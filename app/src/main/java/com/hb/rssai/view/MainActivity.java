@@ -155,21 +155,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 mTransaction.show(homeFragment);
                 mMainBottomHomeTv.setTextColor(getResources().getColor(R.color.main_bottom_txt_press));
                 mMainBottomHomeIv.setImageResource(R.mipmap.main_home_active);
+                homeFragment.setUserVisibleHint(true);
                 break;
             case R.id.main_bottom_layout_find:
                 mTransaction.show(findFragment);
                 mMainBottomFindTv.setTextColor(getResources().getColor(R.color.main_bottom_txt_press));
                 mMainBottomFindIv.setImageResource(R.mipmap.main_find_active);
+                findFragment.setUserVisibleHint(true);
                 break;
             case R.id.main_bottom_layout_subscription:
                 mTransaction.show(subscriptionFragment);
                 mMainBottomSubscriptionTv.setTextColor(getResources().getColor(R.color.main_bottom_txt_press));
                 mMainBottomSubscriptionIv.setImageResource(R.mipmap.main_task_active);
+                subscriptionFragment.setUserVisibleHint(true);
                 break;
             case R.id.main_bottom_layout_mine:
                 mTransaction.show(mineFragment);
                 mMainBottomMineTv.setTextColor(getResources().getColor(R.color.main_bottom_txt_press));
                 mMainBottomMineIv.setImageResource(R.mipmap.main_user_active);
+                mineFragment.setUserVisibleHint(true);
                 break;
         }
         mTransaction.commit();

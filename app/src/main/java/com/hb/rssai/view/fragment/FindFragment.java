@@ -100,7 +100,18 @@ public class FindFragment extends BaseFragment implements IFindView {
 
     private FullyGridLayoutManager mRecommendGridLayoutManager;
 
+    private boolean isPrepared;
+    @Override
+    protected void lazyLoad() {
 
+        if (!isVisible || !isPrepared) {
+            return;
+        }
+        ((FindPresenter) mPresenter).findMoreList();
+        ((FindPresenter) mPresenter).recommendList();
+        isPrepared = false;
+        System.out.println("====lazyLoad====");
+    }
     public FindFragment() {
         // Required empty public constructor
     }
@@ -128,7 +139,6 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        unbinder = ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -192,8 +202,12 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((FindPresenter) mPresenter).findMoreList();
-        ((FindPresenter) mPresenter).recommendList();
+//        ((FindPresenter) mPresenter).findMoreList();
+//        ((FindPresenter) mPresenter).recommendList();
+        System.out.println("====onActivityCreated====");
+        //初始化UI完成
+        isPrepared = true;
+        lazyLoad();
     }
 
     @Subscribe
@@ -232,10 +246,6 @@ public class FindFragment extends BaseFragment implements IFindView {
         unbinder.unbind();
     }
 
-    @Override
-    protected void lazyLoad() {
-
-    }
 
     @Override
     public RecyclerView getFfFindRecyclerView() {
