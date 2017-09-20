@@ -88,8 +88,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private PermissionsChecker mPermissionsChecker;
     private final int REQUEST_CODE = 1;
 
+    private Bundle savedInstanceState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         mPermissionsChecker = new PermissionsChecker(this);
         //进入对应的页面判断标记是否有更新在进行调用此方法
@@ -100,18 +103,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initView() {
-        homeFragment = new HomeFragment();
-        findFragment = new FindFragment();
-        subscriptionFragment = new SubscriptionFragment();
-        mineFragment = new MineFragment();
+        if (savedInstanceState != null) {
+            FragmentManager fm = getSupportFragmentManager();
+            homeFragment = (HomeFragment) fm.getFragment(savedInstanceState, HomeFragment.class.getSimpleName());
+            findFragment = (FindFragment) fm.getFragment(savedInstanceState, FindFragment.class.getSimpleName());
+            subscriptionFragment = (SubscriptionFragment) fm.getFragment(savedInstanceState, SubscriptionFragment.class.getSimpleName());
+            mineFragment = (MineFragment) fm.getFragment(savedInstanceState, MineFragment.class.getSimpleName());
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.ma_frame_layout, homeFragment);
-        fragmentTransaction.add(R.id.ma_frame_layout, findFragment);
-        fragmentTransaction.add(R.id.ma_frame_layout, subscriptionFragment);
-        fragmentTransaction.add(R.id.ma_frame_layout, mineFragment);
-        fragmentTransaction.commit();
-        showFragment(R.id.main_bottom_layout_home);
+            int id = savedInstanceState.getInt("positionId", positionId);
+            switch (id) {
+                case R.id.main_bottom_layout_home:
+                    showFragment(R.id.main_bottom_layout_home);
+                    break;
+                case R.id.main_bottom_layout_find:
+                    showFragment(R.id.main_bottom_layout_find);
+                    break;
+                case R.id.main_bottom_layout_subscription:
+                    showFragment(R.id.main_bottom_layout_subscription);
+                    break;
+                case R.id.main_bottom_layout_mine:
+                    showFragment(R.id.main_bottom_layout_mine);
+                    break;
+            }
+        } else {
+            homeFragment = new HomeFragment();
+            findFragment = new FindFragment();
+            subscriptionFragment = new SubscriptionFragment();
+            mineFragment = new MineFragment();
+
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.ma_frame_layout, homeFragment);
+            fragmentTransaction.add(R.id.ma_frame_layout, findFragment);
+            fragmentTransaction.add(R.id.ma_frame_layout, subscriptionFragment);
+            fragmentTransaction.add(R.id.ma_frame_layout, mineFragment);
+            fragmentTransaction.commit();
+            showFragment(R.id.main_bottom_layout_home);
+        }
     }
 
     @Override
@@ -241,7 +268,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onSaveInstanceState(Bundle outState) {
         //记录当前的position
         outState.putInt("positionId", positionId);
-
         FragmentManager fm = getSupportFragmentManager();
         if (homeFragment.isAdded()) {
             fm.putFragment(outState, HomeFragment.class.getSimpleName(), homeFragment);
@@ -283,7 +309,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             recreate();
         }
     }
-
 
 
     private void startPermissionsActivity() {
