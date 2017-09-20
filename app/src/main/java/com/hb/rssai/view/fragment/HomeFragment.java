@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.FilterDialogAdapter;
 import com.hb.rssai.adapter.RssListAdapter;
+import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.bean.RssSort;
@@ -88,6 +90,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         if (!isVisible || !isPrepared) {
             return;
         }
+
+
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
         if (DF == 0) {
             isUser = false;

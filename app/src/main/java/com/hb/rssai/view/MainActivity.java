@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
@@ -238,6 +241,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onSaveInstanceState(Bundle outState) {
         //记录当前的position
         outState.putInt("positionId", positionId);
+
+        FragmentManager fm = getSupportFragmentManager();
+        if (homeFragment.isAdded()) {
+            fm.putFragment(outState, HomeFragment.class.getSimpleName(), homeFragment);
+        }
+        if (subscriptionFragment.isAdded()) {
+            fm.putFragment(outState, SubscriptionFragment.class.getSimpleName(), subscriptionFragment);
+        }
+        if (findFragment.isAdded()) {
+            fm.putFragment(outState, FindFragment.class.getSimpleName(), findFragment);
+        }
+        if (mineFragment.isAdded()) {
+            fm.putFragment(outState, MineFragment.class.getSimpleName(), mineFragment);
+        }
     }
 
     @Override
@@ -254,7 +271,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startPermissionsActivity();
             }
         }
+        if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE_TIME) && ProjectApplication.sys_night_mode_time != SharedPreferencesUtil.getLong(this, Constant.KEY_SYS_NIGHT_MODE_TIME, 0)) {
+            if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE)) {
+                if (SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false)) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+            getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
+            recreate();
+        }
     }
+
+
 
     private void startPermissionsActivity() {
         PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);

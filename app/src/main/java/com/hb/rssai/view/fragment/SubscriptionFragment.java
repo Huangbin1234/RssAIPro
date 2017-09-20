@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -24,6 +25,7 @@ import com.hb.rssai.R;
 import com.hb.rssai.adapter.CardAdapter;
 import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.adapter.RssSourceAdapter;
+import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.bean.RssChannel;
@@ -36,6 +38,7 @@ import com.hb.rssai.presenter.SubscriptionPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISubscriptionView;
@@ -71,7 +74,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     TextView mSysTvTitle;
     @BindView(R.id.sys_toolbar)
     Toolbar mSysToolbar;
-    Unbinder unbinder;
     @BindView(R.id.sf_recycler_view)
     RecyclerView mSfRecyclerView;
     @BindView(R.id.app_bar_layout)
@@ -128,10 +130,10 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void lazyLoad() {
-
         if (!isVisible || !isPrepared) {
             return;
         }
+
         ((SubscriptionPresenter) mPresenter).refreshList();
         isPrepared = false;
         System.out.println("====lazyLoad====");
@@ -163,7 +165,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -274,7 +275,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+
     }
 
 

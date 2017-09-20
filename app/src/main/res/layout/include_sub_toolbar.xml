@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.AppBarLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/app_bar_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:elevation="4dp">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/sys_toolbar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/color_toolbar_bg"
-        android:elevation="4dp">
+        android:background="@color/color_toolbar_bg">
 
         <TextView
             android:id="@+id/sys_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:layout_marginLeft="16dp"
-            android:textSize="@dimen/s16p"/>
+            android:textSize="@dimen/s16p" />
 
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

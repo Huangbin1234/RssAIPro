@@ -15,14 +15,18 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 public class ProjectApplication extends Application {
     public static Context mContext;
     private static ProjectApplication sApplication;
+    public static long sys_night_mode_time = 0;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        sys_night_mode_time = SharedPreferencesUtil.getLong(this, Constant.KEY_SYS_NIGHT_MODE_TIME, 0);
+        if (sys_night_mode_time != 0) {
+            if (SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false)) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
         }
         mContext = getApplicationContext();
         sApplication = this;

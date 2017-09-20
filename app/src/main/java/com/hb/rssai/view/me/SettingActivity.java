@@ -37,6 +37,8 @@ import com.hb.update.UpdateManager;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -105,7 +107,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mSaSwDayNight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                SharedPreferencesUtil.setLong(SettingActivity.this,Constant.KEY_SYS_NIGHT_MODE_TIME,new Date().getTime());
                 if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     SharedPreferencesUtil.setBoolean(SettingActivity.this,Constant.KEY_SYS_NIGHT_MODE,false);

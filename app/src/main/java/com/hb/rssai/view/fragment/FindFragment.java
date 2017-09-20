@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,13 +22,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseFragment;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.FindMoreEvent;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.FindPresenter;
 import com.hb.rssai.presenter.SubscriptionPresenter;
 import com.hb.rssai.util.DisplayUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.iView.IFindView;
 import com.hb.rssai.view.subscription.tab.TabResourceActivity;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
@@ -86,7 +90,7 @@ public class FindFragment extends BaseFragment implements IFindView {
     RecyclerView mFfHotRecyclerView;
     @BindView(R.id.ff_nest_scrollview)
     NestedScrollView mFfNestScrollview;
-    Unbinder unbinder;
+
     @BindView(R.id.ll_recommend)
     LinearLayout mLlRecommend;
 
@@ -107,6 +111,7 @@ public class FindFragment extends BaseFragment implements IFindView {
         if (!isVisible || !isPrepared) {
             return;
         }
+
         ((FindPresenter) mPresenter).findMoreList();
         ((FindPresenter) mPresenter).recommendList();
         isPrepared = false;
@@ -243,7 +248,6 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
 

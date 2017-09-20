@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
@@ -88,10 +90,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void lazyLoad() {
-
         if (!isVisible || !isPrepared) {
             return;
         }
+
         ((MinePresenter) mPresenter).getUser();
         isPrepared = false;
         System.out.println("====lazyLoad====");
