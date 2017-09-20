@@ -3,6 +3,7 @@ package com.hb.rssai.view.me;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -98,6 +100,23 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             mSaSwNoImage.setChecked(false);
         }
         mSaTvVer.setText("V " + Config.getVerName(this));
+
+
+        mSaSwDayNight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    SharedPreferencesUtil.setBoolean(SettingActivity.this,Constant.KEY_SYS_NIGHT_MODE,false);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    SharedPreferencesUtil.setBoolean(SettingActivity.this,Constant.KEY_SYS_NIGHT_MODE,true);
+                }
+                getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
+                recreate();
+            }
+        });
     }
 
     @Override
@@ -245,6 +264,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }
                 EventBus.getDefault().post(new HomeSourceEvent(3));
                 break;
+            default:
+                break;
         }
     }
+
 }

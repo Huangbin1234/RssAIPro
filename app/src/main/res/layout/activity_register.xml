@@ -25,11 +25,10 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
-                android:background="@color/white"
                 android:gravity="center">
 
                 <TextView
@@ -60,17 +59,17 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="10dp"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
-                android:background="@color/white"
+
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -104,18 +103,17 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="10dp"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
 
-                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -165,7 +163,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line"/>
         </LinearLayout>
 
         <Button

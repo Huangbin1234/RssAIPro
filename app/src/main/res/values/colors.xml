@@ -40,7 +40,6 @@
 
     <color name="color_line">#F5F5F5</color>
     <color name="color_line_blue">#00BBD3</color>
-    <color name="space_line">#DDDDDD</color>
 
     <color name="color_txt">#555555</color>
     <color name="color_hint">#dad7d7</color>
@@ -66,8 +65,16 @@
     <color name="gray_item">#FFECECEC</color>
     <color name="gray_item_press">#dad8d8</color>
     <color name="gray_light">#f3f3f3</color>
-    <color name="color_name">#212121</color>
+    <color name="color_big_label">#212121</color>
 
     <color name="bg_theme">#71464847</color>
     <color name="text_color_new">#5C5C5C</color>
+    <color name="color_general_white">#FFFFFF</color>
+    <color name="rich_toolbar_bg">#FFFFFF</color>
+    <color name="color_article">#000000</color>
+    <color name="color_reg">#DDDDDD</color>
+
+    <color name="color_reg_label">#2196F3</color>
+    <color name="color_iv_bg">#F7F7F7</color>
+
 </resources>

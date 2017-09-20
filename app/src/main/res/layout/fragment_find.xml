@@ -37,7 +37,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1px"
-                            android:background="#DDDDDD"
+                            android:background="@color/color_general_line"
                             android:visibility="visible" />
 
                         <!--<View-->
@@ -59,7 +59,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1px"
                             android:layout_marginTop="10dp"
-                            android:background="#DDDDDD"
+                            android:background="@color/color_general_line"
                             android:visibility="visible" />
 
                         <include layout="@layout/include_find_more" />
@@ -67,7 +67,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="10dp"
-                            android:background="@color/bg"
+                            android:background="@color/color_general_line"
                             android:visibility="visible" />
 
 

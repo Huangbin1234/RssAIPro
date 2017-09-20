@@ -55,7 +55,7 @@
     <style name="SplitLine_h">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
-        <item name="android:background">#DDDDDD</item>
+        <item name="android:background">@color/color_general_line</item>
     </style>
 
     <style name="title_all">
@@ -64,7 +64,7 @@
     </style>
 
     <style name="title_all_content">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/rich_toolbar_bg</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
@@ -80,7 +80,7 @@
     <style name="view_line_h">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
-        <item name="android:background">#DDDDDD</item>
+        <item name="android:background">@color/color_general_line</item>
     </style>
 
     <style name="TextLabel">
@@ -106,4 +106,32 @@
     <style name="backWhite" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorControlNormal">@android:color/black</item>
     </style>
+    <!--TODO 下面为夜间模式切换相关-->
+    <style name="AppTheme2" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--&lt;!&ndash;customize your theme here&ndash;&gt;-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="colorControlNormal">@color/white</item>-->
+        <!--<item name="colorControlActivated">#05896f</item>-->
+        <!--<item name="toolbarStyle">@style/ClubToolbar</item>-->
+        <!--<item name="android:listDivider">@drawable/divider</item>-->
+        <!--<item name="toolbarNavigationButtonStyle">@style/myToolbarNavigationButtonStyle</item>-->
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">#05896f</item>
+        <item name="toolbarStyle">@style/ClubToolbar</item>
+        <item name="colorAccent">@color/color_toolbar_bg</item>
+        <item name="android:listDivider">@drawable/divider</item>
+        <item name="toolbarNavigationButtonStyle">@style/myToolbarNavigationButtonStyle</item>
+    </style>
+    <style name="WindowAnimationFadeInOut">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <color name="color_general_line">#DDDDDD</color>
 </resources>

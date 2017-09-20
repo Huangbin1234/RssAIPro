@@ -39,7 +39,7 @@
             <LinearLayout
                 android:id="@+id/fm_ll_data"
                 style="@style/InfoDetail"
-                android:background="@color/white"
+                android:background="@color/color_general_white"
                 android:orientation="horizontal"
                 android:padding="16dp">
 

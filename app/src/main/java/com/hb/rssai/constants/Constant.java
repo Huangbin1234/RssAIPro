@@ -35,4 +35,5 @@ public class Constant {
     public static final int DATA_TYPE_ALL = 0;
     public static final String SAVE_IS_UPDATE = "isupdate";
 
+    public static final String KEY_SYS_NIGHT_MODE ="sys_night_mode" ;
 }

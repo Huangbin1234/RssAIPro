@@ -10,7 +10,7 @@
         android:id="@+id/sys_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:background="@color/rich_toolbar_bg" >
         <!--style="@style/NoSpaceActionBarTheme"-->
         <!--android:theme="@style/backWhite"-->
         <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->

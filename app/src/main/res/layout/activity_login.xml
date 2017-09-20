@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/title_all"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar"/>
+    <include layout="@layout/include_sub_toolbar" />
 
 
     <LinearLayout
@@ -25,21 +25,20 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line" />
 
             <LinearLayout
                 style="@style/InfoDetail"
-                android:background="@color/white"
                 android:gravity="center">
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_weight="2"
                     android:text="账号"
                     android:textColor="@color/text_color_new"
-                    android:textSize="@dimen/s16p"/>
+                    android:textSize="@dimen/s16p" />
 
                 <EditText
                     android:id="@+id/la_et_userName"
@@ -52,19 +51,19 @@
                     android:singleLine="true"
                     android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
-                    android:textSize="@dimen/s16p"/>
+                    android:textSize="@dimen/s16p" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="10dp"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line" />
 
             <LinearLayout
                 style="@style/InfoDetail"
@@ -73,12 +72,12 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_weight="2"
                     android:text="密码"
                     android:textColor="@color/text_color_new"
-                    android:textSize="@dimen/s16p"/>
+                    android:textSize="@dimen/s16p" />
 
                 <EditText
                     android:id="@+id/la_et_password"
@@ -92,7 +91,7 @@
                     android:singleLine="true"
                     android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
-                    android:textSize="@dimen/s16p"/>
+                    android:textSize="@dimen/s16p" />
 
                 <CheckedTextView
                     android:id="@+id/la_chktv_psd_control"
@@ -102,13 +101,13 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/chktv_selector"
                     android:button="@null"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/space_line"/>
+                android:background="@color/color_general_line" />
         </LinearLayout>
 
         <Button
@@ -121,7 +120,7 @@
             android:background="@drawable/opr_bg_selector"
             android:text="@string/str_la_btn_login"
             android:textColor="@color/orange"
-            android:textSize="@dimen/s16p"/>
+            android:textSize="@dimen/s16p" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -135,9 +134,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right"
                 android:layout_marginTop="16dp"
-                android:text="| 注册账户  "
-                android:textColor="@color/lite_blue"
-                android:textSize="@dimen/s14p"/>
+                android:text="| 注册账户"
+                android:textColor="@color/color_reg_label"
+                android:textSize="@dimen/s14p" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

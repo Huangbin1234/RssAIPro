@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/rl_root_view"
-                style="@style/title_all"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+    android:id="@+id/rl_root_view"
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/main_bottom_layout"
@@ -27,7 +27,7 @@
                 android:id="@+id/main_bottom_home_iv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@mipmap/main_home"/>
+                android:src="@mipmap/main_home" />
 
             <TextView
                 android:id="@+id/main_bottom_home_tv"
@@ -36,7 +36,7 @@
                 android:layout_marginTop="3dp"
                 android:gravity="center"
                 android:text="@string/str_main_home"
-                android:textSize="@dimen/s12p"/>
+                android:textSize="@dimen/s12p" />
         </LinearLayout>
 
         <LinearLayout
@@ -51,7 +51,7 @@
                 android:id="@+id/main_bottom_subscription_iv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@mipmap/main_subscription"/>
+                android:src="@mipmap/main_subscription" />
 
             <TextView
                 android:id="@+id/main_bottom_subscription_tv"
@@ -60,7 +60,7 @@
                 android:layout_marginTop="3dp"
                 android:gravity="center"
                 android:text="@string/str_main_subscription"
-                android:textSize="@dimen/s12p"/>
+                android:textSize="@dimen/s12p" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,7 +75,7 @@
                 android:id="@+id/main_bottom_find_iv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@mipmap/main_find"/>
+                android:src="@mipmap/main_find" />
 
             <TextView
                 android:id="@+id/main_bottom_find_tv"
@@ -84,7 +84,7 @@
                 android:layout_marginTop="3dp"
                 android:gravity="center"
                 android:text="@string/str_main_find"
-                android:textSize="@dimen/s12p"/>
+                android:textSize="@dimen/s12p" />
         </LinearLayout>
 
 
@@ -100,7 +100,7 @@
                 android:id="@+id/main_bottom_mine_iv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@mipmap/main_user_male"/>
+                android:src="@mipmap/main_user_male" />
 
             <TextView
                 android:id="@+id/main_bottom_mine_tv"
@@ -109,19 +109,19 @@
                 android:layout_marginTop="3dp"
                 android:gravity="center"
                 android:text="@string/str_main_mine"
-                android:textSize="@dimen/s12p"/>
+                android:textSize="@dimen/s12p" />
         </LinearLayout>
     </LinearLayout>
 
     <View
         android:id="@+id/ma_view"
         style="@style/SplitLine_h"
-        android:layout_above="@id/main_bottom_layout"/>
+        android:layout_above="@id/main_bottom_layout" />
 
     <FrameLayout
         android:id="@+id/ma_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ma_view"
-        android:background="@color/bg"/>
+        android:background="@color/bg" />
 </RelativeLayout>
