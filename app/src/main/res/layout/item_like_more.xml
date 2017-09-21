@@ -33,7 +33,7 @@
                 android:layout_gravity="center_vertical"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textColor="#4a4b4d"
+                android:textColor="@color/color_list_txt"
                 android:textSize="@dimen/s18p" />
 
 

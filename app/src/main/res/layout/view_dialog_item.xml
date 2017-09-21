@@ -16,6 +16,7 @@
         android:id="@+id/dialog_item_tv"
         android:layout_width="wrap_content"
         android:textSize="@dimen/s16p"
+        android:textColor="@color/color_txt"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"/>
 </LinearLayout>

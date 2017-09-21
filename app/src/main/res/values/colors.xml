@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<color name="colorPrimary">#2196F3</color>-->
-    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimary">#E75356</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
@@ -76,5 +76,6 @@
 
     <color name="color_reg_label">#2196F3</color>
     <color name="color_iv_bg">#F7F7F7</color>
+    <color name="color_list_txt">#4a4b4d</color>
 
 </resources>

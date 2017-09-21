@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hb.rssai">
+          package="com.hb.rssai">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <application
         android:name=".app.ProjectApplication"
@@ -31,44 +31,46 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"/>
         </provider>
 
         <activity
             android:name=".view.common.LoadActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".view.subscription.AddSourceActivity" />
-        <activity android:name=".view.subscription.SourceListActivity" />
-        <activity android:name=".view.common.ContentActivity" />
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.subscription.AddSourceActivity"/>
+        <activity android:name=".view.subscription.SourceListActivity"/>
+        <activity android:name=".view.common.ContentActivity"/>
         <activity
             android:name="com.zbar.lib.CaptureActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".runtimePermissions.PermissionsActivity" />
-        <activity android:name=".view.me.CollectionActivity" />
-        <activity android:name=".view.me.AboutActivity" />
-        <activity android:name=".view.me.SettingActivity" />
-        <activity android:name=".view.subscription.HotTagActivity" />
-        <activity android:name=".view.common.QrCodeActivity" />
-        <activity android:name=".zxing.ImageCropActivity" />
-        <activity android:name=".view.subscription.SubListActivity" />
-        <activity android:name=".view.me.AdviceActivity" />
-        <activity android:name=".view.common.LoginActivity" />
-        <activity android:name=".view.me.MessageActivity" />
-        <activity android:name=".view.me.MessageContentActivity" />
-        <activity android:name=".view.common.RegisterActivity"></activity>
-        <activity android:name=".view.common.RichTextActivity"></activity>
-        <activity android:name=".view.subscription.tab.TabResourceActivity"></activity>
+            android:theme="@android:style/Theme.Light.NoTitleBar"/>
+        <activity android:name=".runtimePermissions.PermissionsActivity"/>
+        <activity android:name=".view.me.CollectionActivity"/>
+        <activity android:name=".view.me.AboutActivity"/>
+        <activity android:name=".view.me.SettingActivity"/>
+        <activity android:name=".view.subscription.HotTagActivity"/>
+        <activity android:name=".view.common.QrCodeActivity"/>
+        <activity android:name=".zxing.ImageCropActivity"/>
+        <activity android:name=".view.subscription.SubListActivity"/>
+        <activity android:name=".view.me.AdviceActivity"/>
+        <activity android:name=".view.common.LoginActivity"/>
+        <activity android:name=".view.me.MessageActivity"/>
+        <activity android:name=".view.me.MessageContentActivity"/>
+        <activity android:name=".view.common.RegisterActivity"/>
+        <activity android:name=".view.common.RichTextActivity"/>
+        <activity android:name=".view.subscription.tab.TabResourceActivity"/>
+        <activity android:name=".view.me.SearchActivity">
+        </activity>
     </application>
 
 </manifest>

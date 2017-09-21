@@ -32,7 +32,6 @@
 
                 <Switch
                     android:id="@+id/sa_sw_change_source"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

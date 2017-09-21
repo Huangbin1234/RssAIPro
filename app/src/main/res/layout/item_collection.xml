@@ -1,11 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cs_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+              android:id="@+id/cs_layout"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="10dp"
+              android:background="@drawable/ll_selector"
+              android:orientation="horizontal"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,8 +22,8 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingTop="16dp"
-            android:textColor="@color/color_title"
-            android:textSize="@dimen/s16p" />
+            android:textColor="@color/color_list_txt"
+            android:textSize="@dimen/s16p"/>
 
         <TextView
             android:id="@+id/cs_tv_link"
@@ -31,7 +32,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/color_time"
-            android:textSize="@dimen/s14p" />
+            android:textSize="@dimen/s14p"/>
 
 
         <TextView
@@ -41,7 +42,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/color_time"
-            android:textSize="@dimen/s14p" />
+            android:textSize="@dimen/s14p"/>
 
     </LinearLayout>
 

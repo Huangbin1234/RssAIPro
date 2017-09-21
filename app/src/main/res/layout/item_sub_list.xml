@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:textColor="#4a4b4d"
+            android:textColor="@color/color_list_txt"
             android:textSize="@dimen/s16p"/>
 
         <TextView
