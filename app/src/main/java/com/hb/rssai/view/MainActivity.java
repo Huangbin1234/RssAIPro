@@ -21,6 +21,7 @@ import com.hb.rssai.R;
 import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.MainEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.runtimePermissions.PermissionsActivity;
 import com.hb.rssai.runtimePermissions.PermissionsChecker;
@@ -32,6 +33,9 @@ import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.update.UpdateManager;
 import com.zzhoujay.richtext.RichText;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -88,30 +92,61 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private PermissionsChecker mPermissionsChecker;
     private final int REQUEST_CODE = 1;
 
+    private Bundle savedInstanceState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         mPermissionsChecker = new PermissionsChecker(this);
         //进入对应的页面判断标记是否有更新在进行调用此方法
         if (SharedPreferencesUtil.getBoolean(mContext, Constant.SAVE_IS_UPDATE, false)) {
             UpdateManager.update(mContext);
         }
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(MainEvent event) {
+        if (event.getMessage() == 1) {
+            if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE_TIME) && ProjectApplication.sys_night_mode_time != SharedPreferencesUtil.getLong(this, Constant.KEY_SYS_NIGHT_MODE_TIME, 0)) {
+                if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE)) {
+                    if (SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false)) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                }
+                getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
+                recreate();
+            }
+        }
     }
 
     @Override
     protected void initView() {
-        homeFragment = new HomeFragment();
-        findFragment = new FindFragment();
-        subscriptionFragment = new SubscriptionFragment();
-        mineFragment = new MineFragment();
+        if (savedInstanceState != null) {//恢复现场
+            int id = savedInstanceState.getInt("positionId");
+            FragmentManager fm = getSupportFragmentManager();
+            homeFragment = (HomeFragment) fm.getFragment(savedInstanceState, HomeFragment.class.getSimpleName());
+            subscriptionFragment = (SubscriptionFragment) fm.getFragment(savedInstanceState, SubscriptionFragment.class.getSimpleName());
+            findFragment = (FindFragment) fm.getFragment(savedInstanceState, FindFragment.class.getSimpleName());
+            mineFragment = (MineFragment) fm.getFragment(savedInstanceState, MineFragment.class.getSimpleName());
+            showFragment(id);
+        } else {
+            homeFragment = new HomeFragment();
+            findFragment = new FindFragment();
+            subscriptionFragment = new SubscriptionFragment();
+            mineFragment = new MineFragment();
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.ma_frame_layout, homeFragment);
-        fragmentTransaction.add(R.id.ma_frame_layout, findFragment);
-        fragmentTransaction.add(R.id.ma_frame_layout, subscriptionFragment);
-        fragmentTransaction.add(R.id.ma_frame_layout, mineFragment);
-        fragmentTransaction.commit();
-        showFragment(R.id.main_bottom_layout_home);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.ma_frame_layout, homeFragment);
+            fragmentTransaction.add(R.id.ma_frame_layout, findFragment);
+            fragmentTransaction.add(R.id.ma_frame_layout, subscriptionFragment);
+            fragmentTransaction.add(R.id.ma_frame_layout, mineFragment);
+            fragmentTransaction.commit();
+            showFragment(R.id.main_bottom_layout_home);
+        }
     }
 
     @Override
@@ -239,6 +274,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        //TODO 此句必须调用，不然数据无法存储数据，因为需要传递所需要的一些初始参数
+        super.onSaveInstanceState(outState);
         //记录当前的position
         outState.putInt("positionId", positionId);
 
@@ -271,19 +308,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startPermissionsActivity();
             }
         }
-        if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE_TIME) && ProjectApplication.sys_night_mode_time != SharedPreferencesUtil.getLong(this, Constant.KEY_SYS_NIGHT_MODE_TIME, 0)) {
-            if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE)) {
-                if (SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false)) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
-            }
-            getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
-            recreate();
-        }
-    }
 
+    }
 
 
     private void startPermissionsActivity() {
