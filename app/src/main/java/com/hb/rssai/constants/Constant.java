@@ -37,4 +37,5 @@ public class Constant {
 
     public static final String KEY_SYS_NIGHT_MODE ="sys_night_mode" ;
     public static final String KEY_SYS_NIGHT_MODE_TIME = "sys_night_mode_time";
+
 }

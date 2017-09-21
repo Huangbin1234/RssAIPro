@@ -28,6 +28,7 @@ import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.HomeSourceEvent;
+import com.hb.rssai.event.MainEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
@@ -101,23 +102,29 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else {
             mSaSwNoImage.setChecked(false);
         }
+        boolean isNight = SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false);
+        if (isNight) {
+            mSaSwDayNight.setChecked(true);
+        } else {
+            mSaSwDayNight.setChecked(false);
+        }
+
         mSaTvVer.setText("V " + Config.getVerName(this));
 
-
-        mSaSwDayNight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferencesUtil.setLong(SettingActivity.this,Constant.KEY_SYS_NIGHT_MODE_TIME,new Date().getTime());
-                if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    SharedPreferencesUtil.setBoolean(SettingActivity.this,Constant.KEY_SYS_NIGHT_MODE,false);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    SharedPreferencesUtil.setBoolean(SettingActivity.this,Constant.KEY_SYS_NIGHT_MODE,true);
-                }
-                getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
-                recreate();
+        mSaSwDayNight.setOnClickListener(v -> {
+            SharedPreferencesUtil.setLong(SettingActivity.this, Constant.KEY_SYS_NIGHT_MODE_TIME, new Date().getTime());
+            if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                SharedPreferencesUtil.setBoolean(SettingActivity.this, Constant.KEY_SYS_NIGHT_MODE, false);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                SharedPreferencesUtil.setBoolean(SettingActivity.this, Constant.KEY_SYS_NIGHT_MODE, true);
             }
+            getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
+            recreate();
+            //此种方式通知首页更新主题
+            EventBus.getDefault().post(new MainEvent(1));
+
         });
     }
 

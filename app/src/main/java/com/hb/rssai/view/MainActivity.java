@@ -21,6 +21,7 @@ import com.hb.rssai.R;
 import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.MainEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.runtimePermissions.PermissionsActivity;
 import com.hb.rssai.runtimePermissions.PermissionsChecker;
@@ -32,6 +33,9 @@ import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.update.UpdateManager;
 import com.zzhoujay.richtext.RichText;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -99,32 +103,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (SharedPreferencesUtil.getBoolean(mContext, Constant.SAVE_IS_UPDATE, false)) {
             UpdateManager.update(mContext);
         }
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(MainEvent event) {
+        if (event.getMessage() == 1) {
+            if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE_TIME) && ProjectApplication.sys_night_mode_time != SharedPreferencesUtil.getLong(this, Constant.KEY_SYS_NIGHT_MODE_TIME, 0)) {
+                if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE)) {
+                    if (SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false)) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                }
+                getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
+                recreate();
+            }
+        }
     }
 
     @Override
     protected void initView() {
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null) {//恢复现场
+            int id = savedInstanceState.getInt("positionId");
             FragmentManager fm = getSupportFragmentManager();
             homeFragment = (HomeFragment) fm.getFragment(savedInstanceState, HomeFragment.class.getSimpleName());
-            findFragment = (FindFragment) fm.getFragment(savedInstanceState, FindFragment.class.getSimpleName());
             subscriptionFragment = (SubscriptionFragment) fm.getFragment(savedInstanceState, SubscriptionFragment.class.getSimpleName());
+            findFragment = (FindFragment) fm.getFragment(savedInstanceState, FindFragment.class.getSimpleName());
             mineFragment = (MineFragment) fm.getFragment(savedInstanceState, MineFragment.class.getSimpleName());
-
-            int id = savedInstanceState.getInt("positionId", positionId);
-            switch (id) {
-                case R.id.main_bottom_layout_home:
-                    showFragment(R.id.main_bottom_layout_home);
-                    break;
-                case R.id.main_bottom_layout_find:
-                    showFragment(R.id.main_bottom_layout_find);
-                    break;
-                case R.id.main_bottom_layout_subscription:
-                    showFragment(R.id.main_bottom_layout_subscription);
-                    break;
-                case R.id.main_bottom_layout_mine:
-                    showFragment(R.id.main_bottom_layout_mine);
-                    break;
-            }
+            showFragment(id);
         } else {
             homeFragment = new HomeFragment();
             findFragment = new FindFragment();
@@ -266,8 +274,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        //TODO 此句必须调用，不然数据无法存储数据，因为需要传递所需要的一些初始参数
+        super.onSaveInstanceState(outState);
         //记录当前的position
         outState.putInt("positionId", positionId);
+
         FragmentManager fm = getSupportFragmentManager();
         if (homeFragment.isAdded()) {
             fm.putFragment(outState, HomeFragment.class.getSimpleName(), homeFragment);
@@ -297,17 +308,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startPermissionsActivity();
             }
         }
-        if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE_TIME) && ProjectApplication.sys_night_mode_time != SharedPreferencesUtil.getLong(this, Constant.KEY_SYS_NIGHT_MODE_TIME, 0)) {
-            if (SharedPreferencesUtil.hasKey(this, Constant.KEY_SYS_NIGHT_MODE)) {
-                if (SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false)) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
-            }
-            getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
-            recreate();
-        }
+
     }
 
 
