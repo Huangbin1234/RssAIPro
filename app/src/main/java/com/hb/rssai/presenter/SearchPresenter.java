@@ -103,21 +103,21 @@ public class SearchPresenter extends BasePresenter<ISearchView> {
                 }, this::loadError);
     }
 
-    public void getSubscribeLike() {
-        findApi.getLikeByName(getSubscribeParams()).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resInfo -> {
-                    setSubscribeLikeResult(resInfo);
-                }, this::loadError);
-    }
+//    public void getSubscribeLike() {
+//        findApi.getLikeByName(getSubscribeParams()).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(resInfo -> {
+//                    setSubscribeLikeResult(resInfo);
+//                }, this::loadError);
+//    }
 
-    private Map<String, String> getSubscribeParams() {
-        Map<String, String> map = new HashMap<>();
-        String name = iSearchView.getKeyWords();
-        String jsonParams = "{\"name\":\"" + name + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
+//    private Map<String, String> getSubscribeParams() {
+//        Map<String, String> map = new HashMap<>();
+//        String name = iSearchView.getKeyWords();
+//        String jsonParams = "{\"name\":\"" + name + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
+//        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+//        return map;
+//    }
 
     private Map<String, String> getInfoParams() {
         Map<String, String> map = new HashMap<>();
@@ -164,7 +164,7 @@ public class SearchPresenter extends BasePresenter<ISearchView> {
         }
     }
 
-    public void setSubscribeLikeResult(ResBase likeByNameResult) {
-        this.likeByNameResult = likeByNameResult;
-    }
+//    public void setSubscribeLikeResult(ResBase likeByNameResult) {
+//        this.likeByNameResult = likeByNameResult;
+//    }
 }

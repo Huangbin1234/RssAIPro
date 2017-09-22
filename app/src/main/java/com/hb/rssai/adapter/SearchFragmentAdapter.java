@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import com.hb.rssai.presenter.SearchInfoPresenter;
+import com.hb.rssai.presenter.SearchSubscribePresenter;
 import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.me.SearchInfoFragment;
 import com.hb.rssai.view.me.SearchSubscribeFragment;
@@ -30,10 +31,17 @@ private SearchActivity searchActivity;
         oneFragment = new SearchInfoFragment();
         twoFragment = new SearchSubscribeFragment();
 
+//        searchActivity.setSearchListener(new SearchActivity.SearchListener() {
+//            @Override
+//            public void search(String val) {
+//                ((SearchInfoPresenter)oneFragment.mPresenter).refreshInfoList(val);
+//            }
+//        });
         searchActivity.setSearchListener(new SearchActivity.SearchListener() {
             @Override
             public void search(String val) {
-                ((SearchInfoPresenter)oneFragment.mPresenter).refreshInfoList();
+                ((SearchInfoPresenter)oneFragment.mPresenter).refreshInfoList(val);
+                ((SearchSubscribePresenter)twoFragment.mPresenter).refreshInfoList(val);
             }
         });
     }

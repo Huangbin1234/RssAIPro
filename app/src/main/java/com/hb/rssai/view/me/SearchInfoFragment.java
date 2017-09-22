@@ -126,7 +126,7 @@ public class SearchInfoFragment extends BaseFragment implements ISearchInfoView,
     @Override
     public void setKeyWords(String val) {
         keyWord = val;
-        ((SearchInfoPresenter) mPresenter).refreshInfoList();
+        ((SearchInfoPresenter) mPresenter).refreshInfoList(val);
     }
 
 

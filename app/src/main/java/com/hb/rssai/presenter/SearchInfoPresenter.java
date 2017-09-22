@@ -76,8 +76,11 @@ public class SearchInfoPresenter extends BasePresenter {
     }
     /**
      * 刷新数据
+     * @param val
      */
-    public void refreshInfoList() {
+    String keyWord="";
+    public void refreshInfoList(String val) {
+        keyWord=val;
         page = 1;
         isLoad = true;
         isEnd = false;
@@ -97,7 +100,7 @@ public class SearchInfoPresenter extends BasePresenter {
 
     private Map<String, String> getInfoParams() {
         Map<String, String> map = new HashMap<>();
-        String title = iSearchInfoView.getKeyWords();
+        String title = keyWord;
         String jsonParams = "{\"title\":\"" + title + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
