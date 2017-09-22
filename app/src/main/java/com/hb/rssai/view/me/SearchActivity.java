@@ -1,96 +1,190 @@
 package com.hb.rssai.view.me;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
-import com.hb.rssai.adapter.CardAdapter;
+import com.hb.rssai.adapter.SearchFragmentAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.presenter.SearchPresenter;
+import com.hb.rssai.util.KeyboardUtil;
+import com.hb.rssai.util.SearchTextWatcher;
+import com.hb.rssai.util.StatusBarUtil;
+import com.hb.rssai.view.iView.ISearchView;
+import com.hb.rssai.view.iView.SearchKeyWordListener;
+import com.hb.rssai.view.widget.MyDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity implements ISearchView, View.OnClickListener, SearchSubscribeFragment.OnFragmentInteractionListener, SearchInfoFragment.OnFragmentInteractionListener {
 
 
     @BindView(R.id.search_listView)
     RecyclerView mSearchListView;
-    @BindView(R.id.sys_tv_title)
-    TextView mSysTvTitle;
+    //    @BindView(R.id.sys_tv_title)
+//    TextView mSysTvTitle;
     @BindView(R.id.sys_toolbar)
     Toolbar mSysToolbar;
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
+    @BindView(R.id.its_et_key)
+    EditText mItsEtKey;
+    @BindView(R.id.its_iv_clear)
+    ImageView mItsIvClear;
+    @BindView(R.id.its_btn_search)
+    Button mItsBtnSearch;
+    @BindView(R.id.its_iv_search)
+    ImageView mItsIvSearch;
+    @BindView(R.id.tab_layout)
+    TabLayout mTabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager mViewPager;
+
 
     private String[] mStrs = {"aaa", "bbb", "ccc", "airsaid"};
-    List<String> mLocales =new ArrayList<>();
+    List<String> mLocales = new ArrayList<>();
+    private LinearLayoutManager infoManager;
+    private String keyWord = "";
+    private SearchFragmentAdapter adapter;
+    private TabLayout.Tab one;
+    private TabLayout.Tab two;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    private SearchListener searchListener;
+
+    public SearchListener getSearchListener() {
+        return searchListener;
+    }
+
+    public void setSearchListener(SearchListener searchListener) {
+        this.searchListener = searchListener;
+    }
+
+    public interface SearchListener {
+        void search(String val);
+    }
+
     @Override
     protected void initView() {
         //線性布局
-        mSearchListView.setLayoutManager(new LinearLayoutManager(this));
+        initPager();
+        infoManager = new LinearLayoutManager(this);
+        mSearchListView.setLayoutManager(infoManager);
+        mSearchListView.addItemDecoration(new MyDecoration(this, LinearLayoutManager.VERTICAL));
         mLocales.add("asdasd");
         mLocales.add("asdasd2");
         mLocales.add("asdasd3");
         mLocales.add("asdasd4");
         mLocales.add("asdasd5");
         mLocales.add("asdasd6");
+
+        mItsEtKey.addTextChangedListener(new SearchTextWatcher(mItsEtKey, mItsIvClear));
+        mItsEtKey.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    keyWord = v.getText().toString();
+                    if (!TextUtils.isEmpty(keyWord)) {
+                        searchListener.search(keyWord);
+                        KeyboardUtil.hideSoftKeyboard(SearchActivity.this);
+//                        ((SearchPresenter) mPresenter).refreshInfoList();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        mItsIvClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItsEtKey.setText("");
+            }
+        });
+
+
     }
+
 
     @Override
     protected int providerContentViewId() {
         return R.layout.activity_search;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);//指定Toolbar上的视图文件
-        final SearchView searchView = (SearchView) menu.findItem(R.id.ab_search).getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    private void initPager() {
+        //使用适配器将ViewPager与Fragment绑定在一起
+        adapter = new SearchFragmentAdapter(getSupportFragmentManager(),this);
+        mViewPager.setAdapter(adapter);
+        //不预加载数据
+        mViewPager.setOffscreenPageLimit(0);
+        //解决ViewPage与SwipeReFreshLayout 滑动冲突
+        mTabLayout.setupWithViewPager(mViewPager);
+        //指定位置
+        one = mTabLayout.getTabAt(0);
+        two = mTabLayout.getTabAt(1);
+
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 4) {
+                    mViewPager.setCurrentItem(tab.getPosition() - 1);
+                } else {
+                    mViewPager.setCurrentItem(tab.getPosition());
+                    adapter.getItem(tab.getPosition()).setUserVisibleHint(true);
+                }
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                mSearchListView.setAdapter(new LanguageAdapter(mLocales));
-                return true;
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d("d", "onTabUnselected2：" + tab.getPosition());
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Log.d("d", "onTabReselected3：" + tab.getPosition());
             }
         });
-        return true;
+
+
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                onBackPressed();
+//                break;
+//            default:
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
     @Override
     protected void setAppTitle() {
         mSysToolbar.setTitle("");
@@ -100,53 +194,101 @@ public class SearchActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
             actionBar.setDisplayShowTitleEnabled(false);
         }
+        mSysToolbar.setNavigationIcon(R.mipmap.ic_back);
+        mSysToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 //        mSysTvTitle.setText(getResources().getString(R.string.str_search_title));
+        //修改状态栏文字图标为深色
+        StatusBarUtil.StatusBarLightMode(this);
     }
 
     @Override
     protected BasePresenter createPresenter() {
+        return new SearchPresenter(this, this);
+    }
+
+    @Override
+    public String getKeyWords() {
+        return keyWord;
+    }
+
+    @Override
+    public RecyclerView getInfoRecyclerView() {
+        return mSearchListView;
+    }
+
+    @Override
+    public RecyclerView getSubscribeRecyclerView() {
         return null;
     }
 
-    private class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.MyViewHolder> {
+    @Override
+    public LinearLayoutManager getInfoManager() {
+        return infoManager;
+    }
 
-        private List<String> mLocales;
-
-        private LanguageAdapter(List<String> mLocales) {
-            this.mLocales = mLocales;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public LanguageAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-            return new LanguageAdapter.MyViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.tv_name.setText(mLocales.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mLocales.size();
-        }
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-
-            ImageView avatarImageView;
-            TextView tv_count, tv_name;
-            Button tv_view;
-
-            MyViewHolder(View itemView) {
-                super(itemView);
-                avatarImageView = (ImageView) itemView.findViewById(R.id.iv_avatar);
-                tv_count = (TextView) itemView.findViewById(R.id.tv_count);
-                tv_view = (Button) itemView.findViewById(R.id.tv_view);
-                tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-
-            }
+    @OnClick({R.id.its_iv_search})
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.its_iv_search:
+                searchListener.search(keyWord);
+                KeyboardUtil.hideSoftKeyboard(this);
+//                ((SearchPresenter) mPresenter).refreshInfoList();
+                break;
         }
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    //    private class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.MyViewHolder> {
+//
+//        private List<String> mLocales;
+//
+//        private LanguageAdapter(List<String> mLocales) {
+//            this.mLocales = mLocales;
+//            notifyDataSetChanged();
+//        }
+//
+//        @Override
+//        public LanguageAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+//            return new LanguageAdapter.MyViewHolder(view);
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(MyViewHolder holder, int position) {
+//            holder.tv_name.setText(mLocales.get(position));
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return mLocales.size();
+//        }
+//        public class MyViewHolder extends RecyclerView.ViewHolder {
+//
+//            ImageView avatarImageView;
+//            TextView tv_count, tv_name;
+//            Button tv_view;
+//
+//            MyViewHolder(View itemView) {
+//                super(itemView);
+//                avatarImageView = (ImageView) itemView.findViewById(R.id.iv_avatar);
+//                tv_count = (TextView) itemView.findViewById(R.id.tv_count);
+//                tv_view = (Button) itemView.findViewById(R.id.tv_view);
+//                tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+//            }
+//        }
+//    }
+
+
+
 
 }

@@ -13,16 +13,11 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/ifm_iv_img"
-            android:layout_width="80dp"
-            android:layout_height="60dp"
-            android:src="@mipmap/ic_place" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -47,5 +42,12 @@
                 android:textColor="#9c9c9c"
                 android:textSize="@dimen/s12p" />
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ifm_iv_img"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+
+            android:src="@mipmap/ic_place" />
     </LinearLayout>
 </LinearLayout>

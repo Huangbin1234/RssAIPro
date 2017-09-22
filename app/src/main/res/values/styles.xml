@@ -135,4 +135,11 @@
     </style>
 
     <color name="color_general_line">#DDDDDD</color>
+
+    <!--tablayout 文字大小统一-->
+    <style name="TextAppearance.Design.Tab.Custom" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="textAllCaps">true</item>
+    </style>
 </resources>

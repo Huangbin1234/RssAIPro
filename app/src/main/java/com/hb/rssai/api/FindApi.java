@@ -52,4 +52,8 @@ public interface FindApi {
     @POST("subscription/updateUsSort")
     Observable<ResBase> updateUsSort(@FieldMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("subscription/getSubscribeLike")
+    Observable<ResBase> getLikeByName(@FieldMap Map<String, String> params);
+
 }

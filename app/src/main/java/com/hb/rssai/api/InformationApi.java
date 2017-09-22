@@ -43,4 +43,8 @@ public interface InformationApi {
     @FormUrlEncoded
     @POST("info/getInformation")
     Observable<ResInfo> getInformation(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("info/getSearchInfo")
+    Observable<ResInformation> getSearchInfo(@FieldMap Map<String, String> params);
 }
