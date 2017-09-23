@@ -66,6 +66,24 @@ public class ResUser {
         private String description;
         private int readCount;
         private int subscribeCount;
+        private int sex = -1;
+        private String birth;
+
+        public int getSex() {
+            return sex;
+        }
+
+        public void setSex(int sex) {
+            this.sex = sex;
+        }
+
+        public String getBirth() {
+            return birth;
+        }
+
+        public void setBirth(String birth) {
+            this.birth = birth;
+        }
 
         public String getId() {
             return id;

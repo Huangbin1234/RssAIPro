@@ -27,12 +27,12 @@ import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.common.ContentActivity;
-import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.iView.IMineView;
 import com.hb.rssai.view.me.CollectionActivity;
 import com.hb.rssai.view.me.MessageActivity;
 import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.me.SettingActivity;
+import com.hb.rssai.view.me.UserActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
 import com.zbar.lib.CaptureActivity;
 
@@ -202,7 +202,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
                 break;
             case R.id.fm_ll_avatar:
-                startActivityForResult(new Intent(getContext(), LoginActivity.class), REQUEST_LOGIN);
+                startActivityForResult(new Intent(getContext(), UserActivity.class), REQUEST_LOGIN);
                 break;
             case R.id.fm_ll_search:
                 getActivity().startActivity(new Intent(getContext(), SearchActivity.class));

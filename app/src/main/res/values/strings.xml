@@ -172,5 +172,10 @@
     <string name="str_mf_search_label">搜新闻与搜主题</string>
     <string name="search_title">请输入关键字</string>
     <string name="str_aa_btn_search">搜索</string>
+    <string name="str_user_title">个人资料</string>
+    <string name="str_sex">性别</string>
+    <string name="str_nick_name">昵称</string>
+    <string name="str_birth">生日</string>
+    <string name="str_signature">个性签名</string>
 
 </resources>

@@ -8,6 +8,7 @@ import com.hb.rssai.bean.ResLogin;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.FindMoreEvent;
 import com.hb.rssai.event.RssSourceEvent;
+import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.ILoginView;
@@ -75,6 +76,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             //TODO 更新数据
             EventBus.getDefault().post(new RssSourceEvent(0));
             EventBus.getDefault().post(new FindMoreEvent(0));
+            EventBus.getDefault().post(new UserEvent(0));
         }
         T.ShowToast(mContext, bean.getRetMsg());
 

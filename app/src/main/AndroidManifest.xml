@@ -71,6 +71,8 @@
         <activity android:name=".view.subscription.tab.TabResourceActivity"/>
         <activity android:name=".view.me.SearchActivity">
         </activity>
+        <activity android:name=".view.me.UserActivity">
+        </activity>
     </application>
 
 </manifest>
