@@ -3,11 +3,15 @@ package com.hb.rssai.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hb.rssai.R;
 import com.hb.rssai.adapter.LikeAdapter;
 import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResCollectionBean;
 import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
@@ -39,6 +43,8 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     private TextView mRtaTvNotGood;
     private LinearLayout mRtaLlGood;
     private LinearLayout mRtaLlNotGood;
+    private ImageView mRtaIvGood;
+    private ImageView mRtaIvNotGood;
 
     public RichTextPresenter(Context mContext, IRichTextView iRichTextView) {
         this.mContext = mContext;
@@ -53,6 +59,9 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
 
         mRtaLlGood = iRichTextView.getLlGood();
         mRtaLlNotGood = iRichTextView.getLlNotGood();
+
+        mRtaIvGood = iRichTextView.getIvGood();
+        mRtaIvNotGood = iRichTextView.getIvNotGood();
     }
 
     public void updateCount() {
@@ -135,6 +144,7 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     }
 
     private void setAddResult(ResBase resBase) {
+        getCollectionByInfoId();
         T.ShowToast(mContext, resBase.getRetMsg());
     }
 
@@ -143,8 +153,18 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         String newLink = iRichTextView.getNewLink();
         String newTitle = iRichTextView.getNewTitle();
         String informationId = iRichTextView.getInformationId();
+        boolean isDel;
+        if (mRetObjBean == null) {
+            isDel = false;
+        } else {
+            if (mRetObjBean.isDeleteFlag()) {
+                isDel = false;
+            } else {
+                isDel = true;
+            }
+        }
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
-        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\",\"link\":\"" + newLink + "\",\"title\":\"" + newTitle + "\"}";
+        String jsonParams = "{\"isDel\":\"" + isDel + "\",\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\",\"link\":\"" + newLink + "\",\"title\":\"" + newTitle + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
@@ -174,6 +194,43 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
                 }, this::loadError);
     }
 
+    public void getCollectionByInfoId() {
+        collectionApi.getCollectionByInfoId(getCollectionByInfoIdParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resCollectionBean -> {
+                    setCollectionInfoIdResult(resCollectionBean);
+                }, this::loadError);
+    }
+
+    public Map<String, String> getCollectionByInfoIdParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = iRichTextView.getInformationId();
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+
+    private ResCollectionBean.RetObjBean mRetObjBean = null;
+
+    private void setCollectionInfoIdResult(ResCollectionBean resBase) {
+        mRetObjBean = resBase.getRetObj();
+        if (resBase.getRetCode() == 0) {
+            //设置收藏图标
+            if (!resBase.getRetObj().isDeleteFlag()) {
+                MenuItem item = iRichTextView.getItem();
+                item.setIcon(R.mipmap.ic_collection_press);
+            }else{
+                MenuItem item = iRichTextView.getItem();
+                item.setIcon(R.mipmap.ic_collection_normal);
+            }
+        }else{
+            MenuItem item = iRichTextView.getItem();
+            item.setIcon(R.mipmap.ic_collection_normal);
+        }
+    }
+
     private void setInfoResult(ResInfo resInfo) {
         if (resInfo.getRetCode() == 0) {
             mRtaTvGood.setText("" + resInfo.getRetObj().getClickGood());
@@ -196,8 +253,13 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         mRtaLlNotGood.setEnabled(true);
         if (resBase.getRetCode() == 0) {
             //刷新点赞点贬数量
-            SharedPreferencesUtil.setBoolean(mContext,iRichTextView.getInformationId(),true);
+            SharedPreferencesUtil.setBoolean(mContext, iRichTextView.getInformationId(), true);
+            mRtaIvGood.setImageResource(R.mipmap.ic_good_press);
+            mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good_press);
             getInformation();
+        } else {
+            mRtaIvGood.setImageResource(R.mipmap.ic_good);
+            mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good);
         }
         T.ShowToast(mContext, resBase.getRetMsg());
     }
@@ -210,4 +272,6 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
+
+
 }

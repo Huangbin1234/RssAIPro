@@ -28,4 +28,8 @@ public interface LoginApi {
     @FormUrlEncoded
     @POST("user/getUserInfo")
     Observable<ResUser> getUserInfo(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("user/update")
+    Observable<ResUser> update(@FieldMap Map<String, String> params);
 }

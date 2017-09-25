@@ -100,6 +100,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         ((RichTextPresenter) mPresenter).getLikeByTitle();
         ((RichTextPresenter) mPresenter).updateCount();
         ((RichTextPresenter) mPresenter).getInformation();
+
     }
 
     @Override
@@ -184,13 +185,18 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.content_menu, menu);
+        MenuItem item = menu.findItem(R.id.toolbar_add_collection);
+        this.item=item;
+        ((RichTextPresenter) mPresenter).getCollectionByInfoId();
         return super.onCreateOptionsMenu(menu);
     }
 
+private MenuItem item;
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toolbar_add_collection:
+                this.item=item;
                 if (!TextUtils.isEmpty(url)) {
                     String dateTime = DateUtil.format(new Date(), Constant.DATE_LONG_PATTERN);
                     UserCollection collection = new UserCollection();
@@ -200,6 +206,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     LiteOrmDBUtil.insert(collection);
                     T.ShowToast(RichTextActivity.this, "收藏成功！");
                     ((RichTextPresenter) mPresenter).add();
+
                 } else {
                     T.ShowToast(this, "收藏失败，链接错误！");
                 }
@@ -274,6 +281,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     }
 
     @Override
+    public ImageView getIvNotGood() {
+        return mRtaIvNotGood;
+    }
+
+    @Override
+    public ImageView getIvGood() {
+        return mRtaIvGood;
+    }
+
+    @Override
     public LinearLayout getLlNotGood() {
         return mRtaLlNotGood;
     }
@@ -281,6 +298,11 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     @Override
     public LinearLayout getLlGood() {
         return mRtaLlGood;
+    }
+
+    @Override
+    public MenuItem getItem() {
+        return item;
     }
 
 

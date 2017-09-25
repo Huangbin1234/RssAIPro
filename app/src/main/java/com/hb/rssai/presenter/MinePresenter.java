@@ -1,10 +1,12 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IMineView;
@@ -25,6 +27,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
     private TextView tvReadCount;
     private TextView tvSubscribeCount;
     private TextView tvAccount;
+    private ImageView ivAva;
 
     public MinePresenter(Context context, IMineView iMineView) {
         mContext = context;
@@ -36,6 +39,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         tvReadCount = iMineView.getTvReadCount();
         tvSubscribeCount = iMineView.getTvSubscribeCount();
         tvAccount = iMineView.getTvAccount();
+        ivAva = iMineView.getIvAva();
     }
 
     public void getUser() {
@@ -57,6 +61,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
             tvReadCount.setText("" + user.getRetObj().getReadCount());
             tvSubscribeCount.setText("" + user.getRetObj().getSubscribeCount());
             tvAccount.setText(user.getRetObj().getNickName());
+            HttpLoadImg.loadCircleImg(mContext, user.getRetObj().getAvatar(), ivAva);
         } else {
             T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
         }

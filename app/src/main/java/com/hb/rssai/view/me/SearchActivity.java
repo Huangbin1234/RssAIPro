@@ -17,7 +17,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.SearchFragmentAdapter;
@@ -28,7 +27,6 @@ import com.hb.rssai.util.KeyboardUtil;
 import com.hb.rssai.util.SearchTextWatcher;
 import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.view.iView.ISearchView;
-import com.hb.rssai.view.iView.SearchKeyWordListener;
 import com.hb.rssai.view.widget.MyDecoration;
 
 import java.util.ArrayList;
@@ -104,20 +102,17 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
         mLocales.add("asdasd6");
 
         mItsEtKey.addTextChangedListener(new SearchTextWatcher(mItsEtKey, mItsIvClear));
-        mItsEtKey.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    keyWord = v.getText().toString();
-                    if (!TextUtils.isEmpty(keyWord)) {
-                        searchListener.search(keyWord);
-                        KeyboardUtil.hideSoftKeyboard(SearchActivity.this);
+        mItsEtKey.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                keyWord = v.getText().toString();
+                if (!TextUtils.isEmpty(keyWord)) {
+                    searchListener.search(keyWord);
+                    KeyboardUtil.hideSoftKeyboard(SearchActivity.this);
 //                        ((SearchPresenter) mPresenter).refreshInfoList();
-                    }
-                    return true;
                 }
-                return false;
+                return true;
             }
+            return false;
         });
         mItsIvClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +132,7 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
 
     private void initPager() {
         //使用适配器将ViewPager与Fragment绑定在一起
-        adapter = new SearchFragmentAdapter(getSupportFragmentManager(),this);
+        adapter = new SearchFragmentAdapter(getSupportFragmentManager(), this);
         mViewPager.setAdapter(adapter);
         //不预加载数据
         mViewPager.setOffscreenPageLimit(0);
@@ -236,6 +231,7 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.its_iv_search:
+                keyWord = mItsEtKey.getText().toString();
                 searchListener.search(keyWord);
                 KeyboardUtil.hideSoftKeyboard(this);
 //                ((SearchPresenter) mPresenter).refreshInfoList();
@@ -287,8 +283,6 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
 //            }
 //        }
 //    }
-
-
 
 
 }

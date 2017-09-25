@@ -1,5 +1,6 @@
 package com.hb.rssai.view.iView;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -11,4 +12,6 @@ public interface IMineView {
 
     TextView getTvSubscribeCount();
     TextView getTvAccount();
+
+    ImageView getIvAva();
 }

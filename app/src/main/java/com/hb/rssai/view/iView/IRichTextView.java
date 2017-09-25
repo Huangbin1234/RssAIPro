@@ -1,6 +1,8 @@
 package com.hb.rssai.view.iView;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,7 +26,12 @@ public interface IRichTextView {
 
     TextView getTvGood();
 
+    ImageView getIvNotGood();
+
+    ImageView getIvGood();
+
     LinearLayout getLlNotGood();
 
     LinearLayout getLlGood();
+    MenuItem getItem();
 }

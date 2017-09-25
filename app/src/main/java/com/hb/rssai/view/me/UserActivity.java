@@ -5,15 +5,20 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.HomeSourceEvent;
+import com.hb.rssai.event.MineEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.UserPresenter;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.iView.IUserView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -65,6 +70,8 @@ public class UserActivity extends BaseActivity implements IUserView {
     TextView mAmaTvSignature;
     @BindView(R.id.ama_rl_phone)
     RelativeLayout mAmaRlPhone;
+    @BindView(R.id.ama_btn_login)
+    Button mAmaBtnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +89,18 @@ public class UserActivity extends BaseActivity implements IUserView {
 
     @Override
     protected void initView() {
+        mAmaBtnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferencesUtil.setString(UserActivity.this, Constant.SP_LOGIN_USER_NAME, "");
+                SharedPreferencesUtil.setString(UserActivity.this, Constant.SP_LOGIN_PSD, "");
+                SharedPreferencesUtil.setString(UserActivity.this, Constant.TOKEN, "");
+                SharedPreferencesUtil.setString(UserActivity.this, Constant.USER_ID, "");
 
+                ((UserPresenter) mPresenter).getUserInfo();
+                EventBus.getDefault().post(new MineEvent(0));
+            }
+        });
     }
 
     @Override

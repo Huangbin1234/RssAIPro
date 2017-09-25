@@ -21,6 +21,7 @@ import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.MineEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.MinePresenter;
 import com.hb.rssai.util.Base64Util;
@@ -35,6 +36,9 @@ import com.hb.rssai.view.me.SettingActivity;
 import com.hb.rssai.view.me.UserActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
 import com.zbar.lib.CaptureActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,6 +122,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+        // 注册
+        EventBus.getDefault().register(this);
+    }
+    @Subscribe
+    public void onEventMainThread(MineEvent event) {
+        if (event.getMessage() == 0) {
+            ((MinePresenter) mPresenter).getUser();
         }
     }
 
@@ -224,6 +236,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public TextView getTvAccount() {
         return mFmTvAccount;
+    }
+
+    @Override
+    public ImageView getIvAva() {
+        return mFmIvAva;
     }
 
 

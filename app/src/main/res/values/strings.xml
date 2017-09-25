@@ -177,5 +177,6 @@
     <string name="str_nick_name">昵称</string>
     <string name="str_birth">生日</string>
     <string name="str_signature">个性签名</string>
+    <string name="str_la_btn_login_out">退出登录</string>
 
 </resources>

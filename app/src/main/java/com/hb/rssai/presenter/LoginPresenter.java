@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.hb.rssai.bean.ResLogin;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.FindMoreEvent;
+import com.hb.rssai.event.MineEvent;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -77,9 +78,9 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             EventBus.getDefault().post(new RssSourceEvent(0));
             EventBus.getDefault().post(new FindMoreEvent(0));
             EventBus.getDefault().post(new UserEvent(0));
+            EventBus.getDefault().post(new MineEvent(0));
         }
         T.ShowToast(mContext, bean.getRetMsg());
-
     }
 
     private void loadError(Throwable throwable) {

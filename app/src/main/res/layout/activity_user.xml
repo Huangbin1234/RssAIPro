@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/ama_iv_user_photo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:scaleType="centerInside"
@@ -55,8 +55,7 @@
             android:id="@+id/ama_rl_nick_name"
             style="@style/InfoDetail"
             android:gravity="center_vertical"
-            android:padding="16dp"
-            >
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/iv_nick_name"
@@ -64,18 +63,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                />
+                android:scaleType="centerInside"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TextLabel"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/iv_nick_name"
-                android:text="@string/str_nick_name"
-                android:textColor="@color/color_txt"
-                android:textSize="@dimen/s16p"/>
+                android:text="@string/str_nick_name"/>
 
             <ImageView
                 android:id="@+id/ama_iv_nick_name"
@@ -84,14 +78,16 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_right"/>
+                android:src="@mipmap/ic_right"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/ama_tv_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/ama_iv_nick_name"
+                android:layout_alignParentRight="true"
+                android:text="点击设置昵称"
                 android:textSize="@dimen/s16p"/>
         </RelativeLayout>
 
@@ -118,30 +114,31 @@
                 />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TextLabel"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/iv_sex"
                 android:text="@string/str_sex"
-                android:textColor="@color/color_txt"
-                android:textSize="@dimen/s16p"/>
+                />
 
             <ImageView
+
                 android:id="@+id/ama_iv_sex"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentRight="true"
+
                 android:layout_centerVertical="true"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_right"/>
+                android:src="@mipmap/ic_right"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/ama_tv_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/ama_iv_sex"
+                android:text="点击设置性别"
                 android:textSize="@dimen/s16p"/>
         </RelativeLayout>
 
@@ -168,30 +165,30 @@
                 />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TextLabel"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/iv_birth"
                 android:text="@string/str_birth"
-                android:textColor="@color/color_txt"
-                android:textSize="@dimen/s16p"/>
+                />
 
             <ImageView
                 android:id="@+id/ama_iv_birth"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentRight="true"
+
                 android:layout_centerVertical="true"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_right"/>
+                android:src="@mipmap/ic_right"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/ama_tv_birth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
                 android:layout_toLeftOf="@id/ama_iv_birth"
+                android:text="点击设置生日"
                 android:textSize="@dimen/s16p"/>
         </RelativeLayout>
 
@@ -211,7 +208,7 @@
             style="@style/InfoDetail"
             android:background="@drawable/ll_selector"
             android:gravity="center_vertical"
-            android:padding="16dp"    >
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/iv_signature"
@@ -219,33 +216,33 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:scaleType="centerInside"  />
+                android:scaleType="centerInside"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TextLabel"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/iv_signature"
                 android:text="@string/str_signature"
-                android:textColor="@color/color_txt"
-                android:textSize="@dimen/s16p"/>
+                />
 
             <ImageView
                 android:id="@+id/ama_iv_signature"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentRight="true"
+
                 android:layout_centerVertical="true"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_right"/>
+                android:src="@mipmap/ic_right"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/ama_tv_signature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/ama_iv_signature"
+
+                android:layout_alignParentRight="true"
+                android:text="点击设置个性签名"
                 android:textSize="@dimen/s16p"/>
         </RelativeLayout>
 
@@ -253,5 +250,17 @@
             android:layout_width="@dimen/activity_horizontal_margin"
             android:layout_height="1px"
             android:background="@color/color_general_line"/>
+
+        <Button
+            android:id="@+id/ama_btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/opr_bg_selector"
+            android:text="@string/str_la_btn_login_out"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/s16p" />
     </LinearLayout>
 </LinearLayout>

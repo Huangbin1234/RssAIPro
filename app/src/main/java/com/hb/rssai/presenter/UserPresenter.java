@@ -43,7 +43,6 @@ public class UserPresenter extends BasePresenter<IUserView> {
         ivAvatar = iUserView.getTvAvatar();
         tvSex = iUserView.getTvSex();
         tvBirth = iUserView.getTvBirth();
-
     }
 
     public void getUserInfo() {
