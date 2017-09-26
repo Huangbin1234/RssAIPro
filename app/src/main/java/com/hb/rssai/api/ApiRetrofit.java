@@ -1,10 +1,13 @@
 package com.hb.rssai.api;
 
 
+import android.content.Intent;
+
 import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StateUtils;
+import com.hb.rssai.view.common.LoginActivity;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +22,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
+
 /**
  * Created by Administrator on 2017/4/24.
  */
@@ -31,9 +36,9 @@ public class ApiRetrofit {
     private InformationApi informationApiService;
     private DataGroupApi dataGroupApiService;
     private MessageApi messageApiService;
-    public static final String BASE_URL = "http://192.168.58.226:8010/";
-//    public static final String BASE_URL = "http://192.168.0.110:8010/";
-    //public static final String BASE_URL = "http://192.168.1.103:8010/";
+    //    public static final String BASE_URL = "http://192.168.58.226:8010/";
+    public static final String BASE_URL = "http://192.168.0.112:8010/";
+    //    public static final String BASE_URL = "http://127.0.0.1:8010/";
     public static final String JSON_URL = BASE_URL + "app_update/checkvercode.json";//此处修改你的json文件地址
 
     public ApiRetrofit() {
@@ -116,6 +121,17 @@ public class ApiRetrofit {
                     .build();
         }
         Response originalResponse = chain.proceed(request);
+        int responseCode = originalResponse.code();
+        switch (responseCode) {
+            case HTTP_UNAUTHORIZED: //401 没有身份认证
+                //跳转到登录
+                Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ProjectApplication.mContext.startActivity(intent);
+                break;
+            default:
+                break;
+        }
         if (StateUtils.isNetworkAvailable(ProjectApplication.mContext)) {
             int maxAge = 0;
             return originalResponse.newBuilder()
