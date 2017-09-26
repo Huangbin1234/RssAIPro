@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResMessageList;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.me.MessageContentActivity;
 
 import java.util.List;
@@ -43,8 +44,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         holder.item_msg_tv_title.setText(messages.get(position).getTitle());
         holder.item_msg_tv_link.setText(messages.get(position).getContent());
         holder.item_msg_tv_time.setText(messages.get(position).getPubTime());
-
+        if (SharedPreferencesUtil.getBoolean(mContext, messages.get(position).getId(), false)) {
+            holder.irs_tv_msg_flag.setVisibility(View.GONE);
+        } else {
+            holder.irs_tv_msg_flag.setVisibility(View.VISIBLE);
+        }
         holder.v.setOnClickListener(v -> {
+            SharedPreferencesUtil.setBoolean(mContext, messages.get(position).getId(), true);
             Intent intent = new Intent(mContext, MessageContentActivity.class);
             intent.putExtra(MessageContentActivity.KEY_MSG_BEAN, messages.get(position));
             mContext.startActivity(intent);
@@ -63,10 +69,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         TextView item_msg_tv_time;
         TextView item_msg_tv_link;
         TextView item_msg_tv_title;
+        TextView irs_tv_msg_flag;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
+            irs_tv_msg_flag = (TextView) itemView.findViewById(R.id.irs_tv_msg_flag);
             item_msg_tv_time = (TextView) itemView.findViewById(R.id.item_msg_tv_time);
             item_msg_tv_link = (TextView) itemView.findViewById(R.id.item_msg_tv_link);
             item_msg_tv_title = (TextView) itemView.findViewById(R.id.item_msg_tv_title);

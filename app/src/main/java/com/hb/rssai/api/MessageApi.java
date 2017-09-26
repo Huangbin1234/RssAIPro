@@ -18,7 +18,12 @@ public interface MessageApi {
     @FormUrlEncoded
     @POST("message/list")
     Observable<ResMessageList> list(@FieldMap Map<String, String> params);
+
     @FormUrlEncoded
     @POST("message/detail")
     Observable<ResBase> add(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("message/selUpdate")
+    Observable<ResBase> selUpdate(@FieldMap Map<String, String> params);
 }

@@ -8,9 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -41,7 +39,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
@@ -101,6 +98,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         }
 
         ((MinePresenter) mPresenter).getUser();
+        ((MinePresenter) mPresenter).setUpdate();
         isPrepared = false;
         System.out.println("====lazyLoad====");
     }
@@ -201,6 +199,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 getActivity().startActivity(new Intent(getContext(), CollectionActivity.class));
                 break;
             case R.id.fm_ll_message:
+                mIrsTvMsgCount.setVisibility(View.GONE);
                 getActivity().startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
             case R.id.fm_ll_setting:
@@ -240,6 +239,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public ImageView getIvAva() {
         return mFmIvAva;
+    }
+
+    @Override
+    public TextView getTvMessageFlag() {
+        return mIrsTvMsgCount;
     }
 
     @Override

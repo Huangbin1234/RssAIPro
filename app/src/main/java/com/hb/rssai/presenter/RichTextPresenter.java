@@ -338,6 +338,8 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
             isOpr = "2";
         } else if ("2".equals(isOpr)) {
             isOpr = "1";
+        } else {
+            isOpr = "";
         }
 
         String jsonParams = "{\"informationId\":\"" + informationId + "\",\"isOpr\":\"" + isOpr + "\",\"evaluateType\":\"" + evaluateType + "\"}";
