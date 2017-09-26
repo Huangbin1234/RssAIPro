@@ -81,6 +81,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     LinearLayout mFmLlData;
     @BindView(R.id.fm_ll_search)
     RelativeLayout mFmLlSearch;
+//    @BindView(R.id.sys_iv_setting)
+//    ImageView mSysIvSetting;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -126,18 +128,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         // 注册
         EventBus.getDefault().register(this);
     }
+
     @Subscribe
     public void onEventMainThread(MineEvent event) {
         if (event.getMessage() == 0) {
             ((MinePresenter) mPresenter).getUser();
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -197,7 +193,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message,R.id.fm_ll_search})
+    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -219,6 +215,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             case R.id.fm_ll_search:
                 getActivity().startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
+//            case R.id.sys_iv_setting:
+//                getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
+//                break;
         }
     }
 
@@ -241,6 +240,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public ImageView getIvAva() {
         return mFmIvAva;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
 

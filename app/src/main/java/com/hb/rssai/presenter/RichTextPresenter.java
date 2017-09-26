@@ -3,6 +3,7 @@ package com.hb.rssai.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,11 +11,13 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.LikeAdapter;
+import com.hb.rssai.bean.Evaluate;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResCollectionBean;
 import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
@@ -221,11 +224,11 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
             if (!resBase.getRetObj().isDeleteFlag()) {
                 MenuItem item = iRichTextView.getItem();
                 item.setIcon(R.mipmap.ic_collection_press);
-            }else{
+            } else {
                 MenuItem item = iRichTextView.getItem();
                 item.setIcon(R.mipmap.ic_collection_normal);
             }
-        }else{
+        } else {
             MenuItem item = iRichTextView.getItem();
             item.setIcon(R.mipmap.ic_collection_normal);
         }
@@ -233,11 +236,71 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
 
     private void setInfoResult(ResInfo resInfo) {
         if (resInfo.getRetCode() == 0) {
+
             mRtaTvGood.setText("" + resInfo.getRetObj().getClickGood());
             mRtaTvNotGood.setText("" + resInfo.getRetObj().getClickNotGood());
+            //刷新
+            String evaluateType = iRichTextView.getEvaluateType();
+            if ("1".equals(evaluateType)) {
+
+                String eStr = SharedPreferencesUtil.getString(mContext, iRichTextView.getInformationId(), "");
+                if (TextUtils.isEmpty(eStr)) {//如果是空那么没操作过直接设置1
+                    evaluate.setClickGood("1");
+                    evaluate.setInformationId(iRichTextView.getInformationId());
+                    SharedPreferencesUtil.setString(mContext, iRichTextView.getInformationId(), GsonUtil.toJson(evaluate));
+                    mRtaIvGood.setImageResource(R.mipmap.ic_good_press);
+                } else {
+                    Evaluate eva = GsonUtil.getGsonUtil().getBean(eStr, Evaluate.class);
+                    if ("1".equals(eva.getClickGood())) {
+                        mRtaIvGood.setImageResource(R.mipmap.ic_good);
+                        evaluate.setClickGood("2");
+                        evaluate.setInformationId(iRichTextView.getInformationId());
+                        SharedPreferencesUtil.setString(mContext, iRichTextView.getInformationId(), GsonUtil.toJson(evaluate));
+                    } else if ("2".equals(eva.getClickGood())) {
+                        mRtaIvGood.setImageResource(R.mipmap.ic_good_press);
+                        evaluate.setClickGood("1");
+                        evaluate.setInformationId(iRichTextView.getInformationId());
+                        SharedPreferencesUtil.setString(mContext, iRichTextView.getInformationId(), GsonUtil.toJson(evaluate));
+                    } else {
+                        evaluate.setClickGood("1");
+                        evaluate.setInformationId(iRichTextView.getInformationId());
+                        SharedPreferencesUtil.setString(mContext, iRichTextView.getInformationId(), GsonUtil.toJson(evaluate));
+                        mRtaIvGood.setImageResource(R.mipmap.ic_good_press);
+                    }
+                }
+            } else if ("0".equals(evaluateType)) {
+
+                String eStr = SharedPreferencesUtil.getString(mContext, iRichTextView.getInformationId(), "");
+                if (TextUtils.isEmpty(eStr)) {//如果是空那么没操作过直接设置1
+                    evaluate.setClickNotGood("1");
+                    evaluate.setInformationId(iRichTextView.getInformationId());
+                    SharedPreferencesUtil.setString(mContext, iRichTextView.getInformationId(), GsonUtil.toJson(evaluate));
+                    mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good_press);
+                } else {
+                    Evaluate eva = GsonUtil.getGsonUtil().getBean(eStr, Evaluate.class);
+                    if ("1".equals(eva.getClickNotGood())) {
+                        mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good);
+                        evaluate.setClickNotGood("2");
+                        evaluate.setInformationId(iRichTextView.getInformationId());
+                        SharedPreferencesUtil.setString(mContext, iRichTextView.getInformationId(), GsonUtil.toJson(evaluate));
+                    } else if ("2".equals(eva.getClickNotGood())) {
+                        mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good_press);
+                        evaluate.setClickNotGood("1");
+                        evaluate.setInformationId(iRichTextView.getInformationId());
+                        SharedPreferencesUtil.setString(mContext, iRichTextView.getInformationId(), GsonUtil.toJson(evaluate));
+                    } else {
+                        evaluate.setClickNotGood("1");
+                        evaluate.setInformationId(iRichTextView.getInformationId());
+                        SharedPreferencesUtil.setString(mContext, iRichTextView.getInformationId(), GsonUtil.toJson(evaluate));
+                        mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good_press);
+                    }
+                }
+            }
         } else {
             T.ShowToast(mContext, resInfo.getRetMsg());
         }
+        mRtaLlGood.setEnabled(true);
+        mRtaLlNotGood.setEnabled(true);
     }
 
     private Map<String, String> getInfoParams() {
@@ -248,27 +311,36 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         return map;
     }
 
+    Evaluate evaluate = new Evaluate();
+
     private void setUpdateEvaluateResult(ResBase resBase) {
-        mRtaLlGood.setEnabled(true);
-        mRtaLlNotGood.setEnabled(true);
         if (resBase.getRetCode() == 0) {
-            //刷新点赞点贬数量
-            SharedPreferencesUtil.setBoolean(mContext, iRichTextView.getInformationId(), true);
-            mRtaIvGood.setImageResource(R.mipmap.ic_good_press);
-            mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good_press);
             getInformation();
         } else {
-            mRtaIvGood.setImageResource(R.mipmap.ic_good);
-            mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good);
+            T.ShowToast(mContext, resBase.getRetMsg());
         }
-        T.ShowToast(mContext, resBase.getRetMsg());
     }
 
     private Map<String, String> getUpdateEvaluateParams() {
         Map<String, String> map = new HashMap<>();
         String informationId = iRichTextView.getInformationId();
         String evaluateType = iRichTextView.getEvaluateType();
-        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"evaluateType\":\"" + evaluateType + "\"}";
+        String isOpr = "";
+        if ("1".equals(evaluateType)) {
+            isOpr = evaluate.getClickGood();
+        } else if ("0".equals(evaluateType)) {
+            isOpr = evaluate.getClickNotGood();
+        }
+        //为“”执行+1
+        //为1 执行 -1
+        //为2 执行 +1
+        if ("1".equals(isOpr)) {
+            isOpr = "2";
+        } else if ("2".equals(isOpr)) {
+            isOpr = "1";
+        }
+
+        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"isOpr\":\"" + isOpr + "\",\"evaluateType\":\"" + evaluateType + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }

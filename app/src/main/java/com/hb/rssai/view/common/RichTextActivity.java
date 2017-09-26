@@ -21,12 +21,14 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.Evaluate;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.RichTextPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DateUtil;
+import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.HtmlImageGetter;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -154,6 +156,22 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mRtaRecyclerView.setLayoutManager(linearLayoutManager);
         mRtaRecyclerView.setNestedScrollingEnabled(false);
         mRtaRecyclerView.setHasFixedSize(true);
+
+        //初始化
+        String eStr = SharedPreferencesUtil.getString(this, id, "");
+        if (!TextUtils.isEmpty(eStr)) {//如果不是空
+            Evaluate eva = GsonUtil.getGsonUtil().getBean(eStr, Evaluate.class);
+            if ("1".equals(eva.getClickGood())) {
+                mRtaIvGood.setImageResource(R.mipmap.ic_good_press);
+            } else if ("2".equals(eva.getClickGood())) {
+                mRtaIvGood.setImageResource(R.mipmap.ic_good);
+            }
+            if ("1".equals(eva.getClickNotGood())) {
+                mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good_press);
+            } else if ("2".equals(eva.getClickNotGood())) {
+                mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good);
+            }
+        }
     }
 
     @Override
@@ -186,17 +204,18 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.content_menu, menu);
         MenuItem item = menu.findItem(R.id.toolbar_add_collection);
-        this.item=item;
+        this.item = item;
         ((RichTextPresenter) mPresenter).getCollectionByInfoId();
         return super.onCreateOptionsMenu(menu);
     }
 
-private MenuItem item;
+    private MenuItem item;
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toolbar_add_collection:
-                this.item=item;
+                this.item = item;
                 if (!TextUtils.isEmpty(url)) {
                     String dateTime = DateUtil.format(new Date(), Constant.DATE_LONG_PATTERN);
                     UserCollection collection = new UserCollection();
@@ -309,24 +328,27 @@ private MenuItem item;
     @OnClick({R.id.rta_ll_good, R.id.rta_ll_not_good})
     @Override
     public void onClick(View v) {
+        String eStr = SharedPreferencesUtil.getString(this, id, "");
+        Evaluate eva = GsonUtil.getGsonUtil().getBean(eStr, Evaluate.class);
         switch (v.getId()) {
             case R.id.rta_ll_good:
                 evaluateType = "1";
-                if (!SharedPreferencesUtil.getBoolean(this, id, false)) {
-                    mRtaLlGood.setEnabled(false);
-                    ((RichTextPresenter) mPresenter).updateEvaluateCount();
+                if (null!=eva&&"1".equals(eva.getClickNotGood())) {
+                    T.ShowToast(this, "您已踩过了，请先取消！");
                 } else {
-                    T.ShowToast(this, "您已评论过了！");
+                    mRtaLlGood.setEnabled(false);
+                    mRtaLlNotGood.setEnabled(false);
+                    ((RichTextPresenter) mPresenter).updateEvaluateCount();
                 }
                 break;
             case R.id.rta_ll_not_good:
                 evaluateType = "0";
-
-                if (!SharedPreferencesUtil.getBoolean(this, id, false)) {
+                if (null!=eva&&"1".equals(eva.getClickGood())) {
+                    T.ShowToast(this, "您已点过赞了，请先取消！");
+                } else {
+                    mRtaLlGood.setEnabled(false);
                     mRtaLlNotGood.setEnabled(false);
                     ((RichTextPresenter) mPresenter).updateEvaluateCount();
-                } else {
-                    T.ShowToast(this, "您已评论过了！");
                 }
                 break;
         }
