@@ -76,7 +76,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
             e.printStackTrace();
         }
         if (position < 6) {
-            holder.item_sla_iv_top.setImageResource(R.mipmap.ic_list_top);
+            holder.item_sla_iv_top.setImageResource(R.mipmap.ic_top_tag);
 //            holder.item_sla_iv_top.setImageResource(R.color.trans);
         } else {
             holder.item_sla_iv_top.setImageResource(R.color.trans);

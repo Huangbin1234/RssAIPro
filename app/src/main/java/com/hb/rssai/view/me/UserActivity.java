@@ -1,5 +1,6 @@
 package com.hb.rssai.view.me;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -19,9 +20,10 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
-import com.hb.rssai.event.HomeSourceEvent;
 import com.hb.rssai.event.MineEvent;
+import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.UserPresenter;
 import com.hb.rssai.util.DateUtil;
@@ -106,7 +108,7 @@ public class UserActivity extends BaseActivity implements IUserView {
     }
 
     @Subscribe
-    public void onEventMainThread(HomeSourceEvent event) {
+    public void onEventMainThread(UserEvent event) {
         if (event.getMessage() == 0) {
             ((UserPresenter) mPresenter).getUserInfo();
         }
@@ -151,7 +153,6 @@ public class UserActivity extends BaseActivity implements IUserView {
                 ((UserPresenter) mPresenter).updateUserInfo();
             }
         }).setType(new boolean[]{true, true, true, false, false, false}).setDate(selectedDate).setRangDate(startDate, endDate).build();
-
         mAmaLlBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +183,14 @@ public class UserActivity extends BaseActivity implements IUserView {
                 EventBus.getDefault().post(new MineEvent(0));
             }
         });
-
+        mAmaLlSignature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserActivity.this, EditSignatureActivity.class);
+                intent.putExtra(EditSignatureActivity.KEY_SIGNATURE, mAmaTvSignature.getText().toString());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -258,13 +266,18 @@ public class UserActivity extends BaseActivity implements IUserView {
     MaterialDialog materialDialog;
 
     private String etContent = "";
+    EditText et;
 
     private void openDialog() {
         if (materialDialog == null) {
             materialDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.dialog_et_view, null);
-            EditText et = (EditText) view.findViewById(R.id.dev_et);
+            et = (EditText) view.findViewById(R.id.dev_et);
+            ResUser.RetObjBean retObjBean = ((UserPresenter) mPresenter).getResUser().getRetObj();
+            if (retObjBean != null && retObjBean.getNickName() != null) {
+                et.setText(retObjBean.getNickName());
+            }
             materialDialog.setContentView(view).setTitle(Constant.TIPS_NICK_NAME)
                     .setNegativeButton("关闭", v -> {
                         materialDialog.dismiss();
@@ -274,6 +287,8 @@ public class UserActivity extends BaseActivity implements IUserView {
                 ((UserPresenter) mPresenter).updateUserInfo();
                 materialDialog.dismiss();
             }).show();
+        } else {
+            materialDialog.show();
         }
     }
 }

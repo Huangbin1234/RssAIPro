@@ -73,6 +73,8 @@
         </activity>
         <activity android:name=".view.me.UserActivity">
         </activity>
+        <activity android:name=".view.me.EditSignatureActivity">
+        </activity>
     </application>
 
 </manifest>

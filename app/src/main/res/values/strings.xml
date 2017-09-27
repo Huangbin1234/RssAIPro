@@ -182,5 +182,8 @@
     <string name="str_ama_tv_birth">点击设置生日</string>
     <string name="str_ama_nick_name">点击设置昵称</string>
     <string name="str_ama_sex">点击设置性别</string>
+    <string name="esa_str_signature">写下你的个性签名。。。</string>
+    <string name="str_la_btn_signature">保存</string>
+    <string name="str_signxature_title">个性签名</string>
 
 </resources>

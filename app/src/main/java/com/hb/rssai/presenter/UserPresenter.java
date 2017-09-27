@@ -9,7 +9,6 @@ import com.hb.rssai.R;
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.MineEvent;
-import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
@@ -37,6 +36,8 @@ public class UserPresenter extends BasePresenter<IUserView> {
     private TextView tvBirth;
     private TextView tvSex;
 
+    private ResUser mResUser;
+
     public UserPresenter(Context context, IUserView iUserView) {
         mContext = context;
         this.iUserView = iUserView;
@@ -62,6 +63,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
 
     private void setUserInfoResult(ResUser resUser) {
         if (resUser.getRetCode() == 0) {
+            setResUser(resUser);
             tvNickName.setText(resUser.getRetObj().getNickName());
             tvDesc.setText(resUser.getRetObj().getDescription());
             if (resUser.getRetObj().getSex() == -1) {
@@ -135,5 +137,13 @@ public class UserPresenter extends BasePresenter<IUserView> {
         }
         map.put(Constant.TOKEN, SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""));
         return map;
+    }
+
+    public ResUser getResUser() {
+        return mResUser;
+    }
+
+    public void setResUser(ResUser resUser) {
+        mResUser = resUser;
     }
 }
