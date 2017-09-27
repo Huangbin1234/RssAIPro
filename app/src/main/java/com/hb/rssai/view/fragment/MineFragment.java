@@ -96,7 +96,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         if (!isVisible || !isPrepared) {
             return;
         }
-
         ((MinePresenter) mPresenter).getUser();
         ((MinePresenter) mPresenter).setUpdate();
         isPrepared = false;
@@ -131,6 +130,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public void onEventMainThread(MineEvent event) {
         if (event.getMessage() == 0) {
             ((MinePresenter) mPresenter).getUser();
+            ((MinePresenter) mPresenter).setUpdate();
         }
     }
 
@@ -245,6 +245,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public TextView getTvMessageFlag() {
         return mIrsTvMsgCount;
     }
+
 
     @Override
     public void onDestroyView() {

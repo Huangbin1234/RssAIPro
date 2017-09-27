@@ -48,6 +48,7 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     private LinearLayout mRtaLlNotGood;
     private ImageView mRtaIvGood;
     private ImageView mRtaIvNotGood;
+    Evaluate evaluate = new Evaluate();
 
     public RichTextPresenter(Context mContext, IRichTextView iRichTextView) {
         this.mContext = mContext;
@@ -65,6 +66,11 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
 
         mRtaIvGood = iRichTextView.getIvGood();
         mRtaIvNotGood = iRichTextView.getIvNotGood();
+
+        String eStr = SharedPreferencesUtil.getString(mContext, iRichTextView.getInformationId(), "");
+        if(null!=GsonUtil.getGsonUtil().getBean(eStr, Evaluate.class)){
+            evaluate = GsonUtil.getGsonUtil().getBean(eStr, Evaluate.class);
+        }
     }
 
     public void updateCount() {
@@ -98,6 +104,8 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        mRtaLlGood.setEnabled(true);
+        mRtaLlNotGood.setEnabled(true);
     }
 
 
@@ -311,7 +319,6 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         return map;
     }
 
-    Evaluate evaluate = new Evaluate();
 
     private void setUpdateEvaluateResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
@@ -326,10 +333,12 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         String informationId = iRichTextView.getInformationId();
         String evaluateType = iRichTextView.getEvaluateType();
         String isOpr = "";
-        if ("1".equals(evaluateType)) {
-            isOpr = evaluate.getClickGood();
-        } else if ("0".equals(evaluateType)) {
-            isOpr = evaluate.getClickNotGood();
+        if (evaluate != null) {
+            if ("1".equals(evaluateType)) {
+                isOpr = evaluate.getClickGood();
+            } else if ("0".equals(evaluateType)) {
+                isOpr = evaluate.getClickNotGood();
+            }
         }
         //为“”执行+1
         //为1 执行 -1
@@ -341,11 +350,8 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         } else {
             isOpr = "";
         }
-
         String jsonParams = "{\"informationId\":\"" + informationId + "\",\"isOpr\":\"" + isOpr + "\",\"evaluateType\":\"" + evaluateType + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
-
-
 }

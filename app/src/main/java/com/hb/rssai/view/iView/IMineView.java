@@ -16,4 +16,7 @@ public interface IMineView {
     ImageView getIvAva();
 
     TextView getTvMessageFlag();
+
+
+
 }

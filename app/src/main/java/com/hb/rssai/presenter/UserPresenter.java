@@ -1,9 +1,11 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hb.rssai.R;
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.HttpLoadImg;
@@ -82,5 +84,12 @@ public class UserPresenter extends BasePresenter<IUserView> {
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        if (TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
+            tvNickName.setText("点击设置昵称");
+            tvDesc.setText("点击设置个性签名");
+            tvSex.setText("点击设置性别");
+            tvBirth.setText("点击设置生日");
+            HttpLoadImg.loadCircleImg(mContext, R.mipmap.icon_default_avar, ivAvatar);
+        }
     }
 }
