@@ -7,8 +7,10 @@ package com.hb.rssai.constants;
 public class Constant {
     public static final String KEY_JSON_PARAMS = "jsonParams";
     public static final String DATE_LONG_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_SHORT_PATTERN = "yyyy-MM-dd";
     public static final String TIPS_SYSTEM = "系统提示";
     public static final String TIPS_FILTER = "筛选分类";
+    public static final String TIPS_NICK_NAME = "修改昵称";
     public static final String KEY_DATA_FROM = "dataFrom";//0sys1me
 
     public static final String FLAG_RSS_SOURCE = "rss_source|";
@@ -39,5 +41,7 @@ public class Constant {
     public static final String KEY_SYS_NIGHT_MODE_TIME = "sys_night_mode_time";
 
     public static final String LAST_UPDATE_TIME = "last_update_time";
+
+
     public static String START_TIME = "1990-01-01 00:00:00";
 }

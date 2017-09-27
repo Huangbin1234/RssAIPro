@@ -84,4 +84,5 @@ dependencies {
     compile 'com.zzhoujay.richtext:richtext:2.5.4'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.contrarywind:Android-PickerView:3.2.6'
 }

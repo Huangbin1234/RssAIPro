@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/title_all"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar"/>
+    <include layout="@layout/include_sub_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:scaleType="centerInside"
-                android:src="@mipmap/icon_default_avar"/>
+                android:src="@mipmap/icon_default_avar" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,20 +36,20 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="头像"
-                android:textSize="@dimen/s16p"/>
+                android:textSize="@dimen/s16p" />
 
         </RelativeLayout>
 
         <View
             android:layout_width="@dimen/activity_horizontal_margin"
             android:layout_height="1px"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
         <View
             android:layout_width="@dimen/activity_horizontal_margin"
             android:layout_height="1px"
             android:layout_marginTop="10dp"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
         <RelativeLayout
             android:id="@+id/ama_rl_nick_name"
@@ -63,46 +63,55 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:scaleType="centerInside"/>
+                android:scaleType="centerInside" />
 
             <TextView
                 style="@style/TextLabel"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/iv_nick_name"
-                android:text="@string/str_nick_name"/>
+                android:text="@string/str_nick_name" />
 
-            <ImageView
-                android:id="@+id/ama_iv_nick_name"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_right"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/ama_tv_nick_name"
+            <LinearLayout
+                android:id="@+id/ama_ll_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:text="点击设置昵称"
-                android:textSize="@dimen/s16p"/>
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="32dp">
+
+                <TextView
+                    android:id="@+id/ama_tv_nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_ama_nick_name"
+                    android:textSize="@dimen/s16p" />
+
+                <ImageView
+                    android:id="@+id/ama_iv_nick_name"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_right"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
         </RelativeLayout>
 
         <View
             android:layout_width="@dimen/activity_horizontal_margin"
             android:layout_height="1px"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <RelativeLayout
             android:id="@+id/ama_rl_sex"
             style="@style/InfoDetail"
             android:background="@drawable/ll_selector"
             android:gravity="center_vertical"
-            android:padding="16dp"
-            >
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/iv_sex"
@@ -110,50 +119,52 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                />
+                android:scaleType="centerInside" />
 
             <TextView
                 style="@style/TextLabel"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/iv_sex"
-                android:text="@string/str_sex"
-                />
+                android:text="@string/str_sex" />
 
-            <ImageView
-
-                android:id="@+id/ama_iv_sex"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-
-                android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_right"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/ama_tv_sex"
+            <LinearLayout
+                android:id="@+id/ama_ll_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/ama_iv_sex"
-                android:text="点击设置性别"
-                android:textSize="@dimen/s16p"/>
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="32dp">
+
+                <TextView
+                    android:id="@+id/ama_tv_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_ama_sex"
+                    android:textSize="@dimen/s16p" />
+
+                <ImageView
+                    android:id="@+id/ama_iv_sex"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_right"
+                    android:visibility="gone" />
+            </LinearLayout>
         </RelativeLayout>
 
         <View
             android:layout_width="@dimen/activity_horizontal_margin"
             android:layout_height="1px"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <RelativeLayout
             android:id="@+id/ama_rl_birth"
             style="@style/InfoDetail"
             android:background="@drawable/ll_selector"
             android:gravity="center_vertical"
-            android:padding="16dp"
-            >
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/iv_birth"
@@ -161,47 +172,53 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                />
+                android:scaleType="centerInside" />
 
             <TextView
                 style="@style/TextLabel"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/iv_birth"
-                android:text="@string/str_birth"
-                />
+                android:text="@string/str_birth" />
 
-            <ImageView
-                android:id="@+id/ama_iv_birth"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-
-                android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_right"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/ama_tv_birth"
+            <LinearLayout
+                android:id="@+id/ama_ll_birth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_toLeftOf="@id/ama_iv_birth"
-                android:text="点击设置生日"
-                android:textSize="@dimen/s16p"/>
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="32dp">
+
+                <TextView
+                    android:id="@+id/ama_tv_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_ama_tv_birth"
+                    android:textSize="@dimen/s16p" />
+
+                <ImageView
+                    android:id="@+id/ama_iv_birth"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_right"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
         </RelativeLayout>
 
         <View
             android:layout_width="@dimen/activity_horizontal_margin"
             android:layout_height="1px"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <View
             android:layout_width="@dimen/activity_horizontal_margin"
             android:layout_height="1px"
             android:layout_marginTop="10dp"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <RelativeLayout
             android:id="@+id/ama_rl_phone"
@@ -216,40 +233,46 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:scaleType="centerInside"/>
+                android:scaleType="centerInside" />
 
             <TextView
                 style="@style/TextLabel"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/iv_signature"
-                android:text="@string/str_signature"
-                />
+                android:text="@string/str_signature" />
 
-            <ImageView
-                android:id="@+id/ama_iv_signature"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
 
-                android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_right"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/ama_tv_signature"
+            <LinearLayout
+                android:id="@+id/ama_ll_signature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-
                 android:layout_alignParentRight="true"
-                android:text="点击设置个性签名"
-                android:textSize="@dimen/s16p"/>
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="32dp">
+
+                <ImageView
+                    android:id="@+id/ama_iv_signature"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_right"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ama_tv_signature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_ama_tv_signature"
+                    android:textSize="@dimen/s16p" />
+            </LinearLayout>
         </RelativeLayout>
 
         <View
             android:layout_width="@dimen/activity_horizontal_margin"
             android:layout_height="1px"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <Button
             android:id="@+id/ama_btn_login"
@@ -257,7 +280,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/opr_bg_selector"
             android:text="@string/str_la_btn_login_out"
             android:textColor="@color/orange"

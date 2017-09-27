@@ -178,5 +178,9 @@
     <string name="str_birth">生日</string>
     <string name="str_signature">个性签名</string>
     <string name="str_la_btn_login_out">退出登录</string>
+    <string name="str_ama_tv_signature">点击设置个性签名</string>
+    <string name="str_ama_tv_birth">点击设置生日</string>
+    <string name="str_ama_nick_name">点击设置昵称</string>
+    <string name="str_ama_sex">点击设置性别</string>
 
 </resources>

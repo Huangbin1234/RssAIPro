@@ -34,6 +34,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
     private ImageView ivAva;
     private TextView tvMessageFlag;
 
+
     public MinePresenter(Context context, IMineView iMineView) {
         mContext = context;
         this.iMineView = iMineView;
@@ -46,6 +47,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         tvAccount = iMineView.getTvAccount();
         ivAva = iMineView.getIvAva();
         tvMessageFlag = iMineView.getTvMessageFlag();
+
     }
 
     public void getUser() {
@@ -65,6 +67,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
                     setSelUpdateResult(resBase);
                 }, this::loadError);
     }
+
 
     private void setSelUpdateResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
@@ -119,5 +122,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
+
+
 
 }

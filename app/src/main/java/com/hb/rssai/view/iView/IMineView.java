@@ -18,5 +18,4 @@ public interface IMineView {
     TextView getTvMessageFlag();
 
 
-
 }

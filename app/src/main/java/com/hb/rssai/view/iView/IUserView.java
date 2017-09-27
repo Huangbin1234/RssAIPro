@@ -1,5 +1,6 @@
 package com.hb.rssai.view.iView;
 
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -8,10 +9,17 @@ import android.widget.TextView;
  */
 
 public interface IUserView {
-     TextView getTvNickName();
-     TextView getTvDescription();
-     TextView getTvSex();
-     TextView getTvBirth();
-     ImageView getTvAvatar();
+    TextView getTvNickName();
 
+    TextView getTvDescription();
+
+    TextView getTvSex();
+
+    TextView getTvBirth();
+
+    ImageView getTvAvatar();
+
+    String getEditType();
+
+    String getEtContent();
 }

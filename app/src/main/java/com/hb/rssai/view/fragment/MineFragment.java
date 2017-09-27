@@ -247,6 +247,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
