@@ -29,11 +29,11 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <LinearLayout
                             android:id="@+id/rl_ll_topic"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:layout_marginBottom="10dp"
                             android:background="@color/color_general_white"
                             android:orientation="vertical"
@@ -111,12 +111,13 @@
                                     android:paddingRight="16dp"/>
                             </RelativeLayout>
                         </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/rl_ll"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
                             android:layout_below="@id/rl_ll_topic"
+                            android:layout_marginBottom="10dp"
                             android:background="@color/color_general_white"
                             android:orientation="vertical"
                             android:paddingBottom="16dp">
