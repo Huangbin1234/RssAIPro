@@ -184,6 +184,10 @@
     <string name="str_ama_sex">点击设置性别</string>
     <string name="esa_str_signature">写下你的个性签名。。。</string>
     <string name="str_la_btn_signature">保存</string>
-    <string name="str_signxature_title">个性签名</string>
+    <string name="str_signature_title">个性签名</string>
+
+    <string name="str_pop_avanew">修改头像</string>
+    <string name="str_pop_canmara">拍照上传</string>
+    <string name="str_pop_local">本地上传</string>
 
 </resources>

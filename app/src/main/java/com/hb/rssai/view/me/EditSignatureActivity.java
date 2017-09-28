@@ -78,7 +78,7 @@ public class EditSignatureActivity extends BaseActivity implements IEditSignatur
             actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        mSysTvTitle.setText(getResources().getString(R.string.str_signxature_title));
+        mSysTvTitle.setText(getResources().getString(R.string.str_signature_title));
     }
 
     @Override

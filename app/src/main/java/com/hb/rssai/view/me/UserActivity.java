@@ -1,18 +1,32 @@
 package com.hb.rssai.view.me;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,15 +41,21 @@ import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.UserPresenter;
 import com.hb.rssai.util.DateUtil;
+import com.hb.rssai.util.DisplayUtil;
+import com.hb.rssai.util.ImageUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IUserView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
@@ -94,11 +114,14 @@ public class UserActivity extends BaseActivity implements IUserView {
     LinearLayout mAmaLlBirth;
     @BindView(R.id.ama_ll_signature)
     LinearLayout mAmaLlSignature;
+    @BindView(R.id.llRootView)
+    LinearLayout mLlRootView;
 
     private OptionsPickerView mGenderPicker;
     private TimePickerView mBirthTimePickerView;
 
     private String editType = "";//"1" sex "2" birth
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,15 +143,11 @@ public class UserActivity extends BaseActivity implements IUserView {
         ArrayList<String> genderList = new ArrayList<>();
         genderList.add("男");
         genderList.add("女");
-
-        mGenderPicker = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                //返回的分别是三个级别的选中位置
-                editType = "1";
-                mAmaTvSex.setText(genderList.get(options1));
-                ((UserPresenter) mPresenter).updateUserInfo();
-            }
+        mGenderPicker = new OptionsPickerView.Builder(this, (options1, options2, options3, v) -> {
+            //返回的分别是三个级别的选中位置
+            editType = "1";
+            mAmaTvSex.setText(genderList.get(options1));
+            ((UserPresenter) mPresenter).updateUserInfo();
         }).setContentTextSize(20)//设置滚轮文字大小
                 .setDividerColor(Color.LTGRAY)//设置分割线的颜色
                 .setSelectOptions(0, 1)//默认选中项
@@ -145,53 +164,48 @@ public class UserActivity extends BaseActivity implements IUserView {
         startDate.set(1920, 8, 1);
         Calendar endDate = Calendar.getInstance();
         endDate.set(3000, 11, 1);
-        mBirthTimePickerView = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {//选中事件回调
-                editType = "2";
-                mAmaTvBirth.setText(DateUtil.format(date, Constant.DATE_SHORT_PATTERN));
-                ((UserPresenter) mPresenter).updateUserInfo();
-            }
+        mBirthTimePickerView = new TimePickerView.Builder(this, (date, v) -> {//选中事件回调
+            editType = "2";
+            mAmaTvBirth.setText(DateUtil.format(date, Constant.DATE_SHORT_PATTERN));
+            ((UserPresenter) mPresenter).updateUserInfo();
         }).setType(new boolean[]{true, true, true, false, false, false}).setDate(selectedDate).setRangDate(startDate, endDate).build();
-        mAmaLlBirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mBirthTimePickerView.show();
-            }
-        });
-        mAmaLlSex.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mGenderPicker.show();
-            }
-        });
-        mAmaLlNickName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog();
-            }
-        });
-        mAmaBtnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferencesUtil.setString(UserActivity.this, Constant.SP_LOGIN_USER_NAME, "");
-                SharedPreferencesUtil.setString(UserActivity.this, Constant.SP_LOGIN_PSD, "");
-                SharedPreferencesUtil.setString(UserActivity.this, Constant.TOKEN, "");
-                SharedPreferencesUtil.setString(UserActivity.this, Constant.USER_ID, "");
+        mAmaLlBirth.setOnClickListener(v -> mBirthTimePickerView.show());
+        mAmaLlSex.setOnClickListener(v -> mGenderPicker.show());
+        mAmaLlNickName.setOnClickListener(v -> openDialog());
+        mAmaBtnLogin.setOnClickListener(v -> {
+            SharedPreferencesUtil.setString(UserActivity.this, Constant.SP_LOGIN_USER_NAME, "");
+            SharedPreferencesUtil.setString(UserActivity.this, Constant.SP_LOGIN_PSD, "");
+            SharedPreferencesUtil.setString(UserActivity.this, Constant.TOKEN, "");
+            SharedPreferencesUtil.setString(UserActivity.this, Constant.USER_ID, "");
 
-                ((UserPresenter) mPresenter).getUserInfo();
-                EventBus.getDefault().post(new MineEvent(0));
-            }
+            ((UserPresenter) mPresenter).getUserInfo();
+            EventBus.getDefault().post(new MineEvent(0));
         });
-        mAmaLlSignature.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UserActivity.this, EditSignatureActivity.class);
-                intent.putExtra(EditSignatureActivity.KEY_SIGNATURE, mAmaTvSignature.getText().toString());
-                startActivity(intent);
-            }
+        mAmaLlSignature.setOnClickListener(v -> {
+            Intent intent = new Intent(UserActivity.this, EditSignatureActivity.class);
+            intent.putExtra(EditSignatureActivity.KEY_SIGNATURE, mAmaTvSignature.getText().toString());
+            startActivity(intent);
         });
+        mAmaIvUserPhoto.setOnClickListener(v -> {
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            } else {
+                mPop.setAnimationStyle(R.style.PopupAnimation);
+                if (Build.VERSION.SDK_INT < 24) {
+                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, 0, 0);
+                } else {
+                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
+                }
+                mPop.update();
+            }
+            backgroundAlpha(0.5f);
+            mPop.setOnDismissListener(new PopOnDismissListener());
+        });
+
+        //TODO 头像上传
+        selectAvatar();
     }
+
 
     @Override
     protected int providerContentViewId() {
@@ -263,6 +277,11 @@ public class UserActivity extends BaseActivity implements IUserView {
         return etContent;
     }
 
+    @Override
+    public String getFilePath() {
+        return filePath;
+    }
+
     MaterialDialog materialDialog;
 
     private String etContent = "";
@@ -270,6 +289,9 @@ public class UserActivity extends BaseActivity implements IUserView {
 
     private void openDialog() {
         if (materialDialog == null) {
+            if (((UserPresenter) mPresenter).getResUser() == null) {
+                return;
+            }
             materialDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.dialog_et_view, null);
@@ -291,4 +313,175 @@ public class UserActivity extends BaseActivity implements IUserView {
             materialDialog.show();
         }
     }
+
+    //TODO ###############################################头像上传####################################################
+    //TODO 头像上传相关
+    private String filePath = "";//上传图片地址
+    private String imageFilePath;// 指定照相后图片保存的地址
+    private Uri imageFileUri;
+
+    private View popupView;
+    private PopupWindow mPop;// 初始化弹出层
+
+    /**
+     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
+     *
+     * @author cg
+     */
+    class PopOnDismissListener implements PopupWindow.OnDismissListener {
+
+        @Override
+        public void onDismiss() {
+            // TODO Auto-generated method stub
+            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+            backgroundAlpha(1f);
+        }
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
+
+    private void selectAvatar() {
+        if (mPop == null) {
+            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            popupView = inflater.inflate(R.layout.pop_image_up, null);
+            mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            mPop.setFocusable(true);
+            ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
+            mPop.setBackgroundDrawable(cd);
+            mPop.update();
+            mPop.setOutsideTouchable(true);
+        }
+
+        try {
+            imageFilePath = Environment.getExternalStorageDirectory().getCanonicalPath() + "/shiyan.jpg";
+            System.out.println(imageFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 设置图片的保存路径
+        File imageFile = new File(imageFilePath);// 通过路径创建保存文件
+        imageFileUri = Uri.fromFile(imageFile);// 获取文件的Uri
+        // 手机照相
+        popupView.findViewById(R.id.zx_btn).setOnClickListener(arg0 -> {
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);// 告诉相机拍摄完毕输出图片到指定的Uri
+            startActivityForResult(intent, 1);
+        });
+        // 手机相册
+        popupView.findViewById(R.id.bd_btn).setOnClickListener(arg0 -> {
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+            Intent intentFromGallery = new Intent();
+            intentFromGallery.setType("image/*"); // 设置文件类型
+            intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intentFromGallery, 0);
+        });
+        // 取消
+        popupView.findViewById(R.id.cancel_btn).setOnClickListener(arg0 -> {
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+        });
+    }
+
+    // 拍照或选择照片后的返回处理
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (resultCode != Activity.RESULT_OK) {
+                return;
+            }
+            String sdStatus = Environment.getExternalStorageState();
+            if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
+                T.ShowToast(this, "SD卡错误");
+                return;
+            }
+            if (requestCode == 1) {// 照相后返回
+                @SuppressWarnings("static-access")
+                String name = new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
+                Bitmap bp;
+                // 尝试
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(imageFilePath, options);
+                // Calculate inSampleSize
+                options.inSampleSize = ImageUtil.calculateInSampleSize(options,
+                        400, 320);
+                // Decode bitmap with inSampleSize set
+                options.inJustDecodeBounds = false;
+                bp = BitmapFactory.decodeFile(imageFilePath, options);
+                int degree = ImageUtil.readPictureDegree(imageFilePath);// 得到的图片选择角度
+                bp = ImageUtil.rotaingImageView(degree, bp);
+                FileOutputStream fos = null;
+                File file = new File(ImageUtil.getSdPath(this) + "/myImage");
+                if (!file.exists()) {
+                    if (file.mkdirs() == false) {
+                        T.ShowToast(this, ImageUtil.getSdPath(this) + "/myImage" + "创建失败");
+                        return;
+                    }
+                }
+                String fileName = ImageUtil.getSdPath(this) + "/myImage/" + name;
+                fos = new FileOutputStream(fileName);
+                bp.compress(Bitmap.CompressFormat.JPEG, 70, fos);
+                filePath = fileName;
+                mAmaIvUserPhoto.setImageBitmap(bp);
+                fos.flush();
+                fos.close();
+                ((UserPresenter) mPresenter).uploadAvatar();
+            } else if (requestCode == 0) {// 本地相册返回
+                Uri uriB = data.getData();
+                String selectedImagePath = ImageUtil.getPath(uriB, this);
+                new DateFormat();
+                String nameB = DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
+                Bitmap bp;
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(selectedImagePath, options);
+                // Calculate inSampleSize
+                options.inSampleSize = ImageUtil.calculateInSampleSize(options,
+                        400, 320);
+                // Decode bitmap with inSampleSize set
+                options.inJustDecodeBounds = false;
+                bp = BitmapFactory.decodeFile(selectedImagePath, options);
+                int degree = ImageUtil.readPictureDegree(selectedImagePath);// 得到的图片选择角度
+                bp = ImageUtil.rotaingImageView(degree, bp);
+                FileOutputStream fos = null;
+                File file = new File(ImageUtil.getSdPath(this) + "/myImage");
+                if (!file.exists()) {
+                    if (file.mkdirs() == false) {
+                        T.ShowToast(this, ImageUtil.getSdPath(this) + "/myImage" + "创建失败");
+                        return;
+                    }
+                }
+                String fileName = ImageUtil.getSdPath(this) + "/myImage/" + nameB;
+                fos = new FileOutputStream(fileName);
+                bp.compress(Bitmap.CompressFormat.JPEG, 70, fos);
+                filePath = fileName;
+                mAmaIvUserPhoto.setImageBitmap(bp);
+                fos.flush();
+                fos.close();
+                ((UserPresenter) mPresenter).uploadAvatar();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //TODO ###############################################头像上传####################################################
 }

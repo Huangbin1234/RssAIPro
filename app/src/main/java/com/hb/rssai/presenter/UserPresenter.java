@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.api.ApiRetrofit;
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.MineEvent;
@@ -16,9 +18,14 @@ import com.hb.rssai.view.iView.IUserView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -72,7 +79,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
                 tvSex.setText(resUser.getRetObj().getSex() == 1 ? "男" : "女");
             }
             tvBirth.setText(resUser.getRetObj().getBirth());
-            HttpLoadImg.loadCircleImg(mContext, resUser.getRetObj().getAvatar(), ivAvatar);
+            HttpLoadImg.loadCircleImg(mContext, ApiRetrofit.BASE_IMG_URL + resUser.getRetObj().getAvatar(), ivAvatar);
         } else {
             T.ShowToast(mContext, resUser.getRetMsg());
         }
@@ -107,7 +114,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
     }
 
     private void setUpdateResult(ResUser resBase) {
-        if(resBase.getRetCode()==0){
+        if (resBase.getRetCode() == 0) {
             getUserInfo();
             EventBus.getDefault().post(new MineEvent(0));
         }
@@ -145,5 +152,30 @@ public class UserPresenter extends BasePresenter<IUserView> {
 
     public void setResUser(ResUser resUser) {
         mResUser = resUser;
+    }
+
+    //上传头像
+    public void uploadAvatar() {
+        String filePath = iUserView.getFilePath();
+        File file = new File(filePath);//filePath 图片地址
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);//表单类型
+        RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        builder.addFormDataPart("file", file.getName(), imageBody);//file 后台接收图片流的参数名
+
+        List<MultipartBody.Part> parts = builder.build().parts();
+        loginApi.upload(parts).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setAvatarResult(resBase);
+                }, this::loadError);
+    }
+
+    private void setAvatarResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            getUserInfo();
+            EventBus.getDefault().post(new MineEvent(0));
+        }
+        T.ShowToast(mContext, resBase.getRetMsg());
     }
 }

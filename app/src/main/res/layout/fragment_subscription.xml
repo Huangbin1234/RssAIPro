@@ -116,7 +116,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/rl_ll_topic"
                             android:background="@color/color_general_white"
                             android:orientation="vertical"

@@ -22,4 +22,6 @@ public interface IUserView {
     String getEditType();
 
     String getEtContent();
+
+    String getFilePath();
 }

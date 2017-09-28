@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
@@ -100,7 +101,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
             tvReadCount.setText("" + user.getRetObj().getReadCount());
             tvSubscribeCount.setText("" + user.getRetObj().getSubscribeCount());
             tvAccount.setText(user.getRetObj().getNickName()+(user.getRetObj().getDescription()!=null?"\r\n"+user.getRetObj().getDescription():""));
-            HttpLoadImg.loadCircleImg(mContext, user.getRetObj().getAvatar(), ivAva);
+            HttpLoadImg.loadCircleImg(mContext, ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar(), ivAva);
         } else {
             T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
         }
