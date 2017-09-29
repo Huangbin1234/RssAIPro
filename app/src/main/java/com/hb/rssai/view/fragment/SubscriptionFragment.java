@@ -360,11 +360,12 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
 //                    rowsBean.setSort(new Date().getTime());
 //                    LiteOrmDBUtil.update(rowsBean);
                     ((SubscriptionPresenter) mPresenter).updateUsSort();
-                } else if (list.get(position).get("id").equals(2)) {
+                } else if (list.get(position).get("id").equals(2)) {//分享
                     materialDialog.dismiss();
                     Intent intent = new Intent(getContext(), QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
                     intent.putExtra(QrCodeActivity.KEY_TITLE, rowsBean.getName());
+                    intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_ID, rowsBean.getId());
                     intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rowsBean.getLink()));
                     startActivity(intent);
                 } else if (list.get(position).get("id").equals(3)) {
