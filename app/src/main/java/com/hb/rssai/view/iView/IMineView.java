@@ -11,11 +11,14 @@ public interface IMineView {
     TextView getTvReadCount();
 
     TextView getTvSubscribeCount();
+
     TextView getTvAccount();
 
     ImageView getIvAva();
 
     TextView getTvMessageFlag();
 
+    String getInformationId();
 
+    String getSubscribeId();
 }

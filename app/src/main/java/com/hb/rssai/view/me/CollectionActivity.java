@@ -161,6 +161,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
                     Intent intent = new Intent(CollectionActivity.this, QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[1]);
                     intent.putExtra(QrCodeActivity.KEY_TITLE, newRowsBean.getTitle());
+                    intent.putExtra(QrCodeActivity.KEY_INFO_ID, newRowsBean.getInformationId());
                     intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_COLLECTION_SOURCE + newRowsBean.getLink()));
                     startActivity(intent);
                 } else if (list.get(position).get("collectionId").equals(2)) {

@@ -69,6 +69,43 @@ public class MinePresenter extends BasePresenter<IMineView> {
                 }, this::loadError);
     }
 
+    //添加收藏
+    public void addCollection() {
+        collectionApi.add(getAddParams()).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setAddResult(resBase);
+                }, this::loadError);
+    }
+
+    //添加订阅
+    public void addSubscription() {
+        findApi.subscribe(getSubscribeParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setAddSubscribeResult(resBase);
+                }, this::loadError);
+    }
+
+    private void setResult(ResUser user) {
+        if (user.getRetCode() == 0) {
+            tvReadCount.setText("" + user.getRetObj().getReadCount());
+            tvSubscribeCount.setText("" + user.getRetObj().getSubscribeCount());
+            tvAccount.setText(user.getRetObj().getNickName() + (user.getRetObj().getDescription() != null ? "\r\n" + user.getRetObj().getDescription() : ""));
+            HttpLoadImg.loadCircleImg(mContext, ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar(), ivAva);
+        } else {
+            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        }
+    }
+
+    private void setAddSubscribeResult(ResBase resBase) {
+        T.ShowToast(mContext, resBase.getRetMsg());
+    }
+
+    private void setAddResult(ResBase resBase) {
+        T.ShowToast(mContext, resBase.getRetMsg());
+    }
 
     private void setSelUpdateResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
@@ -96,17 +133,6 @@ public class MinePresenter extends BasePresenter<IMineView> {
         }
     }
 
-    private void setResult(ResUser user) {
-        if (user.getRetCode() == 0) {
-            tvReadCount.setText("" + user.getRetObj().getReadCount());
-            tvSubscribeCount.setText("" + user.getRetObj().getSubscribeCount());
-            tvAccount.setText(user.getRetObj().getNickName()+(user.getRetObj().getDescription()!=null?"\r\n"+user.getRetObj().getDescription():""));
-            HttpLoadImg.loadCircleImg(mContext, ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar(), ivAva);
-        } else {
-            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
-        }
-    }
-
     private Map<String, String> getParams() {
         Map<String, String> map = new HashMap<>();
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
@@ -124,6 +150,23 @@ public class MinePresenter extends BasePresenter<IMineView> {
         return map;
     }
 
+    private Map<String, String> getSubscribeParams() {
+        Map<String, String> map = new HashMap<>();
+        String subscribeId = iMineView.getSubscribeId();
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"subscribeId\":\"" + subscribeId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
 
+    private Map<String, String> getAddParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = iMineView.getInformationId();
+        boolean isDel = false;
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String jsonParams = "{\"isDel\":\"" + isDel + "\",\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
 
 }

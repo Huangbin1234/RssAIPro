@@ -90,6 +90,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public final static int REQUEST_LOGIN = 2;
 
     private boolean isPrepared;
+    private String infoId;
+    private String subscibeId;
 
     @Override
     protected void lazyLoad() {
@@ -246,6 +248,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         return mIrsTvMsgCount;
     }
 
+    @Override
+    public String getInformationId() {
+        return infoId;
+    }
+
+    @Override
+    public String getSubscribeId() {
+        return subscibeId;
+    }
 
 
     @Override
@@ -290,16 +301,26 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     rssSource.setLink(info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
                     LiteOrmDBUtil.insert(rssSource);
                     // initData();
+
+                    //TODO 订阅 写入服务器
+                    subscibeId = info.replace(Constant.FLAG_PRESS_RSS_SOURCE , "");
+                    ((MinePresenter) mPresenter).addSubscription();
+
                     //打开
                     Intent intent = new Intent(getContext(), SourceListActivity.class);
                     intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
                     intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
+                    intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, subscibeId);
                     getContext().startActivity(intent);
                 } else if (info.startsWith(Constant.FLAG_PRESS_COLLECTION_SOURCE)) {
                     UserCollection userCollection = new UserCollection();
                     userCollection.setTitle("收藏");
                     userCollection.setLink(info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE + Constant.FLAG_COLLECTION_SOURCE, ""));
                     LiteOrmDBUtil.insert(userCollection);
+
+                    //TODO 收藏 写入服务器
+                    infoId = info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE, "");//获取资讯ID
+                    ((MinePresenter) mPresenter).addCollection();
 
                     Intent intent = new Intent(getContext(), ContentActivity.class);
                     intent.putExtra(ContentActivity.KEY_TITLE, "访问");
