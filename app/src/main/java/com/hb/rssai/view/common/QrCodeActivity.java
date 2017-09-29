@@ -137,7 +137,7 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
                 Bitmap logo = BitmapFactory.decodeResource(super.getResources(), R.mipmap.ic_launcher);
                 if (FROM_VALUES[0].equals(from)) {//从订阅点过来的
 //                    String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_RSS_SOURCE + Base64Util.getDecodeStr(content));
-                    String encodeSubscribeId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_RSS_SOURCE + Base64Util.getDecodeStr(subscribeId));
+                    String encodeSubscribeId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_RSS_SOURCE + subscribeId);
                     try {
 //                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s, logo));
                         mQaIv.setImageBitmap(QRCodeUtil.createCode(this, encodeSubscribeId, logo));
@@ -148,7 +148,7 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
 
                     String encodeInfoId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_COLLECTION_SOURCE + infoId);
                     //old
-                    String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_COLLECTION_SOURCE + Base64Util.getDecodeStr(content));
+//                    String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_COLLECTION_SOURCE + Base64Util.getDecodeStr(content));
                     try {
                         // mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s, logo));
                         mQaIv.setImageBitmap(QRCodeUtil.createCode(this, encodeInfoId, logo));
