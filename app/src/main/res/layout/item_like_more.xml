@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="10dp"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"  >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -29,8 +29,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textColor="@color/color_list_txt"
-                android:textSize="@dimen/s18p" />
-
+                android:textSize="@dimen/s16p"/>
 
             <TextView
                 android:id="@+id/ifm_tv_whereFrom"
@@ -40,14 +39,15 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="#9c9c9c"
-                android:textSize="@dimen/s12p" />
+                android:textSize="@dimen/s12p"/>
         </RelativeLayout>
 
         <ImageView
             android:id="@+id/ifm_iv_img"
             android:layout_width="80dp"
             android:layout_height="60dp"
+            android:src="@mipmap/ic_place"/>
 
-            android:src="@mipmap/ic_place" />
     </LinearLayout>
+
 </LinearLayout>

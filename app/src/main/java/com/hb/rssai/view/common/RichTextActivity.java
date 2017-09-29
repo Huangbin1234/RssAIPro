@@ -35,6 +35,7 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IRichTextView;
+import com.hb.rssai.view.widget.MyDecoration;
 import com.zzhoujay.richtext.RichText;
 
 import java.text.ParseException;
@@ -156,6 +157,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mRtaRecyclerView.setLayoutManager(linearLayoutManager);
         mRtaRecyclerView.setNestedScrollingEnabled(false);
         mRtaRecyclerView.setHasFixedSize(true);
+        mRtaRecyclerView.addItemDecoration(new MyDecoration(this, LinearLayoutManager.VERTICAL));
 
         //初始化
         String eStr = SharedPreferencesUtil.getString(this, id, "");
