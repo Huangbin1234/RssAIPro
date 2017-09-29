@@ -4,10 +4,19 @@
     <external-path
         name="RssAiUpdate"
         path="GeneralUpdateLib" />
+    <external-path
+        name="ImageExt"
+        path="myImage" />
     <files-path
-        name="cache"
+        name="fileP"
         path="GeneralUpdateLib" />
+    <files-path
+        name="ImageFileP"
+        path="myImage" />
     <cache-path
         name="cache"
         path="GeneralUpdateLib" />
+    <files-path
+        name="ImageCache"
+        path="myImage" />
 </resource>

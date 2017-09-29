@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -364,14 +365,22 @@ public class UserActivity extends BaseActivity implements IUserView {
         }
 
         try {
-            imageFilePath = Environment.getExternalStorageDirectory().getCanonicalPath() + "/shiyan.jpg";
+            File file = new File(Environment.getExternalStorageDirectory().getCanonicalPath() + "/myImage");
+            if (!file.exists()) {
+                if (file.mkdirs() == false) {
+                    T.ShowToast(this, Environment.getExternalStorageDirectory().getCanonicalPath() + "/myImage" + "创建失败");
+                    return;
+                }
+            }
+            imageFilePath = Environment.getExternalStorageDirectory().getCanonicalPath()+ "/myImage" + "/shiyan.jpg";
             System.out.println(imageFilePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
         // 设置图片的保存路径
         File imageFile = new File(imageFilePath);// 通过路径创建保存文件
-        imageFileUri = Uri.fromFile(imageFile);// 获取文件的Uri
+//        imageFileUri = Uri.fromFile(imageFile);// 获取文件的Uri
+        imageFileUri = FileProvider.getUriForFile(this,getPackageName() + ".fileprovider",imageFile);// 获取文件的Uri
         // 手机照相
         popupView.findViewById(R.id.zx_btn).setOnClickListener(arg0 -> {
             if (mPop.isShowing()) {
