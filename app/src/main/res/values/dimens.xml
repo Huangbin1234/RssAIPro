@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources><!--常用字体大小-->
+    <dimen name="s8p">8sp</dimen>
+    <dimen name="s10p">10sp</dimen>
     <dimen name="s12p">12sp</dimen>
     <dimen name="s14p">14sp</dimen>
     <dimen name="s16p">16sp</dimen>

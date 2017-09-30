@@ -70,7 +70,8 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_sla_tv_name.setText(rssList.get(position).getName());
         try {
-            holder.item_sla_tv_count.setText("[" + rssList.get(position).getCount() + "条]");
+//            holder.item_sla_tv_count.setText("[" + rssList.get(position).getCount() + "条]");
+            holder.item_sla_tv_count.setText("最近更新：");
             holder.item_sla_tv_date.setText(TextUtils.isEmpty(rssList.get(position).getLastTime()) ? "" : DateUtil.showDate(sdf.parse(rssList.get(position).getLastTime()), longDatePat));
         } catch (ParseException e) {
             e.printStackTrace();

@@ -1,14 +1,18 @@
 package com.hb.rssai.api;
 
+import com.hb.rssai.bean.ResBDJson;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.bean.ResSubscription;
 
 import java.util.Map;
 
+import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -53,7 +57,13 @@ public interface FindApi {
     Observable<ResBase> updateUsSort(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
+    @POST("subscription/updateImage")
+    Observable<ResBase> updateImage(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
     @POST("subscription/getLikeByName")
     Observable<ResFindMore> getLikeByName(@FieldMap Map<String, String> params);
 
+    @GET("cardserver/search")
+    Call<ResBDJson> getRssImage(@Query("para") String params);
 }

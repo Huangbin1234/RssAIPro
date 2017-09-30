@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResFindMore;
+import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.rssai.view.subscription.SourceListActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -32,6 +35,8 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     List<ResFindMore.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
     private SubscriptionFragment fragment;
+    private String longDatePat = "yyyy-MM-dd HH:mm:ss";
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public interface onItemLongClickedListener {
         void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rowsBean);
@@ -53,9 +58,18 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.irs_tv_name.setText(rssList.get(position).getName());
-        holder.irs_tv_count.setText(rssList.get(position).getFindCount() + "条资讯");
+//        holder.irs_tv_count.setText(rssList.get(position).getFindCount() + "条资讯");
+//        holder.irs_tv_count.setText(rssList.get(position).getFindCount() + "条资讯");
+        try {
+//            holder.item_sla_tv_count.setText("[" + rssList.get(position).getCount() + "条]");
+            holder.irs_tv_count.setText(TextUtils.isEmpty(rssList.get(position).getLastTime()) ? "" : DateUtil.showDate(sdf.parse(rssList.get(position).getLastTime()), longDatePat));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.irs_iv_logo);
+//            holder.irs_iv_logo.setImageBitmap(ImageUtil.textAsBitmap(rssList.get(position).getName().substring(1,2),20));
+
         } else {
             HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.irs_iv_logo);
         }

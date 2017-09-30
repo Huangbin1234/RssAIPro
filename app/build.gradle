@@ -85,4 +85,5 @@ dependencies {
     compile 'com.contrarywind:Android-PickerView:3.2.6'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 }
