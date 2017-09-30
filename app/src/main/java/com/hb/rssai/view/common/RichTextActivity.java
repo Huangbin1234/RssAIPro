@@ -326,6 +326,11 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         return item;
     }
 
+    @Override
+    public String getDes() {
+        return abstractContent;
+    }
+
 
     @OnClick({R.id.rta_ll_good, R.id.rta_ll_not_good})
     @Override

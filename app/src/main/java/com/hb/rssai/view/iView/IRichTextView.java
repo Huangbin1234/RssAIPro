@@ -34,4 +34,6 @@ public interface IRichTextView {
 
     LinearLayout getLlGood();
     MenuItem getItem();
+
+    String getDes();
 }
