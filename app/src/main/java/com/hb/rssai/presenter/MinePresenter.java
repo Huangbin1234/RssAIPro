@@ -1,6 +1,7 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,11 +10,16 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResInfo;
+import com.hb.rssai.bean.ResShareCollection;
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.ContentActivity;
+import com.hb.rssai.view.common.RichTextActivity;
 import com.hb.rssai.view.iView.IMineView;
 
 import java.util.HashMap;
@@ -73,8 +79,8 @@ public class MinePresenter extends BasePresenter<IMineView> {
     public void addCollection() {
         collectionApi.add(getAddParams()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> {
-                    setAddResult(resBase);
+                .subscribe(resShareCollection -> {
+                    setAddResult(resShareCollection);
                 }, this::loadError);
     }
 
@@ -103,7 +109,24 @@ public class MinePresenter extends BasePresenter<IMineView> {
         T.ShowToast(mContext, resBase.getRetMsg());
     }
 
-    private void setAddResult(ResBase resBase) {
+    private void setAddResult(ResShareCollection resBase) {
+        if (resBase.getRetCode() == 0) {
+            if (resBase.getRetObj() != null) {
+
+                Intent intent = new Intent(mContext, RichTextActivity.class);
+                intent.putExtra("abstractContent", resBase.getRetObj().getAbstractContent());
+                intent.putExtra(ContentActivity.KEY_TITLE, resBase.getRetObj().getTitle());
+                intent.putExtra("whereFrom", resBase.getRetObj().getWhereFrom());
+                intent.putExtra("pubDate", resBase.getRetObj().getPubTime());
+                intent.putExtra("url", resBase.getRetObj().getLink());
+                intent.putExtra("id", resBase.getRetObj().getId());
+                intent.putExtra("clickGood", resBase.getRetObj().getClickGood());
+                intent.putExtra("clickNotGood", resBase.getRetObj().getClickNotGood());
+                mContext.startActivity(intent);
+            } else{
+                T.ShowToast(mContext,"抱歉，文章链接已失效，无法打开！");
+            }
+        }
         T.ShowToast(mContext, resBase.getRetMsg());
     }
 

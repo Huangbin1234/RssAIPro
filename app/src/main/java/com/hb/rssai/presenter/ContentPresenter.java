@@ -3,6 +3,7 @@ package com.hb.rssai.presenter;
 import android.content.Context;
 
 import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResShareCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
@@ -44,8 +45,8 @@ public class ContentPresenter extends BasePresenter<IContentView> {
     public void add() {
         collectionApi.add(getAddParams()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> {
-                    setAddResult(resBase);
+                .subscribe(resShareCollection -> {
+                    setAddResult(resShareCollection);
                 }, this::loadError);
     }
 
@@ -54,8 +55,8 @@ public class ContentPresenter extends BasePresenter<IContentView> {
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
     }
 
-    private void setAddResult(ResBase resBase) {
-        T.ShowToast(mContext, resBase.getRetMsg());
+    private void setAddResult(ResShareCollection resShareCollection) {
+        T.ShowToast(mContext, resShareCollection.getRetMsg());
     }
 
     private Map<String, String> getAddParams() {

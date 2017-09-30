@@ -3,6 +3,7 @@ package com.hb.rssai.api;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResCollection;
 import com.hb.rssai.bean.ResCollectionBean;
+import com.hb.rssai.bean.ResShareCollection;
 
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public interface CollectionApi {
 
     @FormUrlEncoded
     @POST("collection/add")
-    Observable<ResBase> add(@FieldMap Map<String, String> params);
+    Observable<ResShareCollection> add(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("collection/del")

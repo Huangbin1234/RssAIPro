@@ -1,16 +1,21 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
 import com.hb.rssai.adapter.CollectionAdapter;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResCollection;
+import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.ContentActivity;
+import com.hb.rssai.view.common.RichTextActivity;
 import com.hb.rssai.view.iView.ICollectionView;
 
 import java.util.ArrayList;
@@ -152,6 +157,17 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
                 if (adapter == null) {
                     adapter = new CollectionAdapter(mContext, resCollections);
                     recyclerView.setAdapter(adapter);
+                    adapter.setMyOnItemClickedListener(new CollectionAdapter.MyOnItemClickedListener() {
+                        @Override
+                        public void onItemClicked(ResCollection.RetObjBean.RowsBean rowsBean) {
+                            if (!TextUtils.isEmpty(rowsBean.getInformationId())) {
+                                infoId = rowsBean.getInformationId();
+                                getInformation(); //获取消息
+                            } else {
+                                T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
+                            }
+                        }
+                    });
                 } else {
                     adapter.notifyDataSetChanged();
                 }
@@ -169,5 +185,41 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
         swipeRefreshLayout.setRefreshing(false);
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+    }
+
+    public void getInformation() {
+        informationApi.getInformation(getInfoParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resInfo -> {
+                    setInfoResult(resInfo);
+                }, this::loadError);
+    }
+
+    private void setInfoResult(ResInfo resInfo) {
+        if (resInfo.getRetCode() == 0) {
+            Intent intent = new Intent(mContext, RichTextActivity.class);
+            intent.putExtra("abstractContent", resInfo.getRetObj().getAbstractContent());
+            intent.putExtra(ContentActivity.KEY_TITLE, resInfo.getRetObj().getTitle());
+            intent.putExtra("whereFrom", resInfo.getRetObj().getWhereFrom());
+            intent.putExtra("pubDate", resInfo.getRetObj().getPubTime());
+            intent.putExtra("url", resInfo.getRetObj().getLink());
+            intent.putExtra("id", resInfo.getRetObj().getId());
+            intent.putExtra("clickGood", resInfo.getRetObj().getClickGood());
+            intent.putExtra("clickNotGood", resInfo.getRetObj().getClickNotGood());
+            mContext.startActivity(intent);
+        } else {
+            T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
+        }
+    }
+
+    private String infoId = "";
+
+    private Map<String, String> getInfoParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = infoId;
+        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 }

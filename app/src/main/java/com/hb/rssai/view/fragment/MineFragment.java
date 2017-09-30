@@ -303,13 +303,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     // initData();
 
                     //TODO 订阅 写入服务器
-                    subscibeId = info.replace(Constant.FLAG_PRESS_RSS_SOURCE , "");
+                    subscibeId = info.replace(Constant.FLAG_PRESS_RSS_SOURCE, "");
                     ((MinePresenter) mPresenter).addSubscription();
-
                     //打开
                     Intent intent = new Intent(getContext(), SourceListActivity.class);
                     intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
-                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
+                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享主题");
                     intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, subscibeId);
                     getContext().startActivity(intent);
                 } else if (info.startsWith(Constant.FLAG_PRESS_COLLECTION_SOURCE)) {
@@ -322,10 +321,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     infoId = info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE, "");//获取资讯ID
                     ((MinePresenter) mPresenter).addCollection();
 
-                    Intent intent = new Intent(getContext(), ContentActivity.class);
-                    intent.putExtra(ContentActivity.KEY_TITLE, "访问");
-                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE + Constant.FLAG_COLLECTION_SOURCE, ""));
-                    getContext().startActivity(intent);
+//                    Intent intent = new Intent(getContext(), ContentActivity.class);
+//                    intent.putExtra(ContentActivity.KEY_TITLE, "访问");
+//                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE + Constant.FLAG_COLLECTION_SOURCE, ""));
+//                    getContext().startActivity(intent);
 
                 } else if (info.startsWith(Constant.FLAG_PRESS_URL_SOURCE)) {
                     Intent intent = new Intent(getContext(), ContentActivity.class);

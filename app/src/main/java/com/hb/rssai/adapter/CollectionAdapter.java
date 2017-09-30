@@ -28,6 +28,20 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
     List<ResCollection.RetObjBean.RowsBean> collections;
     private LayoutInflater layoutInflater;
 
+    private MyOnItemClickedListener myOnItemClickedListener;
+
+    public MyOnItemClickedListener getMyOnItemClickedListener() {
+        return myOnItemClickedListener;
+    }
+
+    public void setMyOnItemClickedListener(MyOnItemClickedListener myOnItemClickedListener) {
+        this.myOnItemClickedListener = myOnItemClickedListener;
+    }
+
+    public interface MyOnItemClickedListener {
+        void onItemClicked(ResCollection.RetObjBean.RowsBean rowsBean);
+    }
+
     public interface onItemLongClickedListener {
         void onItemLongClicked(ResCollection.RetObjBean.RowsBean rowsBean);
     }
@@ -51,11 +65,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
         holder.cs_tv_time.setText(collections.get(position).getCreateTime());
 
         holder.v.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, ContentActivity.class);
-            intent.putExtra(ContentActivity.KEY_URL, collections.get(position).getLink());
-            intent.putExtra(ContentActivity.KEY_TITLE, collections.get(position).getTitle());
-            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, collections.get(position).getInformationId());
-            mContext.startActivity(intent);
+//            Intent intent = new Intent(mContext, ContentActivity.class);
+//            intent.putExtra(ContentActivity.KEY_URL, collections.get(position).getLink());
+//            intent.putExtra(ContentActivity.KEY_TITLE, collections.get(position).getTitle());
+//            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, collections.get(position).getInformationId());
+//            mContext.startActivity(intent);
+            myOnItemClickedListener.onItemClicked(collections.get(position));
         });
         holder.v.setOnLongClickListener(v -> {
             ((CollectionActivity)mContext).onItemLongClicked(collections.get(position));
@@ -75,7 +90,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
         TextView cs_tv_name;
         TextView cs_tv_link;
         TextView cs_tv_time;
-
 
         public MyViewHolder(View itemView) {
             super(itemView);

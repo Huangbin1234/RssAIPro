@@ -16,6 +16,7 @@ import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResCollectionBean;
 import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.ResInformation;
+import com.hb.rssai.bean.ResShareCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -149,14 +150,14 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     public void add() {
         collectionApi.add(getAddParams()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> {
-                    setAddResult(resBase);
+                .subscribe(resShareCollection -> {
+                    setAddResult(resShareCollection);
                 }, this::loadError);
     }
 
-    private void setAddResult(ResBase resBase) {
+    private void setAddResult(ResShareCollection resShareCollection) {
         getCollectionByInfoId();
-        T.ShowToast(mContext, resBase.getRetMsg());
+        T.ShowToast(mContext, resShareCollection.getRetMsg());
     }
 
     private Map<String, String> getAddParams() {
