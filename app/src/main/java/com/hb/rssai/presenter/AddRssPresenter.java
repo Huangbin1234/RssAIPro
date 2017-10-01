@@ -1,8 +1,13 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 
+import com.hb.rssai.R;
+import com.hb.rssai.adapter.ImageDialogAdapter;
 import com.hb.rssai.api.FindApi;
 import com.hb.rssai.bean.ResBDJson;
 import com.hb.rssai.bean.ResBase;
@@ -11,13 +16,17 @@ import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IAddRssView;
+import com.hb.rssai.view.widget.FullGridView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import me.drakeet.materialdialog.MaterialDialog;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -141,8 +150,14 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                 if (response.isSuccessful()) {
                     ResBDJson result = response.body();
                     if ("0".equals(result.getStatus().getCode())) {
-                        imgUrl = result.getData().getSimi().getXiangshi_info().getUrl().get(0);//获取到源图片
-                        updateImage();
+
+                        if (imgs != null && imgs.size() > 0) {
+                            imgs.clear();
+                        }
+                        if(null!=result.getData().getSimi().getXiangshi_info().getUrl()){
+                            imgs.addAll(result.getData().getSimi().getXiangshi_info().getUrl());
+                            openImageSelector();
+                        }
                     }
                 }
             }
@@ -152,6 +167,63 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                 t.printStackTrace();
             }
         });
+    }
 
+    List<String> imgs = new ArrayList<>();
+    /**
+     * 弹出图片选择框
+     */
+    MaterialDialog materialDialog;
+    ImageDialogAdapter dialogAdapter;
+
+    private void openImageSelector() {
+        if (materialDialog == null) {
+            materialDialog = new MaterialDialog(mContext);
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            View view = inflater.inflate(R.layout.view_filter, null);
+            FullGridView listView = (FullGridView) view.findViewById(R.id.dialog_gridView);
+
+            listView.setOnItemClickListener((parent, v, position, id) -> {
+                //点击选择
+                // 取得ViewHolder对象，这样就省去了通过层层的findViewById去实例化我们需要的cb实例的步骤
+                ImageDialogAdapter.ViewHolder holder = (ImageDialogAdapter.ViewHolder) v.getTag();
+                // 改变CheckBox的状态
+                holder.dialog_item_chk.toggle();
+                //全部置为false
+                for (int i = 0; i < imgs.size(); i++) {
+                    ImageDialogAdapter.getIsSelected().put(i, false);
+                }
+                // 将CheckBox的选中状况记录下来
+                ImageDialogAdapter.getIsSelected().put(position, holder.dialog_item_chk.isChecked());
+                if (dialogAdapter != null) {
+                    dialogAdapter.notifyDataSetChanged();
+                }
+            });
+            if (dialogAdapter == null) {
+                dialogAdapter = new ImageDialogAdapter(mContext, imgs);
+                listView.setAdapter(dialogAdapter);
+            }
+            dialogAdapter.notifyDataSetChanged();
+            materialDialog.setContentView(view).setTitle(Constant.TIPS_IMAGE_SELECTOR).setNegativeButton("关闭", v -> {
+                materialDialog.dismiss();
+            }).setPositiveButton("选择", v -> {
+                for (int i = 0; i < imgs.size(); i++) {
+                    if (ImageDialogAdapter.getIsSelected().get(i)) {
+                        imgUrl = imgs.get(i);//获取到源图片
+
+                        break;
+                    }
+                }
+                if(!TextUtils.isEmpty(imgUrl)){
+                    //TODO 更新
+                    updateImage();
+                }else{
+                    T.ShowToast(mContext,"未选择任何图片，将采用默认图片封面。");
+                }
+                materialDialog.dismiss();
+            }).show();
+        } else {
+            materialDialog.show();
+        }
     }
 }

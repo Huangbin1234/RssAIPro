@@ -172,6 +172,8 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+
+
     @Override
     public String getRssLink() {
         return rssLink;

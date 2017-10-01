@@ -41,6 +41,7 @@ public class Constant {
     public static final String KEY_SYS_NIGHT_MODE_TIME = "sys_night_mode_time";
 
     public static final String LAST_UPDATE_TIME = "last_update_time";
+    public static final String TIPS_IMAGE_SELECTOR = "选择封面图片";
 
 
     public static String START_TIME = "1990-01-01 00:00:00";
