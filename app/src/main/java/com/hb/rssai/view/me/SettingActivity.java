@@ -82,6 +82,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     RelativeLayout mSaRlAdvice;
     @BindView(R.id.sa_tv_ver)
     TextView mSaTvVer;
+    @BindView(R.id.sa_tv_ver_label)
+    TextView mSaTvVerLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
 
         mSaTvVer.setText("V " + Config.getVerName(this));
+        //进入对应的页面判断标记是否有更新在进行调用此方法
+        if (SharedPreferencesUtil.getBoolean(SettingActivity.this, Constant.SAVE_IS_UPDATE, false)) {
+            //添加红点
+            mSaTvVerLabel.setVisibility(View.VISIBLE);
+        } else {
+            mSaTvVerLabel.setVisibility(View.GONE);
+        }
 
         mSaSwDayNight.setOnClickListener(v -> {
             SharedPreferencesUtil.setLong(SettingActivity.this, Constant.KEY_SYS_NIGHT_MODE_TIME, new Date().getTime());
@@ -162,6 +171,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.sa_rl_update:
                 checkUpdate();
+                break;
         }
     }
 
