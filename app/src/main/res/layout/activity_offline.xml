@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_sub_toolbar"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_general_white"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/oa_btn_down"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/opr_bg_selector"
+                        android:text="@string/str_la_btn_offline"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/s16p"/>
+
+
+                    <RelativeLayout
+                        android:id="@+id/oa_rl_all"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_general_white"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="全部频道"
+                            android:textColor="@color/color_txt"
+                            android:textSize="@dimen/s18p"/>
+
+                        <CheckBox
+                            android:id="@+id/oa_chk_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/image_rb_selector"
+                            android:button="@null"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"/>
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/color_general_line"
+                        />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_general_white"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="订阅频道"
+                            android:textColor="@color/color_txt"
+                            android:textSize="@dimen/s18p"/>
+
+                        <CheckBox
+                            android:id="@+id/oa_chk_personal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/image_rb_selector"
+                            android:button="@null"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"/>
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/color_general_line"
+                        />
+                </LinearLayout>
+
+                <com.hb.rssai.view.widget.FullListView
+                    android:id="@+id/offline_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                </com.hb.rssai.view.widget.FullListView>
+            </LinearLayout>
+
+
+        </ScrollView>
+    </LinearLayout>
+
+
+</LinearLayout>

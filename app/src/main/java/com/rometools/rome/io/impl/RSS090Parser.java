@@ -132,7 +132,7 @@ public class RSS090Parser extends BaseWireFeedParser {
      * <p/>
      * It reads title, link and description and delegates to parseImage, parseItems and
      * parseTextInput. This delegation always passes the root element of the RSS document as
-     * different RSS version may have this information in different parts of the XML tree (no
+     * different RSS version may have this Information in different parts of the XML tree (no
      * assumptions made thanks to the specs variaty)
      * <p/>
      *
@@ -223,12 +223,12 @@ public class RSS090Parser extends BaseWireFeedParser {
     }
 
     /**
-     * Parses the root element of an RSS document looking for image information.
+     * Parses the root element of an RSS document looking for image Information.
      * <p/>
      * It reads title and url out of the 'image' element.
      * <p/>
      *
-     * @param rssRoot the root element of the RSS document to parse for image information.
+     * @param rssRoot the root element of the RSS document to parse for image Information.
      * @return the parsed image bean.
      */
     protected Image parseImage(final Element rssRoot) {
@@ -262,14 +262,14 @@ public class RSS090Parser extends BaseWireFeedParser {
     }
 
     /**
-     * Parses the root element of an RSS document looking for all items information.
+     * Parses the root element of an RSS document looking for all items Information.
      * <p/>
      * It iterates through the item elements list, obtained from the getItems() method, and invoke
      * parseItem() for each item element. The resulting RSSItem of each item element is stored in a
      * list.
      * <p/>
      *
-     * @param rssRoot the root element of the RSS document to parse for all items information.
+     * @param rssRoot the root element of the RSS document to parse for all items Information.
      * @return a list with all the parsed RSSItem beans.
      */
     protected List<Item> parseItems(final Element rssRoot, final Locale locale) {
@@ -281,7 +281,7 @@ public class RSS090Parser extends BaseWireFeedParser {
     }
 
     /**
-     * Parses an item element of an RSS document looking for item information.
+     * Parses an item element of an RSS document looking for item Information.
      * <p/>
      * It reads title and link out of the 'item' element.
      * <p/>
@@ -329,12 +329,12 @@ public class RSS090Parser extends BaseWireFeedParser {
     }
 
     /**
-     * Parses the root element of an RSS document looking for text-input information.
+     * Parses the root element of an RSS document looking for text-input Information.
      * <p/>
      * It reads title, description, name and link out of the 'textinput' or 'textInput' element.
      * <p/>
      *
-     * @param rssRoot the root element of the RSS document to parse for text-input information.
+     * @param rssRoot the root element of the RSS document to parse for text-input Information.
      * @return the parsed RSSTextInput bean.
      */
     protected TextInput parseTextInput(final Element rssRoot) {

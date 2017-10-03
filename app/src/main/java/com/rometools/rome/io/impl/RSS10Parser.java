@@ -70,7 +70,7 @@ public class RSS10Parser extends RSS090Parser {
     }
 
     /**
-     * Parses an item element of an RSS document looking for item information.
+     * Parses an item element of an RSS document looking for item Information.
      * <p/>
      * It first invokes super.parseItem and then parses and injects the description property if
      * present.

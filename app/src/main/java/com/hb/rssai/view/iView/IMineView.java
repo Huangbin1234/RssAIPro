@@ -21,4 +21,6 @@ public interface IMineView {
     String getInformationId();
 
     String getSubscribeId();
+
+    TextView getTvSignature();
 }

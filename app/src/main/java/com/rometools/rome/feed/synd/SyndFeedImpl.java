@@ -45,7 +45,7 @@ import com.rometools.utils.Lists;
  * Bean for all types of feeds.
  * <p>
  * It handles all RSS versions, Atom 0.3 and Atom 1.0, it normalizes all info, it may lose
- * information.
+ * Information.
  */
 public class SyndFeedImpl implements Serializable, SyndFeed {
 
@@ -248,7 +248,7 @@ public class SyndFeedImpl implements Serializable, SyndFeed {
     }
 
     /**
-     * Creates a real feed containing the information of the SyndFeedImpl.
+     * Creates a real feed containing the Information of the SyndFeedImpl.
      * <p>
      * The feed type of the created WireFeed is taken from the SyndFeedImpl feedType property.
      * <p>
@@ -262,7 +262,7 @@ public class SyndFeedImpl implements Serializable, SyndFeed {
     }
 
     /**
-     * Creates a real feed containing the information of the SyndFeedImpl.
+     * Creates a real feed containing the Information of the SyndFeedImpl.
      * <p>
      *
      * @param feedType the feed type for the WireFeed to be created.

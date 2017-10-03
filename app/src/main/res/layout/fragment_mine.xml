@@ -1,14 +1,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/bg">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/include_toolbar" />
+        <include layout="@layout/include_toolbar"/>
         <!-- TODO: Update blank fragment layout -->
         <ScrollView
             android:layout_width="match_parent"
@@ -33,20 +33,35 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:scaleType="centerInside"
-                        android:src="@mipmap/ic_user_picture" />
+                        android:src="@mipmap/ic_user_picture"/>
 
-                    <TextView
-                        android:id="@+id/fm_tv_account"
-                        style="@style/TextLabel"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:text="@string/str_mf_no_login" />
+                        android:layout_marginLeft="16dp"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/fm_tv_account"
+                            style="@style/TextLabel"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@string/str_mf_no_login"/>
+
+                        <TextView
+                            android:id="@+id/fm_tv_signature"
+                            style="@style/TextLabel"
+                            android:layout_marginTop="10dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:visibility="gone"
+                            android:textColor="@color/color_txt"
+                            android:textSize="@dimen/s14p"/>
+                    </LinearLayout>
                 </LinearLayout>
 
-                <View style="@style/view_line_h" />
+                <View style="@style/view_line_h"/>
 
                 <LinearLayout
                     android:id="@+id/fm_ll_data"
@@ -72,15 +87,15 @@
                             android:text="0"
                             android:textColor="@color/color_txt"
                             android:textSize="@dimen/s18p"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="资讯阅读量"
+                            android:text="资讯阅读"
                             android:textColor="#9c9c9c"
-                            android:textSize="@dimen/s12p" />
+                            android:textSize="@dimen/s12p"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -98,24 +113,51 @@
                             android:text="0"
                             android:textColor="@color/color_txt"
                             android:textSize="@dimen/s18p"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="订阅资讯源"
+                            android:text="订阅资讯"
                             android:textColor="#9c9c9c"
-                            android:textSize="@dimen/s12p" />
+                            android:textSize="@dimen/s12p"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/mf_ll_offline"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:textColor="@color/color_txt">
+
+                        <TextView
+                            android:id="@+id/mf_tv_offline_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/color_txt"
+                            android:textSize="@dimen/s18p"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="离线阅读"
+                            android:textColor="#9c9c9c"
+                            android:textSize="@dimen/s12p"/>
                     </LinearLayout>
                 </LinearLayout>
 
 
-                <View style="@style/view_line_h" />
+                <View style="@style/view_line_h"/>
 
                 <View
                     style="@style/view_line_h"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"/>
 
                 <RelativeLayout
                     android:id="@+id/fm_ll_message"
@@ -125,7 +167,7 @@
                     <TextView
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
-                        android:text="@string/str_mf_message_center" />
+                        android:text="@string/str_mf_message_center"/>
 
                     <TextView
                         android:id="@+id/irs_tv_msg_count"
@@ -139,10 +181,10 @@
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="6sp"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
                 </RelativeLayout>
 
-                <View style="@style/view_line_h" />
+                <View style="@style/view_line_h"/>
 
 
                 <RelativeLayout
@@ -153,15 +195,15 @@
                     <TextView
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
-                        android:text="@string/str_mf_collection" />
+                        android:text="@string/str_mf_collection"/>
 
                 </RelativeLayout>
 
-                <View style="@style/view_line_h" />
+                <View style="@style/view_line_h"/>
 
                 <View
                     style="@style/view_line_h"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"/>
 
                 <RelativeLayout
                     android:id="@+id/fm_ll_search"
@@ -171,7 +213,7 @@
                     <TextView
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
-                        android:text="@string/str_mf_search" />
+                        android:text="@string/str_mf_search"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -180,10 +222,10 @@
                         android:layout_centerVertical="true"
                         android:text="@string/str_mf_search_label"
                         android:textColor="#9c9c9c"
-                        android:textSize="@dimen/s12p" />
+                        android:textSize="@dimen/s12p"/>
                 </RelativeLayout>
 
-                <View style="@style/view_line_h" />
+                <View style="@style/view_line_h"/>
 
                 <RelativeLayout
                     android:id="@+id/fm_ll_scan"
@@ -193,7 +235,7 @@
                     <TextView
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
-                        android:text="@string/str_mf_scan" />
+                        android:text="@string/str_mf_scan"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -202,15 +244,15 @@
                         android:layout_centerVertical="true"
                         android:text="@string/str_mf_scan_label"
                         android:textColor="#9c9c9c"
-                        android:textSize="@dimen/s12p" />
+                        android:textSize="@dimen/s12p"/>
                 </RelativeLayout>
 
-                <View style="@style/view_line_h" />
+                <View style="@style/view_line_h"/>
 
                 <View
                     style="@style/view_line_h"
                     android:layout_marginTop="10dp"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
 
                 <RelativeLayout
                     android:id="@+id/fm_ll_setting"
@@ -220,16 +262,16 @@
 
                     <TextView
                         style="@style/TextLabel"
-                        android:text="@string/str_mf_setting" />
+                        android:text="@string/str_mf_setting"/>
 
                 </RelativeLayout>
 
-                <View style="@style/view_line_h" />
+                <View style="@style/view_line_h"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:background="@color/bg" />
+                    android:background="@color/bg"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

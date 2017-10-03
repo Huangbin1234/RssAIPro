@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.hb.rssai.adapter.InfoAdapter;
+import com.hb.rssai.bean.Information;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IInformationView;
 
@@ -71,10 +73,10 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
                     if (!isEnd && !isLoad) {
                         mSwipeRefreshLayout.setRefreshing(true);
                         page++;
-                        boolean isUser=iInformationView.getIsUser();
-                        if(isUser){
+                        boolean isUser = iInformationView.getIsUser();
+                        if (isUser) {
                             getUserList();
-                        }else{
+                        } else {
                             getList();
                         }
                     }
@@ -158,10 +160,10 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
             infoList.clear();
         }
         mSwipeRefreshLayout.setRefreshing(true);
-        boolean isUser=iInformationView.getIsUser();
-        if(isUser){
+        boolean isUser = iInformationView.getIsUser();
+        if (isUser) {
             getUserList();
-        }else{
+        } else {
             getList();
         }
     }
@@ -180,6 +182,46 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
         mSwipeRefreshLayout.setRefreshing(false);
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+
+        List<Information> list = LiteOrmDBUtil.getQueryAll(Information.class);
+        if (list != null && list.size() > 0) {
+            T.ShowToast(mContext, "启用离线模式");
+            //TODO 填充数据
+            mLlLoad.setVisibility(View.GONE);
+            isLoad = false;
+            mSwipeRefreshLayout.setRefreshing(false);
+            //TODO 填充数据
+
+            for (Information info : list) {
+                ResInformation.RetObjBean.RowsBean rowBean=new ResInformation.RetObjBean.RowsBean();
+                rowBean.setAuthor(info.getAuthor());
+                rowBean.setPubTime(info.getPubTime());
+                rowBean.setDataType(info.getDataType());
+                rowBean.setAbstractContent(info.getAbstractContent());
+                rowBean.setCount((int)info.getCount());
+                rowBean.setLink(info.getLink());
+                rowBean.setWhereFrom(info.getWhereFrom());
+                rowBean.setTitle(info.getTitle());
+                rowBean.setContent(info.getContent());
+                rowBean.setDeleteFlag(info.isDeleteFlag());
+                rowBean.setImageUrls(info.getImageUrls());
+                rowBean.setId(info.getId());
+                rowBean.setOprTime(info.getOprTime());
+                rowBean.setClickGood(info.getClickGood());
+                rowBean.setClickNotGood(info.getClickNotGood());
+                infoList.add(rowBean);
+            }
+
+            if (adapter == null) {
+                adapter = new InfoAdapter(mContext, infoList);
+                mRecyclerView.setAdapter(adapter);
+            } else {
+                adapter.notifyDataSetChanged();
+            }
+            if (infoList.size() == list.size()) {
+                isEnd = true;
+            }
+        }
     }
 
 

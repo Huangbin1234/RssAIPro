@@ -33,7 +33,7 @@ import com.rometools.utils.Lists;
 /**
  * Bean for items of RSS feeds.
  * <p>
- * It handles all RSS versions without loosing information.
+ * It handles all RSS versions without loosing Information.
  * <p>
  * For RSS1.0 it supports Dublin Core and Syndication modules. Note that those modules currently
  * support simple syntax format only.

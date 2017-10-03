@@ -10,11 +10,9 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.bean.ResBase;
-import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.ResShareCollection;
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
-import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
@@ -40,6 +38,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
     private TextView tvAccount;
     private ImageView ivAva;
     private TextView tvMessageFlag;
+    private TextView tvSignature;
 
 
     public MinePresenter(Context context, IMineView iMineView) {
@@ -54,6 +53,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         tvAccount = iMineView.getTvAccount();
         ivAva = iMineView.getIvAva();
         tvMessageFlag = iMineView.getTvMessageFlag();
+        tvSignature = iMineView.getTvSignature();
 
     }
 
@@ -98,7 +98,15 @@ public class MinePresenter extends BasePresenter<IMineView> {
         if (user.getRetCode() == 0) {
             tvReadCount.setText("" + user.getRetObj().getReadCount());
             tvSubscribeCount.setText("" + user.getRetObj().getSubscribeCount());
-            tvAccount.setText(user.getRetObj().getNickName() + (user.getRetObj().getDescription() != null ? "\r\n" + user.getRetObj().getDescription() : ""));
+            tvAccount.setText(user.getRetObj().getNickName());
+
+            if (!TextUtils.isEmpty(user.getRetObj().getDescription())) {
+                tvSignature.setVisibility(View.VISIBLE);
+                tvSignature.setText(user.getRetObj().getDescription());
+            } else {
+                tvSignature.setVisibility(View.GONE);
+            }
+
             HttpLoadImg.loadCircleImg(mContext, ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar(), ivAva);
         } else {
             T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
@@ -123,8 +131,8 @@ public class MinePresenter extends BasePresenter<IMineView> {
                 intent.putExtra("clickGood", resBase.getRetObj().getClickGood());
                 intent.putExtra("clickNotGood", resBase.getRetObj().getClickNotGood());
                 mContext.startActivity(intent);
-            } else{
-                T.ShowToast(mContext,"抱歉，文章链接已失效，无法打开！");
+            } else {
+                T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
             }
         }
         T.ShowToast(mContext, resBase.getRetMsg());

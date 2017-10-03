@@ -29,7 +29,7 @@ import com.rometools.rome.feed.module.Module;
 /**
  * Bean interface for all types of feeds.
  * <p>
- * It handles all RSS versions and Atom 0.3, it normalizes all info, it may lose information.
+ * It handles all RSS versions and Atom 0.3, it normalizes all info, it may lose Information.
  */
 public interface SyndFeed extends Cloneable, CopyFrom, Extendable {
 
@@ -42,7 +42,7 @@ public interface SyndFeed extends Cloneable, CopyFrom, Extendable {
     List<String> getSupportedFeedTypes();
 
     /**
-     * Creates a real feed containing the information of the SyndFeedImpl.
+     * Creates a real feed containing the Information of the SyndFeedImpl.
      * <p>
      * The feed type of the created WireFeed is taken from the SyndFeedImpl feedType property.
      * <p>
@@ -53,7 +53,7 @@ public interface SyndFeed extends Cloneable, CopyFrom, Extendable {
     WireFeed createWireFeed();
 
     /**
-     * Creates a real feed containing the information of the SyndFeedImpl.
+     * Creates a real feed containing the Information of the SyndFeedImpl.
      * <p>
      *
      * @param feedType the feed type for the WireFeed to be created.

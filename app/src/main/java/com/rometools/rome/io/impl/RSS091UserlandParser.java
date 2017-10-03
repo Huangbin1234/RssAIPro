@@ -152,13 +152,13 @@ public class RSS091UserlandParser extends RSS090Parser {
     }
 
     /**
-     * Parses the root element of an RSS document looking for image information.
+     * Parses the root element of an RSS document looking for image Information.
      * <p/>
      * It first invokes super.parseImage and then parses and injects the following properties if
      * present: url, link, width, height and description.
      * <p/>
      *
-     * @param rssRoot the root element of the RSS document to parse for image information.
+     * @param rssRoot the root element of the RSS document to parse for image Information.
      * @return the parsed RSSImage bean.
      */
     @Override
@@ -253,7 +253,7 @@ public class RSS091UserlandParser extends RSS090Parser {
     }
 
     /**
-     * Parses an item element of an RSS document looking for item information.
+     * Parses an item element of an RSS document looking for item Information.
      * <p/>
      * It first invokes super.parseItem and then parses and injects the description property if
      * present.

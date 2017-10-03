@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseFragment;
+import com.hb.rssai.bean.Information;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
@@ -29,6 +32,7 @@ import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.iView.IMineView;
 import com.hb.rssai.view.me.CollectionActivity;
 import com.hb.rssai.view.me.MessageActivity;
+import com.hb.rssai.view.me.OfflineActivity;
 import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.me.SettingActivity;
 import com.hb.rssai.view.me.UserActivity;
@@ -39,6 +43,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
@@ -78,6 +83,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     LinearLayout mFmLlData;
     @BindView(R.id.fm_ll_search)
     RelativeLayout mFmLlSearch;
+    @BindView(R.id.mf_tv_offline_count)
+    TextView mMfTvOfflineCount;
+    @BindView(R.id.mf_ll_offline)
+    LinearLayout mMfLlOffline;
+    @BindView(R.id.fm_tv_signature)
+    TextView mFmTvSignature;
 //    @BindView(R.id.sys_iv_setting)
 //    ImageView mSysIvSetting;
 
@@ -155,7 +166,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void initView(View rootView) {
-
+        mMfTvOfflineCount.setText("" + LiteOrmDBUtil.getQueryAll(Information.class).size());
     }
 
     @Override
@@ -193,7 +204,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search})
+    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -215,6 +226,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.fm_ll_search:
                 getActivity().startActivity(new Intent(getContext(), SearchActivity.class));
+                break;
+            case R.id.mf_ll_offline:
+                getActivity().startActivity(new Intent(getContext(), OfflineActivity.class));
                 break;
 //            case R.id.sys_iv_setting:
 //                getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
@@ -258,10 +272,23 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         return subscibeId;
     }
 
+    @Override
+    public TextView getTvSignature() {
+        return mFmTvSignature;
+    }
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
 
