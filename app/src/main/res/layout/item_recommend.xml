@@ -1,50 +1,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ir_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:orientation="horizontal">
+              android:id="@+id/ir_layout"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:gravity="center"
+              android:orientation="horizontal">
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/ir_cd_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@drawable/ll_selector"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:layout_margin="5dp">
 
-        <ImageView
-            android:id="@+id/ir_iv_logo"
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
-
-        <ImageView
-            android:id="@+id/ir_iv_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/ir_iv_logo"
-            android:layout_alignParentRight="true"
-            android:paddingBottom="10dp"
-            android:paddingRight="10dp"
-            android:src="@mipmap/ic_recommend_add" />
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ir_iv_logo"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/ir_tv_name"
+
+            <ImageView
+                android:id="@+id/ir_iv_logo"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/ir_iv_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:lines="2"
-                android:textColor="@color/color_txt"
-                android:textSize="@dimen/s12p" />
-
-        </LinearLayout>
+                android:layout_alignBottom="@id/ir_iv_logo"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right|bottom"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:src="@mipmap/ic_recommend_add"/>
 
 
-    </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ir_iv_logo"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/ir_tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textColor="@color/color_txt"
+                    android:textSize="@dimen/s12p"/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

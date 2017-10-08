@@ -83,9 +83,9 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
             holder.item_sla_iv_top.setImageResource(R.color.trans);
         }
         if (TextUtils.isEmpty(rssList.get(position).getImg())) {
-            HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.item_sla_iv);
+            HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_image, holder.item_sla_iv);
         } else {
-            HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.item_sla_iv);
+            HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.item_sla_iv);
         }
 //        holder.item_sla_iv_top.setOnClickListener(new View.OnClickListener() {
 //            @Override

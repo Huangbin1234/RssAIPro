@@ -67,7 +67,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
             e.printStackTrace();
         }
         if (TextUtils.isEmpty(rssList.get(position).getImg())) {
-            HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.irs_iv_logo);
+            HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_image, holder.irs_iv_logo);
 //            holder.irs_iv_logo.setImageBitmap(ImageUtil.textAsBitmap(rssList.get(position).getName().substring(1,2),20));
 
         } else {

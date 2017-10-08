@@ -60,7 +60,12 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        HttpLoadImg.loadRoundImg(mContext, resList.get(position).getImg(), holder.ifm_iv_img);
+        if (!TextUtils.isEmpty(resList.get(position).getImg())) {
+            HttpLoadImg.loadImg(mContext, resList.get(position).getImg(), holder.ifm_iv_img);
+        } else {
+            HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_image, holder.ifm_iv_img);
+        }
+
         holder.ifm_tv_people.setText("订阅：" + resList.get(position).getCount());
         holder.ifm_tv_abstract.setText(resList.get(position).getAbstractContent());
         holder.ifm_tv_title.setText(resList.get(position).getName());

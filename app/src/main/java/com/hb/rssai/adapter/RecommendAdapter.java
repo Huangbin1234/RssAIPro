@@ -53,11 +53,18 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.ir_tv_name.setText(rssList.get(position).getName());
-        if (TextUtils.isEmpty(rssList.get(position).getImg())) {
-            HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.ir_iv_logo);
+//        if (TextUtils.isEmpty(rssList.get(position).getImg())) {
+//            HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.ir_iv_logo);
+//        } else {
+//            HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
+//        }
+        if (!TextUtils.isEmpty(rssList.get(position).getImg())) {
+            HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
         } else {
-            HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
+            HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_image, holder.ir_iv_logo);
         }
+
+
         if (rssList.get(position).isDeleteFlag()) {
             holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
         } else {

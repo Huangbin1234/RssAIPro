@@ -87,8 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@color/color_general_white"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp" />
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp" />
     </RelativeLayout>
 
     <LinearLayout

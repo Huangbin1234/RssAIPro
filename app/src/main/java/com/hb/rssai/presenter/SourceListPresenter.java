@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.hb.rssai.adapter.InfoAdapter;
+import com.hb.rssai.adapter.SourceListAdapter;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.T;
@@ -36,7 +36,7 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
 
     private int page = 1;
     private boolean isEnd = false, isLoad = false;
-    private InfoAdapter adapter;
+    private SourceListAdapter adapter;
     List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
 
     public SourceListPresenter(Context context, ISourceListView iSourceListView) {
@@ -132,7 +132,7 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
             if (resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
                 infoList.addAll(resInformation.getRetObj().getRows());
                 if (adapter == null) {
-                    adapter = new InfoAdapter(mContext, infoList);
+                    adapter = new SourceListAdapter(mContext, infoList);
                     mRecyclerView.setAdapter(adapter);
                 } else {
                     adapter.notifyDataSetChanged();

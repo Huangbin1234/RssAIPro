@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/irs_layout"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -11,28 +12,39 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/irs_iv_logo"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:scaleType="centerCrop"/>
-
-        <TextView
-            android:id="@+id/irs_tv_count"
+        <android.support.v7.widget.CardView
+            android:id="@+id/ir_cd_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/irs_iv_logo"
-            android:background="@color/bg_theme"
-            android:padding="5dp"
-            android:textColor="@color/white"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textSize="@dimen/s12p"/>
+            android:background="@drawable/ll_selector"
+            android:elevation="5dp"
+            app:cardCornerRadius="0dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/irs_iv_logo"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/irs_tv_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/irs_iv_logo"
+                android:layout_gravity="bottom"
+                android:background="@color/bg_theme"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/s12p"/>
+        </android.support.v7.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/irs_iv_logo"
+            android:layout_below="@id/ir_cd_logo"
             android:orientation="vertical">
 
             <TextView
