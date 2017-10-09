@@ -140,7 +140,12 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
                     cardAdapter.notifyDataSetChanged();
                 }
             }
-            if (infoListCard.size() == resCardSubscribe.getRetObj().getTotal()) {
+            int sum = 0;
+            for (List<ResCardSubscribe.RetObjBean.RowsBean> rBean : infoListCard) {
+                sum += rBean.size();
+            }
+
+            if (sum >= resCardSubscribe.getRetObj().getTotal()) {
                 isEnd = true;
             }
         } else {

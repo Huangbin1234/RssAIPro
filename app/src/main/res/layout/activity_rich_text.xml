@@ -7,10 +7,7 @@
               android:orientation="vertical">
 
     <include layout="@layout/include_content_toolbar"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/color_general_line"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

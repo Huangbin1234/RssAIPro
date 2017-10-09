@@ -74,6 +74,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         int len = rssList.get(position).size();
+        System.out.println("===========>" + len);
         if (len >= 1) {
             holder.irl_tv_top.setText(rssList.get(position).get(0).getTitle());
             holder.irl_top_rl.setOnClickListener(new View.OnClickListener() {
