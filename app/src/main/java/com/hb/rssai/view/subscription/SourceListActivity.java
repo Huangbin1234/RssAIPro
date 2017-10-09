@@ -59,7 +59,8 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        initData();
-        ((SourceListPresenter) mPresenter).getListById();
+//        ((SourceListPresenter) mPresenter).getListById();
+        ((SourceListPresenter) mPresenter).refreshList();
     }
 
     private void initData() {

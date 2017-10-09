@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.hb.rssai.adapter.SourceListAdapter;
+import com.hb.rssai.adapter.SourceListNewAdapter;
+import com.hb.rssai.bean.ResCardSubscribe;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.T;
@@ -38,6 +40,8 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
     private boolean isEnd = false, isLoad = false;
     private SourceListAdapter adapter;
     List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
+    List<List<ResCardSubscribe.RetObjBean.RowsBean>> infoListCard = new ArrayList<>();
+    private SourceListNewAdapter cardAdapter;
 
     public SourceListPresenter(Context context, ISourceListView iSourceListView) {
         mContext = context;
@@ -59,18 +63,19 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (adapter == null) {
+                if (cardAdapter == null) {
                     isLoad = false;
                     mSwipeRefreshLayout.setRefreshing(false);
                     return;
                 }
                 // 在最后两条的时候就自动加载
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= adapter.getItemCount()) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= cardAdapter.getItemCount()) {
                     // 加载更多
                     if (!isEnd && !isLoad) {
                         mSwipeRefreshLayout.setRefreshing(true);
                         page++;
-                        getListById();
+//                        getListById();
+                        getListCardById();
                     }
                 }
             }
@@ -93,8 +98,12 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
         if (infoList != null) {
             infoList.clear();
         }
+        if (infoListCard != null) {
+            infoListCard.clear();
+        }
         mSwipeRefreshLayout.setRefreshing(true);
-        getListById();
+//        getListById();
+        getListCardById();
     }
 
     public void getListById() {
@@ -104,6 +113,39 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
                 .subscribe(resInformation -> {
                     setListResult(resInformation);
                 }, this::loadError);
+    }
+
+    public void getListCardById() {
+        informationApi.listCardById(getListParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resCardSubscribe -> {
+                    setListCardResult(resCardSubscribe);
+                }, this::loadError);
+    }
+
+    private void setListCardResult(ResCardSubscribe resCardSubscribe) {
+        //TODO 填充数据
+        mLlLoad.setVisibility(View.GONE);
+        isLoad = false;
+        mSwipeRefreshLayout.setRefreshing(false);
+        //TODO 填充数据
+        if (resCardSubscribe.getRetCode() == 0) {
+            if (resCardSubscribe.getRetObj().getRows() != null && resCardSubscribe.getRetObj().getRows().size() > 0) {
+                infoListCard.addAll(resCardSubscribe.getRetObj().getRows());
+                if (cardAdapter == null) {
+                    cardAdapter = new SourceListNewAdapter(mContext, infoListCard);
+                    mRecyclerView.setAdapter(cardAdapter);
+                } else {
+                    cardAdapter.notifyDataSetChanged();
+                }
+            }
+            if (infoListCard.size() == resCardSubscribe.getRetObj().getTotal()) {
+                isEnd = true;
+            }
+        } else {
+            T.ShowToast(mContext, resCardSubscribe.getRetMsg());
+        }
     }
 
     private Map<String, String> getListParams() {

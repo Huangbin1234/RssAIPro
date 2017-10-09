@@ -1,24 +1,19 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="10dp"
-              android:orientation="vertical">
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginLeft="10dp"--><!--android:layout_marginRight="10dp"--><!--android:orientation="vertical">-->
 
 
-    <!--<android.support.v7.widget.CardView-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:id="@+id/item_na_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginBottom="1px"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:layout_marginRight="10dp"-->
-    <!--android:background="@drawable/ll_selector"-->
-    <!--android:elevation="4dp"-->
-    <!--android:orientation="vertical"-->
-    <!--android:paddingLeft="10dp"-->
-    <!--android:paddingRight="10dp">-->
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_na_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1px"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/ll_selector"
+    android:elevation="4dp"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <LinearLayout
 
@@ -30,7 +25,6 @@
             android:id="@+id/irl_top_rl"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <ImageView
@@ -39,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:backgroundTintMode="src_in"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_place"/>
+                android:src="@mipmap/ic_place" />
 
             <TextView
                 android:id="@+id/irl_tv_top"
@@ -49,7 +43,7 @@
                 android:background="@color/bg_theme"
                 android:padding="5dp"
                 android:textColor="@color/white"
-                android:textSize="@dimen/s14p"/>
+                android:textSize="@dimen/s14p" />
         </RelativeLayout>
 
         <LinearLayout
@@ -61,8 +55,8 @@
                 android:id="@+id/irl_top_ll1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:background="@drawable/ll_selector"
+                android:clickable="true"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
@@ -71,22 +65,21 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_place"/>
+                    android:src="@mipmap/ic_place" />
 
                 <TextView
                     android:id="@+id/irl_tv_top1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/s14p"
-                    />
+                    android:textSize="@dimen/s14p" />
             </LinearLayout>
 
             <View
                 android:id="@+id/irl_view_line_2"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line"/>
+                android:background="@color/color_general_line" />
 
             <LinearLayout
                 android:id="@+id/irl_top_ll2"
@@ -102,15 +95,14 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_place"/>
+                    android:src="@mipmap/ic_place" />
 
                 <TextView
                     android:id="@+id/irl_tv_top2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/s14p"
-                    />
+                    android:textSize="@dimen/s14p" />
             </LinearLayout>
 
             <View
@@ -118,14 +110,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
 
-                android:background="@color/color_general_line"/>
+                android:background="@color/color_general_line" />
 
             <LinearLayout
                 android:id="@+id/irl_top_ll3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:background="@drawable/ll_selector"
+                android:clickable="true"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
@@ -134,29 +126,28 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_place"/>
+                    android:src="@mipmap/ic_place" />
 
                 <TextView
                     android:id="@+id/irl_tv_top3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/s14p"
-                    />
+                    android:textSize="@dimen/s14p" />
             </LinearLayout>
 
             <View
                 android:id="@+id/irl_view_line_4"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line"/>
+                android:background="@color/color_general_line" />
 
             <LinearLayout
                 android:id="@+id/irl_top_ll4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:background="@drawable/ll_selector"
+                android:clickable="true"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
@@ -165,18 +156,18 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_place"/>
+                    android:src="@mipmap/ic_place" />
 
                 <TextView
                     android:id="@+id/irl_tv_top4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/s14p"/>
+                    android:textSize="@dimen/s14p" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
 
-</LinearLayout>
-    <!--</android.support.v7.widget.CardView>-->
+    <!--</LinearLayout>-->
+</android.support.v7.widget.CardView>
