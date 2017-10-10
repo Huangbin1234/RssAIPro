@@ -1,5 +1,6 @@
 package com.hb.rssai.view.iView;
 
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,8 @@ public interface ISourceListView {
     RecyclerView getRecyclerView();
 
     SwipeRefreshLayout getSwipeLayout();
+
+    NestedScrollView getNestLayout();
 
     LinearLayoutManager getManager();
 

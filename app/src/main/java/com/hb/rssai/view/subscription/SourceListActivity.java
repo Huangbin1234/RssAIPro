@@ -1,23 +1,35 @@
 package com.hb.rssai.view.subscription;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssListAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.SourceListPresenter;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.RssDataSourceUtil;
 import com.hb.rssai.view.iView.ISourceListView;
 import com.hb.rssai.view.widget.PrgDialog;
@@ -28,12 +40,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class SourceListActivity extends BaseActivity implements ISourceListView {
 
     public static final String KEY_LINK = "rssLink";
     public static final String KEY_TITLE = "rssTitle";
     public static String KEY_SUBSCRIBE_ID = "subscribeId";
+    public static String KEY_IMAGE = "image_url";
+    public static String KEY_DESC = "desc";
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
     @BindView(R.id.sys_toolbar)
@@ -46,14 +61,31 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     RecyclerView mSlaRecyclerView;
     @BindView(R.id.sla_swipe_layout)
     SwipeRefreshLayout mSlaSwipeLayout;
+
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.sla_iv_logo)
+    ImageView mSlaIvLogo;
+    @BindView(R.id.sla_nest_view)
+    NestedScrollView mSlaNestView;
+    @BindView(R.id.sla_iv_to_bg)
+    ImageView mSlaIvToBg;
+    @BindView(R.id.sla_tv_title)
+    TextView mSlaTvTitle;
+    @BindView(R.id.sla_tv_desc)
+    TextView mSlaTvDesc;
+
+
     private LinearLayoutManager mLayoutManager;
-//    private GridLayoutManager mLayoutManager;
+    //    private GridLayoutManager mLayoutManager;
     private String linkValue;
     private ArrayList<RSSItemBean> rssList = new ArrayList<>();
     private PrgDialog slaDialog;
     RssListAdapter rssListAdapter;
     private String titleValue = "";
     private String subscribeId = "";
+    private String imageLogo = "";
+    private String desc = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +102,13 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
 
     @Override
     protected void initView() {
-        mSysTvTitle.setText(titleValue);
+//        mSysTvTitle.setText(titleValue);
 
         mLayoutManager = new LinearLayoutManager(this);
 //        mLayoutManager = new GridLayoutManager(this,2);
         mSlaRecyclerView.setLayoutManager(mLayoutManager);
+        mSlaRecyclerView.setHasFixedSize(true);
+        mSlaRecyclerView.setNestedScrollingEnabled(false);
         mSlaSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1,
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSlaSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
@@ -93,7 +127,27 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
             linkValue = bundle.getString(KEY_LINK, "");
             titleValue = bundle.getString(KEY_TITLE, "");
             subscribeId = bundle.getString(KEY_SUBSCRIBE_ID, "");
+            imageLogo = bundle.getString(KEY_IMAGE, "");
+            desc = bundle.getString(KEY_DESC, "");
         }
+        HttpLoadImg.loadImg(this, imageLogo, mSlaIvLogo);
+        Glide.with(this).load(imageLogo).bitmapTransform(new BlurTransformation(this, 20, 2), new CenterCrop(this)).into(mSlaIvToBg);
+
+//        Glide.with(this).load(imageLogo).asBitmap().into(new SimpleTarget<Bitmap>() {
+//            @Override
+//            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                BitmapDrawable bd = new BitmapDrawable(resource);
+//                mSysToolbar.setBackground(bd);
+//            }
+//        });
+        mSysTvTitle.setText(titleValue);
+//        mSlaTvTitle.setText(titleValue);
+        mSlaTvDesc.setText(desc);
+        mCollapsingToolbarLayout.setCollapsedTitleGravity(Gravity.LEFT);//设置收缩后标题的位置
+        mCollapsingToolbarLayout.setExpandedTitleGravity(Gravity.LEFT);////设置展开后标题的位置
+        mCollapsingToolbarLayout.setTitle(titleValue);
+        mCollapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+        mCollapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
     }
 
     @Override
@@ -105,6 +159,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
             actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
             actionBar.setDisplayShowTitleEnabled(false);
         }
+        // mSlaIvLogo.setImageResource(R.mipmap.ic_place);
     }
 
     @Override
@@ -132,6 +187,11 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     @Override
     public RecyclerView getRecyclerView() {
         return mSlaRecyclerView;
+    }
+
+    @Override
+    public NestedScrollView getNestLayout() {
+        return mSlaNestView;
     }
 
     @Override

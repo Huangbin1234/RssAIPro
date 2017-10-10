@@ -15,12 +15,14 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResCardSubscribe;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -76,6 +78,11 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
         int len = rssList.get(position).size();
         System.out.println("===========>" + len);
         if (len >= 1) {
+            try {
+                holder.irl_tv_top_time.setText(DateUtil.showDate(sdf.parse(rssList.get(position).get(0).getPubTime()), longDatePat));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             holder.irl_tv_top.setText(rssList.get(position).get(0).getTitle());
             holder.irl_top_rl.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,7 +93,11 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
             images = TextUtils.isEmpty(rssList.get(position).get(0).getImageUrls()) ? null : rssList.get(position).get(0).getImageUrls().split(",");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top);
+            } else {
+                holder.irl_iv_top.setVisibility(View.GONE);
             }
+        } else {
+            holder.irl_top_rl.setVisibility(View.GONE);
         }
         if (len >= 2) {
             holder.irl_tv_top1.setText(rssList.get(position).get(1).getTitle());
@@ -99,7 +110,11 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
             images = TextUtils.isEmpty(rssList.get(position).get(1).getImageUrls()) ? null : rssList.get(position).get(1).getImageUrls().split(",");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top1);
+            } else {
+                holder.irl_iv_top1.setVisibility(View.GONE);
             }
+        } else {
+            holder.irl_top_ll1.setVisibility(View.GONE);
         }
         if (len >= 3) {
             holder.irl_tv_top2.setText(rssList.get(position).get(2).getTitle());
@@ -112,7 +127,11 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
             images = TextUtils.isEmpty(rssList.get(position).get(2).getImageUrls()) ? null : rssList.get(position).get(2).getImageUrls().split(",");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top2);
+            } else {
+                holder.irl_iv_top2.setVisibility(View.GONE);
             }
+        } else {
+            holder.irl_top_ll2.setVisibility(View.GONE);
         }
         if (len >= 4) {
             holder.irl_tv_top3.setText(rssList.get(position).get(3).getTitle());
@@ -125,7 +144,11 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
             images = TextUtils.isEmpty(rssList.get(position).get(3).getImageUrls()) ? null : rssList.get(position).get(3).getImageUrls().split(",");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top3);
+            } else {
+                holder.irl_iv_top3.setVisibility(View.GONE);
             }
+        } else {
+            holder.irl_top_ll3.setVisibility(View.GONE);
         }
         if (len >= 5) {
             holder.irl_tv_top4.setText(rssList.get(position).get(4).getTitle());
@@ -138,7 +161,11 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
             images = TextUtils.isEmpty(rssList.get(position).get(4).getImageUrls()) ? null : rssList.get(position).get(4).getImageUrls().split(",");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top4);
+            } else {
+                holder.irl_iv_top4.setVisibility(View.GONE);
             }
+        } else {
+            holder.irl_top_ll4.setVisibility(View.GONE);
         }
     }
 
@@ -157,6 +184,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
         TextView irl_tv_top2;
         TextView irl_tv_top1;
         TextView irl_tv_top;
+        TextView irl_tv_top_time;
 
         ImageView irl_iv_top4;
         ImageView irl_iv_top3;
@@ -186,6 +214,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
             irl_tv_top2 = (TextView) itemView.findViewById(R.id.irl_tv_top2);
             irl_tv_top1 = (TextView) itemView.findViewById(R.id.irl_tv_top1);
             irl_tv_top = (TextView) itemView.findViewById(R.id.irl_tv_top);
+            irl_tv_top_time = (TextView) itemView.findViewById(R.id.irl_tv_top_time);
 
             irl_iv_top4 = (ImageView) itemView.findViewById(R.id.irl_iv_top4);
             irl_iv_top3 = (ImageView) itemView.findViewById(R.id.irl_iv_top3);

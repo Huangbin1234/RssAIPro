@@ -1,23 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<android.support.v7.widget.CardView-->
-<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--android:id="@+id/cardView"-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="100dp"-->
-<!--android:layout_marginBottom="8dp"-->
-<!--android:layout_marginLeft="10dp"-->
-<!--android:layout_marginRight="10dp"-->
-<!--android:layout_marginTop="8dp"-->
-<!--android:clickable="true"-->
-<!--android:focusable="true"-->
-<!--app:cardElevation="3dp"-->
-<!--app:cardCornerRadius="3dp"-->
-<!--android:foreground="?android:attr/selectableItemBackground"-->
-<!--android:paddingRight="16dp"  >-->
-<!---->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<android.support.v7.widget.CardView--><!--xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/cardView"--><!--android:layout_width="match_parent"--><!--android:layout_height="100dp"--><!--android:layout_marginBottom="8dp"--><!--android:layout_marginLeft="10dp"--><!--android:layout_marginRight="10dp"--><!--android:layout_marginTop="8dp"--><!--android:clickable="true"--><!--android:focusable="true"--><!--app:cardElevation="3dp"--><!--app:cardCornerRadius="3dp"--><!--android:foreground="?android:attr/selectableItemBackground"--><!--android:paddingRight="16dp"  >--><!---->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -34,28 +17,29 @@
             android:id="@+id/ir_cd_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ll_selector"
-            android:elevation="5dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:orientation="vertical">
+            android:background="@drawable/ll_selector"
+            android:elevation="5dp"
+            android:orientation="vertical"
+            app:cardElevation="2dp">
 
             <ImageView
                 android:id="@+id/item_sla_iv"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
         </android.support.v7.widget.CardView>
 
         <RelativeLayout
-            android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="11dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/item_sla_tv_name"
@@ -63,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:textColor="@color/color_list_txt"
-                android:textSize="@dimen/s16p"/>
+                android:textSize="@dimen/s16p" />
 
             <TextView
                 android:id="@+id/item_sla_tv_count"
@@ -72,7 +56,7 @@
                 android:layout_below="@id/item_sla_tv_name"
                 android:layout_marginTop="10dp"
                 android:textColor="#9c9c9c"
-                android:textSize="@dimen/s12p"/>
+                android:textSize="@dimen/s12p" />
 
             <TextView
                 android:id="@+id/item_sla_tv_date"
@@ -81,7 +65,7 @@
                 android:layout_alignBottom="@id/item_sla_tv_count"
                 android:layout_toRightOf="@id/item_sla_tv_count"
                 android:textColor="#9c9c9c"
-                android:textSize="@dimen/s12p"/>
+                android:textSize="@dimen/s12p" />
 
         </RelativeLayout>
 
@@ -97,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_list_more"/>
+                android:src="@mipmap/ic_list_more" />
         </LinearLayout>
 
     </LinearLayout>
@@ -108,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="11dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -119,17 +103,15 @@
             android:layout_alignLeft="@id/item_sla_iv_menu"
             android:layout_alignRight="@id/item_sla_iv_menu"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_top_tag"
-            />
+            android:src="@mipmap/ic_top_tag" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_list_more"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
     </LinearLayout>
 
 
-</RelativeLayout>
-    <!--</android.support.v7.widget.CardView>-->
+</RelativeLayout><!--</android.support.v7.widget.CardView>-->

@@ -1,6 +1,7 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +43,7 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
     List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
     List<List<ResCardSubscribe.RetObjBean.RowsBean>> infoListCard = new ArrayList<>();
     private SourceListNewAdapter cardAdapter;
+    private NestedScrollView mNestView;
 
     public SourceListPresenter(Context context, ISourceListView iSourceListView) {
         mContext = context;
@@ -52,40 +54,64 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
     private void initView() {
         mRecyclerView = iSourceListView.getRecyclerView();
         mSwipeRefreshLayout = iSourceListView.getSwipeLayout();
+        mNestView = iSourceListView.getNestLayout();
         mLinearLayoutManager = iSourceListView.getManager();
         mLlLoad = iSourceListView.getLlLoad();
 
+
+
         mSwipeRefreshLayout.setOnRefreshListener(() -> refreshList());
         //TODO 设置上拉加载更多
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem;
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            int lastVisibleItem;
+//
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (cardAdapter == null) {
+//                    isLoad = false;
+////                    mSwipeRefreshLayout.setRefreshing(false);
+//                    return;
+//                }
+//                // 在最后两条的时候就自动加载
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= cardAdapter.getItemCount()) {
+//                    // 加载更多
+//                    if (!isEnd && !isLoad) {
+////                        mSwipeRefreshLayout.setRefreshing(true);
+//                        page++;
+////                        getListById();
+//                        getListCardById();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
+//            }
+//        });
 
+        mNestView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (cardAdapter == null) {
-                    isLoad = false;
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    return;
-                }
-                // 在最后两条的时候就自动加载
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= cardAdapter.getItemCount()) {
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                if (v.getChildAt(0) != null && isBottomForNestedScrollView(v, scrollY)) {
                     // 加载更多
                     if (!isEnd && !isLoad) {
                         mSwipeRefreshLayout.setRefreshing(true);
                         page++;
-//                        getListById();
                         getListCardById();
                     }
                 }
             }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
-            }
         });
+    }
+
+
+    // TODO: 判断是不是在底部
+    private boolean isBottomForNestedScrollView(NestedScrollView v, int scrollY) {
+        return (scrollY + v.getHeight()) == (v.getChildAt(0).getHeight() + v.getPaddingTop() + v.getPaddingBottom());
     }
 
     /**

@@ -110,6 +110,8 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
                         intent.putExtra(SourceListActivity.KEY_LINK, rowsBean1.getLink());
                         intent.putExtra(SourceListActivity.KEY_TITLE, rowsBean1.getName());
                         intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
+                        intent.putExtra(SourceListActivity.KEY_IMAGE, rowsBean1.getImg());
+                        intent.putExtra(SourceListActivity.KEY_DESC, rowsBean1.getAbstractContent());
                         mContext.startActivity(intent);
                     });
                     findMoreAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {
