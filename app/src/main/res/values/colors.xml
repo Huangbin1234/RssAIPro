@@ -68,6 +68,7 @@
     <color name="color_big_label">#212121</color>
 
     <color name="bg_theme">#71464847</color>
+    <color name="bg_top">#711b1b1b</color>
     <color name="text_color_new">#5C5C5C</color>
     <color name="color_general_white">#FFFFFF</color>
     <color name="rich_toolbar_bg">#FFFFFF</color>

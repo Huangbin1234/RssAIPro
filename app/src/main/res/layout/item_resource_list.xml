@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/irl_iv_top"
-                    android:background="@color/bg_theme"
+                    android:background="@color/bg_top"
                     android:padding="10dp"
                     android:textColor="@color/white"
                     android:textSize="@dimen/s16p" />
