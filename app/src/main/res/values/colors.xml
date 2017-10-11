@@ -79,5 +79,6 @@
     <color name="color_iv_bg">#F7F7F7</color>
     <color name="color_list_txt">#4a4b4d</color>
     <color name="color_tab_layout">#E75356</color>
+    <color name="color_mine_txt">#8a8a8a</color>
 
 </resources>
