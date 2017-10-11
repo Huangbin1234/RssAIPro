@@ -130,7 +130,7 @@
             android:exported="true"></service>
 
         <activity
-            android:name=".view.common.TestNavActivity"
+            android:name=".view.IndexNavActivity"
             android:label="@string/title_activity_test_nav">
 
         </activity>

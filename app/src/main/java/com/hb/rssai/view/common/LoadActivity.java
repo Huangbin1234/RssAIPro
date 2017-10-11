@@ -17,11 +17,9 @@ import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.MainActivity;
+import com.hb.rssai.view.IndexNavActivity;
 import com.hb.update.UpdateManager;
 import com.hb.util.SharedPreferencesUtil;
-
-import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,7 +59,7 @@ public class LoadActivity extends AppCompatActivity  implements InitUpdateInterf
             T.ShowToast(mContext, Constant.FAILED_NETWORK);
             //弹出更新对话框
 //            startActivity(new Intent(LoadActivity.this, MainActivity.class));
-            startActivity(new Intent(LoadActivity.this, TestNavActivity.class));
+            startActivity(new Intent(LoadActivity.this, IndexNavActivity.class));
             finishAct();
         }
     }
@@ -129,7 +127,7 @@ public class LoadActivity extends AppCompatActivity  implements InitUpdateInterf
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
 //                startActivity(new Intent(LoadActivity.this, MainActivity.class));
-                startActivity(new Intent(LoadActivity.this, TestNavActivity.class));
+                startActivity(new Intent(LoadActivity.this, IndexNavActivity.class));
                 finishAct();
             }
         }

@@ -1,4 +1,4 @@
-package com.hb.rssai.view.common;
+package com.hb.rssai.view;
 
 import android.Manifest;
 import android.content.Context;
@@ -39,7 +39,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 
-public class TestNavActivity extends BaseActivity implements HomeFragment.OnFragmentInteractionListener, SubscriptionFragment.OnFragmentInteractionListener, MineFragment.OnFragmentInteractionListener, FindFragment.OnFragmentInteractionListener {
+public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFragmentInteractionListener, SubscriptionFragment.OnFragmentInteractionListener, MineFragment.OnFragmentInteractionListener, FindFragment.OnFragmentInteractionListener {
 
 
     @BindView(R.id.ma_frame_layout)
@@ -151,7 +151,7 @@ public class TestNavActivity extends BaseActivity implements HomeFragment.OnFrag
 
     @Override
     protected int providerContentViewId() {
-        return R.layout.activity_test_nav;
+        return R.layout.activity_index_nav;
     }
 
     @Override

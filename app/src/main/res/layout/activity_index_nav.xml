@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     style="@style/title_all"
-    tools:context="com.hb.rssai.view.common.TestNavActivity">
+    tools:context="com.hb.rssai.view.IndexNavActivity">
 
     <FrameLayout
         android:id="@+id/ma_frame_layout"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/main_bottom_bg"
         app:menu="@menu/navigation" />
 
 </LinearLayout>
