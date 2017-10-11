@@ -9,11 +9,12 @@
     <LinearLayout
         android:id="@+id/main_bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:background="@color/main_bottom_bg"
         android:orientation="horizontal"
-        android:paddingTop="3dp">
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp">
 
         <LinearLayout
             android:id="@+id/main_bottom_layout_home"
@@ -25,16 +26,16 @@
 
             <ImageView
                 android:id="@+id/main_bottom_home_iv"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@mipmap/main_home" />
 
             <TextView
                 android:id="@+id/main_bottom_home_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:gravity="bottom|center_horizontal"
                 android:text="@string/str_main_home"
                 android:textSize="@dimen/s12p" />
         </LinearLayout>
@@ -49,16 +50,16 @@
 
             <ImageView
                 android:id="@+id/main_bottom_subscription_iv"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@mipmap/main_subscription" />
 
             <TextView
                 android:id="@+id/main_bottom_subscription_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:gravity="bottom|center_horizontal"
                 android:text="@string/str_main_subscription"
                 android:textSize="@dimen/s12p" />
         </LinearLayout>
@@ -73,16 +74,16 @@
 
             <ImageView
                 android:id="@+id/main_bottom_find_iv"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@mipmap/main_find" />
 
             <TextView
                 android:id="@+id/main_bottom_find_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:gravity="bottom|center_horizontal"
                 android:text="@string/str_main_find"
                 android:textSize="@dimen/s12p" />
         </LinearLayout>
@@ -98,16 +99,16 @@
 
             <ImageView
                 android:id="@+id/main_bottom_mine_iv"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@mipmap/main_user_male" />
 
             <TextView
                 android:id="@+id/main_bottom_mine_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:gravity="bottom|center_horizontal"
                 android:text="@string/str_main_mine"
                 android:textSize="@dimen/s12p" />
         </LinearLayout>

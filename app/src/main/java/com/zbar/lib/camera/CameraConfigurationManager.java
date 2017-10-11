@@ -235,7 +235,7 @@ final class CameraConfigurationManager {
 			}
 		}
 
-		// Set zoom. This helps encourage the user to pull back.
+		// Set zoom. This helps encourage the ic_user_black_24dp to pull back.
 		// Some devices like the Behold have a zoom parameter
 		if (maxZoomString != null || motZoomValuesString != null) {
 			parameters.set("zoom", String.valueOf(tenDesiredZoom / 10.0));

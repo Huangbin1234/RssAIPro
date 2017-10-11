@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="240dp"
         android:fitsSystemWindows="true">
 
         <!--<android.support.design.widget.CollapsingToolbarLayout-->
@@ -89,8 +89,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
-                    android:elevation="5dp"
-                    app:cardElevation="5dp">
+                    android:elevation="4dp"
+                    app:cardElevation="4dp">
 
                     <ImageView
                         android:id="@+id/sla_iv_logo"
@@ -159,7 +159,6 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/sla_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="6dp"
                     android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

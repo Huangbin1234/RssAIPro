@@ -195,11 +195,11 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
         mFullyGridLayoutManagerTopic = new FullyGridLayoutManager(getContext(), 3);
         mSfRecyclerViewTopic.setLayoutManager(mFullyGridLayoutManagerTopic);
 
-        mSfRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DisplayUtil.dip2px(getContext(), 10), false));
+        mSfRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DisplayUtil.dip2px(getContext(), 2), false));
         mSfRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mSfRecyclerView.setHasFixedSize(true);
 
-        mSfRecyclerViewTopic.addItemDecoration(new GridSpacingItemDecoration(3, DisplayUtil.dip2px(getContext(), 10), false));
+        mSfRecyclerViewTopic.addItemDecoration(new GridSpacingItemDecoration(3, DisplayUtil.dip2px(getContext(), 2), false));
         mSfRecyclerViewTopic.setNestedScrollingEnabled(false);//解决卡顿
         mSfRecyclerViewTopic.setHasFixedSize(true);
 

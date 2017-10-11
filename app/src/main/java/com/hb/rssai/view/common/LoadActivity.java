@@ -60,7 +60,8 @@ public class LoadActivity extends AppCompatActivity  implements InitUpdateInterf
             Log.d("GeneralUpdateLib", "Network connection failed, pleaseheck the network.");
             T.ShowToast(mContext, Constant.FAILED_NETWORK);
             //弹出更新对话框
-            startActivity(new Intent(LoadActivity.this, MainActivity.class));
+//            startActivity(new Intent(LoadActivity.this, MainActivity.class));
+            startActivity(new Intent(LoadActivity.this, TestNavActivity.class));
             finishAct();
         }
     }
@@ -127,7 +128,8 @@ public class LoadActivity extends AppCompatActivity  implements InitUpdateInterf
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
-                startActivity(new Intent(LoadActivity.this, MainActivity.class));
+//                startActivity(new Intent(LoadActivity.this, MainActivity.class));
+                startActivity(new Intent(LoadActivity.this, TestNavActivity.class));
                 finishAct();
             }
         }

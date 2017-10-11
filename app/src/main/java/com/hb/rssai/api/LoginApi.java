@@ -22,22 +22,22 @@ import rx.Observable;
 
 public interface LoginApi {
     @FormUrlEncoded
-    @POST("user/login")
+    @POST("ic_user_black_24dp/login")
     Observable<ResLogin> doLogin(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
-    @POST("user/register")
+    @POST("ic_user_black_24dp/register")
     Observable<ResBase> register(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
-    @POST("user/getUserInfo")
+    @POST("ic_user_black_24dp/getUserInfo")
     Observable<ResUser> getUserInfo(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
-    @POST("user/update")
+    @POST("ic_user_black_24dp/update")
     Observable<ResUser> update(@FieldMap Map<String, String> params);
 
     @Multipart
-    @POST("user/upload")
+    @POST("ic_user_black_24dp/upload")
     Observable<ResBase> upload(@Part List<MultipartBody.Part> partList);
 }

@@ -273,8 +273,8 @@ public class HandleUtil {
 
     /**
      * Determines if the cropper should focus on the center handle or the side
-     * handles. If it is a small image, focus on the center handle so the user
-     * can move it. If it is a large image, focus on the side handles so user
+     * handles. If it is a small image, focus on the center handle so the ic_user_black_24dp
+     * can move it. If it is a large image, focus on the side handles so ic_user_black_24dp
      * can grab them. Corresponds to the appearance of the
      * RuleOfThirdsGuidelines.
      * 

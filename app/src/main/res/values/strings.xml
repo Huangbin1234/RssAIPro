@@ -191,5 +191,10 @@
     <string name="str_pop_local">本地上传</string>
     <string name="str_la_btn_offline">离线下载</string>
     <string name="str_offline_title">离线下载</string>
+    <string name="title_activity_test_nav">TestNavActivity</string>
+    <string name="title_home">资讯</string>
+    <string name="title_subscribe">订阅</string>
+    <string name="title_find">发现</string>
+    <string name="title_mine">我的</string>
 
 </resources>

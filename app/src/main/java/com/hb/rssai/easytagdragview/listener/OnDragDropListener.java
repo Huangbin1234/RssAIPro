@@ -17,7 +17,7 @@ public interface OnDragDropListener {
     void onDragStarted(int x, int y, View view);
 
     /**
-     * Called when a drag is in progress and the user moves the dragged contact to a
+     * Called when a drag is in progress and the ic_user_black_24dp moves the dragged contact to a
      * location.
      *
      * @param x X-coordinate of the drag event
@@ -36,7 +36,7 @@ public interface OnDragDropListener {
     void onDragFinished(int x, int y);
 
     /**
-     * Called when a tile view has been dropped on the remove view, indicating that the user
+     * Called when a tile view has been dropped on the remove view, indicating that the ic_user_black_24dp
      * wants to remove this contact.
      */
     void onDroppedOnRemove();
