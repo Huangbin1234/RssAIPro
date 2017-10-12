@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/title_all"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar"/>
+    <include layout="@layout/include_sub_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,18 +28,18 @@
                 <TextView
                     style="@style/TextLabel"
                     android:layout_centerVertical="true"
-                    android:text="@string/str_sa_change_source"/>
+                    android:text="@string/str_sa_change_source" />
 
                 <Switch
                     android:id="@+id/sa_sw_change_source"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_day_night"
@@ -49,7 +49,7 @@
                 <TextView
                     style="@style/TextLabel"
                     android:layout_centerVertical="true"
-                    android:text="@string/str_sa_day_night"/>
+                    android:text="@string/str_sa_day_night" />
 
                 <Switch
                     android:id="@+id/sa_sw_day_night"
@@ -57,11 +57,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_opr_image"
@@ -71,7 +71,7 @@
                 <TextView
                     style="@style/TextLabel"
                     android:layout_centerVertical="true"
-                    android:text="@string/str_sa_opr_image"/>
+                    android:text="@string/str_sa_opr_image" />
 
                 <Switch
                     android:id="@+id/sa_sw_no_image"
@@ -79,14 +79,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:checked="true"/>
+                    android:checked="true" />
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <View
                 style="@style/view_line_h"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_share"
@@ -95,11 +95,11 @@
 
                 <TextView
                     style="@style/TextLabel"
-                    android:text="@string/str_sa_share"/>
+                    android:text="@string/str_sa_share" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_advice"
@@ -108,11 +108,11 @@
 
                 <TextView
                     style="@style/TextLabel"
-                    android:text="@string/str_sa_advice"/>
+                    android:text="@string/str_sa_advice" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_update"
@@ -121,7 +121,7 @@
 
                 <TextView
                     style="@style/TextLabel"
-                    android:text="@string/str_sa_update"/>
+                    android:text="@string/str_sa_update" />
 
                 <TextView
                     android:id="@+id/sa_tv_ver"
@@ -130,24 +130,24 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:textColor="#9c9c9c"
-                    android:textSize="@dimen/s12p"/>
+                    android:textSize="@dimen/s12p" />
 
                 <TextView
                     android:id="@+id/sa_tv_ver_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/sa_tv_ver"
                     android:background="@drawable/round_msg_corner"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="6sp" />
+                    android:textSize="6sp"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_about"
@@ -156,11 +156,11 @@
 
                 <TextView
                     style="@style/TextLabel"
-                    android:text="@string/str_sa_about"/>
+                    android:text="@string/str_sa_about" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
         </LinearLayout>
     </LinearLayout>
