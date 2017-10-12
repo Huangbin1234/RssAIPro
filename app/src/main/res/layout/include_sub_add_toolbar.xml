@@ -18,7 +18,7 @@
             android:layout_marginLeft="16dp"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/s16p" />
+            android:textSize="@dimen/s18p" />
 
         <ImageView
             android:id="@+id/sys_iv_add"

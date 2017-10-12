@@ -98,7 +98,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else if (dateFrom == 1) {
             mSaSwChangeSource.setChecked(true);
         }
-        boolean isLoadImage = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_LOAD_IMAGE, true);
+        boolean isLoadImage = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_LOAD_IMAGE, false);
         if (isLoadImage) {
             mSaSwNoImage.setChecked(true);
         } else {

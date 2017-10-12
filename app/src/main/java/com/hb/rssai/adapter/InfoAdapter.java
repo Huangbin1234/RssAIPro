@@ -45,7 +45,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
-        isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE, true);
+        isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE, false);
     }
 
     @Override
@@ -73,13 +73,12 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                 }
 
                 if (isLoadImage) {
+                    holder.item_na_group_ll.setVisibility(View.GONE);
+                } else {
                     holder.item_na_group_ll.setVisibility(View.VISIBLE);
                     HttpLoadImg.loadImg(mContext, images[0], holder.item_na_group_a);
                     HttpLoadImg.loadImg(mContext, images[1], holder.item_na_group_b);
                     HttpLoadImg.loadImg(mContext, images[2], holder.item_na_group_c);
-
-                } else {
-                    holder.item_na_group_ll.setVisibility(View.GONE);
                 }
             } else {
                 holder.item_na_group_ll.setVisibility(View.GONE);
@@ -95,10 +94,11 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                 }
 
                 if (isLoadImage) {
+                    holder.item_na_img.setVisibility(View.GONE);
+                } else {
+
                     holder.item_na_img.setVisibility(View.VISIBLE);
                     HttpLoadImg.loadImg(mContext, images[0], holder.item_na_img);
-                } else {
-                    holder.item_na_img.setVisibility(View.GONE);
                 }
 
             }

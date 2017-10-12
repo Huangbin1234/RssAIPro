@@ -89,8 +89,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     LinearLayout mMfLlOffline;
     @BindView(R.id.fm_tv_signature)
     TextView mFmTvSignature;
-//    @BindView(R.id.sys_iv_setting)
-//    ImageView mSysIvSetting;
+    @BindView(R.id.sys_iv_setting)
+    ImageView mSysIvSetting;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -204,7 +204,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @OnClick({R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
+    @OnClick({R.id.sys_iv_setting,R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -215,9 +215,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 mIrsTvMsgCount.setVisibility(View.GONE);
                 getActivity().startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
-            case R.id.fm_ll_setting:
-                getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
-                break;
+//            case R.id.fm_ll_setting:
+//                getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
+//                break;
             case R.id.fm_ll_scan:
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
                 break;
@@ -230,9 +230,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             case R.id.mf_ll_offline:
                 getActivity().startActivity(new Intent(getContext(), OfflineActivity.class));
                 break;
-//            case R.id.sys_iv_setting:
-//                getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
-//                break;
+            case R.id.sys_iv_setting:
+                getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
+                break;
         }
     }
 
