@@ -207,7 +207,7 @@
             </RelativeLayout>
             <!--</LinearLayout>-->
             <!--</android.support.v7.widget.CardView>-->
-            <!--<View style="@style/view_line_h" />-->
+            <View style="@style/view_line_h" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
