@@ -5,6 +5,7 @@ package com.hb.rssai.event;
  */
 public class OfflineEvent {
     private int message;
+    private String content;
 
     public OfflineEvent(int message) {
         this.message = message;
@@ -16,5 +17,13 @@ public class OfflineEvent {
 
     public void setMessage(int message) {
         this.message = message;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

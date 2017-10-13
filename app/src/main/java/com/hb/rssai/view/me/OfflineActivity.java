@@ -52,7 +52,12 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
 
     @Subscribe
     public void onEventMainThread(OfflineEvent event) {
-        mOaBtnDown.setText("" + event.getMessage());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mOaBtnDown.setText("频道"+event.getContent()+"：" + event.getMessage());
     }
 
     @Override

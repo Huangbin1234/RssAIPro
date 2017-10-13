@@ -73,14 +73,17 @@ public class DownNewsService extends Service {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resInformation -> {
-                    setListResult(resInformation);
+                    setListResult(resInformation, group);
                 }, this::loadError);
     }
 
-    private void setListResult(ResInformation resInformation) {
-        if (resInformation.getRetObj()==null||resInformation.getRetObj().getRows() == null) {
+    OfflineEvent mOfflineEvent = new OfflineEvent(0);
+
+    private void setListResult(ResInformation resInformation, String group) {
+        if (resInformation.getRetObj() == null || resInformation.getRetObj().getRows() == null) {
             return;
         }
+
         for (int i = 0; i < resInformation.getRetObj().getRows().size(); i++) {
             ResInformation.RetObjBean.RowsBean info = resInformation.getRetObj().getRows().get(i);
             Information rowBean = new Information();
@@ -101,9 +104,12 @@ public class DownNewsService extends Service {
             rowBean.setClickNotGood(info.getClickNotGood());
 
             LiteOrmDBUtil.insert(rowBean);
-
-            EventBus.getDefault().post(new OfflineEvent(i));
         }
+
+        mOfflineEvent.setMessage(resInformation.getRetObj().getRows().size());
+        mOfflineEvent.setContent(group);
+        EventBus.getDefault().post(mOfflineEvent);
+
     }
 
     private Map<String, String> getListParams(String group) {
