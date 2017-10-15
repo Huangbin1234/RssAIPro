@@ -4,26 +4,32 @@ package com.hb.rssai.event;
  * Created by Administrator on 2017/7/9 0009.
  */
 public class OfflineEvent {
-    private int message;
-    private String content;
+    private int progressVal;
+    private int  maxVal;
+    private String id;
 
-    public OfflineEvent(int message) {
-        this.message = message;
+
+    public String getId() {
+        return id;
     }
 
-    public int getMessage() {
-        return message;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setMessage(int message) {
-        this.message = message;
+    public int getMaxVal() {
+        return maxVal;
     }
 
-    public String getContent() {
-        return content;
+    public void setMaxVal(int maxVal) {
+        this.maxVal = maxVal;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public int getProgressVal() {
+        return progressVal;
+    }
+
+    public void setProgressVal(int progressVal) {
+        this.progressVal = progressVal;
     }
 }

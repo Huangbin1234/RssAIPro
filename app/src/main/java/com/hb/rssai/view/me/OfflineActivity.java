@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.event.MineEvent;
 import com.hb.rssai.event.OfflineEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.OfflinePresenter;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.iView.IOfficeView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,17 +54,13 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
 
     @Subscribe
     public void onEventMainThread(OfflineEvent event) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        mOaBtnDown.setText("频道"+event.getContent()+"：" + event.getMessage());
+        mOaBtnDown.setText("ProgressVal:" + event.getProgressVal() + " ,MaxVal:" + event.getMaxVal());
+        ((OfflinePresenter) mPresenter).setProgress(event.getId(), event.getProgressVal(), event.getMaxVal());
     }
 
     @Override
     protected void initView() {
-
+        SharedPreferencesUtil.setBoolean(this, "isClickOffline", false);
     }
 
     @Override
@@ -117,5 +115,13 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
     @Override
     public Button getBtnDown() {
         return mOaBtnDown;
+    }
+
+    @Override
+    protected void onStop() {
+        if (SharedPreferencesUtil.getBoolean(this, "isClickOffline", false)) {
+            EventBus.getDefault().post(new MineEvent(1));
+        }
+        super.onStop();
     }
 }

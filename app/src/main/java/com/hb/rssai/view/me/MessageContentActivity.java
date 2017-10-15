@@ -65,7 +65,7 @@ public class MessageContentActivity extends BaseActivity {
             if (!TextUtils.isEmpty(message.getImg())) {
                 HttpLoadImg.loadImg(this, message.getImg(), mMcIvImg);
             }
-            mMcTvPubTime.setText(message.getPubTime());
+            mMcTvPubTime.setText("发布时间："+message.getPubTime());
             mMcTvContent.setText(message.getContent());
             mMcTvUrl.setText(message.getUrl());
         } else {

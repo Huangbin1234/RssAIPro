@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import com.hb.rssai.adapter.OfflineAdapter;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IOfficeView;
 import com.hb.rssai.view.service.DownNewsService;
@@ -35,6 +37,7 @@ public class OfflinePresenter extends BasePresenter<IOfficeView> {
     private IOfficeView iOfficeView;
     private ListView mListView;
     private Button btnDown;
+    private HashMap<Integer, String> groupIds = new HashMap<>();
 
     public OfflinePresenter(Context context, IOfficeView iOfficeView) {
         mContext = context;
@@ -96,9 +99,15 @@ public class OfflinePresenter extends BasePresenter<IOfficeView> {
                         } else {
                             groupDatas += "," + mBeanList.get(i).getVal();//获取到源图片
                         }
+                        groupIds.put(mBeanList.get(i).getVal(), mBeanList.get(i).getId());
                     }
                 }
-                T.ShowToast(mContext, groupDatas);
+                if(TextUtils.isEmpty(groupDatas)){
+                    T.ShowToast(mContext,"没有选择任何频道！");
+                    return;
+                }
+
+                SharedPreferencesUtil.setBoolean(mContext,"isClickOffline",true);
                 //TODO 开始去服务器下载数据到本地数据库
                 Intent bindIntent = new Intent(mContext, DownNewsService.class);
                 mContext.bindService(bindIntent, mConnection, mContext.BIND_AUTO_CREATE);
@@ -111,7 +120,7 @@ public class OfflinePresenter extends BasePresenter<IOfficeView> {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             myBinder = (DownNewsService.MyBinder) service;
-            myBinder.execute(groupDatas);
+            myBinder.execute(groupDatas, groupIds);
         }
 
         @Override
@@ -119,7 +128,6 @@ public class OfflinePresenter extends BasePresenter<IOfficeView> {
 
         }
     };
-
 
 
     private String groupDatas = "";
@@ -159,5 +167,20 @@ public class OfflinePresenter extends BasePresenter<IOfficeView> {
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+    }
+
+    public void setProgress(String id, int currentVal, int maxVal) {
+
+        for (ResDataGroup.RetObjBean.RowsBean row : mBeanList) {
+            if (id.equals(row.getId())) {
+                row.setMaxVal(maxVal);
+                row.setProgressVal(currentVal);
+            }
+        }
+
+        System.out.println(currentVal+"  "+ maxVal);
+        if (mOfflineAdapter != null) {
+            mOfflineAdapter.notifyDataSetChanged();
+        }
     }
 }

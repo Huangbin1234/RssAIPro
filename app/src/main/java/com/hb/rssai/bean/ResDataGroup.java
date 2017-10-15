@@ -81,7 +81,8 @@ public class ResDataGroup {
             private String id;
             private String url;
             private int groupType;
-
+            private int maxVal;
+            private int progressVal;
             public int getVal() {
                 return val;
             }
@@ -128,6 +129,22 @@ public class ResDataGroup {
 
             public void setGroupType(int groupType) {
                 this.groupType = groupType;
+            }
+
+            public int getProgressVal() {
+                return progressVal;
+            }
+
+            public void setProgressVal(int progressVal) {
+                this.progressVal = progressVal;
+            }
+
+            public int getMaxVal() {
+                return maxVal;
+            }
+
+            public void setMaxVal(int maxVal) {
+                this.maxVal = maxVal;
             }
         }
     }

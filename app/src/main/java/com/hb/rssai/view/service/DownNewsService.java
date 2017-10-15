@@ -49,14 +49,17 @@ public class DownNewsService extends Service {
 
     public class MyBinder extends Binder {
 
-        public void execute(String params) {
+        public void execute(String params, HashMap<Integer, String> groupIds) {
             //TODO 开始执行下载任务
             LiteOrmDBUtil.deleteAll(Information.class);
-            downLoadData(params);
+            downLoadData(params, groupIds);
         }
     }
 
-    private void downLoadData(String groupDatas) {
+    private HashMap<Integer, String> groupIds = new HashMap<>();
+
+    private void downLoadData(String groupDatas, HashMap<Integer, String> groupIds) {
+        this.groupIds = groupIds;
         if (!TextUtils.isEmpty(groupDatas)) {
             //开始写入数据
             String[] groups = groupDatas.split(",");
@@ -77,14 +80,14 @@ public class DownNewsService extends Service {
                 }, this::loadError);
     }
 
-    OfflineEvent mOfflineEvent = new OfflineEvent(0);
+    OfflineEvent mOfflineEvent = new OfflineEvent();
 
     private void setListResult(ResInformation resInformation, String group) {
         if (resInformation.getRetObj() == null || resInformation.getRetObj().getRows() == null) {
             return;
         }
-
-        for (int i = 0; i < resInformation.getRetObj().getRows().size(); i++) {
+        int len = resInformation.getRetObj().getRows().size();
+        for (int i = 0; i < len; i++) {
             ResInformation.RetObjBean.RowsBean info = resInformation.getRetObj().getRows().get(i);
             Information rowBean = new Information();
             rowBean.setAuthor(info.getAuthor());
@@ -103,13 +106,15 @@ public class DownNewsService extends Service {
             rowBean.setClickGood(info.getClickGood());
             rowBean.setClickNotGood(info.getClickNotGood());
 
+            if (i == 5 || i == 10 || i == 15 || i == len-1) {
+
+                mOfflineEvent.setMaxVal(len);
+                mOfflineEvent.setProgressVal(i+1);
+                mOfflineEvent.setId(groupIds.get(Integer.valueOf(group)));
+                EventBus.getDefault().post(mOfflineEvent);
+            }
             LiteOrmDBUtil.insert(rowBean);
         }
-
-        mOfflineEvent.setMessage(resInformation.getRetObj().getRows().size());
-        mOfflineEvent.setContent(group);
-        EventBus.getDefault().post(mOfflineEvent);
-
     }
 
     private Map<String, String> getListParams(String group) {

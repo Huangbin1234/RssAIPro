@@ -43,7 +43,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_msg_tv_title.setText(messages.get(position).getTitle());
         holder.item_msg_tv_link.setText(messages.get(position).getContent());
-        holder.item_msg_tv_time.setText(messages.get(position).getPubTime());
+        holder.item_msg_tv_time.setText("发布时间："+messages.get(position).getPubTime());
         if (SharedPreferencesUtil.getBoolean(mContext, messages.get(position).getId(), false)) {
             holder.irs_tv_msg_flag.setVisibility(View.GONE);
         } else {

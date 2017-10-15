@@ -144,6 +144,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         if (event.getMessage() == 0) {
             ((MinePresenter) mPresenter).getUser();
             ((MinePresenter) mPresenter).setUpdate();
+        }else if(event.getMessage()==1){
+            mMfTvOfflineCount.setText("" + LiteOrmDBUtil.getQueryAll(Information.class).size());
         }
     }
 

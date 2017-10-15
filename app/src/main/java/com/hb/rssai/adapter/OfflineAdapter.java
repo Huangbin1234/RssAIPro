@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -35,6 +36,13 @@ public class OfflineAdapter extends BaseAdapter {
         this.list = list;
         inflater = LayoutInflater.from(mContext);
         isSelecteds = new HashMap<Integer, Boolean>();
+        init();
+    }
+
+    private void init() {
+        for (int i = 0; i < list.size(); i++) {
+            OfflineAdapter.getIsSelected().put(i, false);
+        }
     }
 
     @Override
@@ -61,6 +69,8 @@ public class OfflineAdapter extends BaseAdapter {
             holder.dialog_item_iv = (ImageView) convertView.findViewById(R.id.dialog_item_iv);
             holder.dialog_item_tv = (TextView) convertView.findViewById(R.id.dialog_item_tv);
             holder.dialog_item_chk = (CheckBox) convertView.findViewById(R.id.dialog_item_chk);
+            holder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -68,6 +78,8 @@ public class OfflineAdapter extends BaseAdapter {
         if (getIsSelected() != null && getIsSelected().containsKey(position)) {
             holder.dialog_item_chk.setChecked(getIsSelected().get(position));
         }
+        holder.progressBar.setMax(list.get(position).getMaxVal());
+        holder.progressBar.setProgress(list.get(position).getProgressVal());
         holder.dialog_item_tv.setText(list.get(position).getName());
         HttpLoadImg.loadCircleImg(mContext, list.get(position).getUrl(), holder.dialog_item_iv);
         return convertView;
@@ -77,5 +89,6 @@ public class OfflineAdapter extends BaseAdapter {
         ImageView dialog_item_iv;
         TextView dialog_item_tv;
         public CheckBox dialog_item_chk;
+        public ProgressBar progressBar;
     }
 }
