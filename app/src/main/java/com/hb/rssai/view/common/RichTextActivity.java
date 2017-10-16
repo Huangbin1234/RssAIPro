@@ -215,10 +215,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                                     .setCallback(mShareListener)
                                     .share();
                         } else {
-                            String url ="https://mobile.umeng.com/";
+                            String url =RichTextActivity.this.url;
                             UMWeb web = new UMWeb(url);
-                            web.setTitle("title");
-                            web.setDescription("abstractContent");
+                            web.setTitle(title);
+                            web.setDescription(abstractContent);
                             web.setThumb(new UMImage(RichTextActivity.this, R.mipmap.ic_launcher));
                             new ShareAction(RichTextActivity.this).withMedia(web)
                                     .setPlatform(share_media)
