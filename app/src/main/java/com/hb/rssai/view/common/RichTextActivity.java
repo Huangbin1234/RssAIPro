@@ -217,8 +217,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                         } else {
                             String url ="https://mobile.umeng.com/";
                             UMWeb web = new UMWeb(url);
-                            web.setTitle("来自分享面板标题");
-                            web.setDescription("来自分享面板内容");
+                            web.setTitle("title");
+                            web.setDescription("abstractContent");
                             web.setThumb(new UMImage(RichTextActivity.this, R.mipmap.ic_launcher));
                             new ShareAction(RichTextActivity.this).withMedia(web)
                                     .setPlatform(share_media)
