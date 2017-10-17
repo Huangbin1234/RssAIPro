@@ -24,7 +24,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme2">
+        <!-- 声明widget对应的AppWidgetProvider -->
+        <receiver android:name=".view.service.WidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <!-- WidgetProvider接收点击bt_refresh的响应事件 -->
+                <action android:name="com.lyl.widget.BT_REFRESH_ACTION" />
+                <!-- WidgetProvider接收点击gridview的响应事件 -->
+                <action android:name="com.lyl.widget.COLLECTION_VIEW_ACTION" />
 
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget" />
+        </receiver>
+
+        <!-- 发送 通知桌面部件更新 -->
+        <service
+            android:name=".view.service.ListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APP_WIDGET_SERVICE" />
+            </intent-filter>
+        </service>
         <!-- 解决7.0安装apk失败问题 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
