@@ -54,6 +54,7 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
         mLinearLayoutManager = iInformationView.getManager();
         mLlLoad = iInformationView.getLlLoad();
 
+
         mSwipeRefreshLayout.setOnRefreshListener(() -> refreshList());
         //TODO 设置上拉加载更多
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -179,7 +180,7 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
 
     private void loadError(Throwable throwable) {
         mLlLoad.setVisibility(View.GONE);
-        mSwipeRefreshLayout.setRefreshing(false);
+
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
 
@@ -222,6 +223,7 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
                 isEnd = true;
             }
         }
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
 
@@ -237,6 +239,7 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
                 if (adapter == null) {
                     adapter = new InfoAdapter(mContext, infoList);
                     mRecyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 } else {
                     adapter.notifyDataSetChanged();
                 }
