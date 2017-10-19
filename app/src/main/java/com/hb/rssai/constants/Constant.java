@@ -45,4 +45,5 @@ public class Constant {
 
 
     public static String START_TIME = "1990-01-01 00:00:00";
+    public static String MSG_NO_LOGIN="尚未登录，请登录后操作！";
 }

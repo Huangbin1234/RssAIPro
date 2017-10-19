@@ -23,6 +23,7 @@ import com.hb.rssai.view.iView.IMineView;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -150,12 +151,28 @@ public class MinePresenter extends BasePresenter<IMineView> {
 
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
-        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        if (throwable instanceof HttpException) {
+            if (((HttpException) throwable).response().code() == 401) {
+                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+            } else {
+                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+            }
+        } else {
+            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        }
     }
 
     private void loadUserError(Throwable throwable) {
         throwable.printStackTrace();
-        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        if (throwable instanceof HttpException) {
+            if (((HttpException) throwable).response().code() == 401) {
+                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+            } else {
+                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+            }
+        } else {
+            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        }
         if (TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
             tvReadCount.setText("0");
             tvSubscribeCount.setText("0");
@@ -199,5 +216,4 @@ public class MinePresenter extends BasePresenter<IMineView> {
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
-
 }

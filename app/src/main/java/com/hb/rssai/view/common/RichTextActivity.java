@@ -113,7 +113,9 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((RichTextPresenter) mPresenter).getLikeByTitle();
-        ((RichTextPresenter) mPresenter).updateCount();
+        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.TOKEN, ""))) {
+            ((RichTextPresenter) mPresenter).updateCount();
+        }
         ((RichTextPresenter) mPresenter).getInformation();
 
     }

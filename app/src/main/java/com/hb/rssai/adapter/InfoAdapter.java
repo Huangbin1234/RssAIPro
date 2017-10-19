@@ -117,22 +117,25 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
         }
 
         holder.item_na_layout.setOnClickListener(v -> {
-            String data = rssList.get(position).getLink();//获取编辑框里面的文本内容
-            if (!TextUtils.isEmpty(data)) {
-//                Intent intent = new Intent(mContext, ContentActivity.class);//创建Intent对象
-                Intent intent = new Intent(mContext, RichTextActivity.class);//创建Intent对象
-                intent.putExtra(ContentActivity.KEY_TITLE, rssList.get(position).getTitle());
-                intent.putExtra(ContentActivity.KEY_URL, rssList.get(position).getLink());
-                intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rssList.get(position).getId());
-                intent.putExtra("pubDate", rssList.get(position).getPubTime());
-                intent.putExtra("whereFrom", rssList.get(position).getWhereFrom());
-                intent.putExtra("abstractContent", rssList.get(position).getAbstractContent());
-                intent.putExtra("clickGood", rssList.get(position).getClickGood());
-                intent.putExtra("clickNotGood", rssList.get(position).getClickNotGood());
-                intent.putExtra("id", rssList.get(position).getId());
-                mContext.startActivity(intent);//将Intent传递给Activity
-            } else {
-                T.ShowToast(mContext, "链接错误，无法跳转！");
+            if(rssList.size()>0){
+                String data = rssList.get(position).getLink();//获取编辑框里面的文本内容
+                if (!TextUtils.isEmpty(data)) {
+                    Intent intent = new Intent(mContext, RichTextActivity.class);//创建Intent对象
+                    intent.putExtra(ContentActivity.KEY_TITLE, rssList.get(position).getTitle());
+                    intent.putExtra(ContentActivity.KEY_URL, rssList.get(position).getLink());
+                    intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rssList.get(position).getId());
+                    intent.putExtra("pubDate", rssList.get(position).getPubTime());
+                    intent.putExtra("whereFrom", rssList.get(position).getWhereFrom());
+                    intent.putExtra("abstractContent", rssList.get(position).getAbstractContent());
+                    intent.putExtra("clickGood", rssList.get(position).getClickGood());
+                    intent.putExtra("clickNotGood", rssList.get(position).getClickNotGood());
+                    intent.putExtra("id", rssList.get(position).getId());
+                    mContext.startActivity(intent);//将Intent传递给Activity
+                } else {
+                    T.ShowToast(mContext, "链接错误，无法跳转！");
+                }
+            }else{
+                T.ShowToast(mContext, "请等待数据加载完成！");
             }
         });
     }

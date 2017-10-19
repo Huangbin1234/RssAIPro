@@ -56,20 +56,24 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
     }
 
     private void clickItem(int position, int index) {
-        if (!TextUtils.isEmpty(rssList.get(position).get(index).getLink())) {
-            Intent intent = new Intent(mContext, RichTextActivity.class);//创建Intent对象
-            intent.putExtra(ContentActivity.KEY_TITLE, rssList.get(position).get(index).getTitle());
-            intent.putExtra(ContentActivity.KEY_URL, rssList.get(position).get(index).getLink());
-            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rssList.get(position).get(index).getId());
-            intent.putExtra("pubDate", rssList.get(position).get(index).getPubTime());
-            intent.putExtra("whereFrom", rssList.get(position).get(index).getWhereFrom());
-            intent.putExtra("abstractContent", rssList.get(position).get(index).getAbstractContent());
-            intent.putExtra("clickGood", rssList.get(position).get(index).getClickGood());
-            intent.putExtra("clickNotGood", rssList.get(position).get(index).getClickNotGood());
-            intent.putExtra("id", rssList.get(position).get(index).getId());
-            mContext.startActivity(intent);//将Intent传递给Activity
+        if (rssList.size() > 0) {
+            if (!TextUtils.isEmpty(rssList.get(position).get(index).getLink())) {
+                Intent intent = new Intent(mContext, RichTextActivity.class);//创建Intent对象
+                intent.putExtra(ContentActivity.KEY_TITLE, rssList.get(position).get(index).getTitle());
+                intent.putExtra(ContentActivity.KEY_URL, rssList.get(position).get(index).getLink());
+                intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rssList.get(position).get(index).getId());
+                intent.putExtra("pubDate", rssList.get(position).get(index).getPubTime());
+                intent.putExtra("whereFrom", rssList.get(position).get(index).getWhereFrom());
+                intent.putExtra("abstractContent", rssList.get(position).get(index).getAbstractContent());
+                intent.putExtra("clickGood", rssList.get(position).get(index).getClickGood());
+                intent.putExtra("clickNotGood", rssList.get(position).get(index).getClickNotGood());
+                intent.putExtra("id", rssList.get(position).get(index).getId());
+                mContext.startActivity(intent);//将Intent传递给Activity
+            } else {
+                T.ShowToast(mContext, "链接错误，无法跳转！");
+            }
         } else {
-            T.ShowToast(mContext, "链接错误，无法跳转！");
+            T.ShowToast(mContext, "请等待数据加载完成！");
         }
     }
 
@@ -77,7 +81,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         int len = rssList.get(position).size();
         System.out.println("===========>" + len);
-        if (len >= 1&&rssList.get(position).get(0)!=null) {
+        if (len >= 1 && rssList.get(position).get(0) != null) {
             try {
                 holder.irl_tv_top_time.setText(DateUtil.showDate(sdf.parse(rssList.get(position).get(0).getPubTime()), longDatePat));
             } catch (ParseException e) {
@@ -99,7 +103,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
         } else {
             holder.irl_top_rl.setVisibility(View.GONE);
         }
-        if (len >= 2&&rssList.get(position).get(1)!=null) {
+        if (len >= 2 && rssList.get(position).get(1) != null) {
             holder.irl_tv_top1.setText(rssList.get(position).get(1).getTitle());
             holder.irl_top_ll1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,7 +120,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
         } else {
             holder.irl_top_ll1.setVisibility(View.GONE);
         }
-        if (len >= 3&&rssList.get(position).get(2)!=null) {
+        if (len >= 3 && rssList.get(position).get(2) != null) {
             holder.irl_tv_top2.setText(rssList.get(position).get(2).getTitle());
             holder.irl_top_ll2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,7 +137,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
         } else {
             holder.irl_top_ll2.setVisibility(View.GONE);
         }
-        if (len >= 4&&rssList.get(position).get(3)!=null) {
+        if (len >= 4 && rssList.get(position).get(3) != null) {
             holder.irl_tv_top3.setText(rssList.get(position).get(3).getTitle());
             holder.irl_top_ll3.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -150,7 +154,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
         } else {
             holder.irl_top_ll3.setVisibility(View.GONE);
         }
-        if (len >= 5&&rssList.get(position).get(4)!=null) {
+        if (len >= 5 && rssList.get(position).get(4) != null) {
             holder.irl_tv_top4.setText(rssList.get(position).get(4).getTitle());
             holder.irl_top_ll4.setOnClickListener(new View.OnClickListener() {
                 @Override

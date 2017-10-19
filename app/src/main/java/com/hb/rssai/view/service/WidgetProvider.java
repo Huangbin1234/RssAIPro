@@ -14,6 +14,8 @@ import com.hb.rssai.R;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.ContentActivity;
+import com.hb.rssai.view.common.RichTextActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -86,6 +88,21 @@ public class WidgetProvider extends AppWidgetProvider {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
             int viewIndex = intent.getIntExtra(COLLECTION_VIEW_EXTRA, 0);
+
+            Intent toIntent = new Intent(context,RichTextActivity.class);
+
+            toIntent.putExtra(ContentActivity.KEY_TITLE, intent.getStringExtra(ContentActivity.KEY_TITLE));
+            toIntent.putExtra(ContentActivity.KEY_URL, intent.getStringExtra(ContentActivity.KEY_URL));
+            toIntent.putExtra(ContentActivity.KEY_INFORMATION_ID, intent.getStringExtra(ContentActivity.KEY_INFORMATION_ID));
+            toIntent.putExtra("pubDate", intent.getStringExtra("pubDate"));
+            toIntent.putExtra("whereFrom", intent.getStringExtra("whereFrom"));
+            toIntent.putExtra("abstractContent",intent.getStringExtra("abstractContent"));
+            toIntent.putExtra("clickGood", intent.getLongExtra("clickGood",0));
+            toIntent.putExtra("clickNotGood",intent.getLongExtra("clickNotGood",0));
+            toIntent.putExtra("id", intent.getStringExtra("id"));
+            //创建一个pendingIntent。另外两个参数以后再讲。
+            PendingIntent pendingIntent = PendingIntent.getActivity( context, 0, toIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
             Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
         } else if (action.equals(BT_REFRESH_ACTION)) {
             // 接受“bt_refresh”的点击事件的广播
@@ -93,39 +110,7 @@ public class WidgetProvider extends AppWidgetProvider {
             int[] appIds = appWidgetManager.getAppWidgetIds(cmpName);
             appWidgetManager.notifyAppWidgetViewDataChanged(appIds, R.id.list_view);
             Toast.makeText(context, "Click Button", Toast.LENGTH_SHORT).show();
-
         }
         super.onReceive(context, intent);
     }
-
-    public void getLikeByTitle() {
-        informationApi.getLikeByTitle(getParams()).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resInfo -> {
-                    setListResult(resInfo);
-                }, this::loadError);
-    }
-
-    private List<ResInformation.RetObjBean.RowsBean> listData;
-
-    private void setListResult(ResInformation resInformation) {
-        if (resInformation.getRetObj() == null || resInformation.getRetObj().getRows() == null) {
-            return;
-        }
-        listData = resInformation.getRetObj().getRows();
-    }
-
-    private void loadError(Throwable throwable) {
-        throwable.printStackTrace();
-    }
-
-    private Map<String, String> getParams() {
-        Map<String, String> map = new HashMap<>();
-        String des = "点击事件失效问题的解决";
-        String title = "点击事件失效问题的解决";
-        String jsonParams = "{\"title\":\"" + title + "\",\"content\":\"" + des + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
-
 }

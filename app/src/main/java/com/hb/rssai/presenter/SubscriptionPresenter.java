@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -120,7 +121,8 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         isEnd = false;
         if (resFindMores != null) {
             resFindMores.clear();
-        } if (resTopMores != null) {
+        }
+        if (resTopMores != null) {
             resTopMores.clear();
         }
         swipeLayout.setRefreshing(true);
@@ -136,6 +138,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
                     setUserSubscribeResult(resFindMore);
                 }, this::loadError);
     }
+
     public void updateUsSort() {
         findApi.updateUsSort(getUpdateParams())
                 .subscribeOn(Schedulers.io())
@@ -151,6 +154,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         }
         T.ShowToast(mContext, resBase.getRetMsg());
     }
+
     public void getSubscribeList() {
         findApi.userSubscribeList(getSubscribeParams())
                 .subscribeOn(Schedulers.io())
@@ -173,6 +177,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         mISubscriptionView.update();
         T.ShowToast(mContext, resBase.getRetMsg());
     }
+
     private Map<String, String> getUpdateParams() {
         Map<String, String> map = new HashMap<>();
         String usId = mISubscriptionView.getUsId();
@@ -181,6 +186,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         System.out.println(map);
         return map;
     }
+
     private Map<String, String> getDelParams() {
         Map<String, String> map = new HashMap<>();
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
@@ -259,7 +265,14 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     private void loadError(Throwable throwable) {
         swipeLayout.setRefreshing(false);
         throwable.printStackTrace();
-        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        if (throwable instanceof HttpException) {
+            if (((HttpException) throwable).response().code() == 401) {
+                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+            }else{
+                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+            }
+        } else {
+            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        }
     }
-
 }

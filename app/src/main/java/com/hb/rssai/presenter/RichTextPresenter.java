@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -103,10 +104,18 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
     }
 
     private void loadError(Throwable throwable) {
-        throwable.printStackTrace();
-        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
         mRtaLlGood.setEnabled(true);
         mRtaLlNotGood.setEnabled(true);
+        throwable.printStackTrace();
+        if (throwable instanceof HttpException) {
+            if (((HttpException) throwable).response().code() == 401) {
+                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+            } else {
+                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+            }
+        } else {
+            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        }
     }
 
 
