@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.FilterDialogAdapter;
 import com.hb.rssai.adapter.RssListAdapter;
-import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.bean.RssSort;
@@ -106,6 +104,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         isPrepared = false;
         System.out.println("====lazyLoad====");
     }
+
     public HomeFragment() {
     }
 
@@ -168,6 +167,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         mHfRecyclerView.setLayoutManager(mLayoutManager);
         mHfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
         mHfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
 
         //TODO 设置下拉刷新
 //        mHfSwipeLayout.setOnRefreshListener(() -> {
@@ -398,8 +398,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public boolean getIsUser() {
         return isUser;
     }
-
-
 
 
     class ReadRssTask extends AsyncTask<Void, Void, List<RSSItemBean>> {

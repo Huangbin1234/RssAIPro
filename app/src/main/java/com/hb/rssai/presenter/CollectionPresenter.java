@@ -93,9 +93,9 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
         page = 1;
         isLoad = true;
         isEnd = false;
-        if (resCollections != null) {
-            resCollections.clear();
-        }
+//        if (resCollections != null) {
+//            resCollections.clear();
+//        }
         swipeRefreshLayout.setRefreshing(true);
         getList();
     }
@@ -148,6 +148,9 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
 
 
     private void setListResult(ResCollection resCollection) {
+        if (resCollections != null && page == 1) {
+            resCollections.clear();
+        }
         isLoad = false;
         swipeRefreshLayout.setRefreshing(false);
         //TODO 填充数据

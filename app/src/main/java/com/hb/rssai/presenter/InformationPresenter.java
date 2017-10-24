@@ -54,7 +54,6 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
         mLinearLayoutManager = iInformationView.getManager();
         mLlLoad = iInformationView.getLlLoad();
 
-
         mSwipeRefreshLayout.setOnRefreshListener(() -> refreshList());
         //TODO 设置上拉加载更多
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -157,9 +156,7 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
         page = 1;
         isLoad = true;
         isEnd = false;
-        if (infoList != null) {
-            infoList.clear();
-        }
+
         mSwipeRefreshLayout.setRefreshing(true);
         boolean isUser = iInformationView.getIsUser();
         if (isUser) {
@@ -194,12 +191,12 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
             //TODO 填充数据
 
             for (Information info : list) {
-                ResInformation.RetObjBean.RowsBean rowBean=new ResInformation.RetObjBean.RowsBean();
+                ResInformation.RetObjBean.RowsBean rowBean = new ResInformation.RetObjBean.RowsBean();
                 rowBean.setAuthor(info.getAuthor());
                 rowBean.setPubTime(info.getPubTime());
                 rowBean.setDataType(info.getDataType());
                 rowBean.setAbstractContent(info.getAbstractContent());
-                rowBean.setCount((int)info.getCount());
+                rowBean.setCount((int) info.getCount());
                 rowBean.setLink(info.getLink());
                 rowBean.setWhereFrom(info.getWhereFrom());
                 rowBean.setTitle(info.getTitle());
@@ -228,6 +225,10 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
 
 
     private void setListResult(ResInformation resInformation) {
+        if (infoList != null && page == 1) {
+            infoList.clear();
+        }
+
         //TODO 填充数据
         mLlLoad.setVisibility(View.GONE);
         isLoad = false;

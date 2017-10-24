@@ -119,12 +119,12 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         page = 1;
         isLoad = true;
         isEnd = false;
-        if (resFindMores != null) {
-            resFindMores.clear();
-        }
-        if (resTopMores != null) {
-            resTopMores.clear();
-        }
+//        if (resFindMores != null) {
+//            resFindMores.clear();
+//        }
+//        if (resTopMores != null) {
+//            resTopMores.clear();
+//        }
         swipeLayout.setRefreshing(true);
         getUserSubscribeList();
         getSubscribeList();
@@ -218,6 +218,10 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     }
 
     private void setUserSubscribeResult(ResFindMore resFindMore) {
+
+        if (resFindMores != null && page == 1) {
+            resFindMores.clear();
+        }
         isLoad = false;
         swipeLayout.setRefreshing(false);
         //TODO 填充数据
@@ -240,6 +244,9 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     }
 
     private void setSubscribeResult(ResFindMore resFindMore) {
+        if (resTopMores != null && page == 1) {
+            resTopMores.clear();
+        }
         isLoad = false;
         swipeLayout.setRefreshing(false);
         //TODO 填充数据

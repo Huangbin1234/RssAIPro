@@ -106,9 +106,7 @@ public class SubListPresenter extends BasePresenter<ISubListView> {
         page = 1;
         isLoad = true;
         isEnd = false;
-        if (resLists != null) {
-            resLists.clear();
-        }
+
         mSwipeLayout.setRefreshing(true);
         getUserSubscribeList();
     }
@@ -140,6 +138,9 @@ public class SubListPresenter extends BasePresenter<ISubListView> {
     }
 
     private void setUserSubscribeResult(ResFindMore resFindMore) {
+        if (resLists != null&&page==1) {
+            resLists.clear();
+        }
         isLoad = false;
         mSwipeLayout.setRefreshing(false);
         mSubLl.setVisibility(View.GONE);
