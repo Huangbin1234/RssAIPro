@@ -110,7 +110,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             return;
         }
         ((MinePresenter) mPresenter).getUser();
-        ((MinePresenter) mPresenter).setUpdate();
+//        ((MinePresenter) mPresenter).setUpdate();
+        ((MinePresenter)mPresenter).getMessages();
         isPrepared = false;
         System.out.println("====lazyLoad====");
     }
@@ -144,6 +145,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         if (event.getMessage() == 0) {
             ((MinePresenter) mPresenter).getUser();
             ((MinePresenter) mPresenter).setUpdate();
+            ((MinePresenter) mPresenter).getMessages();
         }else if(event.getMessage()==1){
             mMfTvOfflineCount.setText("" + LiteOrmDBUtil.getQueryAll(Information.class).size());
         }
@@ -277,6 +279,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public TextView getTvSignature() {
         return mFmTvSignature;
+    }
+
+    @Override
+    public TextView getTvMsgCount() {
+        return mIrsTvMsgCount;
     }
 
 

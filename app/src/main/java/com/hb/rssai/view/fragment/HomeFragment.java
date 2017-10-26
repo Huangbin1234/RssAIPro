@@ -89,7 +89,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             return;
         }
 
-
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
         if (DF == 0) {
             isUser = false;

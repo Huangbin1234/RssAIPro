@@ -165,6 +165,11 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
             getList();
         }
     }
+    public void notifyAdapter(){
+      if(null!=adapter){
+          adapter.notifyDataSetChanged();
+      }
+    }
 
     private Map<String, String> getListParams() {
         Map<String, String> map = new HashMap<>();
@@ -242,6 +247,7 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
                     mRecyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
+                    adapter.init();//更新一下是否显示图片首选项
                     adapter.notifyDataSetChanged();
                 }
             }

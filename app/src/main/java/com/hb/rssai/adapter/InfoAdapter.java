@@ -45,6 +45,9 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
+        init();
+    }
+    public void init(){
         isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE, false);
     }
 

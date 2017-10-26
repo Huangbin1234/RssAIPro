@@ -38,7 +38,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
     private List<List<ResCardSubscribe.RetObjBean.RowsBean>> rssList;
     private LayoutInflater layoutInflater;
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat sdf = new SimpleDateFormat(longDatePat);
     private String[] images = null;
     private boolean isLoadImage = true;
 

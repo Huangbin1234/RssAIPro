@@ -23,4 +23,6 @@ public interface IMineView {
     String getSubscribeId();
 
     TextView getTvSignature();
+
+    TextView  getTvMsgCount();
 }

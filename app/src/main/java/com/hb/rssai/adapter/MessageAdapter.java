@@ -51,6 +51,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         }
         holder.v.setOnClickListener(v -> {
             SharedPreferencesUtil.setBoolean(mContext, messages.get(position).getId(), true);
+            notifyItemChanged(position,messages.size());
             Intent intent = new Intent(mContext, MessageContentActivity.class);
             intent.putExtra(MessageContentActivity.KEY_MSG_BEAN, messages.get(position));
             mContext.startActivity(intent);

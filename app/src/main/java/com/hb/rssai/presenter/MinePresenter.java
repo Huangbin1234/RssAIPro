@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResMessageList;
 import com.hb.rssai.bean.ResShareCollection;
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
@@ -40,6 +41,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
     private ImageView ivAva;
     private TextView tvMessageFlag;
     private TextView tvSignature;
+    private TextView tvMsgCount;
 
 
     public MinePresenter(Context context, IMineView iMineView) {
@@ -55,6 +57,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         ivAva = iMineView.getIvAva();
         tvMessageFlag = iMineView.getTvMessageFlag();
         tvSignature = iMineView.getTvSignature();
+        tvMsgCount = iMineView.getTvMsgCount();
 
     }
 
@@ -214,6 +217,43 @@ public class MinePresenter extends BasePresenter<IMineView> {
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
         String jsonParams = "{\"isDel\":\"" + isDel + "\",\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+
+
+    public void getMessages() {
+        messageApi.list(getMessageParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resMessageList -> {
+                    setMessageListResult(resMessageList);
+                }, this::loadError);
+    }
+
+
+    private void setMessageListResult(ResMessageList resMessageList) {
+        //TODO 填充数据
+        if (resMessageList.getRetCode() == 0) {
+            if (resMessageList.getRetObj() != null) {
+                if (resMessageList.getRetObj().getTotal() > SharedPreferencesUtil.getLong(mContext, Constant.KEY_MESSAGE_COUNT, 0)) {
+                    tvMsgCount.setVisibility(View.VISIBLE);
+                    tvMsgCount.setText("" + (resMessageList.getRetObj().getTotal() - SharedPreferencesUtil.getLong(mContext, Constant.KEY_MESSAGE_COUNT, 0)));
+                    SharedPreferencesUtil.setLong(mContext, Constant.KEY_MESSAGE_COUNT, resMessageList.getRetObj().getTotal());
+                } else {
+                    tvMsgCount.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            T.ShowToast(mContext, resMessageList.getRetMsg());
+        }
+    }
+
+    private Map<String, String> getMessageParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"page\":\"" + 1 + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
         return map;
     }
 }
