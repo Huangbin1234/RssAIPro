@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 
@@ -29,5 +30,9 @@ public interface ISubscriptionView {
 
     NestedScrollView getNestScrollView();
 
-     RecyclerView getTopicRecyclerView();
+    RecyclerView getTopicRecyclerView();
+
+    View getIncludeNoData();
+
+    View getIncludeLoadFail();
 }

@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,7 +58,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import me.drakeet.materialdialog.MaterialDialog;
 
 import static android.app.Activity.RESULT_OK;
@@ -106,6 +109,12 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     LinearLayout mRlLlTopic;
     //@BindView(R.id.index_function_gridview)
     // FullGridView mIndexFunctionGridView;
+    @BindView(R.id.include_no_data)
+    View includeNoData;
+    @BindView(R.id.include_load_fail)
+    View includeLoadFail;
+    @BindView(R.id.llf_btn_re_try)
+    Button mLlfBtnReTry;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -270,11 +279,10 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
 
 
-    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan, R.id.sub_ll_all, R.id.sub_ll_all_topic})
+    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan, R.id.sub_ll_all, R.id.sub_ll_all_topic,R.id.llf_btn_re_try})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -295,6 +303,9 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 Bundle bundle2 = new Bundle();
                 bundle2.putBoolean(SubListActivity.KEY_IS_TAG, false);
                 startActivity(new Intent(getContext(), SubListActivity.class).putExtras(bundle2));
+                break;
+            case R.id.llf_btn_re_try:
+                ((SubscriptionPresenter) mPresenter).refreshList();
                 break;
         }
     }
@@ -392,6 +403,16 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public RecyclerView getTopicRecyclerView() {
         return mSfRecyclerViewTopic;
+    }
+
+    @Override
+    public View getIncludeNoData() {
+        return includeNoData;
+    }
+
+    @Override
+    public View getIncludeLoadFail() {
+        return includeLoadFail;
     }
 
     @Override
