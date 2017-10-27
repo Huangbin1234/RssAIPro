@@ -12,6 +12,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,7 +45,7 @@ import java.util.List;
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class SubListActivity extends BaseActivity implements  ISubListView {
+public class SubListActivity extends BaseActivity implements ISubListView {
     LinearLayoutManager mLayoutManager;
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -60,6 +61,12 @@ public class SubListActivity extends BaseActivity implements  ISubListView {
     RecyclerView mSubRecyclerView;
     @BindView(R.id.sub_swipe_layout)
     SwipeRefreshLayout mSubSwipeLayout;
+    @BindView(R.id.include_no_data)
+    View includeNoData;
+    @BindView(R.id.include_load_fail)
+    View includeLoadFail;
+    @BindView(R.id.llf_btn_re_try)
+    Button mLlfBtnReTry;
 
     private SubListAdapter mSubListAdapter;
     private List<RssSource> list = new ArrayList<>();
@@ -108,6 +115,8 @@ public class SubListActivity extends BaseActivity implements  ISubListView {
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSubSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
+        mLlfBtnReTry.setOnClickListener(v -> ((SubListPresenter)mPresenter).refreshList());
     }
 
     @Override
@@ -331,6 +340,16 @@ public class SubListActivity extends BaseActivity implements  ISubListView {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public View getIncludeNoData() {
+        return includeNoData;
+    }
+
+    @Override
+    public View getIncludeLoadFail() {
+        return includeLoadFail;
     }
 
     @Override

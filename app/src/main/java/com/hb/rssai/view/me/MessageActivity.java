@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,6 +38,13 @@ public class MessageActivity extends BaseActivity implements IMessageView{
     RecyclerView mMsgRecyclerView;
     @BindView(R.id.msg_swipe_layout)
     SwipeRefreshLayout mMsgSwipeLayout;
+    @BindView(R.id.include_no_data)
+    View includeNoData;
+    @BindView(R.id.include_load_fail)
+    View includeLoadFail;
+    @BindView(R.id.llf_btn_re_try)
+    Button mLlfBtnReTry;
+
     private LinearLayoutManager mLayoutManager;
 
     @Override
@@ -52,6 +61,8 @@ public class MessageActivity extends BaseActivity implements IMessageView{
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mMsgSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
+        mLlfBtnReTry.setOnClickListener(v -> ((MessagePresenter)mPresenter).getList());
     }
 
     @Override
@@ -100,4 +111,15 @@ public class MessageActivity extends BaseActivity implements IMessageView{
     public LinearLayoutManager getManager() {
         return mLayoutManager;
     }
+
+    @Override
+    public View getIncludeNoData() {
+        return includeNoData;
+    }
+
+    @Override
+    public View getIncludeLoadFail() {
+        return includeLoadFail;
+    }
+
 }

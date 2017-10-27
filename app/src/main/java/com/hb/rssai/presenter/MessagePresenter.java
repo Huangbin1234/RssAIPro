@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.hb.rssai.adapter.MessageAdapter;
 import com.hb.rssai.bean.ResMessageList;
@@ -108,6 +109,9 @@ public class MessagePresenter extends BasePresenter<IMessageView> {
         swipeRefreshLayout.setRefreshing(false);
         //TODO 填充数据
         if (resMessageList.getRetCode() == 0) {
+            iMessageView.getIncludeNoData().setVisibility(View.GONE);
+            iMessageView.getIncludeLoadFail().setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
             if (resMessageList.getRetObj().getRows() != null && resMessageList.getRetObj().getRows().size() > 0) {
                 this.mMessages.addAll(resMessageList.getRetObj().getRows());
                 if (adapter == null) {
@@ -120,12 +124,23 @@ public class MessagePresenter extends BasePresenter<IMessageView> {
             if (this.mMessages.size() == resMessageList.getRetObj().getTotal()) {
                 isEnd = true;
             }
+        } else if (resMessageList.getRetCode() == 10013) {//暂无数据
+            iMessageView.getIncludeNoData().setVisibility(View.VISIBLE);
+            iMessageView.getIncludeLoadFail().setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
         } else {
+            iMessageView.getIncludeNoData().setVisibility(View.GONE);
+            iMessageView.getIncludeLoadFail().setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
             T.ShowToast(mContext, resMessageList.getRetMsg());
         }
     }
 
     private void loadError(Throwable throwable) {
+        iMessageView.getIncludeLoadFail().setVisibility(View.VISIBLE);
+        iMessageView.getIncludeNoData().setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+
         swipeRefreshLayout.setRefreshing(false);
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);

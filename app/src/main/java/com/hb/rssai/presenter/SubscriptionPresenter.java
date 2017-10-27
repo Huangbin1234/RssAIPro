@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.bean.ResBase;
@@ -252,9 +251,6 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         swipeLayout.setRefreshing(false);
         //TODO 填充数据
         if (resFindMore.getRetCode() == 0) {
-            mISubscriptionView.getIncludeNoData().setVisibility(View.GONE);
-            mISubscriptionView.getIncludeLoadFail().setVisibility(View.GONE);
-
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
                 resTopMores.addAll(resFindMore.getRetObj().getRows());
                 if (topicAdapter == null) {
@@ -267,9 +263,6 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
             if (resTopMores.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
-        }else if(resFindMore.getRetCode()==10013){
-            mISubscriptionView.getIncludeNoData().setVisibility(View.VISIBLE);
-            mISubscriptionView.getIncludeLoadFail().setVisibility(View.GONE);
         } else {
             T.ShowToast(mContext, resFindMore.getRetMsg());
         }
@@ -277,9 +270,6 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
 
 
     private void loadError(Throwable throwable) {
-
-        mISubscriptionView.getIncludeLoadFail().setVisibility(View.VISIBLE);
-        mISubscriptionView.getIncludeNoData().setVisibility(View.GONE);
         swipeLayout.setRefreshing(false);
         throwable.printStackTrace();
         if (throwable instanceof HttpException) {

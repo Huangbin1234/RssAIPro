@@ -25,7 +25,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/str_loading"/>
         </LinearLayout>
+        <include
+            android:id="@+id/include_load_fail"
+            layout="@layout/layout_load_fail"
+            android:visibility="gone"/>
 
+        <include
+            android:id="@+id/include_no_data"
+            layout="@layout/layout_no_data"
+            android:visibility="gone"/>
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/sub_swipe_layout"
             android:layout_width="match_parent"

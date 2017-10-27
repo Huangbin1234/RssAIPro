@@ -12,6 +12,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,6 +54,13 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     RecyclerView mCollRecyclerView;
     @BindView(R.id.coll_swipe_layout)
     SwipeRefreshLayout mCollSwipeLayout;
+    @BindView(R.id.include_no_data)
+    View includeNoData;
+    @BindView(R.id.include_load_fail)
+    View includeLoadFail;
+    @BindView(R.id.llf_btn_re_try)
+    Button mLlfBtnReTry;
+
     private LinearLayoutManager mLayoutManager;
     //    CollectionAdapter adapter;
     private String collectionId = "";
@@ -61,7 +69,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((CollectionPresenter) mPresenter).getList();
+        ((CollectionPresenter) mPresenter).refreshList();
     }
 
 
@@ -74,6 +82,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
         mCollSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
+        mLlfBtnReTry.setOnClickListener(v -> ((CollectionPresenter)mPresenter).refreshList());
     }
 
     @Override
@@ -203,5 +212,15 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
 
     public String getCollectionId() {
         return collectionId;
+    }
+
+    @Override
+    public View getIncludeNoData() {
+        return includeNoData;
+    }
+
+    @Override
+    public View getIncludeLoadFail() {
+        return includeLoadFail;
     }
 }

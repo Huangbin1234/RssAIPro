@@ -32,7 +32,4 @@ public interface ISubscriptionView {
 
     RecyclerView getTopicRecyclerView();
 
-    View getIncludeNoData();
-
-    View getIncludeLoadFail();
 }

@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.drakeet.materialdialog.MaterialDialog;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -138,7 +139,7 @@ public class SubListPresenter extends BasePresenter<ISubListView> {
     }
 
     private void setUserSubscribeResult(ResFindMore resFindMore) {
-        if (resLists != null&&page==1) {
+        if (resLists != null && page == 1) {
             resLists.clear();
         }
         isLoad = false;
@@ -146,6 +147,10 @@ public class SubListPresenter extends BasePresenter<ISubListView> {
         mSubLl.setVisibility(View.GONE);
         //TODO 填充数据
         if (resFindMore.getRetCode() == 0) {
+            mISubListView.getIncludeNoData().setVisibility(View.GONE);
+            mISubListView.getIncludeLoadFail().setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
                 resLists.addAll(resFindMore.getRetObj().getRows());
                 if (mSubListAdapter == null) {
@@ -161,7 +166,14 @@ public class SubListPresenter extends BasePresenter<ISubListView> {
             if (resLists.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
+        } else if (resFindMore.getRetCode() == 10013) {//暂无数据
+            mISubListView.getIncludeNoData().setVisibility(View.VISIBLE);
+            mISubListView.getIncludeLoadFail().setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
         } else {
+            mISubListView.getIncludeNoData().setVisibility(View.GONE);
+            mISubListView.getIncludeLoadFail().setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
             T.ShowToast(mContext, resFindMore.getRetMsg());
         }
     }
@@ -247,10 +259,22 @@ public class SubListPresenter extends BasePresenter<ISubListView> {
     }
 
     private void loadError(Throwable throwable) {
+        mISubListView.getIncludeLoadFail().setVisibility(View.VISIBLE);
+        mISubListView.getIncludeNoData().setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
+
         mSwipeLayout.setRefreshing(false);
-        mSubLl.setVisibility(View.GONE);
         throwable.printStackTrace();
-        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        if (throwable instanceof HttpException) {
+            if (((HttpException) throwable).response().code() == 401) {
+                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+            } else {
+                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+            }
+        } else {
+            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        }
+        mSubLl.setVisibility(View.GONE);
     }
 
     private Map<String, String> getUpdateParams() {
