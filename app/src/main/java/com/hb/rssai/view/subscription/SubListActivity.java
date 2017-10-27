@@ -64,7 +64,7 @@ public class SubListActivity extends BaseActivity implements  ISubListView {
     private SubListAdapter mSubListAdapter;
     private List<RssSource> list = new ArrayList<>();
     private PrgDialog dialog;
-    private boolean isTag = false;
+    private Object isTag = null;
     public static final String KEY_IS_TAG = "key_is_tag";
 
     @Override
@@ -245,7 +245,7 @@ public class SubListActivity extends BaseActivity implements  ISubListView {
     }
 
     @Override
-    public boolean getIsTag() {
+    public Object getIsTag() {
         return isTag;
     }
 

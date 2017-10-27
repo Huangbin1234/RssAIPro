@@ -37,6 +37,7 @@ import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.me.SettingActivity;
 import com.hb.rssai.view.me.UserActivity;
 import com.hb.rssai.view.subscription.SourceListActivity;
+import com.hb.rssai.view.subscription.SubListActivity;
 import com.zbar.lib.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -87,6 +88,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     TextView mMfTvOfflineCount;
     @BindView(R.id.mf_ll_offline)
     LinearLayout mMfLlOffline;
+    @BindView(R.id.mf_ll_subcribe_count)
+    LinearLayout mMfLlSubscibeCount;
     @BindView(R.id.fm_tv_signature)
     TextView mFmTvSignature;
     @BindView(R.id.sys_iv_setting)
@@ -208,7 +211,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @OnClick({R.id.sys_iv_setting,R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
+    @OnClick({R.id.mf_ll_subcribe_count,R.id.sys_iv_setting,R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -233,6 +236,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.mf_ll_offline:
                 getActivity().startActivity(new Intent(getContext(), OfflineActivity.class));
+                break;
+            case R.id.mf_ll_subcribe_count:
+                startActivity(new Intent(getContext(), SubListActivity.class));
                 break;
             case R.id.sys_iv_setting:
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));

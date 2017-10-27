@@ -167,7 +167,12 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
                                 infoId = rowsBean.getInformationId();
                                 getInformation(); //获取消息
                             } else {
-                                T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
+                                Intent intent = new Intent(mContext, ContentActivity.class);
+                                intent.putExtra(ContentActivity.KEY_URL, rowsBean.getLink());
+                                intent.putExtra(ContentActivity.KEY_TITLE, rowsBean.getTitle());
+                                intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rowsBean.getInformationId());
+                                mContext.startActivity(intent);
+//                                T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
                             }
                         }
                     });

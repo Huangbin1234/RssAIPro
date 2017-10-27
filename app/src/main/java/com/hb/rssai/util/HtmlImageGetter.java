@@ -119,7 +119,7 @@ public class HtmlImageGetter implements Html.ImageGetter {
         public LevelListDrawable getDrawableAdapter(Activity activity,  LevelListDrawable drawable, int oldWidth, int oldHeight) {
             LevelListDrawable newDrawable = drawable;
             long newHeight = 0;// 未知数
-            int newWidth = DisplayUtil.getMobileWidth(activity);// 默认屏幕宽
+            int newWidth = DisplayUtil.getMobileWidth(activity)-DisplayUtil.dip2px(activity,20);// 默认屏幕宽
             newHeight = (newWidth * oldHeight) / oldWidth;
             // LogUtils.w("oldWidth:" + oldWidth + "oldHeight:" +
             // oldHeight);
@@ -129,5 +129,4 @@ public class HtmlImageGetter implements Html.ImageGetter {
             return newDrawable;
         }
     }
-
 }

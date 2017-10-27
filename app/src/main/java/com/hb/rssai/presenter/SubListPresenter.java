@@ -265,7 +265,7 @@ public class SubListPresenter extends BasePresenter<ISubListView> {
     private Map<String, String> getUserSubscribeParams() {
         Map<String, String> map = new HashMap<>();
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
-        boolean isTag = mISubListView.getIsTag();
+        Object isTag = mISubListView.getIsTag();
         String jsonParams = "{\"userId\":\"" + userId + "\",\"isTag\":\"" + isTag + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         System.out.println(map);

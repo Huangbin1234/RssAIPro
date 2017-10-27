@@ -144,7 +144,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
         try {
             if (!TextUtils.isEmpty(pubDate))
-                mRtaTvWhereFrom.setText(whereFrom +" "+DateUtil.showDate(sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
+                mRtaTvWhereFrom.setText(whereFrom + " " + DateUtil.showDate(sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
 //                mRtaTvDate.setText(DateUtil.showDate(sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -195,6 +195,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
     private UMShareListener mShareListener;
     private ShareAction mShareAction;
+
     private void initShare() {
         mShareListener = new CustomShareListener(this);
         /*增加自定义按钮的分享面板*/
@@ -217,7 +218,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                                     .setCallback(mShareListener)
                                     .share();
                         } else {
-                            String url =RichTextActivity.this.url;
+                            String url = RichTextActivity.this.url;
                             UMWeb web = new UMWeb(url);
                             web.setTitle(title);
                             web.setDescription(abstractContent);
@@ -232,6 +233,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
 
     }
+
     private static class CustomShareListener implements UMShareListener {
 
         private WeakReference<RichTextActivity> mActivity;
@@ -297,6 +299,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     protected int providerContentViewId() {
         return R.layout.activity_rich_text;

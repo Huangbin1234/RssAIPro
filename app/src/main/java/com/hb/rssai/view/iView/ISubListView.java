@@ -15,7 +15,7 @@ public interface ISubListView {
 
     SwipeRefreshLayout getSwipeLayout();
 
-    boolean getIsTag();
+    Object getIsTag();
 
     LinearLayout getLlEmptyView();
 }
