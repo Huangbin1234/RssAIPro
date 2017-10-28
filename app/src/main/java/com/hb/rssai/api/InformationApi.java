@@ -4,6 +4,7 @@ import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResCardSubscribe;
 import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.ResInformation;
+import com.hb.rssai.bean.ResUserInformation;
 
 import java.util.Map;
 
@@ -52,4 +53,8 @@ public interface InformationApi {
     @FormUrlEncoded
     @POST("info/getSearchInfo")
     Observable<ResInformation> getSearchInfo(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("info/findUserInformation")
+    Observable<ResUserInformation> findUserInformation(@FieldMap Map<String, String> params);
 }

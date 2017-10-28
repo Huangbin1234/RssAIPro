@@ -33,6 +33,7 @@ import com.hb.rssai.view.iView.IMineView;
 import com.hb.rssai.view.me.CollectionActivity;
 import com.hb.rssai.view.me.MessageActivity;
 import com.hb.rssai.view.me.OfflineActivity;
+import com.hb.rssai.view.me.RecordActivity;
 import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.me.SettingActivity;
 import com.hb.rssai.view.me.UserActivity;
@@ -94,6 +95,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     TextView mFmTvSignature;
     @BindView(R.id.sys_iv_setting)
     ImageView mSysIvSetting;
+    @BindView(R.id.mf_ll_record)
+    LinearLayout mfLlRecord;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -211,7 +214,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @OnClick({R.id.mf_ll_subcribe_count,R.id.sys_iv_setting,R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
+    @OnClick({R.id.mf_ll_record,R.id.mf_ll_subcribe_count,R.id.sys_iv_setting,R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -242,6 +245,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.sys_iv_setting:
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
+                break;
+            case R.id.mf_ll_record:
+                getActivity().startActivity(new Intent(getContext(), RecordActivity.class));
                 break;
         }
     }
