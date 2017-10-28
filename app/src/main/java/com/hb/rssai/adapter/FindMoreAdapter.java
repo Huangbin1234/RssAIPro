@@ -49,6 +49,10 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         this.mContext = mContext;
         this.resList = resList;
         layoutInflater = LayoutInflater.from(mContext);
+        init();
+    }
+
+    public void init() {
         userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
     }
 

@@ -173,7 +173,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-
     @Override
     public String getRssLink() {
         return rssLink;
@@ -202,12 +201,17 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                         try {
                             String strUTF = new String(outline.getTitle().getBytes(), "UTF-8");
                             rssSource.setName(strUTF);
+                            rssTitle = strUTF;
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
 
                         rssSource.setLink(outline.getXmlUrl());
                         LiteOrmDBUtil.insert(rssSource);
+
+                        rssLink = outline.getXmlUrl();
+
+                        ((AddRssPresenter) mPresenter).addRss();
                     }
                     for (Outline subOutline : outline.getChildren()) {
                         if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
@@ -215,11 +219,16 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                             try {
                                 String strUTF = new String(subOutline.getTitle().getBytes(), "UTF-8");
                                 rssSource.setName(strUTF);
+
+                                rssTitle = strUTF;
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
                             }
                             rssSource.setLink(subOutline.getXmlUrl());
                             LiteOrmDBUtil.insert(rssSource);
+                            rssLink = subOutline.getXmlUrl();
+
+                            ((AddRssPresenter) mPresenter).addRss();
                         }
                     }
                 }

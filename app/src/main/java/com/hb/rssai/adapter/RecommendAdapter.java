@@ -41,9 +41,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
+        init();
+    }
+    public void init() {
         userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
     }
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.item_recommend, parent, false);
