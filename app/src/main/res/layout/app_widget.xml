@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#6e181717"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#6e181717"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
     <!-- Widget并不支持所有的布局和控件，而仅仅只是支持Android布局和控件的一个子集。
        (01) App Widget支持的布局：
@@ -42,7 +42,7 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:id="@+id/widget_txt"
@@ -50,11 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:textColor="@color/color_general_white"
             android:layout_toRightOf="@id/widget_iv_logo"
             android:text="@string/app_name"
+            android:textColor="@color/color_general_white"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <ImageView
             android:id="@+id/widget_iv_refresh"
@@ -63,7 +63,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_refresh" />
+            android:src="@mipmap/ic_refresh"/>
     </RelativeLayout>
 
     <ListView
@@ -81,23 +81,22 @@
         android:layout_alignParentBottom="true"
         android:background="#70121111"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_alignParentTop="true"
-            android:background="#DDDDDD" />
+            android:background="#DDDDDD"/>
 
         <Button
-
             android:id="@+id/widget_btn_reset"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:background="#00000000"
             android:text="上一页"
-            android:textSize="10sp" />
+            android:textSize="10sp"/>
 
         <Button
             android:id="@+id/widget_btn_open"
@@ -107,7 +106,7 @@
             android:layout_centerVertical="true"
             android:background="#00000000"
             android:text="下一页"
-            android:textSize="10sp" />
+            android:textSize="10sp"/>
 
     </RelativeLayout>
 

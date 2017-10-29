@@ -43,6 +43,7 @@ public class Constant {
     public static final String LAST_UPDATE_TIME = "last_update_time";
     public static final String TIPS_IMAGE_SELECTOR = "选择封面图片";
     public static final String KEY_MESSAGE_COUNT ="message_count" ;
+    public static final String KEY_GUIDE = "key_guide";
 
 
     public static String START_TIME = "1990-01-01 00:00:00";
