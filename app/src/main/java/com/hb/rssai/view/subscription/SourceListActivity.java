@@ -1,8 +1,7 @@
 package com.hb.rssai.view.subscription;
 
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -22,15 +21,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssListAdapter;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.SourceListPresenter;
+import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.RssDataSourceUtil;
+import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISourceListView;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.rss.bean.RSSItemBean;
@@ -74,6 +74,8 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     TextView mSlaTvTitle;
     @BindView(R.id.sla_tv_desc)
     TextView mSlaTvDesc;
+    @BindView(R.id.sys_iv_share)
+    ImageView mSysIvShare;
 
 
     private LinearLayoutManager mLayoutManager;
@@ -113,6 +115,14 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSlaSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
+        mSysIvShare.setOnClickListener(v -> {
+            Intent intent = new Intent(SourceListActivity.this, QrCodeActivity.class);
+            intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
+            intent.putExtra(QrCodeActivity.KEY_TITLE, titleValue);
+            intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + linkValue));
+            startActivity(intent);
+        });
     }
 
     @Override
