@@ -1,7 +1,6 @@
 package com.hb.rssai.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,11 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResCollection;
-import com.hb.rssai.view.common.ContentActivity;
+import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.view.me.CollectionActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -25,10 +26,11 @@ import java.util.List;
  */
 public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.MyViewHolder> {
     private Context mContext;
-    List<ResCollection.RetObjBean.RowsBean> collections;
+    private List<ResCollection.RetObjBean.RowsBean> collections;
     private LayoutInflater layoutInflater;
-
     private MyOnItemClickedListener myOnItemClickedListener;
+    private String longDatePat = "yyyy-MM-dd HH:mm:ss";
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public MyOnItemClickedListener getMyOnItemClickedListener() {
         return myOnItemClickedListener;
@@ -62,8 +64,11 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.cs_tv_name.setText(collections.get(position).getTitle());
         holder.cs_tv_link.setText(collections.get(position).getLink());
-        holder.cs_tv_time.setText(collections.get(position).getCreateTime());
-
+        try {
+            holder.cs_tv_time.setText(DateUtil.showDate(sdf.parse(collections.get(position).getCreateTime()), longDatePat));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.v.setOnClickListener(v -> {
 //            Intent intent = new Intent(mContext, ContentActivity.class);
 //            intent.putExtra(ContentActivity.KEY_URL, collections.get(position).getLink());

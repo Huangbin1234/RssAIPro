@@ -10,9 +10,12 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResMessageList;
+import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.me.MessageContentActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -24,8 +27,10 @@ import java.util.List;
  */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
     private Context mContext;
-    List<ResMessageList.RetObjBean.RowsBean> messages;
+    private List<ResMessageList.RetObjBean.RowsBean> messages;
     private LayoutInflater layoutInflater;
+    private String longDatePat = "yyyy-MM-dd HH:mm:ss";
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public MessageAdapter(Context mContext, List<ResMessageList.RetObjBean.RowsBean> mMessages) {
         this.mContext = mContext;
@@ -43,7 +48,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_msg_tv_title.setText(messages.get(position).getTitle());
         holder.item_msg_tv_link.setText(messages.get(position).getContent());
-        holder.item_msg_tv_time.setText("发布时间："+messages.get(position).getPubTime());
+        try {
+            holder.item_msg_tv_time.setText(DateUtil.showDate(sdf.parse(messages.get(position).getPubTime()), longDatePat));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (SharedPreferencesUtil.getBoolean(mContext, messages.get(position).getId(), false)) {
             holder.irs_tv_msg_flag.setVisibility(View.GONE);
         } else {
@@ -51,7 +60,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         }
         holder.v.setOnClickListener(v -> {
             SharedPreferencesUtil.setBoolean(mContext, messages.get(position).getId(), true);
-            notifyItemChanged(position,messages.size());
+            notifyItemChanged(position, messages.size());
             Intent intent = new Intent(mContext, MessageContentActivity.class);
             intent.putExtra(MessageContentActivity.KEY_MSG_BEAN, messages.get(position));
             mContext.startActivity(intent);

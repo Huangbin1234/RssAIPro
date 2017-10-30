@@ -37,7 +37,7 @@ public class ApiRetrofit {
     private DataGroupApi dataGroupApiService;
     private MessageApi messageApiService;
     //    public static final String BASE_URL = "http://192.168.0.112:8010/";
-    public static final String BASE_URL = "http://192.168.1.108:8088/zr/";
+    public static final String BASE_URL = "http://192.168.1.101:8088/zr/";
 //    public static final String BASE_URL = "http://192.168.58.226:8088/zr/";
     public static final String BASE_IMG_URL = BASE_URL + "uploads/images/";
     //    public static final String BASE_URL = "http://127.0.0.1:8010/";

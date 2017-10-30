@@ -29,18 +29,15 @@
             android:id="@+id/cs_tv_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:textColor="@color/color_time"
-            android:textSize="@dimen/s14p"/>
-
-
+            android:textSize="@dimen/s12p"/>
+        <!--android:padding="5dp"-->
+        <!--android:background="@drawable/bg_link"-->
+        <!--android:textIsSelectable="true"-->
         <TextView
             android:id="@+id/cs_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:textColor="@color/color_time"
             android:textSize="@dimen/s14p"/>
 

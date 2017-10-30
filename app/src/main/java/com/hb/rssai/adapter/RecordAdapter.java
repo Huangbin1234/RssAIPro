@@ -9,7 +9,10 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResUserInformation;
+import com.hb.rssai.util.DateUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -21,9 +24,10 @@ import java.util.List;
  */
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.MyViewHolder> {
     private Context mContext;
-    List<ResUserInformation.RetObjBean.RowsBean> userInformations;
+    private List<ResUserInformation.RetObjBean.RowsBean> userInformations;
     private LayoutInflater layoutInflater;
-
+    private String longDatePat = "yyyy-MM-dd HH:mm:ss";
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private MyOnItemClickedListener myOnItemClickedListener;
 
     public RecordAdapter.MyOnItemClickedListener getMyOnItemClickedListener() {
@@ -37,6 +41,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.MyViewHold
     public interface MyOnItemClickedListener {
         void onItemClicked(ResUserInformation.RetObjBean.RowsBean rowsBean);
     }
+
     public RecordAdapter(Context mContext, List<ResUserInformation.RetObjBean.RowsBean> mMessages) {
         this.mContext = mContext;
         this.userInformations = mMessages;
@@ -53,7 +58,11 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_msg_tv_title.setText(userInformations.get(position).getInformationTitle());
         holder.item_msg_tv_link.setText(userInformations.get(position).getInformationLink());
-        holder.item_msg_tv_time.setText("阅读时间："+ userInformations.get(position).getOprTime());
+        try {
+            holder.item_msg_tv_time.setText(DateUtil.showDate(sdf.parse(userInformations.get(position).getOprTime()), longDatePat));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         holder.v.setOnClickListener(v -> {
             //TODO
