@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.hb.rssai.adapter.RecordAdapter;
+import com.hb.rssai.bean.ResCollection;
 import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.ResUserInformation;
 import com.hb.rssai.constants.Constant;
@@ -108,6 +109,7 @@ public class RecordPresenter extends BasePresenter<IRecordView> {
                 }, this::loadError);
     }
     private String infoId = "";
+    private ResUserInformation.RetObjBean.RowsBean bean;
     private void setListResult(ResUserInformation resUserInformation) {
         isLoad = false;
         mSwipeRefreshLayout.setRefreshing(false);
@@ -124,6 +126,7 @@ public class RecordPresenter extends BasePresenter<IRecordView> {
                     adapter.setMyOnItemClickedListener(new RecordAdapter.MyOnItemClickedListener() {
                         @Override
                         public void onItemClicked(ResUserInformation.RetObjBean.RowsBean rowsBean) {
+                            bean=rowsBean;
                             if (!TextUtils.isEmpty(rowsBean.getInformationId())) {
                                 infoId = rowsBean.getInformationId();
                                 getInformation(); //获取消息
@@ -177,7 +180,12 @@ public class RecordPresenter extends BasePresenter<IRecordView> {
             intent.putExtra("clickNotGood", resInfo.getRetObj().getClickNotGood());
             mContext.startActivity(intent);
         } else {
-            T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
+//            T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
+            Intent intent = new Intent(mContext, ContentActivity.class);
+            intent.putExtra(ContentActivity.KEY_URL, bean.getInformationLink());
+            intent.putExtra(ContentActivity.KEY_TITLE, bean.getInformationTitle());
+            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, bean.getInformationId());
+            mContext.startActivity(intent);
         }
     }
 

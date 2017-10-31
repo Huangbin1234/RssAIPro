@@ -147,7 +147,7 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
         return map;
     }
 
-
+    private ResCollection.RetObjBean.RowsBean bean;
     private void setListResult(ResCollection resCollection) {
         if (resCollections != null && page == 1) {
             resCollections.clear();
@@ -168,6 +168,7 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
                     adapter.setMyOnItemClickedListener(new CollectionAdapter.MyOnItemClickedListener() {
                         @Override
                         public void onItemClicked(ResCollection.RetObjBean.RowsBean rowsBean) {
+                            bean=rowsBean;
                             if (!TextUtils.isEmpty(rowsBean.getInformationId())) {
                                 infoId = rowsBean.getInformationId();
                                 getInformation(); //获取消息
@@ -233,7 +234,12 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
             intent.putExtra("clickNotGood", resInfo.getRetObj().getClickNotGood());
             mContext.startActivity(intent);
         } else {
-            T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
+//            T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
+            Intent intent = new Intent(mContext, ContentActivity.class);
+            intent.putExtra(ContentActivity.KEY_URL, bean.getLink());
+            intent.putExtra(ContentActivity.KEY_TITLE, bean.getTitle());
+            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, bean.getInformationId());
+            mContext.startActivity(intent);
         }
     }
 
