@@ -92,7 +92,7 @@
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
-                                android:scaleType="centerCrop"
+                                android:scaleType="centerInside"
                                 android:src="@mipmap/ic_total_record"></ImageView>
 
                             <TextView
@@ -140,7 +140,7 @@
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
-                                android:scaleType="centerCrop"
+                                android:scaleType="centerInside"
                                 android:src="@mipmap/ic_total_subscribe"></ImageView>
 
                             <TextView
@@ -188,7 +188,7 @@
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
-                                android:scaleType="centerCrop"
+                                android:scaleType="centerInside"
                                 android:src="@mipmap/ic_total_offline"></ImageView>
 
                             <TextView
