@@ -111,5 +111,8 @@
     <string name="str_re_try">重试</string>
     <string name="str_record_title">阅读记录</string>
     <string name="str_guide_label">立即进入</string>
+    <string name="str_mine_record">阅读记录</string>
+    <string name="str_mine_subscribe">订阅主题</string>
+    <string name="str_mine_offline">离线阅读</string>
 
 </resources>

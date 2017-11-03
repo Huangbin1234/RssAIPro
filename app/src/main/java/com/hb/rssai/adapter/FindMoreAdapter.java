@@ -70,7 +70,7 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_image, holder.ifm_iv_img);
         }
 
-        holder.ifm_tv_people.setText("订阅：" + resList.get(position).getCount());
+        holder.ifm_tv_people.setText(""+resList.get(position).getCount());
         holder.ifm_tv_abstract.setText(resList.get(position).getAbstractContent());
         holder.ifm_tv_title.setText(resList.get(position).getName());
 //        1、如果被删除 true
