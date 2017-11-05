@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/color_general_white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/color_general_white"
+              android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,23 +21,24 @@
                 android:layout_marginTop="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
-
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="16dp"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:src="@mipmap/ic_vline" />-->
+                <!--android:paddingLeft="16dp"-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_vline"
+                    android:visibility="gone"/>
 
                 <TextView
+
                     android:id="@+id/ff_find_tv_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-
                     android:text="@string/ff_find_more_label"
                     android:textColor="@color/color_big_label"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"/>
                 <!--android:layout_marginLeft="10dp"-->
 
             </RelativeLayout>
@@ -46,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/color_general_line"
-                android:visibility="visible" />
+                android:visibility="visible"/>
         </LinearLayout>
     </FrameLayout>
 
@@ -60,6 +61,6 @@
             android:id="@+id/ff_find_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_general_white" />
+            android:background="@color/color_general_white"/>
     </RelativeLayout>
 </LinearLayout>

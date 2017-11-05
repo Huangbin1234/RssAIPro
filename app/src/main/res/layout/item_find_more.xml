@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="10dp"
+              android:orientation="vertical"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/ifm_tv_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="122222222"
+            android:textColor="#4a4b4d"
+            android:textSize="@dimen/s16p"/>
+
+        <ImageView
+            android:id="@+id/ifm_iv_add"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="16dp"
+            android:src="@mipmap/ic_subscribe_add"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +44,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
             android:background="@drawable/ll_selector"
             android:elevation="4dp"
             android:orientation="vertical"
@@ -29,7 +53,7 @@
                 android:id="@+id/ifm_iv_img"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
         </android.support.v7.widget.CardView>
 
         <LinearLayout
@@ -37,38 +61,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/ifm_tv_title"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:text="122222222"
-                    android:textColor="#4a4b4d"
-                    android:textSize="@dimen/s16p" />
-
-                <ImageView
-                    android:id="@+id/ifm_iv_add"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_marginLeft="16dp"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_add" />
-            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -79,16 +76,17 @@
                     android:ellipsize="end"
                     android:letterSpacing="0.025"
                     android:lineSpacingExtra="3dp"
-                    android:maxLines="2"
+                    android:maxLines="3"
                     android:text="1212222222222222222222221222222222222222222222222222222222222222"
                     android:textColor="#9c9c9c"
-                    android:textSize="@dimen/s14p" />
+                    android:textSize="@dimen/s14p"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
+
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -97,7 +95,7 @@
                         android:id="@+id/iv_sub_avatar"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
-                        android:src="@mipmap/main_user_male" />
+                        android:src="@mipmap/main_user_male"/>
 
                     <TextView
                         android:id="@+id/ifm_tv_people"
@@ -107,7 +105,7 @@
                         android:layout_toRightOf="@id/iv_sub_avatar"
                         android:text="121221"
                         android:textColor="#bfbfbf"
-                        android:textSize="@dimen/s10p" />
+                        android:textSize="@dimen/s10p"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
