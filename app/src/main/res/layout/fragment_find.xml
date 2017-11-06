@@ -37,13 +37,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:elevation="2dp"
+                            android:elevation="0dp"
                             app:cardCornerRadius="0dp"
-                            app:cardElevation="2dp"
-                            app:contentPaddingBottom="2dp"
-                            app:contentPaddingLeft="2dp"
-                            app:contentPaddingRight="2dp"
-                            app:contentPaddingTop="2dp">
+                            app:cardElevation="0dp"
+                            app:contentPaddingBottom="0dp"
+                            app:contentPaddingLeft="0dp"
+                            app:contentPaddingRight="0dp"
+                            app:contentPaddingTop="0dp">
 
                             <include layout="@layout/include_hot" />
                         </android.support.v7.widget.CardView>

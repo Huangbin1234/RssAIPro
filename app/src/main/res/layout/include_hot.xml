@@ -34,7 +34,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-
                     android:text="@string/ff_find_hot_label"
                     android:textColor="@color/color_big_label"
                     android:textSize="@dimen/s16p" />
@@ -99,9 +98,9 @@
         android:layout_margin="16dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="@drawable/chang_bg_selector"
+       android:background="@drawable/bg_link"
         android:padding="12dp">
-
+        <!--android:background="@drawable/chang_bg_selector"-->
         <TextView
             android:id="@+id/tv_sub_right_all"
             android:layout_width="wrap_content"
