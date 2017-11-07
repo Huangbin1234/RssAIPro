@@ -23,10 +23,10 @@
                 android:paddingRight="16dp">
 
                 <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="16dp"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:src="@mipmap/ic_vline" />-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="16dp"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:src="@mipmap/ic_vline" />-->
 
                 <TextView
                     android:id="@+id/ff_find_hot_label"
@@ -36,7 +36,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/ff_find_hot_label"
                     android:textColor="@color/color_big_label"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s18p" />
                 <!--android:layout_marginLeft="10dp"-->
             </RelativeLayout>
 
@@ -91,15 +91,15 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:visibility="visible"
         android:id="@+id/ll_recommend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:background="@drawable/bg_link"
         android:gravity="center"
         android:orientation="horizontal"
-       android:background="@drawable/bg_link"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:visibility="visible">
         <!--android:background="@drawable/chang_bg_selector"-->
         <TextView
             android:id="@+id/tv_sub_right_all"

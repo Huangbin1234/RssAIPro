@@ -4,7 +4,8 @@
     android:id="@+id/main_coord_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg">
+    android:background="@color/bg"
+    android:elevation="4dp">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -74,10 +75,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:ellipsize="end"
+                            android:lineSpacingMultiplier="1.2"
                             android:maxLines="4"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
-                            android:textColor="@color/color_txt"
+                            android:textColor="@color/text_color_abstract"
                             android:textSize="@dimen/s14p" />
 
                         <ImageView
@@ -86,8 +89,9 @@
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="16dp"
-                            android:src="@mipmap/ic_add"
+                            android:src="@mipmap/ic_subscribe_add"
                             android:visibility="gone" />
+
                     </RelativeLayout>
 
 
@@ -143,15 +147,17 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
         app:layout_anchor="@id/appbar"
-        app:layout_anchorGravity="bottom|center"
+        app:layout_anchorGravity="right|center"
         app:srcCompat="@android:drawable/ic_input_add" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/sla_swipe_layout"
         android:layout_width="match_parent"

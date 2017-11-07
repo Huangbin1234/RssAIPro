@@ -78,7 +78,7 @@
                                                 android:layout_centerVertical="true"
                                                 android:text="@string/sub_label_topic"
                                                 android:textColor="@color/color_big_label"
-                                                android:textSize="@dimen/s16p"/>
+                                                android:textSize="@dimen/s18p"/>
 
 
                                             <View
@@ -175,7 +175,7 @@
                                                 android:layout_centerVertical="true"
                                                 android:text="@string/sub_label"
                                                 android:textColor="@color/color_big_label"
-                                                android:textSize="@dimen/s16p"/>
+                                                android:textSize="@dimen/s18p"/>
 
 
                                             <View

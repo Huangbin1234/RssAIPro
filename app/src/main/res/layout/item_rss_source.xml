@@ -1,11 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/irs_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:gravity="center"
-              android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/irs_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,18 +16,18 @@
             android:id="@+id/ir_cd_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:background="@drawable/ll_selector"
             android:elevation="4dp"
-            android:layout_margin="4dp"
+            android:orientation="vertical"
             app:cardCornerRadius="2dp"
-            app:cardElevation="4dp"
-            android:orientation="vertical">
+            app:cardElevation="4dp">
 
             <ImageView
                 android:id="@+id/irs_iv_logo"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/irs_tv_count"
@@ -40,7 +40,7 @@
                 android:maxLines="1"
                 android:padding="5dp"
                 android:textColor="@color/white"
-                android:textSize="@dimen/s12p"/>
+                android:textSize="@dimen/s12p" />
         </android.support.v7.widget.CardView>
 
         <LinearLayout
@@ -54,13 +54,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
                 android:ellipsize="end"
                 android:lines="1"
                 android:maxEms="6"
-                android:textColor="#292929"
-                android:textSize="@dimen/s14p"/>
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="@color/text_color_title"
+                android:textSize="@dimen/s14p" />
 
 
             <!--<TextView-->

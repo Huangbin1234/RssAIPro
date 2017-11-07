@@ -114,5 +114,6 @@
     <string name="str_mine_record">阅读记录</string>
     <string name="str_mine_subscribe">订阅主题</string>
     <string name="str_mine_offline">离线阅读</string>
+    <string name="str_mine_clear">清理缓存</string>
 
 </resources>
