@@ -302,7 +302,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
             if (resBase.getRetCode() == 0) {
                 ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_add);
             } else {
-                ((ImageView) v).setImageResource(R.mipmap.ic_subscibe_cancel);
+                ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_cancel);
             }
         }
     }
@@ -320,7 +320,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
             }
         } else {
             if (resBase.getRetCode() == 0) {
-                ((ImageView) v).setImageResource(R.mipmap.ic_subscibe_cancel);
+                ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_cancel);
             } else {
                 ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_add);
             }

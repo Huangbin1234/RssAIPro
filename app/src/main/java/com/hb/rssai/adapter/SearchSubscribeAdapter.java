@@ -73,15 +73,15 @@ public class SearchSubscribeAdapter extends RecyclerView.Adapter<SearchSubscribe
 //               如果userId等于当前登录的用户ID 那么置灰
 //               否则 userId不等于当前登录的用户ID 那么高亮
         if (resList.get(position).isDeleteFlag()) {
-            holder.ifm_iv_add.setImageResource(R.mipmap.ic_add);
+            holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
         } else {
             if (TextUtils.isEmpty(resList.get(position).getUserId())) {
-                holder.ifm_iv_add.setImageResource(R.mipmap.ic_add);
+                holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
             } else {
                 if (userId.equals(resList.get(position).getUserId())) {
-                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_no_add);
+                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_cancel);
                 } else {
-                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_add);
+                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
                 }
             }
         }

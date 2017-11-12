@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               style="@style/title_all"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -44,10 +43,25 @@
                 style="@style/InfoDetail"
                 android:padding="16dp">
 
-                <TextView
-                    style="@style/TextLabel"
-                    android:layout_centerVertical="true"
-                    android:text="@string/str_sa_change_source"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/sa_tv_change_source"
+                        style="@style/TextLabel"
+                        android:text="@string/str_sa_change_source"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/sa_tv_change_source"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/sa_tv_change_source_label"
+                        android:textColor="@color/text_color_abstract"
+                        android:textSize="@dimen/s14p"/>
+                </RelativeLayout>
 
                 <Switch
                     android:id="@+id/sa_sw_change_source"
@@ -59,7 +73,43 @@
             </RelativeLayout>
 
             <View style="@style/view_line_h"/>
+            <!--</LinearLayout>-->
+            <!--</android.support.v7.widget.CardView>-->
 
+            <RelativeLayout
+                android:id="@+id/sa_rl_opr_image"
+                style="@style/InfoDetail"
+                android:padding="16dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/sa_tv_opr_image"
+                        style="@style/TextLabel"
+                        android:text="@string/str_sa_opr_image"/>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/sa_tv_opr_image"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/sa_tv_opr_image_label"
+                        android:textColor="@color/text_color_abstract"
+                        android:textSize="@dimen/s14p"/>
+                </RelativeLayout>
+
+                <Switch
+                    android:id="@+id/sa_sw_no_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <View style="@style/view_line_h"/>
             <RelativeLayout
                 android:id="@+id/sa_rl_day_night"
                 style="@style/InfoDetail"
@@ -81,28 +131,6 @@
 
             <View style="@style/view_line_h"/>
 
-            <RelativeLayout
-                android:id="@+id/sa_rl_opr_image"
-                style="@style/InfoDetail"
-                android:padding="16dp">
-
-                <TextView
-                    style="@style/TextLabel"
-                    android:layout_centerVertical="true"
-                    android:text="@string/str_sa_opr_image"/>
-
-                <Switch
-                    android:id="@+id/sa_sw_no_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    />
-            </RelativeLayout>
-
-            <View style="@style/view_line_h"/>
-            <!--</LinearLayout>-->
-            <!--</android.support.v7.widget.CardView>-->
 
             <View
                 style="@style/view_line_h"
@@ -168,6 +196,7 @@
             </RelativeLayout>
 
             <View style="@style/view_line_h"/>
+
             <View
                 style="@style/view_line_h"
                 android:layout_marginTop="10dp"/>
@@ -188,8 +217,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:textColor="#9c9c9c"
-                    android:textSize="@dimen/s12p"/>
+                    android:textColor="@color/text_color_abstract"
+                    android:textSize="@dimen/s14p"/>
 
                 <TextView
                     android:id="@+id/sa_tv_ver_label"
@@ -207,7 +236,7 @@
             </RelativeLayout>
             <!--</LinearLayout>-->
             <!--</android.support.v7.widget.CardView>-->
-            <View style="@style/view_line_h" />
+            <View style="@style/view_line_h"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

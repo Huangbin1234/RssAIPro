@@ -88,7 +88,7 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
                 holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
             } else {
                 if (userId.equals(resList.get(position).getUserId())) {
-                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscibe_cancel);
+                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_cancel);
                 } else {
                     holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
                 }

@@ -225,9 +225,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 mIrsTvMsgCount.setVisibility(View.GONE);
                 getActivity().startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
-//            case R.id.fm_ll_setting:
-//                getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
-//                break;
+            case R.id.fm_ll_setting:
+                getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
+                break;
             case R.id.fm_ll_scan:
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
                 break;

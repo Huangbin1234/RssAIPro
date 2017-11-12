@@ -189,9 +189,9 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
         T.ShowToast(mContext, resBase.getRetMsg());
         if (resBase.getRetCode() == 0) {
             EventBus.getDefault().post(new RssSourceEvent(0));
-            ((ImageView) v).setImageResource(R.mipmap.ic_no_add);
+            ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_cancel);
         } else {
-            ((ImageView) v).setImageResource(R.mipmap.ic_add);
+            ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_add);
         }
     }
 
@@ -199,9 +199,9 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
         T.ShowToast(mContext, resBase.getRetMsg());
         if (resBase.getRetCode() == 0) {
             EventBus.getDefault().post(new RssSourceEvent(0));
-            ((ImageView) v).setImageResource(R.mipmap.ic_add);
+            ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_add);
         } else {
-            ((ImageView) v).setImageResource(R.mipmap.ic_no_add);
+            ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_cancel);
         }
     }
 
