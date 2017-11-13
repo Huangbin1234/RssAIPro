@@ -28,6 +28,7 @@ import com.hb.rssai.presenter.MinePresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.SystemStatesBarUtils;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.iView.IMineView;
 import com.hb.rssai.view.me.CollectionActivity;
@@ -117,7 +118,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         }
         ((MinePresenter) mPresenter).getUser();
 //        ((MinePresenter) mPresenter).setUpdate();
-        ((MinePresenter)mPresenter).getMessages();
+        ((MinePresenter) mPresenter).getMessages();
         isPrepared = false;
         System.out.println("====lazyLoad====");
     }
@@ -152,7 +153,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             ((MinePresenter) mPresenter).getUser();
             ((MinePresenter) mPresenter).setUpdate();
             ((MinePresenter) mPresenter).getMessages();
-        }else if(event.getMessage()==1){
+        } else if (event.getMessage() == 1) {
             mMfTvOfflineCount.setText("" + LiteOrmDBUtil.getQueryAll(Information.class).size());
         }
     }
@@ -160,7 +161,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     protected void setAppTitle() {
         mSysToolbar.setTitle("");
+
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
+//        View decorView=getActivity().getWindow().getDecorView();
+//        int option=View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+//        decorView.setSystemUiVisibility(option);
+//        getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        ActionBar actionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
+//        actionBar.hide();
+
         mSysTvTitle.setText(getResources().getString(R.string.str_main_mine));
     }
 
@@ -176,6 +185,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void initView(View rootView) {
+//        View mTopView = rootView.findViewById(R.id.view_topview);
+//        SystemStatesBarUtils.setTopViewHeightColor(getActivity(),mTopView,R.color.trans);
         mMfTvOfflineCount.setText("" + LiteOrmDBUtil.getQueryAll(Information.class).size());
     }
 
@@ -214,7 +225,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @OnClick({R.id.mf_ll_record,R.id.mf_ll_subcribe_count,R.id.sys_iv_setting,R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
+    @OnClick({R.id.mf_ll_record, R.id.mf_ll_subcribe_count, R.id.sys_iv_setting, R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
