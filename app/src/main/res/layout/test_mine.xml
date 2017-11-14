@@ -6,11 +6,17 @@
     android:layout_height="match_parent"
     android:background="@color/bg">
 
+    <View
+        android:id="@+id/fillStatusBarView"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:visibility="gone"
+        android:background="#2A81EA" />
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="175dp"
-
         android:fitsSystemWindows="true">
 
         <ImageView
@@ -44,8 +50,8 @@
                 <LinearLayout
                     android:id="@+id/fm_ll_avatar"
                     android:layout_width="match_parent"
-                    android:clickable="true"
                     android:layout_height="match_parent"
+                    android:clickable="true"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -150,8 +156,7 @@
                                 style="@style/InfoDetail"
                                 android:layout_centerVertical="true"
                                 android:background="@color/color_general_white"
-                                android:orientation="horizontal"
-                                >
+                                android:orientation="horizontal">
 
 
                                 <LinearLayout

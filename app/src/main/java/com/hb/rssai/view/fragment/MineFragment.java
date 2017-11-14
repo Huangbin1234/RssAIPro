@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -28,7 +29,6 @@ import com.hb.rssai.presenter.MinePresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
-import com.hb.rssai.util.SystemStatesBarUtils;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.iView.IMineView;
 import com.hb.rssai.view.me.CollectionActivity;
@@ -190,6 +190,28 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 //        View mTopView = rootView.findViewById(R.id.view_topview);
 //        SystemStatesBarUtils.setTopViewHeightColor(getActivity(),mTopView,R.color.trans);
         mMfTvOfflineCount.setText("" + LiteOrmDBUtil.getQueryAll(Information.class).size());
+        /** * 设置view高度为statusbar的高度，并填充statusbar */
+//        View mStatusBar = rootView.findViewById(R.id.fillStatusBarView);
+//        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mStatusBar.getLayoutParams();
+//        lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
+//        lp.height = getStatusBar();
+//        mStatusBar.setLayoutParams(lp);
+
+    }
+
+    /**
+     * 获取状态栏高度 * @return
+     */
+    public int getStatusBar() {
+        /** * 获取状态栏高度 * */
+        int statusBarHeight1 = -1;
+        //获取status_bar_height资源的ID
+        int resourceId = ((AppCompatActivity) getActivity()).getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            //根据资源ID获取响应的尺寸值
+            statusBarHeight1 = getResources().getDimensionPixelSize(resourceId);
+        }
+        return statusBarHeight1;
     }
 
     @Override
@@ -312,6 +334,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public TextView getTvMsgCount() {
         return mIrsTvMsgCount;
+    }
+
+    @Override
+    public ImageView getMfIvToBg() {
+        return mMfIvToBg;
     }
 
 

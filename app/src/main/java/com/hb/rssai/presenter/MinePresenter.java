@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.bean.ResBase;
@@ -24,6 +26,7 @@ import com.hb.rssai.view.iView.IMineView;
 import java.util.HashMap;
 import java.util.Map;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -42,6 +45,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
     private TextView tvMessageFlag;
     private TextView tvSignature;
     private TextView tvMsgCount;
+    private ImageView mfIvToBg;
 
 
     public MinePresenter(Context context, IMineView iMineView) {
@@ -58,6 +62,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         tvMessageFlag = iMineView.getTvMessageFlag();
         tvSignature = iMineView.getTvSignature();
         tvMsgCount = iMineView.getTvMsgCount();
+        mfIvToBg = iMineView.getMfIvToBg();
 
     }
 
@@ -112,6 +117,8 @@ public class MinePresenter extends BasePresenter<IMineView> {
             }
 
             HttpLoadImg.loadCircleWithBorderImg(mContext, ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar(), ivAva);
+            //毛玻璃效果 与 状态栏不沉浸
+            //Glide.with(mContext).load(ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar()).bitmapTransform(new BlurTransformation(mContext, 20, 2), new CenterCrop(mContext)).into(mfIvToBg);
         } else {
             T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
         }

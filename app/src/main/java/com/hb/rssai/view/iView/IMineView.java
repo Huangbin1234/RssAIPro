@@ -25,4 +25,7 @@ public interface IMineView {
     TextView getTvSignature();
 
     TextView  getTvMsgCount();
+
+    ImageView getMfIvToBg();
+
 }
