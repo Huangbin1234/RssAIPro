@@ -30,7 +30,6 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-
                         android:id="@+id/fm_ll_avatar"
                         style="@style/InfoDetail"
                         android:gravity="center_vertical"
@@ -224,19 +223,19 @@
 
                         <View
                             android:layout_width="1px"
-                            android:visibility="gone"
                             android:layout_height="16dp"
                             android:layout_gravity="center_vertical"
-                            android:background="@color/color_general_line" />
+                            android:background="@color/color_general_line"
+                            android:visibility="gone" />
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/mf_ll_clear"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
 
                             <LinearLayout

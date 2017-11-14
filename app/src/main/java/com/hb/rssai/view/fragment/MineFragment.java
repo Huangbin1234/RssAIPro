@@ -91,13 +91,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @BindView(R.id.mf_ll_offline)
     LinearLayout mMfLlOffline;
     @BindView(R.id.mf_ll_subcribe_count)
-    LinearLayout mMfLlSubscibeCount;
+    LinearLayout mMfLlSubscribeCount;
     @BindView(R.id.fm_tv_signature)
     TextView mFmTvSignature;
     @BindView(R.id.sys_iv_setting)
     ImageView mSysIvSetting;
     @BindView(R.id.mf_ll_record)
     LinearLayout mfLlRecord;
+    @BindView(R.id.sla_iv_to_bg)
+    ImageView mMfIvToBg;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -170,7 +172,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 //        ActionBar actionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
 //        actionBar.hide();
 
-        mSysTvTitle.setText(getResources().getString(R.string.str_main_mine));
+//        mSysTvTitle.setText(getResources().getString(R.string.str_main_mine));
     }
 
     @Override
@@ -180,7 +182,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected int providerContentViewId() {
-        return R.layout.fragment_mine;
+        return R.layout.test_mine;
     }
 
     @Override
@@ -225,7 +227,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @OnClick({R.id.mf_ll_record, R.id.mf_ll_subcribe_count, R.id.sys_iv_setting, R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
+    @OnClick({R.id.sla_iv_to_bg, R.id.mf_ll_record, R.id.mf_ll_subcribe_count, R.id.sys_iv_setting, R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -243,6 +245,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
                 break;
             case R.id.fm_ll_avatar:
+                startActivityForResult(new Intent(getContext(), UserActivity.class), REQUEST_LOGIN);
+                break;
+            case R.id.sla_iv_to_bg:
                 startActivityForResult(new Intent(getContext(), UserActivity.class), REQUEST_LOGIN);
                 break;
             case R.id.fm_ll_search:

@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_coord_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+
+        android:fitsSystemWindows="true">
+
+        <ImageView
+            android:id="@+id/sys_iv_setting"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="16dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_setting"
+            android:visibility="gone" />
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginBottom="16dp"
+            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleTextAppearance="?android:attr/textAppearanceMedium"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/fm_ll_avatar"
+                    android:layout_width="match_parent"
+                    android:clickable="true"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/sla_iv_to_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:fitsSystemWindows="true"
+                            android:scaleType="centerCrop"
+                            app:layout_collapseMode="parallax" />
+
+                        <!--<android.support.v7.widget.CardView-->
+                        <!--android:id="@+id/sla_cv"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--android:elevation="4dp"-->
+                        <!--app:cardElevation="4dp">-->
+
+                        <!--<ImageView-->
+                        <!--android:id="@+id/fm_iv_ava"-->
+                        <!--android:layout_width="50dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!---->
+                        <!--android:scaleType="centerCrop"-->
+                        <!--android:src="@mipmap/ic_no_image"-->
+                        <!--/>-->
+                        <ImageView
+                            android:id="@+id/fm_iv_ava"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:clickable="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_user_picture"
+                            app:layout_collapseMode="parallax" />
+
+                        <!--</android.support.v7.widget.CardView>-->
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@id/fm_iv_ava"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/fm_tv_account"
+                                style="@style/TextLabel"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="@string/str_mf_no_login"
+                                android:textColor="@color/color_general_white"
+                                android:textSize="@dimen/s16p" />
+
+                            <TextView
+                                android:id="@+id/fm_tv_signature"
+                                style="@style/TextLabel"
+                                android:layout_marginTop="8dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textColor="@color/color_general_white"
+                                android:textSize="@dimen/s14p"
+                                android:visibility="gone" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/sla_cv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="4dp"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="4dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="75dp"
+                            android:background="@color/color_general_white"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/sla_tv_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:textColor="@color/color_txt"
+                                android:textSize="20sp"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:id="@+id/fm_ll_data"
+                                style="@style/InfoDetail"
+                                android:layout_centerVertical="true"
+                                android:background="@color/color_general_white"
+                                android:orientation="horizontal"
+                                >
+
+
+                                <LinearLayout
+                                    android:id="@+id/mf_ll_record"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:scaleType="centerInside"
+                                            android:src="@mipmap/ic_total_record"></ImageView>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="5dp"
+                                            android:text="@string/str_mine_record"
+                                            android:textColor="@color/text_color_title"
+                                            android:textSize="@dimen/s14p" />
+
+                                        <TextView
+                                            android:id="@+id/mf_tv_read_count"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="0"
+                                            android:textColor="@color/color_toolbar_bg"
+                                            android:textSize="@dimen/s16p"
+                                            android:visibility="gone" />
+                                        <!--android:layout_marginTop="10dp"-->
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1px"
+                                    android:layout_height="16dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@color/color_general_line" />
+
+                                <LinearLayout
+                                    android:id="@+id/mf_ll_subcribe_count"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:textColor="@color/color_txt">
+
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:scaleType="centerInside"
+                                            android:src="@mipmap/ic_total_subscribe"></ImageView>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="5dp"
+                                            android:text="@string/str_mine_subscribe"
+                                            android:textColor="@color/text_color_title"
+                                            android:textSize="@dimen/s14p" />
+
+                                        <TextView
+                                            android:id="@+id/mf_tv_subcribe_count"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="0"
+                                            android:textColor="@color/color_toolbar_bg"
+                                            android:textSize="@dimen/s16p"
+                                            android:visibility="gone" />
+                                        <!--android:layout_marginTop="10dp"-->
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1px"
+                                    android:layout_height="16dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@color/color_general_line" />
+
+                                <LinearLayout
+                                    android:id="@+id/mf_ll_offline"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:textColor="@color/color_txt">
+
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:scaleType="centerInside"
+                                            android:src="@mipmap/ic_total_offline"></ImageView>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="5dp"
+                                            android:text="@string/str_mine_offline"
+                                            android:textColor="@color/text_color_title"
+                                            android:textSize="@dimen/s14p" />
+
+                                        <TextView
+                                            android:id="@+id/mf_tv_offline_count"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="0"
+                                            android:textColor="@color/color_toolbar_bg"
+                                            android:textSize="@dimen/s16p"
+                                            android:visibility="gone" />
+                                        <!--android:layout_marginTop="10dp"-->
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1px"
+                                    android:layout_height="16dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@color/color_general_line"
+                                    android:visibility="gone" />
+
+                                <LinearLayout
+                                    android:id="@+id/mf_ll_clear"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:scaleType="centerInside"
+                                            android:src="@mipmap/ic_total_clear"></ImageView>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="5dp"
+                                            android:text="@string/str_mine_clear"
+                                            android:textColor="@color/text_color_title"
+                                            android:textSize="@dimen/s14p" />
+
+                                        <TextView
+                                            android:id="@+id/mf_tv_read_clear"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="0"
+                                            android:textColor="@color/color_toolbar_bg"
+                                            android:textSize="@dimen/s16p"
+                                            android:visibility="gone" />
+                                        <!--android:layout_marginTop="10dp"-->
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/sys_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin">
+
+                <TextView
+                    android:id="@+id/sys_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLength="10"
+                    android:singleLine="true"
+
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
+        app:layout_anchor="@id/app_bar_layout"
+        app:layout_anchorGravity="right|center"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+    <!--android:id="@+id/sla_swipe_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--&gt;-->
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/sla_nest_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View style="@style/view_line_h" />
+
+            <View
+                style="@style/view_line_h"
+                android:layout_marginTop="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_general_white"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/fm_ll_message"
+                        style="@style/InfoDetail"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/fm_iv_msg"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_user_msg" />
+
+                        <TextView
+                            style="@style/TextLabel"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@id/fm_iv_msg"
+                            android:text="@string/str_mf_message_center"
+                            android:textColor="@color/text_color_title"
+                            android:textSize="@dimen/s16p" />
+
+                        <TextView
+                            android:id="@+id/irs_tv_msg_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/round_record_corner"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+
+                    <View
+                        style="@style/view_line_h"
+                        android:layout_marginLeft="16dp" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/fm_ll_collection"
+                        style="@style/InfoDetail"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/fm_iv_collection"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_user_collection" />
+
+                        <TextView
+                            style="@style/TextLabel"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@id/fm_iv_collection"
+                            android:text="@string/str_mf_collection"
+                            android:textColor="@color/text_color_title"
+                            android:textSize="@dimen/s16p" />
+
+                    </RelativeLayout>
+
+                    <View style="@style/view_line_h" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg" />
+
+                    <View style="@style/view_line_h" />
+
+                    <RelativeLayout
+                        android:id="@+id/fm_ll_search"
+                        style="@style/InfoDetail"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/fm_iv_search"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_user_search" />
+
+                        <TextView
+                            style="@style/TextLabel"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@id/fm_iv_search"
+                            android:text="@string/str_mf_search"
+
+                            android:textColor="@color/text_color_title"
+                            android:textSize="@dimen/s16p" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="资讯#主题"
+                            android:textColor="@color/text_color_abstract"
+                            android:textSize="@dimen/s14p" />
+                    </RelativeLayout>
+
+                    <View
+                        style="@style/view_line_h"
+
+                        android:layout_marginLeft="16dp" />
+
+                    <RelativeLayout
+                        android:id="@+id/fm_ll_scan"
+                        style="@style/InfoDetail"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/fm_iv_scan"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_user_sacn" />
+
+                        <TextView
+                            style="@style/TextLabel"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@id/fm_iv_scan"
+                            android:text="@string/str_mf_scan"
+                            android:textColor="@color/text_color_title"
+                            android:textSize="@dimen/s16p" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="分享#互动"
+                            android:textColor="@color/text_color_abstract"
+                            android:textSize="@dimen/s14p" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View style="@style/view_line_h" />
+
+                <View
+                    style="@style/view_line_h"
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible" />
+
+                <RelativeLayout
+                    android:id="@+id/fm_ll_setting"
+                    style="@style/InfoDetail"
+                    android:padding="16dp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/fm_iv_setting"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_user_setting" />
+
+                    <TextView
+                        style="@style/TextLabel"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_toRightOf="@id/fm_iv_setting"
+                        android:text="@string/str_mf_setting" />
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/view_line_h"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/bg" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+</android.support.design.widget.CoordinatorLayout>

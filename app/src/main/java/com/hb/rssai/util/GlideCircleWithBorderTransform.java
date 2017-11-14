@@ -58,7 +58,7 @@ public class GlideCircleWithBorderTransform extends BitmapTransformation {
         mBorderPaint.setAntiAlias(true);
         mBorderPaint.setStyle(Paint.Style.STROKE);
         mBorderPaint.setStrokeWidth(mBorder);
-        mBorderPaint.setColor(Color.MAGENTA);
+        mBorderPaint.setColor(Color.WHITE);
         mBorderPaint.setStrokeJoin(Paint.Join.ROUND);
         mBorderPaint.setStrokeCap(Paint.Cap.ROUND);
 

@@ -111,7 +111,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
                 tvSignature.setVisibility(View.GONE);
             }
 
-            HttpLoadImg.loadCircleImg(mContext, ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar(), ivAva);
+            HttpLoadImg.loadCircleWithBorderImg(mContext, ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar(), ivAva);
         } else {
             T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
         }
@@ -180,7 +180,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
             tvReadCount.setText("0");
             tvSubscribeCount.setText("0");
             tvAccount.setText(mContext.getResources().getString(R.string.str_mf_no_login));
-            HttpLoadImg.loadCircleImg(mContext, R.mipmap.icon_default_avar, ivAva);
+            HttpLoadImg.loadRoundImg(mContext, R.mipmap.icon_default_avar, ivAva);
         }
     }
 
