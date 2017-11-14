@@ -50,7 +50,7 @@ public class GlideCircleWithBorderTransform extends BitmapTransformation {
         paint.setStrokeCap(Paint.Cap.ROUND);
         float r = size / 2f;
         //线宽3dp
-        int  mBorder=DisplayUtil.dip2px(  ProjectApplication.getApplication(),1);
+        int  mBorder=DisplayUtil.dip2px(  ProjectApplication.getApplication(),2);
         //半径须使用此算法 否则会显示不全
         float m = (size - mBorder * 2 - 4) / 2f;
         Paint mBorderPaint = new Paint();
