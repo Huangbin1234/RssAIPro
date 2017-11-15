@@ -23,9 +23,9 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        setTranslucentStatus(this);
+        setTranslucentStatus(this);
         setContentView(providerContentViewId());
-        initStatusBar();
+//        initStatusBar();
         ButterKnife.bind(this);
         setAppTitle();
         initIntent();

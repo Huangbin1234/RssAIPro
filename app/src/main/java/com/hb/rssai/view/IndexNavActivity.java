@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -33,7 +32,6 @@ import com.hb.rssai.view.fragment.HomeFragment;
 import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.update.UpdateManager;
-import com.jaeger.library.StatusBarUtil;
 import com.zzhoujay.richtext.RichText;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,8 +48,7 @@ public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFra
     BottomNavigationView mNavigation;
     @BindView(R.id.container)
     LinearLayout mContainer;
-    @BindView(R.id.view_top)
-    View view_top;
+
 
     private Context mContext;
 
@@ -96,12 +93,6 @@ public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFra
             return false;
         }
     };
-
-
-    public void initStatusBar() {
-        StatusBarUtil.setTranslucentForImageViewInFragment(this,0, view_top);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
