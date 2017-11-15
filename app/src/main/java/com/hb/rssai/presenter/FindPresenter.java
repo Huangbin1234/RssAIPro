@@ -122,8 +122,12 @@ public class FindPresenter extends BasePresenter<IFindView> {
         }
         swipeLayout.setRefreshing(true);
 
-        findMoreAdapter.init();
-        recommendAdapter.init();
+        if (findMoreAdapter != null) {
+            findMoreAdapter.init();
+        }
+        if (recommendAdapter != null) {
+            recommendAdapter.init();
+        }
 
         findMoreList();
         recommendList();

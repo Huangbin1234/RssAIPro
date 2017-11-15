@@ -108,7 +108,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_record"
                                     android:textColor="@color/text_color_title"
                                     android:textSize="@dimen/s14p" />
@@ -156,7 +156,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_subscribe"
                                     android:textColor="@color/text_color_title"
                                     android:textSize="@dimen/s14p" />
@@ -204,7 +204,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_offline"
                                     android:textColor="@color/text_color_title"
                                     android:textSize="@dimen/s14p" />
@@ -300,7 +300,7 @@
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="16dp"
+                            android:layout_marginLeft="20dp"
                             android:layout_toRightOf="@id/fm_iv_msg"
                             android:text="@string/str_mf_message_center"
                             android:textColor="@color/text_color_title"
@@ -342,7 +342,7 @@
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="16dp"
+                            android:layout_marginLeft="20dp"
                             android:layout_toRightOf="@id/fm_iv_collection"
                             android:text="@string/str_mf_collection"
                             android:textColor="@color/text_color_title"
@@ -375,7 +375,7 @@
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="16dp"
+                            android:layout_marginLeft="20dp"
                             android:layout_toRightOf="@id/fm_iv_search"
                             android:text="@string/str_mf_search"
 
@@ -413,7 +413,7 @@
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="16dp"
+                            android:layout_marginLeft="20dp"
                             android:layout_toRightOf="@id/fm_iv_scan"
                             android:text="@string/str_mf_scan"
                             android:textColor="@color/text_color_title"
@@ -454,7 +454,7 @@
                     <TextView
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_toRightOf="@id/fm_iv_setting"
                         android:text="@string/str_mf_setting" />
 

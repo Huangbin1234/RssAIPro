@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.hb.rssai.presenter.BasePresenter;
+import com.jaeger.library.StatusBarUtil;
 
 import butterknife.ButterKnife;
 
@@ -22,25 +23,31 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTranslucentStatus(this);
+//        setTranslucentStatus(this);
         setContentView(providerContentViewId());
+        initStatusBar();
         ButterKnife.bind(this);
         setAppTitle();
         initIntent();
         initView();
         mPresenter = createPresenter();
-        if(mPresenter!=null){
+        if (mPresenter != null) {
             mPresenter.attachView((V) this);
         }
     }
-    public static void setTranslucentStatus(Activity activity){
+
+    public void initStatusBar() {
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
+    }
+
+    public static void setTranslucentStatus(Activity activity) {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }

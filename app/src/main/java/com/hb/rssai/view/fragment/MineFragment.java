@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -100,6 +99,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     LinearLayout mfLlRecord;
     @BindView(R.id.sla_iv_to_bg)
     ImageView mMfIvToBg;
+
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -341,11 +342,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         return mMfIvToBg;
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -60,7 +60,7 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/sa_tv_change_source_label"
                         android:textColor="@color/text_color_abstract"
-                        android:textSize="@dimen/s14p"/>
+                        android:textSize="@dimen/s12p"/>
                 </RelativeLayout>
 
                 <Switch
@@ -99,7 +99,7 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/sa_tv_opr_image_label"
                         android:textColor="@color/text_color_abstract"
-                        android:textSize="@dimen/s14p"/>
+                        android:textSize="@dimen/s12p"/>
                 </RelativeLayout>
 
                 <Switch

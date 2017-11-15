@@ -118,7 +118,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
 
             HttpLoadImg.loadCircleWithBorderImg(mContext, ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar(), ivAva);
             //毛玻璃效果 与 状态栏不沉浸
-            //Glide.with(mContext).load(ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar()).bitmapTransform(new BlurTransformation(mContext, 20, 2), new CenterCrop(mContext)).into(mfIvToBg);
+            Glide.with(mContext).load(ApiRetrofit.BASE_IMG_URL + user.getRetObj().getAvatar()).bitmapTransform(new BlurTransformation(mContext, 20, 2), new CenterCrop(mContext)).into(mfIvToBg);
         } else {
             T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
         }

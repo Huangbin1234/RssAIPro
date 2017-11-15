@@ -6,16 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    style="@style/title_all"
     tools:context="com.hb.rssai.view.IndexNavActivity">
-
+    <View
+        android:id="@+id/view_top"
+        android:layout_width="match_parent"
+        android:layout_height="25dp" />
+    <!--style="@style/title_all"-->
     <FrameLayout
         android:id="@+id/ma_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/bg"
-        android:layout_weight="1">
-    </FrameLayout>
+        android:layout_weight="1"
+        android:background="@color/bg"></FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
