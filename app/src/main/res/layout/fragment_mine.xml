@@ -8,8 +8,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <include layout="@layout/include_mine_toolbar" />
+        <ImageView
+            android:id="@+id/sys_iv_setting"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="16dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_setting"
+            android:visibility="gone" />
+        <!--<include layout="@layout/include_mine_toolbar" />-->
 
         <!-- TODO: Update blank fragment layout -->
         <ScrollView
@@ -17,60 +25,78 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
 
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/color_general_white"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/fm_ll_avatar"
-                        style="@style/InfoDetail"
-                        android:gravity="center_vertical"
-                        android:paddingBottom="16dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                         <ImageView
-                            android:id="@+id/fm_iv_ava"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_user_picture" />
+                            android:background="@color/color_toolbar_bg"
+                            android:id="@+id/sla_iv_to_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:scaleType="centerCrop" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:id="@+id/fm_ll_avatar"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="16dp"
-                            android:orientation="vertical">
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:paddingBottom="16dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="16dp">
 
-                            <TextView
-                                android:id="@+id/fm_tv_account"
-                                style="@style/TextLabel"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="@string/str_mf_no_login"
-                                android:textColor="@color/text_color_title" />
 
-                            <TextView
-                                android:id="@+id/fm_tv_signature"
-                                style="@style/TextLabel"
-                                android:layout_marginTop="10dp"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:textColor="@color/text_color_title"
-                                android:textSize="@dimen/s16p"
-                                android:visibility="gone" />
+                            <ImageView
+                                android:id="@+id/fm_iv_ava"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:scaleType="centerCrop"
+                                android:src="@mipmap/ic_user_picture" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="16dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/fm_tv_account"
+                                    style="@style/TextLabel"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="@string/str_mf_no_login"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/s16p" />
+
+                                <TextView
+                                    android:id="@+id/fm_tv_signature"
+                                    style="@style/TextLabel"
+                                    android:layout_marginTop="10dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/s14p"
+                                    android:visibility="gone" />
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <View style="@style/view_line_h" />
 

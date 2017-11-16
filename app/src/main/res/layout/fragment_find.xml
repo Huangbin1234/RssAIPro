@@ -1,99 +1,103 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/fake_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="@color/color_toolbar_bg" />
+
+    <include layout="@layout/include_toolbar" />
+    <!-- TODO: Update blank fragment layout -->
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/include_toolbar" />
-        <!-- TODO: Update blank fragment layout -->
-
-
-        <LinearLayout
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/ff_swipe_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/ff_swipe_layout"
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/ff_nest_scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.v4.widget.NestedScrollView
-                    android:id="@+id/ff_nest_scrollview"
+                <LinearLayout
+                    android:id="@+id/rl_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/rl_ll"
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginBottom="10dp"
+                        android:elevation="0dp"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="0dp"
+                        app:contentPaddingBottom="0dp"
+                        app:contentPaddingLeft="0dp"
+                        app:contentPaddingRight="0dp"
+                        app:contentPaddingTop="0dp">
 
-                        <android.support.v7.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:elevation="0dp"
-                            app:cardCornerRadius="0dp"
-                            app:cardElevation="0dp"
-                            app:contentPaddingBottom="0dp"
-                            app:contentPaddingLeft="0dp"
-                            app:contentPaddingRight="0dp"
-                            app:contentPaddingTop="0dp">
+                        <include layout="@layout/include_hot" />
+                    </android.support.v7.widget.CardView>
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1px"-->
+                    <!--android:background="@color/color_general_line"-->
+                    <!--android:visibility="visible" />-->
 
-                            <include layout="@layout/include_hot" />
-                        </android.support.v7.widget.CardView>
-                        <!--<View-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="1px"-->
-                        <!--android:background="@color/color_general_line"-->
-                        <!--android:visibility="visible" />-->
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1px"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:background="#DDDDDD"-->
+                    <!--android:visibility="visible" />-->
 
-                        <!--<View-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="1px"-->
-                        <!--android:layout_marginTop="10dp"-->
-                        <!--android:background="#DDDDDD"-->
-                        <!--android:visibility="visible" />-->
+                    <!--<include layout="@layout/include_topic" />-->
 
-                        <!--<include layout="@layout/include_topic" />-->
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1px"-->
+                    <!--android:background="#DDDDDD"-->
+                    <!--android:visibility="visible" />-->
 
-                        <!--<View-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="1px"-->
-                        <!--android:background="#DDDDDD"-->
-                        <!--android:visibility="visible" />-->
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1px"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:background="@color/color_general_line"-->
+                    <!--android:visibility="visible" />-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/color_general_line"
+                        android:visibility="visible" />
 
-                        <!--<View-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="1px"-->
-                        <!--android:layout_marginTop="10dp"-->
-                        <!--android:background="@color/color_general_line"-->
-                        <!--android:visibility="visible" />-->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@color/color_general_line"
-                            android:visibility="visible" />
+                    <include layout="@layout/include_find_more" />
 
-                        <include layout="@layout/include_find_more" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="10dp"
-                            android:background="@color/bg"
-                            android:visibility="visible" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg"
+                        android:visibility="visible" />
 
 
-                    </LinearLayout>
-                </android.support.v4.widget.NestedScrollView>
-            </android.support.v4.widget.SwipeRefreshLayout>
-
-        </LinearLayout>
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>
-</FrameLayout>
+
+</LinearLayout><!--</FrameLayout>-->

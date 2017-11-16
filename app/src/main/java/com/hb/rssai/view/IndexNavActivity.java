@@ -32,6 +32,7 @@ import com.hb.rssai.view.fragment.HomeFragment;
 import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.update.UpdateManager;
+import com.jaeger.library.StatusBarUtil;
 import com.zzhoujay.richtext.RichText;
 
 import org.greenrobot.eventbus.EventBus;
@@ -93,6 +94,12 @@ public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFra
             return false;
         }
     };
+
+    @Override
+    public void initStatusBar() {
+//        super.initStatusBar();
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

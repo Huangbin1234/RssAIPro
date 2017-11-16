@@ -55,12 +55,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.sys_tv_title)
-    TextView mSysTvTitle;
-    @BindView(R.id.sys_toolbar)
-    Toolbar mSysToolbar;
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout mAppBarLayout;
+//    @BindView(R.id.sys_tv_title)
+//    TextView mSysTvTitle;
+//    @BindView(R.id.sys_toolbar)
+//    Toolbar mSysToolbar;
+//    @BindView(R.id.app_bar_layout)
+//    AppBarLayout mAppBarLayout;
     @BindView(R.id.fm_ll_avatar)
     LinearLayout mFmLlAvatar;
     @BindView(R.id.fm_ll_message)
@@ -163,9 +163,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void setAppTitle() {
-        mSysToolbar.setTitle("");
-
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
+//        mSysToolbar.setTitle("");
+//
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
 //        View decorView=getActivity().getWindow().getDecorView();
 //        int option=View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
 //        decorView.setSystemUiVisibility(option);
@@ -183,7 +183,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected int providerContentViewId() {
-        return R.layout.test_mine;
+        return R.layout.fragment_mine;
     }
 
     @Override
@@ -340,15 +340,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public ImageView getMfIvToBg() {
         return mMfIvToBg;
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
     }
 
 
