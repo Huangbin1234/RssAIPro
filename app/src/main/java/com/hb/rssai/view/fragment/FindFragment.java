@@ -36,6 +36,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,11 +62,11 @@ public class FindFragment extends BaseFragment implements IFindView {
     TextView mFfFindHotLabel;
     @BindView(R.id.tv_sub_right_all)
     TextView mTvSubRightAll;
-//    @BindView(R.id.ff_find_tv_topic)
+    //    @BindView(R.id.ff_find_tv_topic)
 //    TextView mFfFindTvTopic;
     @BindView(R.id.ff_tv_right_all)
     TextView mFfTvRightAll;
-//    @BindView(R.id.ff_topic_iv_all)
+    //    @BindView(R.id.ff_topic_iv_all)
 //    ImageView mFfTopicIvAll;
     @BindView(R.id.sub_ll_all)
     LinearLayout mSubLlAll;
@@ -85,6 +87,9 @@ public class FindFragment extends BaseFragment implements IFindView {
 
     @BindView(R.id.ll_recommend)
     LinearLayout mLlRecommend;
+    @BindView(R.id.ff_ll_root)
+    LinearLayout mFfLlRoot;
+    Unbinder unbinder;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -97,6 +102,7 @@ public class FindFragment extends BaseFragment implements IFindView {
     private FullyGridLayoutManager mRecommendGridLayoutManager;
 
     private boolean isPrepared;
+
     @Override
     protected void lazyLoad() {
         if (!isVisible || !isPrepared) {
@@ -107,6 +113,7 @@ public class FindFragment extends BaseFragment implements IFindView {
         isPrepared = false;
         System.out.println("====lazyLoad====");
     }
+
     public FindFragment() {
         // Required empty public constructor
     }
@@ -118,6 +125,19 @@ public class FindFragment extends BaseFragment implements IFindView {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        System.out.println("FindFragment==>" + hidden);
+        if (rView != null) {
+            if (hidden) {
+                mFfLlRoot.setFitsSystemWindows(false);
+            } else {
+                mFfLlRoot.setFitsSystemWindows(true);
+            }
+            rView.requestApplyInsets();
+        }
     }
 
     @Override
@@ -134,6 +154,7 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        unbinder = ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -155,8 +176,11 @@ public class FindFragment extends BaseFragment implements IFindView {
         return R.layout.fragment_find;
     }
 
+    View rView;
+
     @Override
     protected void initView(View rootView) {
+        rView = rootView;
         mFindMoreLinearManager = new LinearLayoutManager(getContext());
         mTopicLinearManager1 = new LinearLayoutManager(getContext());
         mRecommendGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
@@ -211,6 +235,7 @@ public class FindFragment extends BaseFragment implements IFindView {
             ((FindPresenter) mPresenter).refreshList();
         }
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -238,6 +263,7 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unbinder.unbind();
     }
 
 

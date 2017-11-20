@@ -1,19 +1,19 @@
 <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fs_ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/color_toolbar_bg"
     tools:ignore="UselessParent">
 
-    <View
-        android:id="@+id/fake_status_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/statusbar_view_height"
-        android:background="@color/color_toolbar_bg" />
+    <!--<View-->
+    <!--android:id="@+id/fake_status_bar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/statusbar_view_height"-->
+    <!--android:background="@color/color_toolbar_bg" />-->
 
     <include layout="@layout/include_sub_add_toolbar" />
 

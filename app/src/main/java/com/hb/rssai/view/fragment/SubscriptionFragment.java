@@ -57,7 +57,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import me.drakeet.materialdialog.MaterialDialog;
 
 import static android.app.Activity.RESULT_OK;
@@ -104,6 +106,9 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     RecyclerView mSfRecyclerViewTopic;
     @BindView(R.id.rl_ll_topic)
     LinearLayout mRlLlTopic;
+    @BindView(R.id.fs_ll_root)
+    LinearLayout mFsLlRoot;
+    Unbinder unbinder;
     //@BindView(R.id.index_function_gridview)
     // FullGridView mIndexFunctionGridView;
 
@@ -148,6 +153,19 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        System.out.println("SubscriptionFragment==>" + hidden);
+        if (rView != null) {
+            if (hidden) {
+                mFsLlRoot.setFitsSystemWindows(false);
+            } else {
+                mFsLlRoot.setFitsSystemWindows(true);
+            }
+            rView.requestApplyInsets();
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -161,6 +179,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        unbinder = ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -181,8 +200,11 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
         return R.layout.fragment_subscription;
     }
 
+    View rView;
+
     @Override
     protected void initView(View rootView) {
+        rView = rootView;
         // 卡片式
         // mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
@@ -271,6 +293,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unbinder.unbind();
     }
 
 

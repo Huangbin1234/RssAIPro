@@ -45,7 +45,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener, IInformationView {
@@ -66,6 +68,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     ImageView mSysIvFilter;
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
+    @BindView(R.id.hf_ll_root)
+    LinearLayout mHfLlRoot;
+    Unbinder unbinder;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -107,6 +112,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public HomeFragment() {
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        System.out.println("HomeFragment==>" + hidden);
+        if (rView != null) {
+            if (hidden) {
+                mHfLlRoot.setFitsSystemWindows(false);
+            } else {
+                mHfLlRoot.setFitsSystemWindows(true);
+            }
+            rView.requestApplyInsets();
+        }
+    }
+
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -140,6 +158,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        unbinder = ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -160,8 +179,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         return R.layout.fragment_home;
     }
 
+    View rView;
+
     @Override
     protected void initView(View rootView) {
+        rView = rootView;
         mLayoutManager = new LinearLayoutManager(getContext());
         mHfRecyclerView.setLayoutManager(mLayoutManager);
         mHfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
@@ -396,6 +418,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public boolean getIsUser() {
         return isUser;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
 

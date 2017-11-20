@@ -21,6 +21,7 @@
         <item name="colorAccent">@color/color_toolbar_bg</item>
         <item name="android:listDivider">@drawable/divider</item>
         <item name="toolbarNavigationButtonStyle">@style/myToolbarNavigationButtonStyle</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="myToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
