@@ -3,6 +3,7 @@ package com.hb.rssai.view.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -112,16 +113,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public HomeFragment() {
     }
 
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         System.out.println("HomeFragment==>" + hidden);
         if (rView != null) {
-            if (hidden) {
-                mHfLlRoot.setFitsSystemWindows(false);
-            } else {
-                mHfLlRoot.setFitsSystemWindows(true);
-            }
-            rView.requestApplyInsets();
+
+                if (hidden) {
+                    mHfLlRoot.setFitsSystemWindows(false);
+                } else {
+                    mHfLlRoot.setFitsSystemWindows(true);
+                }
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                rView.requestApplyInsets();
+            }else{
+                    rView.requestLayout();
+                }
         }
     }
 

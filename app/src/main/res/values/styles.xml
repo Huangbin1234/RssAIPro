@@ -129,7 +129,9 @@
         <item name="colorAccent">@color/color_toolbar_bg</item>
         <item name="android:listDivider">@drawable/divider</item>
         <item name="toolbarNavigationButtonStyle">@style/myToolbarNavigationButtonStyle</item>
+
     </style>
+    <!--<item name="android:windowTranslucentStatus">true</item>-->
     <style name="WindowAnimationFadeInOut">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>

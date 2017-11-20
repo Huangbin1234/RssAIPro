@@ -3,6 +3,7 @@ package com.hb.rssai.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -156,12 +157,16 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     public void onHiddenChanged(boolean hidden) {
         System.out.println("SubscriptionFragment==>" + hidden);
         if (rView != null) {
-            if (hidden) {
-                mFsLlRoot.setFitsSystemWindows(false);
-            } else {
-                mFsLlRoot.setFitsSystemWindows(true);
+
+                if (hidden) {
+                    mFsLlRoot.setFitsSystemWindows(false);
+                } else {
+                    mFsLlRoot.setFitsSystemWindows(true);
+                }  if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                rView.requestApplyInsets();
+            }else{
+rView.requestLayout();
             }
-            rView.requestApplyInsets();
         }
     }
 
