@@ -130,17 +130,16 @@ public class FindFragment extends BaseFragment implements IFindView {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        System.out.println("FindFragment==>" + hidden);
         if (rView != null) {
-
-                if (hidden) {
-                    mFfLlRoot.setFitsSystemWindows(false);
-                } else {
-                    mFfLlRoot.setFitsSystemWindows(true);
-                } if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            if (hidden) {
+                mFfLlRoot.setFitsSystemWindows(false);
+            } else {
+                mFfLlRoot.setFitsSystemWindows(true);
+            }
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 rView.requestApplyInsets();
-            }else {
-                rView.requestLayout();
+            } else {
+                rView.requestFitSystemWindows();
             }
         }
     }
