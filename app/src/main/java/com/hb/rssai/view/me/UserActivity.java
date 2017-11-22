@@ -372,15 +372,18 @@ public class UserActivity extends BaseActivity implements IUserView {
                     return;
                 }
             }
-            imageFilePath = Environment.getExternalStorageDirectory().getCanonicalPath()+ "/myImage" + "/shiyan.jpg";
+            imageFilePath = Environment.getExternalStorageDirectory().getCanonicalPath() + "/myImage" + "/shiyan.jpg";
             System.out.println(imageFilePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
         // 设置图片的保存路径
         File imageFile = new File(imageFilePath);// 通过路径创建保存文件
-//        imageFileUri = Uri.fromFile(imageFile);// 获取文件的Uri
-        imageFileUri = FileProvider.getUriForFile(this,getPackageName() + ".fileprovider",imageFile);// 获取文件的Uri
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            imageFileUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", imageFile);// 获取文件的Uri
+        } else {
+            imageFileUri = Uri.fromFile(imageFile);// 获取文件的Uri
+        }
         // 手机照相
         popupView.findViewById(R.id.zx_btn).setOnClickListener(arg0 -> {
             if (mPop.isShowing()) {

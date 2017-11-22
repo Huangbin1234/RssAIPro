@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
+
     android:elevation="4dp">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+      >
 
         <!--<android.support.design.widget.CollapsingToolbarLayout-->
         <!--android:id="@+id/collapsing_toolbar_layout"-->
@@ -25,7 +27,7 @@
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
+
             app:expandedTitleMarginBottom="16dp"
             app:expandedTitleMarginStart="16dp"
             app:expandedTitleTextAppearance="?android:attr/textAppearanceMedium"
@@ -122,6 +124,7 @@
                 android:layout_height="45dp"
                 app:contentInsetLeft="0dp"
                 app:contentInsetStart="0dp"
+                android:fitsSystemWindows="true"
                 app:layout_collapseMode="pin">
 
                 <TextView
