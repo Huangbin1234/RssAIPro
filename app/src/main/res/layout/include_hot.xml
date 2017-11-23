@@ -36,7 +36,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/ff_find_hot_label"
                     android:textColor="@color/color_big_label"
-                    android:textSize="@dimen/s18p" />
+                    android:textSize="@dimen/s18p"/>
                 <!--android:layout_marginLeft="10dp"-->
             </RelativeLayout>
 
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/color_general_line"
-                android:visibility="visible" />
+                android:visibility="visible"/>
         </LinearLayout>
 
         <LinearLayout
@@ -62,13 +62,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/str_ff_tv_more"
-                android:textSize="@dimen/s12p" />
+                android:textSize="@dimen/s12p"/>
 
             <ImageView
                 android:id="@+id/ff_topic_iv_all"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:src="@mipmap/ic_right_all" />
+                android:src="@mipmap/ic_right_all"/>
 
         </LinearLayout>
 

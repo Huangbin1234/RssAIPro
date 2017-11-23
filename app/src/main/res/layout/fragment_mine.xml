@@ -488,7 +488,7 @@
 
                 <View
                     style="@style/view_line_h"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <View
                     android:layout_width="match_parent"

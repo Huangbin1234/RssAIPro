@@ -104,6 +104,20 @@ public class SubListActivity extends BaseActivity implements ISubListView {
 //        new ReadRssTask().execute();
     }
 
+//    private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
+//        @Override
+//        public boolean onMenuItemClick(MenuItem menuItem) {
+//            switch (menuItem.getItemId()) {
+//                case R.id.sm_sub_search:
+//                    //TODO
+//                    Intent intent = new Intent(SubListActivity.this, SearchActivity.class);
+//                    startActivity(intent);
+//                    break;
+//            }
+//            return true;
+//        }
+//    };
+
     @Override
     protected void initView() {
         mLayoutManager = new LinearLayoutManager(this);
@@ -116,7 +130,7 @@ public class SubListActivity extends BaseActivity implements ISubListView {
         mSubSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-        mLlfBtnReTry.setOnClickListener(v -> ((SubListPresenter)mPresenter).refreshList());
+        mLlfBtnReTry.setOnClickListener(v -> ((SubListPresenter) mPresenter).refreshList());
     }
 
     @Override
@@ -134,12 +148,19 @@ public class SubListActivity extends BaseActivity implements ISubListView {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         mSysTvTitle.setText(getResources().getString(R.string.str_sub_title));
+//        mSysToolbar.setOnMenuItemClickListener(onMenuItemClick);
     }
 
     @Override
     protected BasePresenter createPresenter() {
         return new SubListPresenter(this, this);
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.sub_menu, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
