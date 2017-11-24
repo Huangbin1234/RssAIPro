@@ -36,8 +36,9 @@ public class ApiRetrofit {
     private InformationApi informationApiService;
     private DataGroupApi dataGroupApiService;
     private MessageApi messageApiService;
-    //    public static final String BASE_URL = "http://192.168.0.112:8010/";
-    public static final String BASE_URL = "http://192.168.1.101:8088/zr/";
+    private ThemeApi themeApiService;
+        public static final String BASE_URL = "http://192.168.58.226:8010/";
+//    public static final String BASE_URL = "http://192.168.1.108:8088/zr/";
 //    public static final String BASE_URL = "http://192.168.58.226:8088/zr/";
     public static final String BASE_IMG_URL = BASE_URL + "uploads/images/";
     //    public static final String BASE_URL = "http://127.0.0.1:8010/";
@@ -100,6 +101,13 @@ public class ApiRetrofit {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
+        Retrofit retrofit_theme = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
 
         loginApiService = retrofit_login.create(LoginApi.class);
         adviceService = retrofit_advice.create(AdviceApi.class);
@@ -108,6 +116,7 @@ public class ApiRetrofit {
         informationApiService = retrofit_information.create(InformationApi.class);
         dataGroupApiService = retrofit_data_group.create(DataGroupApi.class);
         messageApiService = retrofit_message.create(MessageApi.class);
+        themeApiService = retrofit_theme.create(ThemeApi.class);
     }
 
     Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
@@ -175,5 +184,9 @@ public class ApiRetrofit {
 
     public MessageApi getMessageApiService() {
         return messageApiService;
+    }
+
+    public ThemeApi getThemeApiService() {
+        return themeApiService;
     }
 }
