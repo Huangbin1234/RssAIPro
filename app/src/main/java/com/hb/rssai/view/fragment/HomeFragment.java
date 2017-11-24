@@ -360,7 +360,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
             dialogAdapter.notifyDataSetChanged();
             materialDialog.setContentView(view).setTitle(Constant.TIPS_FILTER).setNegativeButton("关闭", v -> {
-                materialDialog.dismiss();
+            materialDialog.dismiss();
             }).show();
         } else {
             materialDialog.show();

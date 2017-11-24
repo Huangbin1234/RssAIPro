@@ -48,4 +48,8 @@ public class Constant {
 
     public static String START_TIME = "1990-01-01 00:00:00";
     public static String MSG_NO_LOGIN="尚未登录，请登录后操作！";
+
+    public static String ACTION_BD_KEY="bd_key";
+    public static String ACTION_INPUT_LINK="input_link";
+    public static String ACTION_OPEN_OPML="open_opml";
 }

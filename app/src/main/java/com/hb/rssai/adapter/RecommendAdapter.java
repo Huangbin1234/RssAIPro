@@ -55,10 +55,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.ir_tv_name.setText(rssList.get(position).getName());
-//        if (TextUtils.isEmpty(rssList.get(position).getImg())) {
+//        if (TextUtils.isEmpty(themeList.get(position).getImg())) {
 //            HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.ir_iv_logo);
 //        } else {
-//            HttpLoadImg.loadRoundImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
+//            HttpLoadImg.loadRoundImg(mContext, themeList.get(position).getImg(), holder.ir_iv_logo);
 //        }
         if (!TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
@@ -80,7 +80,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
                 }
             }
         }
-//        if (rssList.get(position).isDeleteFlag() && userId.equals(rssList.get(position).getUserId())) {
+//        if (themeList.get(position).isDeleteFlag() && userId.equals(themeList.get(position).getUserId())) {
 //            holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
 //        } else {
 //            holder.ir_iv_add.setImageResource(R.color.trans);

@@ -32,7 +32,7 @@ import java.util.List;
 public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHolder> {
     private Context mContext;
     List<ResFindMore.RetObjBean.RowsBean> rssList;
-    //    List<RssSource> rssList;
+    //    List<RssSource> themeList;
     private LayoutInflater layoutInflater;
     private SubListActivity activity;
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
@@ -70,7 +70,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.item_sla_tv_name.setText(rssList.get(position).getName());
         try {
-//            holder.item_sla_tv_count.setText("[" + rssList.get(position).getCount() + "条]");
+//            holder.item_sla_tv_count.setText("[" + themeList.get(position).getCount() + "条]");
             holder.item_sla_tv_count.setText("最近更新：");
             holder.item_sla_tv_date.setText(TextUtils.isEmpty(rssList.get(position).getLastTime()) ? "" : DateUtil.showDate(sdf.parse(rssList.get(position).getLastTime()), longDatePat));
         } catch (ParseException e) {
@@ -96,8 +96,8 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
         holder.item_sla_iv_menu.setOnClickListener(v -> mOnItemLongClickedListener.onItemLongClicked(rssList.get(position)));
         holder.v.setOnClickListener(v -> {
 //            Intent intent = new Intent(mContext, SourceListActivity.class);
-//            intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
-//            intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
+//            intent.putExtra(SourceListActivity.KEY_LINK, themeList.get(position).getLink());
+//            intent.putExtra(SourceListActivity.KEY_TITLE, themeList.get(position).getName());
 //            mContext.startActivity(intent);
             Intent intent = new Intent(mContext, SourceListActivity.class);
             intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
@@ -108,7 +108,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
             mContext.startActivity(intent);
         });
 //        holder.v.setOnLongClickListener(v -> {
-//            activity.onItemLongClicked(rssList.get(position));
+//            activity.onItemLongClicked(themeList.get(position));
 //            return true;
 //        });
     }

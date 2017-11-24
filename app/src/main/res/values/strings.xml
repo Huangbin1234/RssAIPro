@@ -120,5 +120,6 @@
     <string name="sa_tv_change_source_label">首页资讯默认显示已订阅资讯</string>
     <string name="sa_tv_opr_image_label">应用于资讯列表</string>
     <string name="sub_menu_search">搜索</string>
+    <string name="str_btn_sure">确定</string>
 
 </resources>

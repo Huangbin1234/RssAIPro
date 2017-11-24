@@ -9,6 +9,7 @@ import com.hb.rssai.api.FindApi;
 import com.hb.rssai.api.InformationApi;
 import com.hb.rssai.api.LoginApi;
 import com.hb.rssai.api.MessageApi;
+import com.hb.rssai.api.ThemeApi;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -26,6 +27,7 @@ public abstract class BasePresenter<V> {
     public static final InformationApi informationApi = ApiFactory.getInformationApiSingleton();
     public static final DataGroupApi dataGroupApi = ApiFactory.getDataGroupApiSingleton();
     public static final MessageApi messageApi = ApiFactory.getMessageApiSingleton();
+    public static final ThemeApi themeApi = ApiFactory.getThemeApiSingleton();
 
     public void attachView(V view) {
         mViewRef = new WeakReference<V>(view);

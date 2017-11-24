@@ -1,25 +1,47 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.ImageDialogAdapter;
+import com.hb.rssai.adapter.MessageAdapter;
+import com.hb.rssai.adapter.ThemeAdapter;
 import com.hb.rssai.api.FindApi;
 import com.hb.rssai.bean.ResBDJson;
 import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResMessageList;
+import com.hb.rssai.bean.ResTheme;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
+import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IAddRssView;
 import com.hb.rssai.view.widget.FullGridView;
+import com.hb.rssai.view.widget.FullyGridLayoutManager;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,10 +66,130 @@ import rx.schedulers.Schedulers;
 public class AddRssPresenter extends BasePresenter<IAddRssView> {
     private Context mContext;
     private IAddRssView iAddRssView;
+    private int page = 1;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
+    private FullyGridLayoutManager manager;
+    private boolean isEnd = false, isLoad = false;
+
+    private List<ResTheme.RetObjBean.RowsBean> mThemes = new ArrayList<>();
+    private ThemeAdapter adapter;
 
     public AddRssPresenter(Context context, IAddRssView iAddRssView) {
         mContext = context;
         this.iAddRssView = iAddRssView;
+        initView();
+    }
+
+    private void initView() {
+        recyclerView = iAddRssView.getRecyclerView();
+        swipeRefreshLayout = iAddRssView.getSwipeLayout();
+        manager = iAddRssView.getManager();
+
+        swipeRefreshLayout.setOnRefreshListener(() -> refreshList());
+        //TODO 设置上拉加载更多
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (adapter == null) {
+                    isLoad = false;
+                    swipeRefreshLayout.setRefreshing(false);
+                    return;
+                }
+                // 在最后两条的时候就自动加载
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= adapter.getItemCount()) {
+                    // 加载更多
+                    if (!isEnd && !isLoad) {
+                        swipeRefreshLayout.setRefreshing(true);
+                        page++;
+                        getList();
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = manager.findLastVisibleItemPosition();
+            }
+        });
+    }
+
+    private void refreshList() {
+        page = 1;
+        isLoad = true;
+        isEnd = false;
+        if (mThemes != null) {
+            mThemes.clear();
+        }
+        swipeRefreshLayout.setRefreshing(true);
+        getList();
+    }
+
+    public void getList() {
+        themeApi.list(getListParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resTheme -> {
+                    setListResult(resTheme);
+                }, this::loadError);
+    }
+
+    private void setListResult(ResTheme resTheme) {
+        isLoad = false;
+        swipeRefreshLayout.setRefreshing(false);
+        //TODO 填充数据
+        if (resTheme.getRetCode() == 0) {
+            iAddRssView.getIncludeNoData().setVisibility(View.GONE);
+            iAddRssView.getIncludeLoadFail().setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            if (resTheme.getRetObj().getRows() != null && resTheme.getRetObj().getRows().size() > 0) {
+                this.mThemes.addAll(resTheme.getRetObj().getRows());
+                if (adapter == null) {
+                    adapter = new ThemeAdapter(mContext, mThemes);
+                    adapter.setItemClickedListener(new ThemeAdapter.OnItemClickedListener() {
+                        @Override
+                        public void onClick(ResTheme.RetObjBean.RowsBean rowsBean, View v) {
+                            if (Constant.ACTION_BD_KEY.equals(rowsBean.getAction())) {
+                                //TODO
+                                iAddRssView.showPop(1);
+                            }else  if (Constant.ACTION_INPUT_LINK.equals(rowsBean.getAction())) {
+                                //TODO
+                                iAddRssView.showPop(2);
+                            }else  if (Constant.ACTION_OPEN_OPML.equals(rowsBean.getAction())) {
+                                //TODO
+                                iAddRssView.showPop(3);
+                            }
+                        }
+                    });
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+            if (this.mThemes.size() == resTheme.getRetObj().getTotal()) {
+                isEnd = true;
+            }
+        } else if (resTheme.getRetCode() == 10013) {//暂无数据
+            iAddRssView.getIncludeNoData().setVisibility(View.VISIBLE);
+            iAddRssView.getIncludeLoadFail().setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            iAddRssView.getIncludeNoData().setVisibility(View.GONE);
+            iAddRssView.getIncludeLoadFail().setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            T.ShowToast(mContext, resTheme.getRetMsg());
+        }
+    }
+
+    private Map<String, String> getListParams() {
+        Map<String, String> map = new HashMap<>();
+        String jsonParams = "{\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 
     public void addRss() {
@@ -154,7 +296,7 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                         if (imgs != null && imgs.size() > 0) {
                             imgs.clear();
                         }
-                        if(null!=result.getData().getSimi().getXiangshi_info().getUrl()){
+                        if (null != result.getData().getSimi().getXiangshi_info().getUrl()) {
                             imgs.addAll(result.getData().getSimi().getXiangshi_info().getUrl());
                             openImageSelector();
                         }
@@ -214,11 +356,11 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                         break;
                     }
                 }
-                if(!TextUtils.isEmpty(imgUrl)){
+                if (!TextUtils.isEmpty(imgUrl)) {
                     //TODO 更新
                     updateImage();
-                }else{
-                    T.ShowToast(mContext,"未选择任何图片，将采用默认图片封面。");
+                } else {
+                    T.ShowToast(mContext, "未选择任何图片，将采用默认图片封面。");
                 }
                 materialDialog.dismiss();
             }).show();
@@ -226,4 +368,8 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
             materialDialog.show();
         }
     }
+
+
+
+
 }

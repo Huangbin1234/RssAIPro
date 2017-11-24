@@ -208,6 +208,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginRight="5dp"
                                             android:text="@string/str_sub_tv_all"
+                                            android:textColor="@color/bg_top"
                                             android:textSize="@dimen/s12p" />
 
                                         <ImageView
