@@ -1,7 +1,6 @@
 package com.hb.rssai.view.iView;
 
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -26,5 +25,5 @@ public interface IAddRssView {
 
     View getIncludeLoadFail();
 
-    void showPop(int i);
+    void showPop(int i,String title);
 }

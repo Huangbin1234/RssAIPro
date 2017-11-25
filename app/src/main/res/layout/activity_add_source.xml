@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_add_source"
-    style="@style/title_all"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/activity_add_source"
+              style="@style/title_all"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar" />
+    <include layout="@layout/include_sub_toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,18 +27,18 @@
                 android:id="@+id/asa_tv_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/str_loading" />
+                android:text="@string/str_loading"/>
         </LinearLayout>
 
         <include
             android:id="@+id/include_load_fail"
             layout="@layout/layout_load_fail"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <include
             android:id="@+id/include_no_data"
             layout="@layout/layout_no_data"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/aas_swipe_layout"
@@ -51,165 +51,171 @@
                 android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:elevation="4dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="4dp"
-            app:contentPaddingBottom="4dp"
-            app:contentPaddingLeft="4dp"
-            app:contentPaddingRight="4dp"
-            app:contentPaddingTop="4dp">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="10dp"
+                android:elevation="4dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:contentPaddingBottom="4dp"
+                app:contentPaddingLeft="4dp"
+                app:contentPaddingRight="4dp"
+                app:contentPaddingTop="4dp">
 
                 <LinearLayout
-                    style="@style/InfoDetail"
-                    android:gravity="center">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/asa_et_name"
+                    <LinearLayout
+                        style="@style/InfoDetail"
+                        android:gravity="center">
+
+                        <EditText
+                            android:id="@+id/asa_et_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/trans"
+                            android:hint="@string/str_asa_hint_name"
+                            android:padding="16dp"
+                            android:textColorHint="#DDDDDD"
+                            android:textSize="@dimen/s16p"/>
+                    </LinearLayout>
+
+                    <View style="@style/view_line_h"/>
+
+                    <View
+                        style="@style/view_line_h"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"/>
+
+                    <LinearLayout
+                        style="@style/InfoDetail"
+                        android:gravity="center">
+
+                        <EditText
+                            android:id="@+id/asa_et_url"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:background="@color/trans"
+                            android:hint="@string/str_asa_hint_url"
+                            android:inputType="textUri"
+                            android:padding="16dp"
+                            android:textColorHint="#DDDDDD"
+                            android:textSize="@dimen/s16p"/>
+
+                        <ImageView
+                            android:id="@+id/asa_iv_scan"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:src="@mipmap/fp_icon_scan"/>
+                    </LinearLayout>
+
+                    <View style="@style/view_line_h"/>
+
+                    <Button
+                        android:id="@+id/asa_btn_save"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/trans"
-                        android:hint="@string/str_asa_hint_name"
-                        android:padding="16dp"
-                        android:textColorHint="#DDDDDD"
-                        android:textSize="@dimen/s16p" />
+
+                        android:background="@drawable/opr_bg_selector"
+                        android:text="@string/str_asa_btn_save"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/s16p"/>
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                <View style="@style/view_line_h" />
-
-                <View
-                    style="@style/view_line_h"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone" />
-
-                <LinearLayout
-                    style="@style/InfoDetail"
-                    android:gravity="center">
-
-                    <EditText
-                        android:id="@+id/asa_et_url"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:background="@color/trans"
-                        android:hint="@string/str_asa_hint_url"
-                        android:inputType="textUri"
-                        android:padding="16dp"
-                        android:textColorHint="#DDDDDD"
-                        android:textSize="@dimen/s16p" />
-
-                    <ImageView
-                        android:id="@+id/asa_iv_scan"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:src="@mipmap/fp_icon_scan" />
-                </LinearLayout>
-
-                <View style="@style/view_line_h" />
-
-                <Button
-                    android:id="@+id/asa_btn_save"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:background="@drawable/opr_bg_selector"
-                    android:text="@string/str_asa_btn_save"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/s16p" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:elevation="4dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="4dp"
-            app:contentPaddingBottom="4dp"
-            app:contentPaddingLeft="4dp"
-            app:contentPaddingRight="4dp"
-            app:contentPaddingTop="4dp">
-
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="10dp"
+                android:elevation="4dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:contentPaddingBottom="4dp"
+                app:contentPaddingLeft="4dp"
+                app:contentPaddingRight="4dp"
+                app:contentPaddingTop="4dp">
 
                 <LinearLayout
-                    style="@style/InfoDetail"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/asa_et_key"
+                    <LinearLayout
+                        style="@style/InfoDetail"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center">
+
+                        <EditText
+                            android:id="@+id/asa_et_key"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/trans"
+                            android:hint="@string/str_asa_hint_key"
+                            android:padding="16dp"
+                            android:textColorHint="#DDDDDD"
+                            android:textSize="@dimen/s16p"/>
+                    </LinearLayout>
+
+                    <View style="@style/view_line_h"/>
+
+                    <Button
+                        android:id="@+id/asa_btn_key"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/trans"
-                        android:hint="@string/str_asa_hint_key"
-                        android:padding="16dp"
-                        android:textColorHint="#DDDDDD"
-                        android:textSize="@dimen/s16p" />
+                        android:background="@drawable/opr_bg_selector"
+                        android:text="@string/str_asa_btn_save"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/s16p"/>
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                <View style="@style/view_line_h" />
-
-                <Button
-                    android:id="@+id/asa_btn_key"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/opr_bg_selector"
-                    android:text="@string/str_asa_btn_save"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/s16p" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:elevation="4dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="4dp"
-            app:contentPaddingBottom="4dp"
-            app:contentPaddingLeft="4dp"
-            app:contentPaddingRight="4dp"
-            app:contentPaddingTop="4dp">
-
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="10dp"
+                android:elevation="4dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:contentPaddingBottom="4dp"
+                app:contentPaddingLeft="4dp"
+                app:contentPaddingRight="4dp"
+                app:contentPaddingTop="4dp">
 
-                <Button
-                    android:id="@+id/asa_btn_opml"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/opr_bg_selector"
-                    android:text="@string/str_asa_btn_opml"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/s16p" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/asa_tv_opml"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                    <Button
+                        android:id="@+id/asa_btn_opml"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/opr_bg_selector"
+                        android:text="@string/str_asa_btn_opml"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/s16p"/>
 
+                    <TextView
+                        android:id="@+id/asa_tv_opml"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

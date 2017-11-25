@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -102,7 +101,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.include_load_fail)
     View includeLoadFail;
 
-//    private LinearLayoutManager mFullyGridLayoutManager;
+    //    private LinearLayoutManager mFullyGridLayoutManager;
     private FullyGridLayoutManager mFullyGridLayoutManager;
 
     @Override
@@ -113,7 +112,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        mFullyGridLayoutManager = new FullyGridLayoutManager(this,2);
+        mFullyGridLayoutManager = new FullyGridLayoutManager(this, 1);
 //        mFullyGridLayoutManager = new LinearLayoutManager(this);
         mAasRecyclerView.setLayoutManager(mFullyGridLayoutManager);
         mAasRecyclerView.setNestedScrollingEnabled(false);
@@ -253,8 +252,8 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    public void showPop(int i) {
-        showPopView(i);
+    public void showPop(int i, String title) {
+        showPopView(i, title);
         if (mPop.isShowing()) {
             mPop.dismiss();
         } else {
@@ -328,7 +327,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     }
 
     private List<Outline> readOPML(String opmlUrl) {
-        opmlUrl = "http://www.williamlong.info/download/opml.xml";
+//        opmlUrl = "http://www.williamlong.info/download/opml.xml";
         URL feedUrl = null;//SyndFeedInput:从远程读到xml结构的内容转成SyndFeedImpl实例
         ReadXML readXML = ReadXML.getInstance();
         try {
@@ -367,6 +366,8 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     Button pas_btn_opml;
     EditText pas_et_link;
     EditText pas_et_name;
+    ImageView pas_btn_close;
+    TextView pas_tv_title;
 
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
@@ -394,7 +395,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         getWindow().setAttributes(lp);
     }
 
-    private void showPopView(int flag) {
+    private void showPopView(int flag, String title) {
         if (mPop == null) {
             LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -408,10 +409,34 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             mPop.setOutsideTouchable(true);
 
             pas_btn_sure = (Button) popupView.findViewById(R.id.pas_btn_sure);
+            pas_tv_title = (TextView) popupView.findViewById(R.id.pas_tv_title);
             pas_btn_opml = (Button) popupView.findViewById(R.id.pas_btn_opml);
             pas_et_link = (EditText) popupView.findViewById(R.id.pas_et_link);
             pas_et_name = (EditText) popupView.findViewById(R.id.pas_et_name);
+            pas_btn_close = (ImageView) popupView.findViewById(R.id.pas_btn_close);
         }
+        pas_tv_title.setText(title);
+        if (flag == 1) {
+            pas_btn_opml.setVisibility(View.GONE);
+            pas_btn_sure.setVisibility(View.VISIBLE);
+            pas_et_link.setVisibility(View.GONE);
+            pas_et_name.setVisibility(View.VISIBLE);
+        } else if (flag == 2) {
+            pas_btn_opml.setVisibility(View.GONE);
+            pas_btn_sure.setVisibility(View.VISIBLE);
+            pas_et_link.setVisibility(View.VISIBLE);
+            pas_et_name.setVisibility(View.VISIBLE);
+        } else if (flag == 3) {
+            pas_btn_opml.setVisibility(View.VISIBLE);
+            pas_btn_sure.setVisibility(View.GONE);
+            pas_et_link.setVisibility(View.GONE);
+            pas_et_name.setVisibility(View.GONE);
+        }
+        pas_btn_close.setOnClickListener(arg0 -> {
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+        });
         pas_btn_sure.setOnClickListener(arg0 -> {
             if (mPop.isShowing()) {
                 mPop.dismiss();
@@ -458,16 +483,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 opmlTask = new OpmlTask();
                 opmlTask.execute(link2);
             }
-
         });
-//        pas_btn_opml.setOnClickListener(arg0 -> {
-//            if (mPop.isShowing()) {
-//                mPop.dismiss();
-//            }
-//            //TODO
-//            String link2 = pas_et_link.getText().toString().trim();
-//            opmlTask = new OpmlTask();
-//            opmlTask.execute(link2);
-//        });
     }
 }

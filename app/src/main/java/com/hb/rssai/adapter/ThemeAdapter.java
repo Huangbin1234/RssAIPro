@@ -10,10 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
-import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.bean.ResTheme;
 import com.hb.rssai.util.HttpLoadImg;
-import com.hb.rssai.util.T;
 
 import java.util.List;
 
@@ -57,6 +55,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.MyViewHolder
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_place, holder.ir_iv_logo);
         }
         holder.ir_tv_name.setText(themeList.get(position).getName());
+        holder.ir_tv_abs.setText(themeList.get(position).getMark());
         holder.v.setOnClickListener(v -> {
             //TODO
             itemClickedListener.onClick(themeList.get(position),v);
@@ -72,6 +71,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public View v;
         TextView ir_tv_name;
+        TextView ir_tv_abs;
         ImageView ir_iv_logo;
         ImageView ir_iv_add;
 
@@ -81,6 +81,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.MyViewHolder
             ir_tv_name = (TextView) itemView.findViewById(R.id.ir_tv_name);
             ir_iv_logo = (ImageView) itemView.findViewById(R.id.ir_iv_logo);
             ir_iv_add = (ImageView) itemView.findViewById(R.id.ir_iv_add);
+            ir_tv_abs = (TextView) itemView.findViewById(R.id.ir_tv_abs);
         }
     }
 }

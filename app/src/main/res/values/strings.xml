@@ -121,5 +121,8 @@
     <string name="sa_tv_opr_image_label">应用于资讯列表</string>
     <string name="sub_menu_search">搜索</string>
     <string name="str_btn_sure">确定</string>
+    <string name="str_pas_name">输入源名称</string>
+    <string name="str_pas_link">输入源链接</string>
+    <string name="str_add_sub">主题订阅</string>
 
 </resources>
