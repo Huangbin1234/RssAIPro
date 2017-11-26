@@ -1,37 +1,22 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.ImageDialogAdapter;
-import com.hb.rssai.adapter.MessageAdapter;
 import com.hb.rssai.adapter.ThemeAdapter;
 import com.hb.rssai.api.FindApi;
 import com.hb.rssai.bean.ResBDJson;
 import com.hb.rssai.bean.ResBase;
-import com.hb.rssai.bean.ResMessageList;
 import com.hb.rssai.bean.ResTheme;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
-import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IAddRssView;
@@ -40,8 +25,6 @@ import com.hb.rssai.view.widget.FullyGridLayoutManager;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -234,7 +217,6 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
         String jsonParams = "{\"userId\":\"" + userId + "\",\"link\":\"" + rssLink + "\",\"title\":\"" + rssTitle + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-
         return map;
     }
 

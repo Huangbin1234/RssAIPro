@@ -10,19 +10,29 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.generalupdate.InitUpdateInterface;
 import com.hb.rssai.R;
+import com.hb.rssai.api.ApiFactory;
 import com.hb.rssai.api.ApiRetrofit;
+import com.hb.rssai.bean.ResAdvertisement;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.IndexNavActivity;
 import com.hb.update.UpdateManager;
 import com.hb.util.SharedPreferencesUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.hb.generalupdate.TestTwoActivity.SAVE_ISUPDATE;
 import static com.hb.update.UpdateManager.SAVE_VER_CODE;
@@ -30,19 +40,25 @@ import static com.hb.update.UpdateManager.SAVE_VER_CONTENT;
 import static com.hb.update.UpdateManager.SAVE_VER_UPDATEURL;
 import static com.hb.update.UpdateManager.SAVE_VER_VERNAME;
 
-public class LoadActivity extends AppCompatActivity  implements InitUpdateInterface {
+public class LoadActivity extends AppCompatActivity implements InitUpdateInterface {
 
     @BindView(R.id.la_text)
     TextView mSampleText;
+    @BindView(R.id.load_ad_iv)
+    ImageView mLoadAdIv;
+    @BindView(R.id.la_iv)
+    ImageView mLaIv;
     private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_load);
         ButterKnife.bind(this);
         mContext = this;
-        checkUpdate();
+        getAd();
+
     }
 
 
@@ -63,9 +79,11 @@ public class LoadActivity extends AppCompatActivity  implements InitUpdateInterf
             finishAct();
         }
     }
+
     private void finishAct() {
         finish();
     }
+
     /**
      * request server checkvercode.json file.
      */
@@ -81,6 +99,7 @@ public class LoadActivity extends AppCompatActivity  implements InitUpdateInterf
             }
         }
     }
+
     /**
      * handler rec.
      */
@@ -132,4 +151,34 @@ public class LoadActivity extends AppCompatActivity  implements InitUpdateInterf
             }
         }
     };
+
+    private Map<String, String> getParams() {
+        Map<String, String> map = new HashMap<>();
+        String jsonParams = "{\"type\":\"1\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+
+    private void getAd() {
+        Observable<ResAdvertisement> retrofitService = ApiFactory.getAdvertisementApiSingleton().getAdvertisement(getParams());
+        retrofitService.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resAdvertisement -> {
+                    reqResult(resAdvertisement);
+                }, this::loadError);
+    }
+
+    private void reqResult(ResAdvertisement resAdvertisement) {
+        if (resAdvertisement.getRetCode() == 0) {
+            HttpLoadImg.loadImg(this, resAdvertisement.getRetObj().getImg(), mLoadAdIv);
+        } else {
+            System.out.println("暂无广告");
+        }
+        checkUpdate();
+    }
+
+    private void loadError(Throwable throwable) {
+        throwable.printStackTrace();
+        checkUpdate();
+    }
 }

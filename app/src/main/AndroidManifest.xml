@@ -61,11 +61,12 @@
 
         <activity
             android:name=".view.common.LoadActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullScreenTheme">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
         <activity
@@ -158,7 +159,9 @@
         </activity>
         <activity android:name=".view.me.RecordActivity">
         </activity>
-        <activity android:name=".view.common.GuideActivity">
+        <activity
+            android:name=".view.common.GuideActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
