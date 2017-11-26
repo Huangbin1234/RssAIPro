@@ -46,7 +46,8 @@
     <string name="str_sf_new_share">分享</string>
     <string name="sub_label">专属订阅</string>
     <string name="sub_recommend_label">热门推荐</string>
-    <string name="str_load_txt">阅读优质内容</string>
+    <!--<string name="str_load_txt">阅读优质内容</string>-->
+    <string name="str_load_txt">阅读原味资讯</string>
 
     <string name="str_sf_view_all"><![CDATA[>]]></string>
     <string name="str_sf_view_change">换一换</string>
