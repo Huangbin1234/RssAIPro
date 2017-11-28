@@ -481,6 +481,8 @@
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
+                        android:textColor="@color/text_color_title"
+                        android:textSize="@dimen/s16p"
                         android:layout_toRightOf="@id/fm_iv_setting"
                         android:text="@string/str_mf_setting" />
 

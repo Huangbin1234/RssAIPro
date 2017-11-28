@@ -60,4 +60,6 @@
     <!--tablayout文字颜色-->
     <color name="color_tab_layout">#ea8010</color>
 
+    <color name="text_color_title">#EEEEEE</color>
+
 </resources>

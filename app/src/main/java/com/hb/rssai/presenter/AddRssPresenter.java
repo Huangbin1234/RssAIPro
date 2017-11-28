@@ -138,13 +138,13 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                         public void onClick(ResTheme.RetObjBean.RowsBean rowsBean, View v) {
                             if (Constant.ACTION_BD_KEY.equals(rowsBean.getAction())) {
                                 //TODO
-                                iAddRssView.showPop(1,rowsBean.getName());
-                            }else  if (Constant.ACTION_INPUT_LINK.equals(rowsBean.getAction())) {
+                                iAddRssView.showPop(1, rowsBean.getName());
+                            } else if (Constant.ACTION_INPUT_LINK.equals(rowsBean.getAction())) {
                                 //TODO
-                                iAddRssView.showPop(2,rowsBean.getName());
-                            }else  if (Constant.ACTION_OPEN_OPML.equals(rowsBean.getAction())) {
+                                iAddRssView.showPop(2, rowsBean.getName());
+                            } else if (Constant.ACTION_OPEN_OPML.equals(rowsBean.getAction())) {
                                 //TODO
-                                iAddRssView.showPop(3,rowsBean.getName());
+                                iAddRssView.showPop(3, rowsBean.getName());
                             }
                         }
                     });
@@ -350,8 +350,6 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
             materialDialog.show();
         }
     }
-
-
 
 
 }

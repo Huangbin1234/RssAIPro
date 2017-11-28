@@ -25,5 +25,5 @@ public interface IAddRssView {
 
     View getIncludeLoadFail();
 
-    void showPop(int i,String title);
+    void showPop(int i, String title);
 }

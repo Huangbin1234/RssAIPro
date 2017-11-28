@@ -38,8 +38,8 @@ public class ApiRetrofit {
     private MessageApi messageApiService;
     private ThemeApi themeApiService;
     private AdvertisementApi advertisementApiService;
-    //   public static final String BASE_URL = "http://192.168.58.226:8010/";
-    public static final String BASE_URL = "http://192.168.0.107:8088/zr/";
+       public static final String BASE_URL = "http://192.168.58.226:8088/";
+//    public static final String BASE_URL = "http://192.168.0.107:8088/zr/";
     //    public static final String BASE_URL = "http://192.168.58.226:8088/zr/";
     public static final String BASE_IMG_URL = BASE_URL + "uploads/images/";
     //    public static final String BASE_URL = "http://127.0.0.1:8010/";

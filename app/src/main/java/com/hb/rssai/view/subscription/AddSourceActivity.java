@@ -354,6 +354,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         if (RESULT_OK == resultCode) {
             if (requestCode == REQUESTCODE) {
                 mAsaEtUrl.setText(data.getStringExtra("info"));
+                pas_et_link.setText(data.getStringExtra("info"));
             }
         }
     }
@@ -368,6 +369,9 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     EditText pas_et_name;
     ImageView pas_btn_close;
     TextView pas_tv_title;
+    LinearLayout pas_ll_link;
+    LinearLayout pas_ll_name;
+    ImageView pas_iv_scan;
 
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
@@ -414,28 +418,37 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             pas_et_link = (EditText) popupView.findViewById(R.id.pas_et_link);
             pas_et_name = (EditText) popupView.findViewById(R.id.pas_et_name);
             pas_btn_close = (ImageView) popupView.findViewById(R.id.pas_btn_close);
+
+
+            pas_ll_link = (LinearLayout) popupView.findViewById(R.id.pas_ll_link);
+            pas_ll_name = (LinearLayout) popupView.findViewById(R.id.pas_ll_name);
+
+            pas_iv_scan = (ImageView) popupView.findViewById(R.id.pas_iv_scan);
         }
         pas_tv_title.setText(title);
         if (flag == 1) {
             pas_btn_opml.setVisibility(View.GONE);
             pas_btn_sure.setVisibility(View.VISIBLE);
-            pas_et_link.setVisibility(View.GONE);
-            pas_et_name.setVisibility(View.VISIBLE);
+            pas_ll_link.setVisibility(View.GONE);
+            pas_ll_name.setVisibility(View.VISIBLE);
         } else if (flag == 2) {
             pas_btn_opml.setVisibility(View.GONE);
             pas_btn_sure.setVisibility(View.VISIBLE);
-            pas_et_link.setVisibility(View.VISIBLE);
-            pas_et_name.setVisibility(View.VISIBLE);
+            pas_ll_link.setVisibility(View.VISIBLE);
+            pas_ll_name.setVisibility(View.VISIBLE);
         } else if (flag == 3) {
             pas_btn_opml.setVisibility(View.VISIBLE);
             pas_btn_sure.setVisibility(View.GONE);
-            pas_et_link.setVisibility(View.GONE);
-            pas_et_name.setVisibility(View.GONE);
+            pas_ll_name.setVisibility(View.GONE);
+            pas_ll_link.setVisibility(View.VISIBLE);
         }
         pas_btn_close.setOnClickListener(arg0 -> {
             if (mPop.isShowing()) {
                 mPop.dismiss();
             }
+        });
+        pas_iv_scan.setOnClickListener(v -> {
+            startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
         });
         pas_btn_sure.setOnClickListener(arg0 -> {
             if (mPop.isShowing()) {

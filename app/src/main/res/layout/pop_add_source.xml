@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,9 +14,9 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:layout_marginTop="20dp"
             android:background="@color/bg"
             android:orientation="vertical">
@@ -29,9 +28,10 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/str_add_sub"
                 android:textColor="@color/color_big_label"
-                android:textSize="@dimen/s20p"/>
+                android:textSize="@dimen/s20p" />
 
             <LinearLayout
+                android:id="@+id/pas_ll_name"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="20dp"
@@ -52,7 +52,7 @@
                     android:singleLine="true"
                     android:textColor="@color/color_txt"
                     android:textColorHint="@color/color_txt"
-                    android:textSize="@dimen/s14p"/>
+                    android:textSize="@dimen/s14p" />
 
                 <ImageView
                     android:id="@+id/its_iv_clear"
@@ -62,13 +62,17 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:src="@mipmap/ic_del"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/pas_ll_link"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/shape_ll_corner"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -78,9 +82,8 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/shape_ll_corner"
+                    android:layout_weight="8"
+                    android:background="@color/trans"
                     android:hint="@string/str_pas_link"
                     android:imeOptions="actionSearch"
                     android:maxLines="1"
@@ -88,17 +91,17 @@
                     android:singleLine="true"
                     android:textColor="@color/color_txt"
                     android:textColorHint="@color/color_txt"
-                    android:textSize="@dimen/s14p"/>
+                    android:textSize="@dimen/s14p" />
 
                 <ImageView
-                    android:id="@+id/its_iv_clear2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:id="@+id/pas_iv_scan"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/ic_del"
-                    android:visibility="gone"/>
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/fp_icon_scan"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <Button
@@ -112,7 +115,7 @@
                 android:background="@drawable/shape_ll_corner"
                 android:text="@string/str_asa_btn_opml"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/s16p"/>
+                android:textSize="@dimen/s16p" />
 
             <Button
                 android:id="@+id/pas_btn_sure"
@@ -125,19 +128,19 @@
                 android:background="@drawable/shape_ll_corner"
                 android:text="@string/str_btn_sure"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/s16p"/>
+                android:textSize="@dimen/s16p" />
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/pas_btn_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:src="@mipmap/ic_close"/>
+            android:src="@mipmap/ic_del" />
     </RelativeLayout>
 
 
