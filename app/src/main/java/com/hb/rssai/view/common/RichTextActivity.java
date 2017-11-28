@@ -2,6 +2,8 @@ package com.hb.rssai.view.common;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -12,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +39,7 @@ import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.util.TextJustification;
 import com.hb.rssai.view.iView.IRichTextView;
 import com.hb.rssai.view.widget.MyDecoration;
 import com.umeng.socialize.ShareAction;
@@ -108,6 +113,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     private long clickGood;
     private long clickNotGood;
     private SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
+    private float density;
+    private Point size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +149,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     protected void initView() {
         mRtaTvTitle.setText(title.trim());
 
+
         try {
             if (!TextUtils.isEmpty(pubDate))
                 mRtaTvWhereFrom.setText(whereFrom + " " + DateUtil.showDate(sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
@@ -150,6 +158,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             e.printStackTrace();
         }
 
+
+//        Display display = getWindowManager().getDefaultDisplay();
+//        size=new Point();
+//        DisplayMetrics dm=new DisplayMetrics();
+//        display.getMetrics(dm);
+//        density=dm.density;
+//        display.getSize(size);
+//
+//        mRtaTvContent.setLineSpacing(0f, 1.2f);
+//        mRtaTvContent.setTextSize(10*density);
 
         mRtaTvNotGood.setText("" + clickNotGood);
         mRtaTvGood.setText("" + clickGood);
@@ -162,6 +180,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             spanned = Html.fromHtml(abstractContent, htmlImageGetter, null); // or for older api
         }
         mRtaTvContent.setText(spanned);
+
+//        TextJustification.justify(mRtaTvContent,size.x);
+
+
         mRtaTvView.setOnClickListener(v -> {
             Intent intent = new Intent(RichTextActivity.this, ContentActivity.class);//创建Intent对象
             intent.putExtra(ContentActivity.KEY_TITLE, title);
