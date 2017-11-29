@@ -278,7 +278,7 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                         if (imgs != null && imgs.size() > 0) {
                             imgs.clear();
                         }
-                        if (null != result.getData().getSimi().getXiangshi_info().getUrl()) {
+                        if (null!=result.getData().getSimi().getXiangshi_info()&&null != result.getData().getSimi().getXiangshi_info().getUrl()) {
                             imgs.addAll(result.getData().getSimi().getXiangshi_info().getUrl());
                             openImageSelector();
                         }
