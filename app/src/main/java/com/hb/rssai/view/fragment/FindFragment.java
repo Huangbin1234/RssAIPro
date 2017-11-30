@@ -18,6 +18,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.FindPresenter;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.view.iView.IFindView;
+import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.subscription.tab.TabResourceActivity;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
@@ -91,6 +93,8 @@ public class FindFragment extends BaseFragment implements IFindView {
     @BindView(R.id.ff_ll_root)
     LinearLayout mFfLlRoot;
     Unbinder unbinder;
+    @BindView(R.id.sys_iv_search)
+    ImageView mSysIvSearch;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -212,12 +216,13 @@ public class FindFragment extends BaseFragment implements IFindView {
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mFfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-        mSubLlAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), TabResourceActivity.class);
+        mSubLlAll.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), TabResourceActivity.class);
+            startActivity(intent);
+        });
+        mSysIvSearch.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), SearchActivity.class);
                 startActivity(intent);
-            }
         });
     }
 

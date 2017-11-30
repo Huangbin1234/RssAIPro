@@ -15,7 +15,7 @@
         <!--android:layout_height="@dimen/statusbar_view_height"-->
         <!--android:background="@color/color_toolbar_bg" />-->
 
-    <include layout="@layout/include_toolbar" />
+    <include layout="@layout/include_find_toolbar" />
     <!-- TODO: Update blank fragment layout -->
 
 
