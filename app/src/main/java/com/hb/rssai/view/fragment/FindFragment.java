@@ -18,6 +18,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -95,6 +96,13 @@ public class FindFragment extends BaseFragment implements IFindView {
     Unbinder unbinder;
     @BindView(R.id.sys_iv_search)
     ImageView mSysIvSearch;
+
+    @BindView(R.id.include_no_data)
+    LinearLayout include_no_data;
+    @BindView(R.id.include_load_fail)
+    LinearLayout include_load_fail;
+    @BindView(R.id.llf_btn_re_try)
+    Button mLlfBtnReTry;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -222,7 +230,12 @@ public class FindFragment extends BaseFragment implements IFindView {
         });
         mSysIvSearch.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SearchActivity.class);
-                startActivity(intent);
+            startActivity(intent);
+        });
+
+        mLlfBtnReTry.setOnClickListener(v -> {
+            ((FindPresenter) mPresenter).findMoreList();
+            ((FindPresenter) mPresenter).recommendList();
         });
     }
 
@@ -315,5 +328,15 @@ public class FindFragment extends BaseFragment implements IFindView {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public View getIncludeNoData() {
+        return include_no_data;
+    }
+
+    @Override
+    public View getIncludeLoadFail() {
+        return include_load_fail;
     }
 }

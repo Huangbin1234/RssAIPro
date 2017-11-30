@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/color_general_white"
     android:gravity="center"
     android:orientation="vertical"
@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/opr_bg_selector"
         android:text="@string/str_re_try"
+        android:layout_marginBottom="16dp"
         android:textColor="@color/orange"
         android:textSize="@dimen/s16p"/>
 

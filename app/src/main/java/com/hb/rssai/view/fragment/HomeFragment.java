@@ -15,7 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,9 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener, IInformationView {
@@ -71,7 +69,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     AppBarLayout mAppBarLayout;
     @BindView(R.id.hf_ll_root)
     LinearLayout mHfLlRoot;
-    Unbinder unbinder;
+
+    @BindView(R.id.include_no_data)
+    LinearLayout include_no_data;
+    @BindView(R.id.include_load_fail)
+    LinearLayout include_load_fail;
+    @BindView(R.id.llf_btn_re_try)
+    Button mLlfBtnReTry;
+
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -161,13 +167,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        unbinder = ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
     protected void setAppTitle() {
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
@@ -194,7 +193,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         mHfSwipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
         mHfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-
+        mLlfBtnReTry.setOnClickListener(v -> {
+            DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
+            if (DF == 0) {
+                isUser = false;
+                ((InformationPresenter) mPresenter).getList();
+            } else if (DF == 1) {
+                isUser = true;
+                dataType = 10;
+                ((InformationPresenter) mPresenter).getUserList();
+            }
+        });
         //TODO 设置下拉刷新
 //        mHfSwipeLayout.setOnRefreshListener(() -> {
 //            loadData(DF);
@@ -360,7 +369,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
             dialogAdapter.notifyDataSetChanged();
             materialDialog.setContentView(view).setTitle(Constant.TIPS_FILTER).setNegativeButton("关闭", v -> {
-            materialDialog.dismiss();
+                materialDialog.dismiss();
             }).show();
         } else {
             materialDialog.show();
@@ -426,9 +435,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public View getIncludeNoData() {
+        return include_no_data;
+    }
+
+    @Override
+    public View getIncludeLoadFail() {
+        return include_load_fail;
     }
 
 

@@ -1,38 +1,49 @@
 <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--tools:context="com.hb.rssai.view.fragment.HomeFragment">-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/hf_ll_root"
-    android:background="@color/color_toolbar_bg"
-    android:orientation="vertical">
+              android:id="@+id/hf_ll_root"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_toolbar_bg"
+              android:orientation="vertical">
 
     <!--<View-->
-        <!--android:id="@+id/fake_status_bar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/statusbar_view_height"-->
-        <!--android:background="@color/color_toolbar_bg" />-->
+    <!--android:id="@+id/fake_status_bar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/statusbar_view_height"-->
+    <!--android:background="@color/color_toolbar_bg" />-->
 
-    <include layout="@layout/include_home_toolbar" />
+    <include layout="@layout/include_home_toolbar"/>
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:id="@+id/hf_ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:background="@color/bg"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <ProgressBar
             style="@android:style/Widget.Holo.ProgressBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </LinearLayout>
+
+    <include
+        android:id="@+id/include_load_fail"
+        layout="@layout/layout_load_fail"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/include_no_data"
+        layout="@layout/layout_no_data"
+        android:visibility="gone"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/hf_swipe_layout"
-        android:background="@color/bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/bg">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/hf_recycler_view"

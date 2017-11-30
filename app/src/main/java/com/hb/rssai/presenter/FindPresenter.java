@@ -61,6 +61,9 @@ public class FindPresenter extends BasePresenter<IFindView> {
     private LinearLayout mLlRecommend;
     private ResFindMore.RetObjBean.RowsBean rowsBean;
 
+    View include_no_data;
+    View include_load_fail;
+
     public FindPresenter(Context mContext, IFindView iFindView) {
         this.mContext = mContext;
         this.iFindView = iFindView;
@@ -74,6 +77,10 @@ public class FindPresenter extends BasePresenter<IFindView> {
         findMoreManager = iFindView.getFindMoreManager();
         mNestRefresh = iFindView.getNestScrollView();
         mLlRecommend = iFindView.getLlRecommend();
+
+        include_no_data = iFindView.getIncludeNoData();
+        include_load_fail = iFindView.getIncludeLoadFail();
+
         mLlRecommend.setOnClickListener(v -> {
             if (!isRecommendEnd && !isRecommendLoad) {
                 recommendPage++;
@@ -129,8 +136,8 @@ public class FindPresenter extends BasePresenter<IFindView> {
             recommendAdapter.init();
         }
 
-        findMoreList();
         recommendList();
+        findMoreList();
     }
 
     public void findMoreList() {
@@ -151,7 +158,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(resFindMore -> {
                         setRecommendResult(resFindMore);
-                    }, this::loadError);
+                    }, this::loadFindError);
         }
     }
 
@@ -205,6 +212,16 @@ public class FindPresenter extends BasePresenter<IFindView> {
         }
     }
 
+    private void loadFindError(Throwable throwable) {
+
+        include_load_fail.setVisibility(View.VISIBLE);
+        include_no_data.setVisibility(View.GONE);
+
+        swipeLayout.setRefreshing(false);
+        throwable.printStackTrace();
+        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+    }
+
     private void loadError(Throwable throwable) {
         swipeLayout.setRefreshing(false);
         throwable.printStackTrace();
@@ -216,6 +233,10 @@ public class FindPresenter extends BasePresenter<IFindView> {
         swipeLayout.setRefreshing(false);
         //TODO 填充数据
         if (resFindMore.getRetCode() == 0) {
+
+            include_load_fail.setVisibility(View.GONE);
+            include_no_data.setVisibility(View.GONE);
+
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
                 resFindMores.addAll(resFindMore.getRetObj().getRows());
                 if (findMoreAdapter == null) {
@@ -245,7 +266,14 @@ public class FindPresenter extends BasePresenter<IFindView> {
             if (resFindMores.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
+        } else if (resFindMore.getRetCode() == 10013) {//暂无数据
+            include_no_data.setVisibility(View.VISIBLE);
+            include_load_fail.setVisibility(View.GONE);
+            mFfFindRecyclerView.setVisibility(View.GONE);
         } else {
+            include_no_data.setVisibility(View.GONE);
+            include_load_fail.setVisibility(View.VISIBLE);
+            mFfFindRecyclerView.setVisibility(View.GONE);
             T.ShowToast(mContext, resFindMore.getRetMsg());
         }
     }

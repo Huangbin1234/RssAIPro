@@ -41,6 +41,8 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
     private InfoAdapter adapter;
     List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
     private LinearLayout mLlLoad;
+    View include_no_data;
+    View include_load_fail;
 
     public InformationPresenter(Context context, IInformationView iInformationView) {
         mContext = context;
@@ -53,6 +55,9 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
         mSwipeRefreshLayout = iInformationView.getSwipeLayout();
         mLinearLayoutManager = iInformationView.getManager();
         mLlLoad = iInformationView.getLlLoad();
+
+        include_no_data = iInformationView.getIncludeNoData();
+        include_load_fail = iInformationView.getIncludeLoadFail();
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> refreshList());
         //TODO 设置上拉加载更多
@@ -89,6 +94,7 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
                 lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
             }
         });
+
     }
 
     public void getList() {
@@ -165,10 +171,11 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
             getList();
         }
     }
-    public void notifyAdapter(){
-      if(null!=adapter){
-          adapter.notifyDataSetChanged();
-      }
+
+    public void notifyAdapter() {
+        if (null != adapter) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private Map<String, String> getListParams() {
@@ -182,6 +189,9 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
 
     private void loadError(Throwable throwable) {
         mLlLoad.setVisibility(View.GONE);
+
+        include_load_fail.setVisibility(View.VISIBLE);
+        include_no_data.setVisibility(View.GONE);
 
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
@@ -240,6 +250,9 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
         mSwipeRefreshLayout.setRefreshing(false);
         //TODO 填充数据
         if (resInformation.getRetCode() == 0) {
+            include_load_fail.setVisibility(View.GONE);
+            include_no_data.setVisibility(View.GONE);
+
             if (resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
                 infoList.addAll(resInformation.getRetObj().getRows());
                 if (adapter == null) {
@@ -254,7 +267,14 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
             if (infoList.size() == resInformation.getRetObj().getTotal()) {
                 isEnd = true;
             }
+        } else if (resInformation.getRetCode() == 10013) {//暂无数据
+            include_no_data.setVisibility(View.VISIBLE);
+            include_load_fail.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
         } else {
+            include_no_data.setVisibility(View.GONE);
+            include_load_fail.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
             T.ShowToast(mContext, resInformation.getRetMsg());
         }
     }
