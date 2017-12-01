@@ -194,6 +194,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         mHfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
         mLlfBtnReTry.setOnClickListener(v -> {
+            ((InformationPresenter) mPresenter).getDataGroupList();
             DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
             if (DF == 0) {
                 isUser = false;
