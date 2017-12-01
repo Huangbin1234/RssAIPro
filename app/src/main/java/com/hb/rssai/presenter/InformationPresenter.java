@@ -129,6 +129,9 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
 
     private void setDataGroupResult(ResDataGroup resDataGroup) {
         if (resDataGroup != null && resDataGroup.getRetCode() == 0) {
+            if(mRowsBeanList.size()>0){
+                mRowsBeanList.clear();
+            }
             for (ResDataGroup.RetObjBean.RowsBean bean : resDataGroup.getRetObj().getRows()) {
                 if (bean.getGroupType() == 0) {
                     mRowsBeanList.add(bean);
