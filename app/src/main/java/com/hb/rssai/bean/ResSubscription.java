@@ -52,7 +52,7 @@ public class ResSubscription {
          * id : 78588067-81bb-11e7-804f-206a8a32e7b2
          * userId : ee19fa97-7fda-11e7-99c9-206a8a32e7b2
          */
-
+        private boolean isCheck;
         private boolean deleteFlag;
         private boolean isRecommend;
         private String img;

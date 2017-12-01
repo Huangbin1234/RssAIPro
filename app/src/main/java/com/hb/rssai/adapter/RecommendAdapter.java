@@ -67,18 +67,18 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         }
 
 
-        if (rssList.get(position).isDeleteFlag()) {
+        if (!rssList.get(position).isCheck()) {
             holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
         } else {
-            if (TextUtils.isEmpty(rssList.get(position).getUserId())) {
-                holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
-            } else {
-                if (userId.equals(rssList.get(position).getUserId())) {
+//            if (TextUtils.isEmpty(rssList.get(position).getUserId())) {
+//                holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
+//            } else {
+//                if (userId.equals(rssList.get(position).getUserId())) {
                     holder.ir_iv_add.setImageResource(R.color.trans);
-                } else {
-                    holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
-                }
-            }
+//                } else {
+//                    holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
+//                }
+//            }
         }
 //        if (themeList.get(position).isDeleteFlag() && userId.equals(themeList.get(position).getUserId())) {
 //            holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);

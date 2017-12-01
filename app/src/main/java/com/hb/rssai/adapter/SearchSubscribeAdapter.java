@@ -2,7 +2,6 @@ package com.hb.rssai.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,18 +71,18 @@ public class SearchSubscribeAdapter extends RecyclerView.Adapter<SearchSubscribe
 //          userId 不是空:
 //               如果userId等于当前登录的用户ID 那么置灰
 //               否则 userId不等于当前登录的用户ID 那么高亮
-        if (resList.get(position).isDeleteFlag()) {
+        if (!resList.get(position).isCheck()) {
             holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
         } else {
-            if (TextUtils.isEmpty(resList.get(position).getUserId())) {
-                holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
-            } else {
-                if (userId.equals(resList.get(position).getUserId())) {
+//            if (TextUtils.isEmpty(resList.get(position).getUserId())) {
+//                holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
+//            } else {
+//                if (userId.equals(resList.get(position).getUserId())) {
                     holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_cancel);
-                } else {
-                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
-                }
-            }
+//                } else {
+//                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
+//                }
+//            }
         }
         holder.ifm_iv_add.setOnClickListener(v -> {
             onAddClickedListener.onAdd(resList.get(position), v);

@@ -207,6 +207,9 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     }
                 }
             }
+        }else if(resSubscription.getRetCode()==10013){
+            //从来没订阅过
+            addSubscription(v, isRecommend);
         } else {
             T.ShowToast(mContext, resSubscription.getRetMsg());
         }
@@ -254,8 +257,22 @@ public class FindPresenter extends BasePresenter<IFindView> {
                         @Override
                         public void onAdd(ResFindMore.RetObjBean.RowsBean bean, View v) {
                             rowsBean = bean;
-                            //TODO 先去查询服务器上此条数据
-                            findMoreListById(v, false);
+
+                            if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
+                                //TODO 先去查询服务器上此条数据
+                                findMoreListById(v, false);
+//                                if (bean.isCheck()) {
+//                                    delSubscription(v, false);
+//                                } else {
+//                                    addSubscription(v, false);
+//                                }
+                            } else {
+                                //跳转到登录
+                                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+                                Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                ProjectApplication.mContext.startActivity(intent);
+                            }
                         }
                     });
                     mFfFindRecyclerView.setAdapter(findMoreAdapter);
@@ -297,6 +314,11 @@ public class FindPresenter extends BasePresenter<IFindView> {
                             if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
                                 //TODO 先去查询服务器上此条数据
                                 findMoreListById(v, true);
+//                                if (bean.isCheck()) {
+//                                    delSubscription(v, true);
+//                                } else {
+//                                    addSubscription(v, true);
+//                                }
                             } else {
                                 //跳转到登录
                                 T.ShowToast(mContext, Constant.MSG_NO_LOGIN);

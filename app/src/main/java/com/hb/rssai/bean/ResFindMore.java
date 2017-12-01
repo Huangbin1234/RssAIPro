@@ -80,10 +80,20 @@ public class ResFindMore {
              * isTag : false
              * parentId : ""
              */
-
-            private boolean deleteFlag;
+//            us.deleteFlag,us.userId,
+//            private boolean deleteFlag;
             private boolean isRecommend;
-            private String userId;
+
+            public boolean isCheck() {
+                return isCheck;
+            }
+
+            public void setCheck(boolean check) {
+                isCheck = check;
+            }
+
+            private boolean isCheck;
+//            private String userId;
             private String img;
             private String pubTime;
             private String lastTime;
@@ -202,21 +212,21 @@ public class ResFindMore {
                 this.findCount = findCount;
             }
 
-            public boolean isDeleteFlag() {
-                return deleteFlag;
-            }
-
-            public void setDeleteFlag(boolean deleteFlag) {
-                this.deleteFlag = deleteFlag;
-            }
-
-            public String getUserId() {
-                return userId;
-            }
-
-            public void setUserId(String userId) {
-                this.userId = userId;
-            }
+//            public boolean isDeleteFlag() {
+//                return deleteFlag;
+//            }
+//
+//            public void setDeleteFlag(boolean deleteFlag) {
+//                this.deleteFlag = deleteFlag;
+//            }
+//
+//            public String getUserId() {
+//                return userId;
+//            }
+//
+//            public void setUserId(String userId) {
+//                this.userId = userId;
+//            }
 
             public String getLastTime() {
                 return lastTime;

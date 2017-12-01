@@ -193,8 +193,8 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
     private void loadError(Throwable throwable) {
         mLlLoad.setVisibility(View.GONE);
 
-        include_load_fail.setVisibility(View.VISIBLE);
-        include_no_data.setVisibility(View.GONE);
+//        include_load_fail.setVisibility(View.VISIBLE);
+//        include_no_data.setVisibility(View.GONE);
 
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
