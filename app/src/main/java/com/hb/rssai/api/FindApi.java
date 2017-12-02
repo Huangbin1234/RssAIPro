@@ -67,3 +67,6 @@ public interface FindApi {
     @GET("cardserver/search")
     Call<ResBDJson> getRssImage(@Query("para") String params);
 }
+
+
+

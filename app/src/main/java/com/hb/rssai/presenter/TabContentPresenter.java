@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.FindMoreAdapter;
+import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.bean.ResSubscription;
@@ -17,6 +18,7 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.iView.ITabContentView;
 import com.hb.rssai.view.subscription.SourceListActivity;
 
@@ -114,12 +116,17 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
                         intent.putExtra(SourceListActivity.KEY_DESC, rowsBean1.getAbstractContent());
                         mContext.startActivity(intent);
                     });
-                    findMoreAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {
-                        @Override
-                        public void onAdd(ResFindMore.RetObjBean.RowsBean bean, View v) {
-                            rowsBean = bean;
+                    findMoreAdapter.setOnAddClickedListener((bean, v) -> {
+                        rowsBean = bean;
+                        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
                             //TODO 先去查询服务器上此条数据
                             findMoreListById(v);
+                        } else {
+                            //跳转到登录
+                            T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+                            Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ProjectApplication.mContext.startActivity(intent);
                         }
                     });
                     recyclerView.setAdapter(findMoreAdapter);
@@ -180,6 +187,9 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
                     }
                 }
             }
+        } else if (resSubscription.getRetCode() == 10013) {
+            //从来没订阅过
+            addSubscription(v);
         } else {
             T.ShowToast(mContext, resSubscription.getRetMsg());
         }
