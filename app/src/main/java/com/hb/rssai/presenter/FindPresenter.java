@@ -147,7 +147,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(resFindMore -> {
                         setFindMoreResult(resFindMore);
-                    }, this::loadError);
+                    }, this::loadFindError);
         }
     }
 
@@ -158,7 +158,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(resFindMore -> {
                         setRecommendResult(resFindMore);
-                    }, this::loadFindError);
+                    }, this::loadError);
         }
     }
 
@@ -217,9 +217,10 @@ public class FindPresenter extends BasePresenter<IFindView> {
 
     private void loadFindError(Throwable throwable) {
 
-        include_load_fail.setVisibility(View.VISIBLE);
-        include_no_data.setVisibility(View.GONE);
-
+        if(!(null!=resFindMores&&resFindMores.size()>0)){
+            include_load_fail.setVisibility(View.VISIBLE);
+            include_no_data.setVisibility(View.GONE);
+        }
         swipeLayout.setRefreshing(false);
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);

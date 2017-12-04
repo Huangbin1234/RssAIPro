@@ -86,6 +86,8 @@ public class DownNewsService extends Service {
         if (resInformation.getRetObj() == null || resInformation.getRetObj().getRows() == null) {
             return;
         }
+        //先清除所有数据在插入
+        LiteOrmDBUtil.deleteAll(Information.class);
         int len = resInformation.getRetObj().getRows().size();
         for (int i = 0; i < len; i++) {
             ResInformation.RetObjBean.RowsBean info = resInformation.getRetObj().getRows().get(i);

@@ -40,6 +40,9 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
     private boolean isEnd = false, isLoad = false;
     private InfoAdapter adapter;
     List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
+
+    List<ResDataGroup.RetObjBean.RowsBean> mRowsBeanList = new ArrayList<>();
+    List<ResDataGroup.RetObjBean.RowsBean> mMeRowsBeanList = new ArrayList<>();
     private LinearLayout mLlLoad;
     View include_no_data;
     View include_load_fail;
@@ -123,8 +126,7 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
                 }, this::loadError);
     }
 
-    List<ResDataGroup.RetObjBean.RowsBean> mRowsBeanList = new ArrayList<>();
-    List<ResDataGroup.RetObjBean.RowsBean> mMeRowsBeanList = new ArrayList<>();
+
 
     private void setDataGroupResult(ResDataGroup resDataGroup) {
         if (resDataGroup != null && resDataGroup.getRetCode() == 0) {
@@ -192,9 +194,6 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
     private void loadError(Throwable throwable) {
         mLlLoad.setVisibility(View.GONE);
 
-        include_load_fail.setVisibility(View.VISIBLE);
-        include_no_data.setVisibility(View.GONE);
-
         throwable.printStackTrace();
         T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
 
@@ -236,6 +235,9 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
             if (infoList.size() == list.size()) {
                 isEnd = true;
             }
+        }else{
+            include_load_fail.setVisibility(View.VISIBLE);
+            include_no_data.setVisibility(View.GONE);
         }
         mSwipeRefreshLayout.setRefreshing(false);
     }
