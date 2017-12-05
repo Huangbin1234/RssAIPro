@@ -42,7 +42,7 @@ public class GetStorageUtil {
         StorageManager sm = (StorageManager) mContext.getSystemService(Context.STORAGE_SERVICE);
         // 获取sdcard的路径：外置和内置
         try {
-            String[] paths = (String[]) sm.getClass().getMethod("getVolumePaths", new Class[0]).invoke(sm, null);
+            String[] paths = (String[]) sm.getClass().getMethod("getVolumePaths", new Class[0]).invoke(sm, new Object[]{});
             String esd = Environment.getExternalStorageDirectory().getPath();
             for (int i = 0; i < paths.length; i++) {
                 if (paths[i].equals(esd)) {

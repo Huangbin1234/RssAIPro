@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.hb.rssai"
         minSdkVersion 15
@@ -10,14 +10,16 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+            multiDexEnabled true
+
 //        externalNativeBuild {
 //            cmake {
 //                cppFlags ""
 //            }
 //        }
-        jackOptions {
-            enabled true
-        }
+//        jackOptions {
+//            enabled true
+//        }
         ndk {
             //设置支持的SO库架构
             abiFilters 'armeabi', 'armeabi-v7a'//,  'arm64-v8a', 'x86', 'armeabi-v7a', 'x86_64'
@@ -46,6 +48,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 //    externalNativeBuild {
 //        cmake {
 //            path "CMakeLists.txt"
@@ -100,4 +103,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 
     compile 'com.jaeger.statusbarutil:library:1.4.0'
+
+    dependencies { compile 'com.android.support:multidex:1.0.1' }
 }
