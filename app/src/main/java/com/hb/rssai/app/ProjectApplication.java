@@ -2,6 +2,7 @@ package com.hb.rssai.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.hb.rssai.constants.Constant;
@@ -14,7 +15,7 @@ import com.umeng.socialize.UMShareAPI;
  * Created by Administrator on 2017/4/24.
  */
 
-public class ProjectApplication extends Application {
+public class ProjectApplication extends MultiDexApplication{
     public static Context mContext;
     private static ProjectApplication sApplication;
     public static long sys_night_mode_time = 0;
