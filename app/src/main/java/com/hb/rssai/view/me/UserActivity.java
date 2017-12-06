@@ -496,4 +496,10 @@ public class UserActivity extends BaseActivity implements IUserView {
         }
     }
     //TODO ###############################################头像上传####################################################
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // 取消注册
+        EventBus.getDefault().unregister(this);
+    }
 }

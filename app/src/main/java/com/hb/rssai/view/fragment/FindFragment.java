@@ -286,8 +286,8 @@ public class FindFragment extends BaseFragment implements IFindView {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
-
 
     @Override
     public RecyclerView getFfFindRecyclerView() {

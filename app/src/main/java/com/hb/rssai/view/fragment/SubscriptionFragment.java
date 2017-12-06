@@ -466,12 +466,16 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onDetach() {
         super.onDetach();
-        // 取消注册
-        EventBus.getDefault().unregister(this);
         mListener = null;
     }
 
-//    class ReadRssTask extends AsyncTask<Void, Void, Void> {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // 取消注册
+        EventBus.getDefault().unregister(this);
+    }
+    //    class ReadRssTask extends AsyncTask<Void, Void, Void> {
 //
 //        @Override
 //        protected void onPreExecute() {

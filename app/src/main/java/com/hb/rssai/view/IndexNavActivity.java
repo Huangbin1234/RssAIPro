@@ -298,4 +298,10 @@ public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFra
             finish();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

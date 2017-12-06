@@ -515,6 +515,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         super.onDetach();
         mListener = null;
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

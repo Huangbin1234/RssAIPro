@@ -416,4 +416,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             }
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

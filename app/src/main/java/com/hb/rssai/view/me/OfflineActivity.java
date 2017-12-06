@@ -124,4 +124,10 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
         }
         super.onStop();
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // 取消注册
+        EventBus.getDefault().unregister(this);
+    }
 }
