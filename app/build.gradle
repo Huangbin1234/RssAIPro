@@ -10,16 +10,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-            multiDexEnabled true
+        multiDexEnabled true
 
-//        externalNativeBuild {
-//            cmake {
-//                cppFlags ""
-//            }
-//        }
-//        jackOptions {
-//            enabled true
-//        }
         ndk {
             //设置支持的SO库架构
             abiFilters 'armeabi', 'armeabi-v7a'//,  'arm64-v8a', 'x86', 'armeabi-v7a', 'x86_64'
@@ -32,28 +24,50 @@ android {
 
         vectorDrawables.useSupportLibrary = true
     }
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            storeFile file("E:\\work\\学习资料\\rssaikeystore.jks")
+            storePassword "a7899999"
+            keyAlias "rssai"
+            keyPassword "a7899999"
         }
     }
-//    sourceSets {
-//        main {
-//            jniLibs.srcDirs = ['libs']
-//        }
-//    }
-
+    buildTypes {
+        release {
+            pseudoLocalesEnabled true
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //混淆
+            minifyEnabled true
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            //加载默认混淆配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //签名
+            signingConfig signingConfigs.release
+        }
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi', 'armeabi-v7a'//只打包armeabi平台的，就算有其他文件夹也不管
+//          include_top_search 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'x86', 'x86_64'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    dataBinding {
+        enabled = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-//    externalNativeBuild {
-//        cmake {
-//            path "CMakeLists.txt"
-//        }
-//    }
 
 }
 
