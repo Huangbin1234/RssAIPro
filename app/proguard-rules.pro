@@ -124,7 +124,10 @@
  -keep class org.apache.commons.**{*;}
  -keep class org.apache.http.**{*;}
 # end
-
+#防止BottomNavigationMenuView动画反射失败
+-keepclassmembers class android.support.design.internal.BottomNavigationMenuView {
+    boolean mShiftingMode;
+}
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
 # removes such information by default, so configure it to keep all of it.
