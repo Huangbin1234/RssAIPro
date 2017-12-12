@@ -256,7 +256,7 @@ public class InformationPresenter extends BasePresenter<IInformationView> {
         if (resInformation.getRetCode() == 0) {
             include_load_fail.setVisibility(View.GONE);
             include_no_data.setVisibility(View.GONE);
-
+            mRecyclerView.setVisibility(View.VISIBLE);
             if (resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
                 infoList.addAll(resInformation.getRetObj().getRows());
                 if (adapter == null) {

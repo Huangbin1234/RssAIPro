@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.util.HttpLoadImg;
 
@@ -57,7 +58,7 @@ public class FilterDialogAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.dialog_item_tv.setText(list.get(position).getName());
-        HttpLoadImg.loadCircleImg(mContext,list.get(position).getUrl(), holder.dialog_item_iv);
+        HttpLoadImg.loadImg(mContext, ApiRetrofit.BASE_URL+list.get(position).getUrl(), holder.dialog_item_iv);
         return convertView;
     }
 
