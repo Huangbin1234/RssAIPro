@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
 import com.hb.rssai.R;
+import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.presenter.BasePresenter;
@@ -90,7 +91,7 @@ public class TabResourceActivity extends BaseActivity implements ITabResourceVie
                 .setLoadHeaderImagesListener((imageView, tab) -> {
 
                     if (null == loadMap.get(tab.getPosition())) {
-                        HttpLoadImg.loadCircleImg(TabResourceActivity.this, mRowsBeanList.get(tab.getPosition()).getUrl(), imageView);
+                        HttpLoadImg.loadCircleImg(TabResourceActivity.this, ApiRetrofit.BASE_URL+mRowsBeanList.get(tab.getPosition()).getUrl(), imageView);
                         //加载数据
                         ((TabContentPresenter) fList.get(tab.getPosition()).mPresenter).getListData(mRowsBeanList.get(tab.getPosition()).getVal());
                         loadMap.put(tab.getPosition(), true);
