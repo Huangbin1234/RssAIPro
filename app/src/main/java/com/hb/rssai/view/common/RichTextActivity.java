@@ -3,7 +3,6 @@ package com.hb.rssai.view.common;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -14,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +36,6 @@ import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.util.TextJustification;
 import com.hb.rssai.view.iView.IRichTextView;
 import com.hb.rssai.view.widget.MyDecoration;
 import com.umeng.socialize.ShareAction;
@@ -353,7 +349,9 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         getMenuInflater().inflate(R.menu.content_menu, menu);
         MenuItem item = menu.findItem(R.id.toolbar_add_collection);
         this.item = item;
-        ((RichTextPresenter) mPresenter).getCollectionByInfoId();
+        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.TOKEN, ""))) {
+            ((RichTextPresenter) mPresenter).getCollectionByInfoId();
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
