@@ -47,7 +47,8 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
         layoutInflater = LayoutInflater.from(mContext);
         init();
     }
-    public void init(){
+
+    public void init() {
         isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE, false);
     }
 
@@ -59,11 +60,27 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.item_na_name.setText(rssList.get(position).getTitle()!=null?rssList.get(position).getTitle():"");
-        images = TextUtils.isEmpty(rssList.get(position).getImageUrls()) ? null : rssList.get(position).getImageUrls().split(",");
+        holder.item_na_name.setText(rssList.get(position).getTitle() != null ? rssList.get(position).getTitle() : "");
+        images = TextUtils.isEmpty(rssList.get(position).getImageUrls()) ? null : rssList.get(position).getImageUrls().split(",http");
         if (images != null && images.length > 0) {
+//            if (images.length >= 2 && !(images[1].startsWith("http"))) {
+//                holder.item_na_group_ll.setVisibility(View.GONE);
+//                holder.irl_bottom_a.setVisibility(View.VISIBLE);
+//                holder.irl_bottom_b.setVisibility(View.GONE);
+//                holder.item_na_type_a.setText(rssList.get(position).getWhereFrom());
+//                try {
+//                    holder.item_na_time_a.setText(DateUtil.showDate(sdf.parse(rssList.get(position).getPubTime()), longDatePat));
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                if (isLoadImage) {
+//                    holder.item_na_img.setVisibility(View.GONE);
+//                } else {
+//                    holder.item_na_img.setVisibility(View.VISIBLE);
+//                    HttpLoadImg.loadImg(mContext, rssList.get(position).getImageUrls(), holder.item_na_img);
+//                }
+//            } else {
             if (images.length >= 3) {
-
                 holder.item_na_img.setVisibility(View.GONE);
                 holder.irl_bottom_a.setVisibility(View.GONE);
                 holder.irl_bottom_b.setVisibility(View.VISIBLE);
@@ -80,31 +97,28 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                 } else {
                     holder.item_na_group_ll.setVisibility(View.VISIBLE);
                     HttpLoadImg.loadImg(mContext, images[0], holder.item_na_group_a);
-                    HttpLoadImg.loadImg(mContext, images[1], holder.item_na_group_b);
-                    HttpLoadImg.loadImg(mContext, images[2], holder.item_na_group_c);
+                    HttpLoadImg.loadImg(mContext, "http" + images[1], holder.item_na_group_b);
+                    HttpLoadImg.loadImg(mContext, "http" + images[2], holder.item_na_group_c);
                 }
             } else {
                 holder.item_na_group_ll.setVisibility(View.GONE);
-
                 holder.irl_bottom_a.setVisibility(View.VISIBLE);
                 holder.irl_bottom_b.setVisibility(View.GONE);
-
                 holder.item_na_type_a.setText(rssList.get(position).getWhereFrom());
                 try {
                     holder.item_na_time_a.setText(DateUtil.showDate(sdf.parse(rssList.get(position).getPubTime()), longDatePat));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
                 if (isLoadImage) {
                     holder.item_na_img.setVisibility(View.GONE);
                 } else {
-
                     holder.item_na_img.setVisibility(View.VISIBLE);
                     HttpLoadImg.loadImg(mContext, images[0], holder.item_na_img);
                 }
-
             }
+//            }
+
         } else {
             holder.item_na_group_ll.setVisibility(View.GONE);
             holder.item_na_img.setVisibility(View.GONE);
@@ -120,7 +134,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
         }
 
         holder.item_na_layout.setOnClickListener(v -> {
-            if(rssList.size()>0){
+            if (rssList.size() > 0) {
                 String data = rssList.get(position).getLink();//获取编辑框里面的文本内容
                 if (!TextUtils.isEmpty(data)) {
                     Intent intent = new Intent(mContext, RichTextActivity.class);//创建Intent对象
@@ -137,7 +151,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                 } else {
                     T.ShowToast(mContext, "链接错误，无法跳转！");
                 }
-            }else{
+            } else {
                 T.ShowToast(mContext, "请等待数据加载完成！");
             }
         });

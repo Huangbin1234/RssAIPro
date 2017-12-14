@@ -38,6 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.HttpException;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -222,7 +223,15 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
 
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
-        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        if (throwable instanceof HttpException) {
+            if (((HttpException) throwable).response().code() == 401) {
+                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+            } else {
+                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+            }
+        } else {
+            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        }
     }
 
     private String subscribeId = "";

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RssAI</string>
+    <string name="app_name">Zr</string>
     <string name="str_main_home">资讯</string>
     <string name="str_main_subscription">订阅</string>
     <string name="str_rf_subscription">订阅开发中。。。</string>
@@ -105,7 +105,7 @@
     <string name="str_pop_local">本地上传</string>
     <string name="str_la_btn_offline">离线下载</string>
     <string name="str_offline_title">离线下载</string>
-    <string name="title_activity_test_nav">TestNavActivity</string>
+    <string name="title_activity_test_nav">TestNav</string>
     <string name="title_home">资讯</string>
     <string name="title_subscribe">订阅</string>
     <string name="title_find">发现</string>
@@ -125,5 +125,7 @@
     <string name="str_pas_name">输入源名称</string>
     <string name="str_pas_link">输入源链接</string>
     <string name="str_add_sub">主题订阅</string>
+
+    <string name="umeng_sharebutton_copyurl">复制链接</string>
 
 </resources>

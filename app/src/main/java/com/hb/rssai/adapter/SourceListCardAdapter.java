@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/12/10 0010.
  */
-public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdapter.MyViewHolder> {
+public class SourceListCardAdapter extends RecyclerView.Adapter<SourceListCardAdapter.MyViewHolder> {
     private Context mContext;
     private List<List<ResCardSubscribe.RetObjBean.RowsBean>> rssList;
     private LayoutInflater layoutInflater;
@@ -42,7 +42,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
     private String[] images = null;
     private boolean isLoadImage = true;
 
-    public SourceListNewAdapter(Context mContext, List<List<ResCardSubscribe.RetObjBean.RowsBean>> rssList) {
+    public SourceListCardAdapter(Context mContext, List<List<ResCardSubscribe.RetObjBean.RowsBean>> rssList) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
@@ -80,7 +80,6 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         int len = rssList.get(position).size();
-        System.out.println("===========>" + len);
         if (len >= 1 && rssList.get(position).get(0) != null) {
             try {
                 holder.irl_tv_top_time.setText(DateUtil.showDate(sdf.parse(rssList.get(position).get(0).getPubTime()), longDatePat));
@@ -88,86 +87,81 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
                 e.printStackTrace();
             }
             holder.irl_tv_top.setText(rssList.get(position).get(0).getTitle());
-            holder.irl_top_rl.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickItem(position, 0);
+            holder.irl_top_rl.setOnClickListener(v -> clickItem(position, 0));
+            images = TextUtils.isEmpty(rssList.get(position).get(0).getImageUrls()) ? null : rssList.get(position).get(0).getImageUrls().split(",http");
+//            if (images != null && images.length >= 2 && !(images[1].startsWith("http"))) {
+//                HttpLoadImg.loadImg(mContext, rssList.get(position).get(0).getImageUrls(), holder.irl_iv_top);
+//            } else {
+                if (images != null && images.length > 0) {
+                    HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top);
+                } else {
+                    holder.irl_iv_top.setVisibility(View.GONE);
                 }
-            });
-            images = TextUtils.isEmpty(rssList.get(position).get(0).getImageUrls()) ? null : rssList.get(position).get(0).getImageUrls().split(",");
-            if (images != null && images.length > 0) {
-                HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top);
-            } else {
-                holder.irl_iv_top.setVisibility(View.GONE);
-            }
+//            }
         } else {
             holder.irl_top_rl.setVisibility(View.GONE);
         }
         if (len >= 2 && rssList.get(position).get(1) != null) {
             holder.irl_tv_top1.setText(rssList.get(position).get(1).getTitle());
-            holder.irl_top_ll1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickItem(position, 1);
+            holder.irl_top_ll1.setOnClickListener(v -> clickItem(position, 1));
+            images = TextUtils.isEmpty(rssList.get(position).get(1).getImageUrls()) ? null : rssList.get(position).get(1).getImageUrls().split(",http");
+//            if (images != null && images.length >= 2 && !(images[1].startsWith("http"))) {
+//                HttpLoadImg.loadImg(mContext, rssList.get(position).get(1).getImageUrls(), holder.irl_iv_top1);
+//            } else {
+                if (images != null && images.length > 0) {
+                    HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top1);
+                } else {
+                    holder.irl_iv_top1.setVisibility(View.GONE);
                 }
-            });
-            images = TextUtils.isEmpty(rssList.get(position).get(1).getImageUrls()) ? null : rssList.get(position).get(1).getImageUrls().split(",");
-            if (images != null && images.length > 0) {
-                HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top1);
-            } else {
-                holder.irl_iv_top1.setVisibility(View.GONE);
-            }
+//            }
         } else {
             holder.irl_top_ll1.setVisibility(View.GONE);
         }
         if (len >= 3 && rssList.get(position).get(2) != null) {
             holder.irl_tv_top2.setText(rssList.get(position).get(2).getTitle());
-            holder.irl_top_ll2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickItem(position, 2);
+            holder.irl_top_ll2.setOnClickListener(v -> clickItem(position, 2));
+            images = TextUtils.isEmpty(rssList.get(position).get(2).getImageUrls()) ? null : rssList.get(position).get(2).getImageUrls().split(",http");
+//            if (images != null && images.length >= 2 && !(images[1].startsWith("http"))) {
+//                HttpLoadImg.loadImg(mContext, rssList.get(position).get(2).getImageUrls(), holder.irl_iv_top2);
+//            } else {
+                if (images != null && images.length > 0) {
+                    HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top2);
+                } else {
+                    holder.irl_iv_top2.setVisibility(View.GONE);
                 }
-            });
-            images = TextUtils.isEmpty(rssList.get(position).get(2).getImageUrls()) ? null : rssList.get(position).get(2).getImageUrls().split(",");
-            if (images != null && images.length > 0) {
-                HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top2);
-            } else {
-                holder.irl_iv_top2.setVisibility(View.GONE);
-            }
+//            }
         } else {
             holder.irl_top_ll2.setVisibility(View.GONE);
         }
         if (len >= 4 && rssList.get(position).get(3) != null) {
             holder.irl_tv_top3.setText(rssList.get(position).get(3).getTitle());
-            holder.irl_top_ll3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickItem(position, 3);
+            holder.irl_top_ll3.setOnClickListener(v -> clickItem(position, 3));
+            images = TextUtils.isEmpty(rssList.get(position).get(3).getImageUrls()) ? null : rssList.get(position).get(3).getImageUrls().split(",http");
+//            if (images != null && images.length >= 2 && !(images[1].startsWith("http"))) {
+//                HttpLoadImg.loadImg(mContext, rssList.get(position).get(3).getImageUrls(), holder.irl_iv_top3);
+//            } else {
+                if (images != null && images.length > 0) {
+                    HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top3);
+                } else {
+                    holder.irl_iv_top3.setVisibility(View.GONE);
                 }
-            });
-            images = TextUtils.isEmpty(rssList.get(position).get(3).getImageUrls()) ? null : rssList.get(position).get(3).getImageUrls().split(",");
-            if (images != null && images.length > 0) {
-                HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top3);
-            } else {
-                holder.irl_iv_top3.setVisibility(View.GONE);
-            }
+//            }
         } else {
             holder.irl_top_ll3.setVisibility(View.GONE);
         }
         if (len >= 5 && rssList.get(position).get(4) != null) {
             holder.irl_tv_top4.setText(rssList.get(position).get(4).getTitle());
-            holder.irl_top_ll4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickItem(position, 4);
+            holder.irl_top_ll4.setOnClickListener(v -> clickItem(position, 4));
+            images = TextUtils.isEmpty(rssList.get(position).get(4).getImageUrls()) ? null : rssList.get(position).get(4).getImageUrls().split(",http");
+//            if (images != null && images.length >= 2 && !(images[1].startsWith("http"))) {
+//                HttpLoadImg.loadImg(mContext, rssList.get(position).get(4).getImageUrls(), holder.irl_iv_top4);
+//            } else {
+                if (images != null && images.length > 0) {
+                    HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top4);
+                } else {
+                    holder.irl_iv_top4.setVisibility(View.GONE);
                 }
-            });
-            images = TextUtils.isEmpty(rssList.get(position).get(4).getImageUrls()) ? null : rssList.get(position).get(4).getImageUrls().split(",");
-            if (images != null && images.length > 0) {
-                HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top4);
-            } else {
-                holder.irl_iv_top4.setVisibility(View.GONE);
-            }
+//            }
         } else {
             holder.irl_top_ll4.setVisibility(View.GONE);
         }
@@ -178,11 +172,7 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
         return rssList == null ? 0 : rssList.size();
     }
 
-//
-
     class MyViewHolder extends RecyclerView.ViewHolder {
-
-
         TextView irl_tv_top4;
         TextView irl_tv_top3;
         TextView irl_tv_top2;
@@ -197,11 +187,9 @@ public class SourceListNewAdapter extends RecyclerView.Adapter<SourceListNewAdap
         ImageView irl_iv_top;
 
         //        CardView item_na_layout;
-
         View irl_view_line_2;
         View irl_view_line_3;
         View irl_view_line_4;
-
 
         RelativeLayout irl_top_rl;
         LinearLayout irl_top_ll4;

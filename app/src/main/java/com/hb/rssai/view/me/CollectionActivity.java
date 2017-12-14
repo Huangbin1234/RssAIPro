@@ -1,6 +1,5 @@
 package com.hb.rssai.view.me;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,10 +25,8 @@ import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.CollectionPresenter;
-import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.LiteOrmDBUtil;
-import com.hb.rssai.view.common.QrCodeActivity;
-import com.hb.rssai.view.common.RichTextActivity;
+import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.view.iView.ICollectionView;
 import com.hb.rssai.view.widget.FullListView;
 import com.umeng.socialize.ShareAction;
@@ -93,32 +90,31 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mCollSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
-
-        mLlfBtnReTry.setOnClickListener(v -> ((CollectionPresenter)mPresenter).refreshList());
-
+        mLlfBtnReTry.setOnClickListener(v -> ((CollectionPresenter) mPresenter).refreshList());
         initShare();
     }
+
     private UMShareListener mShareListener;
     private ShareAction mShareAction;
 
     private void initShare() {
         mShareListener = new CustomShareListener(this);
         /*增加自定义按钮的分享面板*/
-        mShareAction = new ShareAction(CollectionActivity.this).setDisplayList(
-                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
-                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.MORE)
-                .addButton("umeng_sharebutton_copy", "umeng_sharebutton_copy", "umeng_socialize_copy", "umeng_socialize_copy")
+        mShareAction = new ShareAction(CollectionActivity.this)
+                .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
+                //.addButton("umeng_sharebutton_copy", "umeng_sharebutton_copy", "umeng_socialize_copy", "umeng_socialize_copy")
                 .addButton("umeng_sharebutton_copyurl", "umeng_sharebutton_copyurl", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
                 .setShareboardclickCallback(new ShareBoardlistener() {
                     @Override
                     public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                        if (snsPlatform.mShowWord.equals("umeng_sharebutton_copy")) {
-                            Toast.makeText(CollectionActivity.this, "复制文本按钮", Toast.LENGTH_LONG).show();
-                        } else if (snsPlatform.mShowWord.equals("umeng_sharebutton_copyurl")) {
+//                        if (snsPlatform.mShowWord.equals("umeng_sharebutton_copy")) {
+//                            Toast.makeText(CollectionActivity.this, "复制文本按钮", Toast.LENGTH_LONG).show();
+//                        } else
+                        if (snsPlatform.mShowWord.equals("umeng_sharebutton_copyurl")) {
+                            StringUtil.copy(newRowsBean.getLink(), CollectionActivity.this);
                             Toast.makeText(CollectionActivity.this, "复制链接按钮", Toast.LENGTH_LONG).show();
-
                         } else if (share_media == SHARE_MEDIA.SMS) {
-                            new ShareAction(CollectionActivity.this).withText("来自分享面板标题")
+                            new ShareAction(CollectionActivity.this).withText("来自ZR分享面板")
                                     .setPlatform(share_media)
                                     .setCallback(mShareListener)
                                     .share();
@@ -204,6 +200,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
             Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     protected int providerContentViewId() {
         return R.layout.activity_collection;
@@ -240,9 +237,10 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
 
 
     private ResCollection.RetObjBean.RowsBean newRowsBean;
+
     @Override
     public void onItemLongClicked(ResCollection.RetObjBean.RowsBean rowsBean) {
-        newRowsBean=rowsBean;
+        newRowsBean = rowsBean;
         sureCollection(rowsBean);
     }
 

@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.hb.rssai.adapter.SourceListAdapter;
-import com.hb.rssai.adapter.SourceListNewAdapter;
+import com.hb.rssai.adapter.SourceListCardAdapter;
 import com.hb.rssai.bean.ResCardSubscribe;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
@@ -43,7 +43,7 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
     private SourceListAdapter adapter;
     List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
     List<List<ResCardSubscribe.RetObjBean.RowsBean>> infoListCard = new ArrayList<>();
-    private SourceListNewAdapter cardAdapter;
+    private SourceListCardAdapter cardAdapter;
     private NestedScrollView mNestView;
 
     public SourceListPresenter(Context context, ISourceListView iSourceListView) {
@@ -161,7 +161,7 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
             if (resCardSubscribe.getRetObj().getRows() != null && resCardSubscribe.getRetObj().getRows().size() > 0) {
                 infoListCard.addAll(resCardSubscribe.getRetObj().getRows());
                 if (cardAdapter == null) {
-                    cardAdapter = new SourceListNewAdapter(mContext, infoListCard);
+                    cardAdapter = new SourceListCardAdapter(mContext, infoListCard);
                     mRecyclerView.setAdapter(cardAdapter);
                 } else {
                     cardAdapter.notifyDataSetChanged();

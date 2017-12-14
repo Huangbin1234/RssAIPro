@@ -250,9 +250,10 @@ public class MinePresenter extends BasePresenter<IMineView> {
                     tvMsgCount.setVisibility(View.GONE);
                 }
             }
-        } else {
-            T.ShowToast(mContext, resMessageList.getRetMsg());
         }
+        //else {
+            // T.ShowToast(mContext, resMessageList.getRetMsg());
+        //}
     }
 
     private Map<String, String> getMessageParams() {

@@ -74,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
                         android:autoLink="all"
+                        android:textIsSelectable="true"
                         android:lineSpacingExtra="5dp"
                         android:textColor="@color/color_txt"
                         android:textColorLink="@color/color_txt"

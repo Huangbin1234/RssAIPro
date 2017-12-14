@@ -35,6 +35,7 @@ import com.hb.rssai.util.HtmlImageGetter;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StatusBarUtil;
+import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IRichTextView;
 import com.hb.rssai.view.widget.MyDecoration;
@@ -216,22 +217,22 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
     private void initShare() {
         mShareListener = new CustomShareListener(this);
-        /*增加自定义按钮的分享面板*/
-        mShareAction = new ShareAction(RichTextActivity.this).setDisplayList(
-                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
-                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.MORE)
-                .addButton("umeng_sharebutton_copy", "umeng_sharebutton_copy", "umeng_socialize_copy", "umeng_socialize_copy")
+        /*增加自定义按钮的分享面板*/ //SHARE_MEDIA.SINA, SHARE_MEDIA.MORE
+        mShareAction = new ShareAction(RichTextActivity.this)
+                .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
+                //.addButton("umeng_sharebutton_copy", "umeng_sharebutton_copy", "umeng_socialize_copy", "umeng_socialize_copy")
                 .addButton("umeng_sharebutton_copyurl", "umeng_sharebutton_copyurl", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
                 .setShareboardclickCallback(new ShareBoardlistener() {
                     @Override
                     public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                        if (snsPlatform.mShowWord.equals("umeng_sharebutton_copy")) {
-                            Toast.makeText(RichTextActivity.this, "复制文本按钮", Toast.LENGTH_LONG).show();
-                        } else if (snsPlatform.mShowWord.equals("umeng_sharebutton_copyurl")) {
-                            Toast.makeText(RichTextActivity.this, "复制链接按钮", Toast.LENGTH_LONG).show();
-
+                        //if (snsPlatform.mShowWord.equals("umeng_sharebutton_copy")) {
+                        //Toast.makeText(RichTextActivity.this, "复制文本按钮", Toast.LENGTH_LONG).show();
+                        //} else
+                        if (snsPlatform.mShowWord.equals("umeng_sharebutton_copyurl")) {
+                            StringUtil.copy(url, RichTextActivity.this);
+                            Toast.makeText(RichTextActivity.this, "复制链接成功", Toast.LENGTH_LONG).show();
                         } else if (share_media == SHARE_MEDIA.SMS) {
-                            new ShareAction(RichTextActivity.this).withText("来自分享面板标题")
+                            new ShareAction(RichTextActivity.this).withText("来自ZR分享面板")
                                     .setPlatform(share_media)
                                     .setCallback(mShareListener)
                                     .share();
@@ -285,7 +286,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                         && platform != SHARE_MEDIA.EVERNOTE) {
                     Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }
 
