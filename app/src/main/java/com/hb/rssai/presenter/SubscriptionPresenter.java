@@ -238,6 +238,10 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
             if (resFindMores.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
+        } else if (resFindMore.getRetCode() == 10013) {
+//            if (resTopMores == null || resTopMores.size() <= 0) {
+//                T.ShowToast(mContext, resFindMore.getRetMsg());
+//            }
         } else {
             T.ShowToast(mContext, resFindMore.getRetMsg());
         }
@@ -263,11 +267,14 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
             if (resTopMores.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
+        } else if (resFindMore.getRetCode() == 10013) {
+//            if (resFindMores == null || resFindMores.size() <= 0) {
+//                T.ShowToast(mContext, resFindMore.getRetMsg());
+//            }
         } else {
             T.ShowToast(mContext, resFindMore.getRetMsg());
         }
     }
-
 
     private void loadError(Throwable throwable) {
         swipeLayout.setRefreshing(false);

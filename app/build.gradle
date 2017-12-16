@@ -26,7 +26,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("C:\\Users\\Administrator\\Desktop\\rssaikeystore.jks")
+            storeFile file("C:\\Users\\Administrator\\Desktop\\ZrProject\\rssaikeystore.jks")
             storePassword "a7899999"
             keyAlias "rssai"
             keyPassword "a7899999"
@@ -74,7 +74,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile files('libs/lite-orm-1.9.1.jar')
@@ -83,7 +83,7 @@ dependencies {
     compile files('libs/slf4j-api-1.7.25.jar')
     compile files('libs/core-3.3.0.jar')
     compile files('libs/ZBarDecoder.jar')
-    compile project(':GeneralUpdateLib')
+    implementation project(':GeneralUpdateLib')
     compile files('libs/SocialSDK_QQ_Simplify.jar')
     compile files('libs/SocialSDK_Sina_Simplify.jar')
     compile files('libs/SocialSDK_WeiXin_Full.jar')
@@ -114,7 +114,7 @@ dependencies {
     compile 'com.contrarywind:Android-PickerView:3.2.6'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 
     compile 'com.jaeger.statusbarutil:library:1.4.0'
