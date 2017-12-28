@@ -1,0 +1,41 @@
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--tools:context="com.hb.rssai.view.fragment.HomeFragment">-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hf_ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_toolbar_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_tab_toolbar" />
+    <!-- TODO: Update blank fragment layout -->
+    <!--<LinearLayout-->
+        <!--android:id="@+id/hf_ll"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/bg"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:visibility="gone">-->
+
+        <!--<ProgressBar-->
+            <!--style="@android:style/Widget.Holo.ProgressBar"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+
+    <!--<include-->
+        <!--android:id="@+id/include_load_fail"-->
+        <!--layout="@layout/layout_load_fail"-->
+        <!--android:visibility="gone" />-->
+
+    <!--<include-->
+        <!--android:id="@+id/include_no_data"-->
+        <!--layout="@layout/layout_no_data"-->
+        <!--android:visibility="gone" />-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/ft_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout><!--</FrameLayout>-->

@@ -31,6 +31,7 @@ import com.hb.rssai.view.fragment.FindFragment;
 import com.hb.rssai.view.fragment.HomeFragment;
 import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
+import com.hb.rssai.view.fragment.TabFragment;
 import com.hb.update.UpdateManager;
 import com.jaeger.library.StatusBarUtil;
 import com.zzhoujay.richtext.RichText;
@@ -40,7 +41,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 
-public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFragmentInteractionListener, SubscriptionFragment.OnFragmentInteractionListener, MineFragment.OnFragmentInteractionListener, FindFragment.OnFragmentInteractionListener {
+public class IndexNavActivity extends BaseActivity implements TabFragment.OnFragmentInteractionListener, SubscriptionFragment.OnFragmentInteractionListener, MineFragment.OnFragmentInteractionListener, FindFragment.OnFragmentInteractionListener {
 
 
     @BindView(R.id.ma_frame_layout)
@@ -56,7 +57,8 @@ public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFra
     private PermissionsChecker mPermissionsChecker;
     private Bundle savedInstanceState;
 
-    private HomeFragment homeFragment;
+//    private HomeFragment homeFragment;
+    private TabFragment tabFragment;
     private SubscriptionFragment subscriptionFragment;
     private MineFragment mineFragment;
     private FindFragment findFragment;
@@ -120,19 +122,22 @@ public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFra
         if (savedInstanceState != null) {//恢复现场
             int id = savedInstanceState.getInt("positionId");
             FragmentManager fm = getSupportFragmentManager();
-            homeFragment = (HomeFragment) fm.getFragment(savedInstanceState, HomeFragment.class.getSimpleName());
+//            homeFragment = (HomeFragment) fm.getFragment(savedInstanceState, HomeFragment.class.getSimpleName());
+            tabFragment = (TabFragment) fm.getFragment(savedInstanceState, HomeFragment.class.getSimpleName());
             subscriptionFragment = (SubscriptionFragment) fm.getFragment(savedInstanceState, SubscriptionFragment.class.getSimpleName());
             findFragment = (FindFragment) fm.getFragment(savedInstanceState, FindFragment.class.getSimpleName());
             mineFragment = (MineFragment) fm.getFragment(savedInstanceState, MineFragment.class.getSimpleName());
             showFragment(id);
         } else {
-            homeFragment = new HomeFragment();
+//            homeFragment = new HomeFragment();
+            tabFragment = new TabFragment();
             findFragment = new FindFragment();
             subscriptionFragment = new SubscriptionFragment();
             mineFragment = new MineFragment();
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.ma_frame_layout, homeFragment);
+//            fragmentTransaction.add(R.id.ma_frame_layout, homeFragment);
+            fragmentTransaction.add(R.id.ma_frame_layout, tabFragment);
             fragmentTransaction.add(R.id.ma_frame_layout, findFragment);
             fragmentTransaction.add(R.id.ma_frame_layout, subscriptionFragment);
             fragmentTransaction.add(R.id.ma_frame_layout, mineFragment);
@@ -189,7 +194,8 @@ public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFra
     private void showFragment(int id) {
         positionId = id;
         FragmentTransaction mTransaction = getSupportFragmentManager().beginTransaction();
-        mTransaction.hide(homeFragment);
+//        mTransaction.hide(homeFragment);
+        mTransaction.hide(tabFragment);
         mTransaction.hide(findFragment);
         mTransaction.hide(subscriptionFragment);
         mTransaction.hide(mineFragment);
@@ -197,8 +203,10 @@ public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFra
 
         switch (id) {
             case R.id.navigation_home:
-                mTransaction.show(homeFragment);
-                homeFragment.setUserVisibleHint(true);
+//                mTransaction.show(homeFragment);
+                mTransaction.show(tabFragment);
+//                homeFragment.setUserVisibleHint(true);
+                tabFragment.setUserVisibleHint(true);
                 break;
             case R.id.navigation_find:
                 mTransaction.show(findFragment);
@@ -260,8 +268,11 @@ public class IndexNavActivity extends BaseActivity implements HomeFragment.OnFra
         outState.putInt("positionId", positionId);
 
         FragmentManager fm = getSupportFragmentManager();
-        if (homeFragment.isAdded()) {
-            fm.putFragment(outState, HomeFragment.class.getSimpleName(), homeFragment);
+//        if (homeFragment.isAdded()) {
+//            fm.putFragment(outState, HomeFragment.class.getSimpleName(), homeFragment);
+//        }
+        if (tabFragment.isAdded()) {
+            fm.putFragment(outState, HomeFragment.class.getSimpleName(), tabFragment);
         }
         if (subscriptionFragment.isAdded()) {
             fm.putFragment(outState, SubscriptionFragment.class.getSimpleName(), subscriptionFragment);
