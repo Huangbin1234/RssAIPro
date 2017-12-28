@@ -35,10 +35,9 @@
         android:id="@+id/sys_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:tabGravity="fill"
+        app:tabGravity="center"
         app:tabMode="scrollable"
-        app:tabTextColor="@color/white"
-        app:tabSelectedTextColor="@color/lite_blue" />
-
+        app:tabTextColor="#DDDDDD"
+        app:tabSelectedTextColor="@color/white" />
 
 </android.support.design.widget.AppBarLayout>
