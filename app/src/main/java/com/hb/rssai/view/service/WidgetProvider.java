@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -40,41 +41,57 @@ public class WidgetProvider extends AppWidgetProvider {
     private static final String TAG = "WidgetProvider";
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager,  int[] appWidgetIds) {
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
+        // 获取Widget的组件名
+        ComponentName thisWidget = new ComponentName(context,
+                WidgetProvider.class);
 
         Log.d(TAG, "GridWidgetProvider onUpdate");
-        for (int appWidgetId:appWidgetIds) {
-            // 获取AppWidget对应的视图
-            RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.app_widget);
+//        for (int appWidgetId:appWidgetIds) {
+        // 获取AppWidget对应的视图
+        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            // 设置响应 “按钮(bt_refresh)” 的intent
-            Intent btIntent = new Intent().setAction(BT_REFRESH_ACTION);
-            PendingIntent btPendingIntent = PendingIntent.getBroadcast(context, 0, btIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            rv.setOnClickPendingIntent(R.id.widget_iv_refresh, btPendingIntent);
+        // 设置响应 “按钮(bt_refresh)” 的intent
+        Intent btIntent = new Intent().setAction(BT_REFRESH_ACTION);
+        PendingIntent btPendingIntent = PendingIntent.getBroadcast(context, 0, btIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        rv.setOnClickPendingIntent(R.id.widget_iv_refresh, btPendingIntent);
 
-            // 设置 “GridView(gridview)” 的adapter。
-            // (01) intent: 对应启动 ListWidgetService(RemoteViewsService) 的intent
-            // (02) setRemoteAdapter: 设置 gridview的适配器
-            //    通过setRemoteAdapter将gridview和GridWidgetService关联起来，
-            //    以达到通过 ListWidgetService 更新 gridview 的目的
-            Intent serviceIntent = new Intent(context, ListWidgetService.class);
-            rv.setRemoteAdapter(R.id.list_view, serviceIntent);
+        // 设置 “GridView(gridview)” 的adapter。
+        // (01) intent: 对应启动 ListWidgetService(RemoteViewsService) 的intent
+        // (02) setRemoteAdapter: 设置 gridview的适配器
+        //    通过setRemoteAdapter将gridview和GridWidgetService关联起来，
+        //    以达到通过 ListWidgetService 更新 gridview 的目的
+        Intent serviceIntent = new Intent(context, ListWidgetService.class);
+        rv.setRemoteAdapter(R.id.list_view, serviceIntent);
 
-            // 设置响应 “GridView(gridview)” 的intent模板
-            // 说明：“集合控件(如GridView、ListView、StackView等)”中包含很多子元素，如GridView包含很多格子。
-            //     它们不能像普通的按钮一样通过 setOnClickPendingIntent 设置点击事件，必须先通过两步。
-            //        (01) 通过 setPendingIntentTemplate 设置 “intent模板”，这是比不可少的！
-            //        (02) 然后在处理该“集合控件”的RemoteViewsFactory类的getViewAt()接口中 通过 setOnClickFillInIntent 设置“集合控件的某一项的数据”
-            Intent gridIntent = new Intent();
-            gridIntent.setAction(COLLECTION_VIEW_ACTION);
-            gridIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, gridIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            // 设置intent模板
-            rv.setPendingIntentTemplate(R.id.list_view, pendingIntent);
-            // 调用集合管理器对集合进行更新
-            appWidgetManager.updateAppWidget(appWidgetId, rv);
-        }
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
+        // 设置响应 “GridView(gridview)” 的intent模板
+        // 说明：“集合控件(如GridView、ListView、StackView等)”中包含很多子元素，如GridView包含很多格子。
+        //     它们不能像普通的按钮一样通过 setOnClickPendingIntent 设置点击事件，必须先通过两步。
+        //        (01) 通过 setPendingIntentTemplate 设置 “intent模板”，这是比不可少的！
+        //        (02) 然后在处理该“集合控件”的RemoteViewsFactory类的getViewAt()接口中 通过 setOnClickFillInIntent 设置“集合控件的某一项的数据”
+//            Intent gridIntent = new Intent();
+//            gridIntent.setAction(COLLECTION_VIEW_ACTION);
+//            gridIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, gridIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            // 设置intent模板
+//            rv.setPendingIntentTemplate(R.id.list_view, pendingIntent);
+
+
+        // 设置当显示的widget_list为空显示的View
+        rv.setEmptyView(R.id.list_view, R.layout.layout_no_data);
+        // 点击列表触发事件
+        Intent clickIntent = new Intent(context, WidgetProvider.class);
+        // 设置Action，方便在onReceive中区别点击事件
+        clickIntent.setAction(COLLECTION_VIEW_ACTION);
+        clickIntent.setData(Uri.parse(clickIntent.toUri(Intent.URI_INTENT_SCHEME)));
+        PendingIntent pendingIntentTemplate = PendingIntent.getBroadcast(  context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        rv.setPendingIntentTemplate(R.id.list_view,  pendingIntentTemplate);
+
+        // 调用集合管理器对集合进行更新
+        appWidgetManager.updateAppWidget(thisWidget, rv);
+//        }
+//        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
@@ -82,34 +99,37 @@ public class WidgetProvider extends AppWidgetProvider {
         String action = intent.getAction();
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
-        Log.d(TAG, "GridWidgetProvider onReceive : "+intent.getAction());
+        Log.d(TAG, "GridWidgetProvider onReceive : " + intent.getAction());
         if (action.equals(COLLECTION_VIEW_ACTION)) {
             // 接受“gridview”的点击事件的广播
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
             int viewIndex = intent.getIntExtra(COLLECTION_VIEW_EXTRA, 0);
 
-            Intent toIntent = new Intent(context,RichTextActivity.class);
+            Intent toIntent = new Intent(context, RichTextActivity.class);
 
             toIntent.putExtra(ContentActivity.KEY_TITLE, intent.getStringExtra(ContentActivity.KEY_TITLE));
             toIntent.putExtra(ContentActivity.KEY_URL, intent.getStringExtra(ContentActivity.KEY_URL));
             toIntent.putExtra(ContentActivity.KEY_INFORMATION_ID, intent.getStringExtra(ContentActivity.KEY_INFORMATION_ID));
             toIntent.putExtra("pubDate", intent.getStringExtra("pubDate"));
             toIntent.putExtra("whereFrom", intent.getStringExtra("whereFrom"));
-            toIntent.putExtra("abstractContent",intent.getStringExtra("abstractContent"));
-            toIntent.putExtra("clickGood", intent.getLongExtra("clickGood",0));
-            toIntent.putExtra("clickNotGood",intent.getLongExtra("clickNotGood",0));
+            toIntent.putExtra("abstractContent", intent.getStringExtra("abstractContent"));
+            toIntent.putExtra("clickGood", intent.getLongExtra("clickGood", 0));
+            toIntent.putExtra("clickNotGood", intent.getLongExtra("clickNotGood", 0));
             toIntent.putExtra("id", intent.getStringExtra("id"));
             //创建一个pendingIntent。另外两个参数以后再讲。
-            PendingIntent pendingIntent = PendingIntent.getActivity( context, 0, toIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            int requestID = (int) System.currentTimeMillis();
+            toIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, toIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+//            PendingIntent pendingIntent = PendingIntent.getActivity( context, 0, toIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-            Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
         } else if (action.equals(BT_REFRESH_ACTION)) {
             // 接受“bt_refresh”的点击事件的广播
             ComponentName cmpName = new ComponentName(context, WidgetProvider.class);
             int[] appIds = appWidgetManager.getAppWidgetIds(cmpName);
             appWidgetManager.notifyAppWidgetViewDataChanged(appIds, R.id.list_view);
-            Toast.makeText(context, "Click Button", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Click Button", Toast.LENGTH_SHORT).show();
         }
         super.onReceive(context, intent);
     }

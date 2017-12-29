@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.hb.rssai">
+    package="com.hb.rssai">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".app.ProjectApplication"
@@ -28,16 +28,16 @@
         <!-- 声明widget对应的AppWidgetProvider -->
         <receiver android:name=".view.service.WidgetProvider">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <!-- WidgetProvider接收点击bt_refresh的响应事件 -->
-                <action android:name="com.lyl.widget.BT_REFRESH_ACTION"/>
+                <action android:name="com.lyl.widget.BT_REFRESH_ACTION" />
                 <!-- WidgetProvider接收点击gridview的响应事件 -->
-                <action android:name="com.lyl.widget.COLLECTION_VIEW_ACTION"/>
+                <action android:name="com.lyl.widget.COLLECTION_VIEW_ACTION" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/app_widget"/>
+                android:resource="@xml/app_widget" />
         </receiver>
 
         <!-- 发送 通知桌面部件更新 -->
@@ -45,7 +45,7 @@
             android:name=".view.service.ListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>
-                <action android:name="android.appwidget.action.APP_WIDGET_SERVICE"/>
+                <action android:name="android.appwidget.action.APP_WIDGET_SERVICE" />
             </intent-filter>
         </service>
         <!-- 解决7.0安装apk失败问题 -->
@@ -56,7 +56,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
         <activity
@@ -71,33 +71,34 @@
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".view.subscription.AddSourceActivity"/>
-        <activity android:name=".view.subscription.SourceListActivity"/>
-        <activity android:name=".view.common.ContentActivity"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.subscription.AddSourceActivity" />
+        <activity android:name=".view.subscription.SourceListActivity" />
+        <activity android:name=".view.common.ContentActivity" />
         <activity
             android:name="com.zbar.lib.CaptureActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"/>
-        <activity android:name=".runtimePermissions.PermissionsActivity"/>
-        <activity android:name=".view.me.CollectionActivity"/>
-        <activity android:name=".view.me.AboutActivity"/>
-        <activity android:name=".view.me.SettingActivity"/>
-        <activity android:name=".view.subscription.HotTagActivity"/>
-        <activity android:name=".view.common.QrCodeActivity"/>
-        <activity android:name=".zxing.ImageCropActivity"/>
-        <activity android:name=".view.subscription.SubListActivity"/>
-        <activity android:name=".view.me.AdviceActivity"/>
-        <activity android:name=".view.common.LoginActivity"/>
-        <activity android:name=".view.me.MessageActivity"/>
-        <activity android:name=".view.me.MessageContentActivity"/>
-        <activity android:name=".view.common.RegisterActivity"/>
-        <activity android:name=".view.common.RichTextActivity"/>
-        <activity android:name=".view.subscription.tab.TabResourceActivity"/>
-        <activity android:name=".view.me.SearchActivity"/>
-        <activity android:name=".view.me.UserActivity"/>
-        <activity android:name=".view.me.EditSignatureActivity"/>
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity android:name=".runtimePermissions.PermissionsActivity" />
+        <activity android:name=".view.me.CollectionActivity" />
+        <activity android:name=".view.me.AboutActivity" />
+        <activity android:name=".view.me.SettingActivity" />
+        <activity android:name=".view.subscription.HotTagActivity" />
+        <activity android:name=".view.common.QrCodeActivity" />
+        <activity android:name=".zxing.ImageCropActivity" />
+        <activity android:name=".view.subscription.SubListActivity" />
+        <activity android:name=".view.me.AdviceActivity" />
+        <activity android:name=".view.common.LoginActivity" />
+        <activity android:name=".view.me.MessageActivity" />
+        <activity android:name=".view.me.MessageContentActivity" />
+        <activity android:name=".view.common.RegisterActivity" />
+        <activity
+            android:name=".view.common.RichTextActivity" />
+        <activity android:name=".view.subscription.tab.TabResourceActivity" />
+        <activity android:name=".view.me.SearchActivity" />
+        <activity android:name=".view.me.UserActivity" />
+        <activity android:name=".view.me.EditSignatureActivity" />
 
         <!-- 设置社会化分享 开始 -->
         <activity
@@ -105,15 +106,15 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -121,51 +122,49 @@
             android:launchMode="singleTask"
             android:noHistory="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent100424468"/>
+                <data android:scheme="tencent100424468" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- wechat callback -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 设置社会化分享 结束 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="561cae6ae0f55abd990035bf"/>
+            android:value="561cae6ae0f55abd990035bf" />
 
-        <activity android:name=".view.me.OfflineActivity"/>
+        <activity android:name=".view.me.OfflineActivity" />
 
         <service
             android:name=".view.service.DownNewsService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <activity
             android:name=".view.IndexNavActivity"
-            android:label="@string/title_activity_test_nav">
-        </activity>
-        <activity android:name=".view.me.RecordActivity">
-        </activity>
+            android:label="@string/title_activity_test_nav"></activity>
+        <activity android:name=".view.me.RecordActivity"></activity>
         <activity
             android:name=".view.common.GuideActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

@@ -104,7 +104,6 @@ public class ListWidgetService extends RemoteViewsService {
             Log.d(TAG, "GridRemoteViewsFactory getViewAt:" + position);
             // 获取 grid_view_item.xml 对应的RemoteViews
             RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.list_item);
-
             // 设置 第position位的“视图”的数据
             if (listData.get(position) != null && listData.size() > 0) {
                 String[] images = TextUtils.isEmpty(listData.get(position).getImageUrls()) ? null : listData.get(position).getImageUrls().split(",");
@@ -142,7 +141,7 @@ public class ListWidgetService extends RemoteViewsService {
             fillInIntent.putExtra("clickNotGood", listData.get(position).getClickNotGood());
             fillInIntent.putExtra("id", listData.get(position).getId());
 
-            rv.setOnClickFillInIntent(R.id.itemLayout, fillInIntent);
+            rv.setOnClickFillInIntent(R.id.itemImage, fillInIntent);
             return rv;
         }
 
