@@ -207,7 +207,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     }
                 }
             }
-        }else if(resSubscription.getRetCode()==10013){
+        } else if (resSubscription.getRetCode() == 10013) {
             //从来没订阅过
             addSubscription(v, isRecommend);
         } else {
@@ -217,7 +217,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
 
     private void loadFindError(Throwable throwable) {
 
-        if(!(null!=resFindMores&&resFindMores.size()>0)){
+        if (!(null != resFindMores && resFindMores.size() > 0)) {
             include_load_fail.setVisibility(View.VISIBLE);
             include_no_data.setVisibility(View.GONE);
         }
@@ -246,12 +246,14 @@ public class FindPresenter extends BasePresenter<IFindView> {
                 if (findMoreAdapter == null) {
                     findMoreAdapter = new FindMoreAdapter(mContext, resFindMores);
                     findMoreAdapter.setOnItemClickedListener(rowsBean1 -> {
+
                         Intent intent = new Intent(mContext, SourceListActivity.class);
                         intent.putExtra(SourceListActivity.KEY_LINK, rowsBean1.getLink());
                         intent.putExtra(SourceListActivity.KEY_TITLE, rowsBean1.getName());
                         intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
                         intent.putExtra(SourceListActivity.KEY_IMAGE, rowsBean1.getImg());
                         intent.putExtra(SourceListActivity.KEY_DESC, rowsBean1.getAbstractContent());
+                        intent.putExtra(SourceListActivity.KEY_IS_CHECK, rowsBean1.isCheck());
                         mContext.startActivity(intent);
                     });
                     findMoreAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {

@@ -105,6 +105,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
             intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
             intent.putExtra(SourceListActivity.KEY_IMAGE, rssList.get(position).getImg());
             intent.putExtra(SourceListActivity.KEY_DESC, rssList.get(position).getAbstractContent());
+            intent.putExtra(SourceListActivity.KEY_IS_CHECK, true);
             mContext.startActivity(intent);
         });
 //        holder.v.setOnLongClickListener(v -> {

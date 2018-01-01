@@ -205,7 +205,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
     View rView;
-
     @Override
     protected void initView(View rootView) {
         rView = rootView;

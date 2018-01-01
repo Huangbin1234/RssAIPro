@@ -114,6 +114,7 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
                         intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
                         intent.putExtra(SourceListActivity.KEY_IMAGE, rowsBean1.getImg());
                         intent.putExtra(SourceListActivity.KEY_DESC, rowsBean1.getAbstractContent());
+                        intent.putExtra(SourceListActivity.KEY_IS_CHECK,  rowsBean1.isCheck());
                         mContext.startActivity(intent);
                     });
                     findMoreAdapter.setOnAddClickedListener((bean, v) -> {

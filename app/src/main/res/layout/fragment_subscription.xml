@@ -120,12 +120,12 @@
                                             android:id="@+id/tv_sub_right_all_topic"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginRight="5dp"
                                             android:text="@string/str_sub_tv_all"
                                             android:textColor="@color/bg_top"
                                             android:textSize="@dimen/s12p"/>
-
+                                        <!--android:layout_marginRight="5dp"-->
                                         <ImageView
+                                            android:visibility="gone"
                                             android:id="@+id/sf_iv_all_topic"
                                             android:layout_width="10dp"
                                             android:layout_height="10dp"
@@ -227,12 +227,13 @@
                                             android:id="@+id/tv_sub_right_all"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginRight="5dp"
+
                                             android:text="@string/str_sub_tv_all"
                                             android:textColor="@color/bg_top"
                                             android:textSize="@dimen/s12p"/>
-
+                                        <!--android:layout_marginRight="5dp"-->
                                         <ImageView
+                                            android:visibility="gone"
                                             android:id="@+id/sf_iv_all"
                                             android:layout_width="10dp"
                                             android:layout_height="10dp"

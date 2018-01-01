@@ -46,6 +46,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
 
     public static final String KEY_LINK = "rssLink";
     public static final String KEY_TITLE = "rssTitle";
+    public static final String KEY_IS_CHECK = "isCheck";
     public static String KEY_SUBSCRIBE_ID = "subscribeId";
     public static String KEY_IMAGE = "image_url";
     public static String KEY_DESC = "desc";
@@ -76,6 +77,8 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     TextView mSlaTvDesc;
     @BindView(R.id.sys_iv_share)
     ImageView mSysIvShare;
+    @BindView(R.id.sla_iv_subscribe)
+    ImageView mSlaIvSubscribe;
 
 
     private LinearLayoutManager mLayoutManager;
@@ -88,6 +91,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     private String subscribeId = "";
     private String imageLogo = "";
     private String desc = "";
+    private boolean isCheck = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +108,14 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
 
     @Override
     protected void initView() {
-//        mSysTvTitle.setText(titleValue);
-
+        //mSysTvTitle.setText(titleValue);
+        if (isCheck) {
+            mSlaIvSubscribe.setImageResource(R.mipmap.ic_subscribe_cancel);
+        } else {
+            mSlaIvSubscribe.setImageResource(R.mipmap.ic_subscribe_add);
+        }
         mLayoutManager = new LinearLayoutManager(this);
-//        mLayoutManager = new GridLayoutManager(this,2);
+        //mLayoutManager = new GridLayoutManager(this,2);
         mSlaRecyclerView.setLayoutManager(mLayoutManager);
         mSlaRecyclerView.setHasFixedSize(true);
         mSlaRecyclerView.setNestedScrollingEnabled(false);
@@ -123,6 +131,11 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
             intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + linkValue));
             startActivity(intent);
         });
+        mSlaIvSubscribe.setOnClickListener(v -> {
+            //TODO 订阅或取消
+            ((SourceListPresenter) mPresenter).subscribe(v);
+        });
+
     }
 
     @Override
@@ -139,6 +152,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
             subscribeId = bundle.getString(KEY_SUBSCRIBE_ID, "");
             imageLogo = bundle.getString(KEY_IMAGE, "");
             desc = bundle.getString(KEY_DESC, "");
+            isCheck = bundle.getBoolean(KEY_IS_CHECK, false);
         }
         HttpLoadImg.loadImg(this, imageLogo, mSlaIvLogo);
         Glide.with(this).load(imageLogo).bitmapTransform(new BlurTransformation(this, 20, 2), new CenterCrop(this)).into(mSlaIvToBg);
@@ -218,6 +232,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     public LinearLayout getLlLoad() {
         return mSlaLl;
     }
+
 
     class ReadRssTask extends AsyncTask<Void, Void, Void> {
 
