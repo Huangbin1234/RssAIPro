@@ -64,6 +64,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
             actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_back_del);
         }
         mSysTvTitle.setText(getResources().getString(R.string.str_ra_title));
     }
