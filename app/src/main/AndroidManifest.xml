@@ -43,6 +43,7 @@
         <!-- 发送 通知桌面部件更新 -->
         <service
             android:name=".view.service.ListWidgetService"
+            android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>
                 <action android:name="android.appwidget.action.APP_WIDGET_SERVICE" />
@@ -93,8 +94,7 @@
         <activity android:name=".view.me.MessageActivity" />
         <activity android:name=".view.me.MessageContentActivity" />
         <activity android:name=".view.common.RegisterActivity" />
-        <activity
-            android:name=".view.common.RichTextActivity" />
+        <activity android:name=".view.common.RichTextActivity" />
         <activity android:name=".view.subscription.tab.TabResourceActivity" />
         <activity android:name=".view.me.SearchActivity" />
         <activity android:name=".view.me.UserActivity" />

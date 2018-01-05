@@ -57,7 +57,7 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
     private PermissionsChecker mPermissionsChecker;
     private Bundle savedInstanceState;
 
-//    private HomeFragment homeFragment;
+    //    private HomeFragment homeFragment;
     private TabFragment tabFragment;
     private SubscriptionFragment subscriptionFragment;
     private MineFragment mineFragment;

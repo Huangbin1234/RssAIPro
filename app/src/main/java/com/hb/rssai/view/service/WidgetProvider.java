@@ -1,5 +1,6 @@
 package com.hb.rssai.view.service;
 
+import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -7,9 +8,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
+import android.os.Build;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResInformation;
@@ -19,7 +19,6 @@ import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,86 +27,64 @@ import rx.schedulers.Schedulers;
 import static com.hb.rssai.presenter.BasePresenter.informationApi;
 
 /**
- * Created by lyl on 2017/8/23.
+ * Created by LIUYONGKUI726 on 2017-07-10.
  */
 
+@TargetApi(Build.VERSION_CODES.CUPCAKE)
 public class WidgetProvider extends AppWidgetProvider {
 
-    // 更新 widget 的广播对应的action
-    private final String BT_REFRESH_ACTION = "com.lyl.widget.BT_REFRESH_ACTION";
-    private final String COLLECTION_VIEW_ACTION = "com.lyl.widget.COLLECTION_VIEW_ACTION";
-    public static final String COLLECTION_VIEW_EXTRA = "com.lyl.widget.COLLECTION_VIEW_EXTRA";
+    final String clickAction = "com.rssai.WidgetProvider.onclick";
+    final String refreshAction = "refresh";
 
-    private static final String TAG = "WidgetProvider";
-
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager,
+                         int[] appWidgetIds) {
         // 获取Widget的组件名
-        ComponentName thisWidget = new ComponentName(context,
-                WidgetProvider.class);
-
-        Log.d(TAG, "GridWidgetProvider onUpdate");
-//        for (int appWidgetId:appWidgetIds) {
-        // 获取AppWidget对应的视图
-        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-
-        // 设置响应 “按钮(bt_refresh)” 的intent
-        Intent btIntent = new Intent().setAction(BT_REFRESH_ACTION);
-        PendingIntent btPendingIntent = PendingIntent.getBroadcast(context, 0, btIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        rv.setOnClickPendingIntent(R.id.widget_iv_refresh, btPendingIntent);
-
-        // 设置 “GridView(gridview)” 的adapter。
-        // (01) intent: 对应启动 ListWidgetService(RemoteViewsService) 的intent
-        // (02) setRemoteAdapter: 设置 gridview的适配器
-        //    通过setRemoteAdapter将gridview和GridWidgetService关联起来，
-        //    以达到通过 ListWidgetService 更新 gridview 的目的
-        Intent serviceIntent = new Intent(context, ListWidgetService.class);
-        rv.setRemoteAdapter(R.id.list_view, serviceIntent);
-
-        // 设置响应 “GridView(gridview)” 的intent模板
-        // 说明：“集合控件(如GridView、ListView、StackView等)”中包含很多子元素，如GridView包含很多格子。
-        //     它们不能像普通的按钮一样通过 setOnClickPendingIntent 设置点击事件，必须先通过两步。
-        //        (01) 通过 setPendingIntentTemplate 设置 “intent模板”，这是比不可少的！
-        //        (02) 然后在处理该“集合控件”的RemoteViewsFactory类的getViewAt()接口中 通过 setOnClickFillInIntent 设置“集合控件的某一项的数据”
-//            Intent gridIntent = new Intent();
-//            gridIntent.setAction(COLLECTION_VIEW_ACTION);
-//            gridIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, gridIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//            // 设置intent模板
-//            rv.setPendingIntentTemplate(R.id.list_view, pendingIntent);
-
-
+        ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
+        // 创建一个RemoteView
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.app_widget);
+        // 把这个Widget绑定到RemoteViewsService
+        Intent intent = new Intent(context, ListWidgetService.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[0]);
+        // 设置适配器
+        remoteViews.setRemoteAdapter(R.id.list_view, intent);
         // 设置当显示的widget_list为空显示的View
-        rv.setEmptyView(R.id.list_view, R.layout.layout_no_data);
+        remoteViews.setEmptyView(R.id.list_view, R.layout.layout_no_data);
         // 点击列表触发事件
         Intent clickIntent = new Intent(context, WidgetProvider.class);
         // 设置Action，方便在onReceive中区别点击事件
-        clickIntent.setAction(COLLECTION_VIEW_ACTION);
+        clickIntent.setAction(clickAction);
         clickIntent.setData(Uri.parse(clickIntent.toUri(Intent.URI_INTENT_SCHEME)));
-        PendingIntent pendingIntentTemplate = PendingIntent.getBroadcast(  context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        rv.setPendingIntentTemplate(R.id.list_view,  pendingIntentTemplate);
-
-        // 调用集合管理器对集合进行更新
-        appWidgetManager.updateAppWidget(thisWidget, rv);
-//        }
-//        super.onUpdate(context, appWidgetManager, appWidgetIds);
+        PendingIntent pendingIntentTemplate = PendingIntent.getBroadcast(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setPendingIntentTemplate(R.id.list_view, pendingIntentTemplate);
+        // 刷新按钮
+        final Intent refreshIntent = new Intent(context, WidgetProvider.class);
+        refreshIntent.setAction(refreshAction);
+        final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.widget_iv_refresh, refreshPendingIntent);
+        // 更新Wdiget
+        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
     }
 
+    /**
+     * 接收Intent
+     */
+    private Context mContext;
     @Override
     public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
         String action = intent.getAction();
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-
-        Log.d(TAG, "GridWidgetProvider onReceive : " + intent.getAction());
-        if (action.equals(COLLECTION_VIEW_ACTION)) {
-            // 接受“gridview”的点击事件的广播
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int viewIndex = intent.getIntExtra(COLLECTION_VIEW_EXTRA, 0);
-
+        if (action.equals(refreshAction)) {
+            mContext=context;
+            getLikeByTitle(context);
+            // 刷新Widget
+//            final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+//            final ComponentName cn = new ComponentName(context, WidgetProvider.class);
+//            WdRemoteViewsFactory.listData.clear();
+            // 这句话会调用RemoteViewSerivce中RemoteViewsFactory的onDataSetChanged()方法。
+//            mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.list_view);
+        } else if (action.equals(clickAction)) {
             Intent toIntent = new Intent(context, RichTextActivity.class);
-
             toIntent.putExtra(ContentActivity.KEY_TITLE, intent.getStringExtra(ContentActivity.KEY_TITLE));
             toIntent.putExtra(ContentActivity.KEY_URL, intent.getStringExtra(ContentActivity.KEY_URL));
             toIntent.putExtra(ContentActivity.KEY_INFORMATION_ID, intent.getStringExtra(ContentActivity.KEY_INFORMATION_ID));
@@ -117,20 +94,46 @@ public class WidgetProvider extends AppWidgetProvider {
             toIntent.putExtra("clickGood", intent.getLongExtra("clickGood", 0));
             toIntent.putExtra("clickNotGood", intent.getLongExtra("clickNotGood", 0));
             toIntent.putExtra("id", intent.getStringExtra("id"));
-            //创建一个pendingIntent。另外两个参数以后再讲。
-            int requestID = (int) System.currentTimeMillis();
-            toIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, toIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-//            PendingIntent pendingIntent = PendingIntent.getActivity( context, 0, toIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-//            Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
-        } else if (action.equals(BT_REFRESH_ACTION)) {
-            // 接受“bt_refresh”的点击事件的广播
-            ComponentName cmpName = new ComponentName(context, WidgetProvider.class);
-            int[] appIds = appWidgetManager.getAppWidgetIds(cmpName);
-            appWidgetManager.notifyAppWidgetViewDataChanged(appIds, R.id.list_view);
-//            Toast.makeText(context, "Click Button", Toast.LENGTH_SHORT).show();
+            toIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(toIntent);
         }
-        super.onReceive(context, intent);
+    }
+
+    public void getLikeByTitle(Context context) {
+        informationApi.getLikeByTitle(getParams()).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resInfo -> {
+                    setListResult(resInfo,context);
+                }, this::loadError);
+    }
+
+
+    private void setListResult(ResInformation resInformation,Context context) {
+        if (resInformation.getRetObj() == null || resInformation.getRetObj().getRows() == null) {
+            return;
+        }
+        if ( WdRemoteViewsFactory.listData != null) {
+            WdRemoteViewsFactory.listData.clear();
+        }
+        WdRemoteViewsFactory.listData = resInformation.getRetObj().getRows();
+        // 刷新Widget
+        final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+        final ComponentName cn = new ComponentName(context, WidgetProvider.class);
+//            WdRemoteViewsFactory.listData.clear();
+        // 这句话会调用RemoteViewSerivce中RemoteViewsFactory的onDataSetChanged()方法。
+        mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.list_view);
+    }
+
+    private void loadError(Throwable throwable) {
+        throwable.printStackTrace();
+    }
+
+    private Map<String, String> getParams() {
+        Map<String, String> map = new HashMap<>();
+        String des = "";
+        String title = "";
+        String jsonParams = "{\"title\":\"" + title + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 }
