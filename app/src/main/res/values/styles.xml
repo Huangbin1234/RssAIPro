@@ -124,6 +124,7 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorControlNormal">@color/white</item>
+        <!--<item name="colorControlNormal">@color/text_color_abstract</item>-->
         <item name="colorControlActivated">#05896f</item>
         <item name="toolbarStyle">@style/ClubToolbar</item>
         <item name="colorAccent">@color/color_toolbar_bg</item>

@@ -134,7 +134,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right"
                 android:layout_marginTop="16dp"
-                android:text="| 注册账户"
+                android:text="注册账户"
                 android:textColor="@color/color_reg_label"
                 android:textSize="@dimen/s14p" />
         </RelativeLayout>
