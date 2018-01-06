@@ -5,12 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,8 +22,10 @@ import com.hb.rssai.event.MineEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.MinePresenter;
 import com.hb.rssai.util.Base64Util;
+import com.hb.rssai.util.DataCleanManager;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.iView.IMineView;
 import com.hb.rssai.view.me.CollectionActivity;
@@ -45,7 +43,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
@@ -55,7 +52,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-//    @BindView(R.id.sys_tv_title)
+    //    @BindView(R.id.sys_tv_title)
 //    TextView mSysTvTitle;
 //    @BindView(R.id.sys_toolbar)
 //    Toolbar mSysToolbar;
@@ -99,7 +96,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     LinearLayout mfLlRecord;
     @BindView(R.id.sla_iv_to_bg)
     ImageView mMfIvToBg;
-
+    @BindView(R.id.mf_ll_clear)
+    LinearLayout mFllClean;
 
 
     // TODO: Rename and change types of parameters
@@ -250,7 +248,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @OnClick({R.id.sla_iv_to_bg, R.id.mf_ll_record, R.id.mf_ll_subcribe_count, R.id.sys_iv_setting, R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
+    @OnClick({R.id.mf_ll_clear, R.id.sla_iv_to_bg, R.id.mf_ll_record, R.id.mf_ll_subcribe_count, R.id.sys_iv_setting, R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -287,6 +285,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.mf_ll_record:
                 getActivity().startActivity(new Intent(getContext(), RecordActivity.class));
+                break;
+            case R.id.mf_ll_clear:
+                try {
+                    T.ShowToast(getContext(), "本次清理缓存" + DataCleanManager.getTotalCacheSize(getContext()));
+                    DataCleanManager.clearAllCache(getContext());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }

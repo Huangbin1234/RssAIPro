@@ -32,7 +32,6 @@ import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.view.iView.IFindView;
 import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.subscription.tab.TabResourceActivity;
-import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
 import com.hb.rssai.view.widget.MyDecoration;
 
@@ -112,7 +111,7 @@ public class FindFragment extends BaseFragment implements IFindView {
     private LinearLayoutManager mFindMoreLinearManager;
     private LinearLayoutManager mTopicLinearManager1;
 
-    private FullyGridLayoutManager mRecommendGridLayoutManager;
+//    private FullyGridLayoutManager mRecommendGridLayoutManager;
 
     private boolean isPrepared;
 
@@ -199,7 +198,9 @@ public class FindFragment extends BaseFragment implements IFindView {
         rView = rootView;
         mFindMoreLinearManager = new LinearLayoutManager(getContext());
         mTopicLinearManager1 = new LinearLayoutManager(getContext());
-        mRecommendGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
+//        mRecommendGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
+        LinearLayoutManager mLlm = new LinearLayoutManager(getContext());
+        mLlm.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         mFindMoreLinearManager.setOrientation(LinearLayoutManager.VERTICAL);
 //        mTopicLinearManager1.setOrientation(LinearLayoutManager.VERTICAL);
@@ -213,7 +214,8 @@ public class FindFragment extends BaseFragment implements IFindView {
 //        mFfTopicRecyclerView.setNestedScrollingEnabled(false);
 //        mFfTopicRecyclerView.setHasFixedSize(true);
 
-        mFfHotRecyclerView.setLayoutManager(mRecommendGridLayoutManager);
+//        mFfHotRecyclerView.setLayoutManager(mRecommendGridLayoutManager);
+        mFfHotRecyclerView.setLayoutManager(mLlm);
         mFfHotRecyclerView.setNestedScrollingEnabled(false);
         mFfHotRecyclerView.setHasFixedSize(true);
 

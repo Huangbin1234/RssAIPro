@@ -84,5 +84,6 @@
     <color name="text_color_title">#191919</color>
     <color name="text_color_abstract">#999999</color>
     <color name="text_color_time">#B2B2B2</color>
+    <color name="color_tab_no_focus">#edbab7</color>
 
 </resources>

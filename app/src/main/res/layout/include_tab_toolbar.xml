@@ -37,7 +37,7 @@
         android:layout_height="?attr/actionBarSize"
         app:tabGravity="center"
         app:tabMode="scrollable"
-        app:tabTextColor="#DDDDDD"
+        app:tabTextColor="@color/color_tab_no_focus"
         app:tabSelectedTextColor="@color/white" />
 
 </android.support.design.widget.AppBarLayout>

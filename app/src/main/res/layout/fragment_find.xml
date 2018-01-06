@@ -44,7 +44,7 @@
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
+
                         android:elevation="0dp"
                         app:cardCornerRadius="0dp"
                         app:cardElevation="0dp"
@@ -54,12 +54,13 @@
                         app:contentPaddingTop="0dp">
 
                         <include layout="@layout/include_hot" />
+
                     </android.support.v7.widget.CardView>
-                    <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1px"-->
-                    <!--android:background="@color/color_general_line"-->
-                    <!--android:visibility="visible" />-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/color_general_line"
+                        android:visibility="visible" />
 
                     <!--<View-->
                     <!--android:layout_width="match_parent"-->
@@ -85,6 +86,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1px"
+                        android:layout_marginTop="10dp"
                         android:background="@color/color_general_line"
                         android:visibility="visible" />
 
