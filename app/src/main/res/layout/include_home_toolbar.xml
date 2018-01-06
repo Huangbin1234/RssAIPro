@@ -8,7 +8,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/sys_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/tool_bar_height"
         android:background="@color/color_toolbar_bg">
 
         <TextView

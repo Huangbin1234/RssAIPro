@@ -107,6 +107,10 @@
     <style name="backWhite" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorControlNormal">@android:color/black</item>
     </style>
+    <style name="EditUnderLineStyle" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorControlNormal">@color/bg</item>
+        <item name="colorControlActivated">#ff239ff2</item>
+    </style>
     <!--TODO 下面为夜间模式切换相关-->
     <style name="AppTheme2" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>

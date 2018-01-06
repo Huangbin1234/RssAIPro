@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:theme="@style/EditUnderLineStyle"
             android:id="@+id/esa_et_signature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

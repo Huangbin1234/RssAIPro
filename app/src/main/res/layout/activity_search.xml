@@ -49,6 +49,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="8"
+                        android:theme="@style/EditUnderLineStyle"
                         android:background="@drawable/shape_ll_corner"
                         android:hint="@string/search_title"
                         android:imeOptions="actionSearch"

@@ -41,6 +41,8 @@
                     android:textSize="@dimen/s16p" />
 
                 <EditText
+                    android:maxLength="16"
+                    android:theme="@style/EditUnderLineStyle"
                     android:id="@+id/la_et_userName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -80,6 +82,8 @@
                     android:textSize="@dimen/s16p" />
 
                 <EditText
+                    android:maxLength="16"
+                    android:theme="@style/EditUnderLineStyle"
                     android:id="@+id/la_et_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

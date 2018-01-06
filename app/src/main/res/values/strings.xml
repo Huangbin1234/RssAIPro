@@ -38,7 +38,7 @@
     <string name="str_sa_title">设置</string>
     <string name="str_aa_title">关于我们</string>
     <string name="app_about">人的思维不应该被固化，思维边界不应该被限定，思想更不应该被禁锢在盒子里。阅读是我们获取知识的一种方式，引发我们思考，从思考中获得启发。</string>
-    <string name="app_desigin_think">设计理念：极简主义</string>
+    <string name="app_design_think">设计理念：极简主义</string>
     <string name="str_mf_no_login">登录体验更多功能</string>
     <string name="str_sa_change_source">订阅模式</string>
     <string name="str_hta_title">热门订阅</string>
@@ -127,5 +127,9 @@
     <string name="str_add_sub">主题订阅</string>
 
     <string name="umeng_sharebutton_copyurl">复制链接</string>
+    <string name="str_contacts_us">邮箱：</string>
+    <string name="str_zh_app_name">孜然阅读器</string>
+    <string name="str_email">qianchengluntan@163.com</string>
+    <string name="app_abstract">重新定义RSS阅读器</string>
 
 </resources>

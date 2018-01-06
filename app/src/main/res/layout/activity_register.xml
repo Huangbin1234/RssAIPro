@@ -42,6 +42,8 @@
                     android:textSize="@dimen/s16p"/>
 
                 <EditText
+                    android:maxLength="16"
+                    android:theme="@style/EditUnderLineStyle"
                     android:id="@+id/ra_et_userName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -84,11 +86,12 @@
                     android:textSize="@dimen/s16p"/>
 
                 <EditText
+                    android:maxLength="16"
                     android:id="@+id/ra_et_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
-
+                    android:theme="@style/EditUnderLineStyle"
                     android:background="@color/trans"
                     android:digits="@string/dig_str"
                     android:hint="@string/str_ra_hint_psd"
@@ -133,6 +136,8 @@
                     android:layout_weight="8">
 
                     <EditText
+                        android:maxLength="16"
+                        android:theme="@style/EditUnderLineStyle"
                         android:id="@+id/ra_et_spassword"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

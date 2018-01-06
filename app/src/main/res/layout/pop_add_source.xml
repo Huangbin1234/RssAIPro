@@ -47,6 +47,7 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:theme="@style/EditUnderLineStyle"
                         android:id="@+id/pas_et_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -85,6 +86,7 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:theme="@style/EditUnderLineStyle"
                         android:id="@+id/pas_et_link"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
