@@ -252,7 +252,7 @@
                             android:layout_height="16dp"
                             android:layout_gravity="center_vertical"
                             android:background="@color/color_general_line"
-                            android:visibility="gone" />
+                            android:visibility="visible" />
 
                         <LinearLayout
                             android:id="@+id/mf_ll_clear"
