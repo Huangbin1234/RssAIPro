@@ -24,6 +24,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
+import rx.internal.schedulers.ScheduledAction;
 
 public class OfflineActivity extends BaseActivity implements IOfficeView {
 
@@ -54,8 +55,10 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
 
     @Subscribe
     public void onEventMainThread(OfflineEvent event) {
-        mOaBtnDown.setText("ProgressVal:" + event.getProgressVal() + " ,MaxVal:" + event.getMaxVal());
-        ((OfflinePresenter) mPresenter).setProgress(event.getId(), event.getProgressVal(), event.getMaxVal());
+        runOnUiThread(() -> {
+            mOaBtnDown.setText("ProgressVal:" + event.getProgressVal() + " ,MaxVal:" + event.getMaxVal());
+            ((OfflinePresenter) mPresenter).setProgress(event.getId(), event.getProgressVal(), event.getMaxVal());
+        });
     }
 
     @Override
