@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MenuItem;
@@ -15,9 +16,16 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.RegisterPresenter;
+import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IRegisterView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -84,7 +92,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected BasePresenter createPresenter() {
-        return new RegisterPresenter(this, this);
+        return new RegisterPresenter(this);
     }
 
     @OnClick({R.id.ra_btn_register, R.id.ra_chktv_spsd_control})
@@ -111,18 +119,50 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public EditText getEtPsd() {
-        return mRaEtPassword;
+    public Map<String, String> getParams() {
+        String name = mRaEtUserName.getText().toString().trim();
+        String psd = mRaEtPassword.getText().toString().trim();
+        String spsd = mRaEtSpassword.getText().toString().trim();
+        if (TextUtils.isEmpty(name)) {
+            T.ShowToast(this, "请输入账号");
+            return null;
+        }
+        if (TextUtils.isEmpty(psd)) {
+            T.ShowToast(this, "请输入密码");
+            return null;
+        }
+        if (TextUtils.isEmpty(spsd)) {
+            T.ShowToast(this, "请再次输入密码");
+            return null;
+        }
+
+        if (!spsd.equals(psd)) {
+            T.ShowToast(this, "两次输入的密码不一致");
+            return null;
+        }
+        Map<String, String> params = new HashMap<>();
+        String jsonParams = "{\"userName\":\"" + name + "\",\"password\":\"" + psd + "\",\"sPassword\":\"" + spsd + "\"}";
+        params.put("jsonParams", jsonParams);
+        return params;
     }
 
     @Override
-    public EditText getEtSpsd() {
-        return mRaEtSpassword;
+    public void setRegResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            String name = mRaEtUserName.getText().toString().trim();
+            String psd = mRaEtSpassword.getText().toString().trim();
+            SharedPreferencesUtil.setString(this, Constant.SP_LOGIN_USER_NAME, name);
+            SharedPreferencesUtil.setString(this, Constant.SP_LOGIN_PSD, psd);
+
+            toFinish();
+        }
+        T.ShowToast(this, resBase.getRetMsg());
     }
 
     @Override
-    public EditText getEtName() {
-        return mRaEtUserName;
+    public void loadError(Throwable throwable) {
+        throwable.printStackTrace();
+        T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
     }
 
     @Override

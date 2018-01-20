@@ -1,22 +1,7 @@
 package com.hb.rssai.presenter;
 
-import android.content.Context;
-import android.text.TextUtils;
-import android.widget.EditText;
-
-import com.hb.rssai.bean.ResLogin;
-import com.hb.rssai.constants.Constant;
-import com.hb.rssai.event.FindMoreEvent;
-import com.hb.rssai.event.MineEvent;
-import com.hb.rssai.event.RssSourceEvent;
-import com.hb.rssai.event.UserEvent;
-import com.hb.rssai.util.SharedPreferencesUtil;
-import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.ILoginView;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.HashMap;
 import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -27,64 +12,22 @@ import rx.schedulers.Schedulers;
  */
 
 public class LoginPresenter extends BasePresenter<ILoginView> {
-    private Context mContext;
     private ILoginView iLoginView;
-    private EditText etName;
-    private EditText etPsd;
 
-    public LoginPresenter(Context context, ILoginView iLoginView) {
-        mContext = context;
+    public LoginPresenter(ILoginView iLoginView) {
         this.iLoginView = iLoginView;
     }
 
     public void login() {
-
-        if (iLoginView != null) {
-            etName = iLoginView.getEtUserName();
-            etPsd = iLoginView.getEtPassword();
-            String uName = etName.getText().toString().trim();
-            String uPsd = etPsd.getText().toString().trim();
-            if (TextUtils.isEmpty(uName)) {
-                T.ShowToast(mContext, "请输入账号");
-                return;
-            }
-            if (TextUtils.isEmpty(uPsd)) {
-                T.ShowToast(mContext, "请输入密码");
-                return;
-            }
-            Map<String, String> params = new HashMap<>();
-            String jsonParams = "{\"userName\":\"" + uName + "\",\"password\":\"" + uPsd + "\"}";
-            params.put("jsonParams", jsonParams);
-            loginApi.doLogin(params)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(resLogin -> {
-                        setLoginResult(resLogin);
-                    }, this::loadError);
+        Map<String, String> params = iLoginView.getParams();
+        if (params == null) {
+            return;
         }
-    }
-
-    private void setLoginResult(ResLogin bean) {
-        if (bean.getRetCode() == 0) {
-            String uName = etName.getText().toString().trim();
-            String uPsd = etPsd.getText().toString().trim();
-            SharedPreferencesUtil.setString(mContext, Constant.SP_LOGIN_USER_NAME, uName);
-            SharedPreferencesUtil.setString(mContext, Constant.SP_LOGIN_PSD, uPsd);
-            SharedPreferencesUtil.setString(mContext, Constant.TOKEN, bean.getRetObj() != null ? bean.getRetObj().getToken() : "");
-            SharedPreferencesUtil.setString(mContext, Constant.USER_ID, bean.getRetObj() != null ? bean.getRetObj().getUserId() : "");
-            iLoginView.toFinish();
-
-            //TODO 更新数据
-            EventBus.getDefault().post(new RssSourceEvent(0));
-            EventBus.getDefault().post(new FindMoreEvent(0));
-            EventBus.getDefault().post(new UserEvent(0));
-            EventBus.getDefault().post(new MineEvent(0));
-        }
-        T.ShowToast(mContext, bean.getRetMsg());
-    }
-
-    private void loadError(Throwable throwable) {
-        throwable.printStackTrace();
-        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+        loginApi.doLogin(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resLogin -> {
+                    iLoginView.setLoginResult(resLogin);
+                }, iLoginView::loadError);
     }
 }

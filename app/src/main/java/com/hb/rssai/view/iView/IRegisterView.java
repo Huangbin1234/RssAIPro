@@ -1,17 +1,16 @@
 package com.hb.rssai.view.iView;
 
-import android.widget.EditText;
+import com.hb.rssai.bean.ResBase;
+
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/8/22 0022.
  */
 
 public interface IRegisterView {
-    EditText getEtPsd();
-
-    EditText getEtSpsd();
-
-    EditText getEtName();
-
     void toFinish();
+    Map<String, String> getParams();
+    void setRegResult(ResBase resBase);
+    void loadError(Throwable throwable);
 }

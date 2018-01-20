@@ -17,11 +17,22 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResLogin;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.FindMoreEvent;
+import com.hb.rssai.event.MineEvent;
+import com.hb.rssai.event.RssSourceEvent;
+import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.LoginPresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.ILoginView;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -94,26 +105,57 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
 
     @Override
     protected BasePresenter createPresenter() {
-        return new LoginPresenter(this, this);
+        return new LoginPresenter(this);
+    }
+
+
+    @Override
+    public Map<String, String> getParams() {
+        String uName = mLaEtUserName.getText().toString().trim();
+        String uPsd = mLaEtPassword.getText().toString().trim();
+        if (TextUtils.isEmpty(uName)) {
+            T.ShowToast(this, "请输入账号");
+            return null;
+        }
+        if (TextUtils.isEmpty(uPsd)) {
+            T.ShowToast(this, "请输入密码");
+            return null;
+        }
+        Map<String, String> params = new HashMap<>();
+        String jsonParams = "{\"userName\":\"" + uName + "\",\"password\":\"" + uPsd + "\"}";
+        params.put("jsonParams", jsonParams);
+        return params;
+    }
+
+
+    @Override
+    public void setLoginResult(ResLogin bean) {
+        if (bean.getRetCode() == 0) {
+            String uName = mLaEtUserName.getText().toString().trim();
+            String uPsd = mLaEtPassword.getText().toString().trim();
+            SharedPreferencesUtil.setString(this, Constant.SP_LOGIN_USER_NAME, uName);
+            SharedPreferencesUtil.setString(this, Constant.SP_LOGIN_PSD, uPsd);
+            SharedPreferencesUtil.setString(this, Constant.TOKEN, bean.getRetObj() != null ? bean.getRetObj().getToken() : "");
+            SharedPreferencesUtil.setString(this, Constant.USER_ID, bean.getRetObj() != null ? bean.getRetObj().getUserId() : "");
+
+            toFinish();
+
+            //TODO 更新数据
+            EventBus.getDefault().post(new RssSourceEvent(0));
+            EventBus.getDefault().post(new FindMoreEvent(0));
+            EventBus.getDefault().post(new UserEvent(0));
+            EventBus.getDefault().post(new MineEvent(0));
+        }
+        T.ShowToast(this, bean.getRetMsg());
     }
 
     @Override
-    public void toFinish() {
-        setResult(RESULT_OK);
-        finish();
+    public void loadError(Throwable throwable) {
+        throwable.printStackTrace();
+        T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
     }
 
-    @Override
-    public EditText getEtUserName() {
-        return mLaEtUserName;
-    }
-
-    @Override
-    public EditText getEtPassword() {
-        return mLaEtPassword;
-    }
-
-    @OnClick({R.id.la_btn_login,R.id.la_tv_register,R.id.la_chktv_psd_control})
+    @OnClick({R.id.la_btn_login, R.id.la_tv_register, R.id.la_chktv_psd_control})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -121,7 +163,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                 ((LoginPresenter) mPresenter).login();
                 break;
             case R.id.la_tv_register:
-                startActivity(new Intent(this,RegisterActivity.class));
+                startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.la_chktv_psd_control:
                 if (laChkTvPsdControl.isChecked()) {
@@ -137,5 +179,11 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                 }
                 break;
         }
+    }
+
+    @Override
+    public void toFinish() {
+        setResult(RESULT_OK);
+        finish();
     }
 }
