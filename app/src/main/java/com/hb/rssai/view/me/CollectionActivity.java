@@ -1,5 +1,6 @@
 package com.hb.rssai.view.me;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,13 +22,19 @@ import com.hb.rssai.R;
 import com.hb.rssai.adapter.CollectionAdapter;
 import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResCollection;
+import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.CollectionPresenter;
 import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StringUtil;
+import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.ContentActivity;
+import com.hb.rssai.view.common.RichTextActivity;
 import com.hb.rssai.view.iView.ICollectionView;
 import com.hb.rssai.view.widget.FullListView;
 import com.umeng.socialize.ShareAction;
@@ -43,6 +51,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
@@ -73,14 +82,36 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     private LinearLayoutManager mLayoutManager;
     //    CollectionAdapter adapter;
     private String collectionId = "";
-
+    private CollectionAdapter adapter;
+    private ResCollection.RetObjBean.RowsBean newRowsBean;
+    private List<ResCollection.RetObjBean.RowsBean> resCollections = new ArrayList<>();
+    private int page = 1;
+    private boolean isEnd = false, isLoad = false;
+    private ResCollection.RetObjBean.RowsBean bean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((CollectionPresenter) mPresenter).refreshList();
+        ((CollectionPresenter) mPresenter).getList();
     }
 
+    @Override
+    protected void onRefresh() {
+        page = 1;
+        isLoad = true;
+        isEnd = false;
+        mCollSwipeLayout.setRefreshing(true);
+        ((CollectionPresenter) mPresenter).getList();
+    }
+
+    @Override
+    protected void loadMore() {
+        if (!isEnd && !isLoad) {
+            mCollSwipeLayout.setRefreshing(true);
+            page++;
+            ((CollectionPresenter) mPresenter).getList();
+        }
+    }
 
     @Override
     protected void initView() {
@@ -90,7 +121,35 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mCollSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
-        mLlfBtnReTry.setOnClickListener(v -> ((CollectionPresenter) mPresenter).refreshList());
+        mLlfBtnReTry.setOnClickListener(v -> onRefresh());
+
+        mCollSwipeLayout.setOnRefreshListener(() -> onRefresh());
+        //TODO 设置上拉加载更多
+        mCollRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (adapter == null) {
+                    isLoad = false;
+                    mCollSwipeLayout.setRefreshing(false);
+                    return;
+                }
+                // 在最后两条的时候就自动加载
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= adapter.getItemCount()) {
+                    // 加载更多
+                    loadMore();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+            }
+        });
+
         initShare();
     }
 
@@ -220,7 +279,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
 
     @Override
     protected BasePresenter createPresenter() {
-        return new CollectionPresenter(this, this);
+        return new CollectionPresenter(this);
     }
 
     @Override
@@ -235,8 +294,6 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
         return super.onOptionsItemSelected(item);
     }
 
-
-    private ResCollection.RetObjBean.RowsBean newRowsBean;
 
     @Override
     public void onItemLongClicked(ResCollection.RetObjBean.RowsBean rowsBean) {
@@ -343,5 +400,135 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     @Override
     public View getIncludeLoadFail() {
         return includeLoadFail;
+    }
+
+    @Override
+    public Map<String, String> getListParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
+
+    @Override
+    public void loadError(Throwable throwable) {
+        includeLoadFail.setVisibility(View.VISIBLE);
+        includeNoData.setVisibility(View.GONE);
+        mCollRecyclerView.setVisibility(View.GONE);
+
+        mCollSwipeLayout.setRefreshing(false);
+        throwable.printStackTrace();
+        T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+    }
+
+    @Override
+    public void setDelResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            //TODO 确认删除
+            onRefresh();
+        } else {
+            T.ShowToast(this, resBase.getRetMsg());
+        }
+    }
+
+    @Override
+    public Map<String, String> getDelParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+        String id = collectionId;
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"id\":\"" + id + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
+
+    @Override
+    public void setListResult(ResCollection resCollection) {
+        if (resCollections != null && page == 1) {
+            resCollections.clear();
+        }
+        isLoad = false;
+        mCollSwipeLayout.setRefreshing(false);
+        //TODO 填充数据
+        if (resCollection.getRetCode() == 0) {
+            includeNoData.setVisibility(View.GONE);
+            includeLoadFail.setVisibility(View.GONE);
+            mCollRecyclerView.setVisibility(View.VISIBLE);
+
+            if (resCollection.getRetObj().getRows() != null && resCollection.getRetObj().getRows().size() > 0) {
+                resCollections.addAll(resCollection.getRetObj().getRows());
+                if (adapter == null) {
+                    adapter = new CollectionAdapter(this, resCollections);
+                    mCollRecyclerView.setAdapter(adapter);
+                    adapter.setMyOnItemClickedListener(new CollectionAdapter.MyOnItemClickedListener() {
+                        @Override
+                        public void onItemClicked(ResCollection.RetObjBean.RowsBean rowsBean) {
+                            bean = rowsBean;
+                            if (!TextUtils.isEmpty(rowsBean.getInformationId())) {
+                                infoId = rowsBean.getInformationId();
+                                ((CollectionPresenter) mPresenter).getInformation(); //获取消息
+                            } else {
+                                Intent intent = new Intent(CollectionActivity.this, ContentActivity.class);
+                                intent.putExtra(ContentActivity.KEY_URL, rowsBean.getLink());
+                                intent.putExtra(ContentActivity.KEY_TITLE, rowsBean.getTitle());
+                                intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rowsBean.getInformationId());
+                                startActivity(intent);
+//                                T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
+                            }
+                        }
+                    });
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+            if (resCollections.size() == resCollection.getRetObj().getTotal()) {
+                isEnd = true;
+            }
+        } else if (resCollection.getRetCode() == 10013) {//暂无数据
+            includeNoData.setVisibility(View.VISIBLE);
+            includeLoadFail.setVisibility(View.GONE);
+            mCollRecyclerView.setVisibility(View.GONE);
+        } else {
+            includeNoData.setVisibility(View.GONE);
+            includeLoadFail.setVisibility(View.VISIBLE);
+            mCollRecyclerView.setVisibility(View.GONE);
+            T.ShowToast(this, resCollection.getRetMsg());
+        }
+    }
+
+    @Override
+    public Map<String, String> getInfoParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = infoId;
+        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+
+    private String infoId = "";
+
+    @Override
+    public void setInfoResult(ResInfo resInfo) {
+        if (resInfo.getRetCode() == 0) {
+            Intent intent = new Intent(this, RichTextActivity.class);
+            intent.putExtra("abstractContent", resInfo.getRetObj().getAbstractContent());
+            intent.putExtra(ContentActivity.KEY_TITLE, resInfo.getRetObj().getTitle());
+            intent.putExtra("whereFrom", resInfo.getRetObj().getWhereFrom());
+            intent.putExtra("pubDate", resInfo.getRetObj().getPubTime());
+            intent.putExtra("url", resInfo.getRetObj().getLink());
+            intent.putExtra("id", resInfo.getRetObj().getId());
+            intent.putExtra("clickGood", resInfo.getRetObj().getClickGood());
+            intent.putExtra("clickNotGood", resInfo.getRetObj().getClickNotGood());
+            startActivity(intent);
+        } else {
+//            T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
+            Intent intent = new Intent(this, ContentActivity.class);
+            intent.putExtra(ContentActivity.KEY_URL, bean.getLink());
+            intent.putExtra(ContentActivity.KEY_TITLE, bean.getTitle());
+            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, bean.getInformationId());
+            startActivity(intent);
+        }
     }
 }

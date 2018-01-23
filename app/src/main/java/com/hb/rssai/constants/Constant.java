@@ -1,5 +1,7 @@
 package com.hb.rssai.constants;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by Administrator on 2017/4/25.
  */
@@ -52,4 +54,6 @@ public class Constant {
     public static String ACTION_BD_KEY="bd_key";
     public static String ACTION_INPUT_LINK="input_link";
     public static String ACTION_OPEN_OPML="open_opml";
+
+    public static SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
 }

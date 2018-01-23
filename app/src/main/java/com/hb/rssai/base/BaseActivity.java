@@ -19,14 +19,37 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
     public T mPresenter;
 
+    //初始化控件信息
+    protected abstract void initView();
+
+    //设置布局
+    protected abstract int providerContentViewId();
+
+    //设置标题
+    protected abstract void setAppTitle();
+
+    //创建Presenter
+    protected abstract T createPresenter();
+
+    //参数接收
+    protected void initIntent() {
+    }
+
+    //下拉刷新
+    protected void onRefresh() {
+    }
+
+    //上拉加载更多
+    protected void loadMore() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setTranslucentStatus(this);
         setContentView(providerContentViewId());
         ButterKnife.bind(this);
-//        initStatusBar();
+        //initStatusBar();
         setAppTitle();
         initIntent();
         initView();
@@ -36,10 +59,12 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         }
     }
 
+    //初始化状态栏
     public void initStatusBar() {
         StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
     }
 
+    //设置沉浸式状态栏
     public static void setTranslucentStatus(Activity activity) {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -52,16 +77,7 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         }
     }
 
-
-    //初始化控件信息
-    protected abstract void initView();
-
-    //设置布局
-    protected abstract int providerContentViewId();
-
-    //设置标题
-    protected abstract void setAppTitle();
-
+    //初始化toolbar
     protected void initToolBar(Toolbar sysToolbar, TextView sysTvTitle, String title) {
         if (sysToolbar != null && sysTvTitle != null) {
             sysToolbar.setTitle("");
@@ -83,12 +99,5 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         if (mPresenter != null) {
             mPresenter.detachView();
         }
-    }
-
-    protected abstract T createPresenter();
-
-    //参数接收
-    protected void initIntent() {
-
     }
 }

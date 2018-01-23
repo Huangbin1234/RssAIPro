@@ -2,7 +2,6 @@ package com.hb.rssai.view.common;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -23,8 +22,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hb.rssai.R;
+import com.hb.rssai.adapter.LikeAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.Evaluate;
+import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResCollectionBean;
+import com.hb.rssai.bean.ResInfo;
+import com.hb.rssai.bean.ResInformation;
+import com.hb.rssai.bean.ResShareCollection;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
@@ -53,11 +58,15 @@ import com.zzhoujay.richtext.RichText;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.adapter.rxjava.HttpException;
 
 public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, IRichTextView, View.OnClickListener {
 
@@ -109,9 +118,12 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     private String evaluateType = "";
     private long clickGood;
     private long clickNotGood;
-    private SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
-    private float density;
-    private Point size;
+
+    private ResCollectionBean.RetObjBean mRetObjBean;
+
+    private List<ResInformation.RetObjBean.RowsBean> resInfoList = new ArrayList<>();
+    private LikeAdapter likeAdapter;
+    private Evaluate evaluate = new Evaluate();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +133,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             ((RichTextPresenter) mPresenter).updateCount();
         }
         ((RichTextPresenter) mPresenter).getInformation();
-
     }
 
     @Override
@@ -137,7 +148,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
             clickGood = bundle.getLong("clickGood");
             clickNotGood = bundle.getLong("clickNotGood");
-            //mSysTvTitle.setText(title);
         }
     }
 
@@ -146,25 +156,17 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     protected void initView() {
         mRtaTvTitle.setText(title.trim());
 
+        String eId = SharedPreferencesUtil.getString(this, id, "");
+        if (null != GsonUtil.getGsonUtil().getBean(eId, Evaluate.class)) {
+            evaluate = GsonUtil.getGsonUtil().getBean(eId, Evaluate.class);
+        }
 
         try {
             if (!TextUtils.isEmpty(pubDate))
-                mRtaTvWhereFrom.setText(whereFrom + " " + DateUtil.showDate(sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
-//                mRtaTvDate.setText(DateUtil.showDate(sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
+                mRtaTvWhereFrom.setText(whereFrom + " " + DateUtil.showDate(Constant.sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-//        Display display = getWindowManager().getDefaultDisplay();
-//        size=new Point();
-//        DisplayMetrics dm=new DisplayMetrics();
-//        display.getMetrics(dm);
-//        density=dm.density;
-//        display.getSize(size);
-//
-//        mRtaTvContent.setLineSpacing(0f, 1.2f);
-//        mRtaTvContent.setTextSize(10*density);
 
         mRtaTvNotGood.setText("" + clickNotGood);
         mRtaTvGood.setText("" + clickGood);
@@ -177,9 +179,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             spanned = Html.fromHtml(abstractContent, htmlImageGetter, null); // or for older api
         }
         mRtaTvContent.setText(spanned);
-
-//        TextJustification.justify(mRtaTvContent,size.x);
-
 
         mRtaTvView.setOnClickListener(v -> {
             Intent intent = new Intent(RichTextActivity.this, ContentActivity.class);//创建Intent对象
@@ -220,14 +219,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         /*增加自定义按钮的分享面板*/ //SHARE_MEDIA.SINA, SHARE_MEDIA.MORE
         mShareAction = new ShareAction(RichTextActivity.this)
                 .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
-                //.addButton("umeng_sharebutton_copy", "umeng_sharebutton_copy", "umeng_socialize_copy", "umeng_socialize_copy")
                 .addButton("umeng_sharebutton_copyurl", "umeng_sharebutton_copyurl", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
                 .setShareboardclickCallback(new ShareBoardlistener() {
                     @Override
                     public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                        //if (snsPlatform.mShowWord.equals("umeng_sharebutton_copy")) {
-                        //Toast.makeText(RichTextActivity.this, "复制文本按钮", Toast.LENGTH_LONG).show();
-                        //} else
                         if (snsPlatform.mShowWord.equals("umeng_sharebutton_copyurl")) {
                             StringUtil.copy(url, RichTextActivity.this);
                             Toast.makeText(RichTextActivity.this, "复制链接成功", Toast.LENGTH_LONG).show();
@@ -333,12 +328,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             actionBar.setDisplayShowTitleEnabled(false);
         }
         mSysToolbar.setNavigationIcon(R.mipmap.ic_back);
-        mSysToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mSysToolbar.setNavigationOnClickListener(v -> finish());
         mSysToolbar.setOnMenuItemClickListener(this);
         //修改状态栏文字图标为深色
         StatusBarUtil.StatusBarLightMode(this);
@@ -404,7 +394,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
     @Override
     protected BasePresenter createPresenter() {
-        return new RichTextPresenter(this, this);
+        return new RichTextPresenter(this);
     }
 
     @Override
@@ -414,68 +404,252 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     }
 
     @Override
-    public RecyclerView getRtaRecyclerView() {
-        return mRtaRecyclerView;
+    public Map<String, String> getUpdateParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = id;
+        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 
     @Override
-    public String getNewTitle() {
-        return title;
+    public void loadError(Throwable throwable) {
+        mRtaLlGood.setEnabled(true);
+        mRtaLlNotGood.setEnabled(true);
+        throwable.printStackTrace();
+        if (throwable instanceof HttpException) {
+            if (((HttpException) throwable).response().code() == 401) {
+                T.ShowToast(this, Constant.MSG_NO_LOGIN);
+            } else {
+                T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+            }
+        } else {
+            T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+        }
     }
 
     @Override
-    public String getNewLink() {
-        return url;
+    public void setUpdateResult(ResBase resBase) {
+        //TODO 更新数量成功
     }
 
     @Override
-    public String getInformationId() {
-        return id;
+    public Map<String, String> getParams() {
+        Map<String, String> map = new HashMap<>();
+        String des = "";
+        String jsonParams = "{\"title\":\"" + title + "\",\"content\":\"" + des + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 
     @Override
-    public String getEvaluateType() {
-        return evaluateType;
+    public void setListResult(ResInformation resInformation) {
+        if (resInformation.getRetCode() == 0) {
+            if (resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
+                resInfoList.addAll(resInformation.getRetObj().getRows());
+                if (likeAdapter == null) {
+                    likeAdapter = new LikeAdapter(this, resInfoList);
+                    likeAdapter.setOnItemClickedListener(rowsBean1 -> {
+                        //TODO
+                        Intent intent = new Intent(this, RichTextActivity.class);//创建Intent对象
+                        intent.putExtra(ContentActivity.KEY_TITLE, rowsBean1.getTitle());
+                        intent.putExtra(ContentActivity.KEY_URL, rowsBean1.getLink());
+                        intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rowsBean1.getId());
+                        intent.putExtra("pubDate", rowsBean1.getPubTime());
+                        intent.putExtra("whereFrom", rowsBean1.getWhereFrom());
+                        intent.putExtra("abstractContent", rowsBean1.getAbstractContent());
+                        intent.putExtra("id", rowsBean1.getId());
+                        startActivity(intent);//将Intent传递给Activity
+                    });
+                    mRtaRecyclerView.setAdapter(likeAdapter);
+                } else {
+                    likeAdapter.notifyDataSetChanged();
+                }
+            }
+        } else {
+            T.ShowToast(this, resInformation.getRetMsg());
+        }
     }
 
     @Override
-    public TextView getTvNotGood() {
-        return mRtaTvNotGood;
+    public Map<String, String> getAddParams() {
+        Map<String, String> map = new HashMap<>();
+        String newLink = url;
+        String newTitle = title;
+        String informationId = id;
+        boolean isDel;
+        if (mRetObjBean == null) {
+            isDel = false;
+        } else {
+            if (mRetObjBean.isDeleteFlag()) {
+                isDel = false;
+            } else {
+                isDel = true;
+            }
+        }
+        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+        String jsonParams = "{\"isDel\":\"" + isDel + "\",\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\",\"link\":\"" + newLink + "\",\"title\":\"" + newTitle + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 
     @Override
-    public TextView getTvGood() {
-        return mRtaTvGood;
+    public void setAddResult(ResShareCollection resShareCollection) {
+        ((RichTextPresenter) mPresenter).getCollectionByInfoId();
+        T.ShowToast(this, resShareCollection.getRetMsg());
     }
 
     @Override
-    public ImageView getIvNotGood() {
-        return mRtaIvNotGood;
+    public void loadEvaluateError(Throwable throwable) {
+        mRtaLlGood.setEnabled(true);
+        mRtaLlNotGood.setEnabled(true);
+        throwable.printStackTrace();
+        T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
     }
 
     @Override
-    public ImageView getIvGood() {
-        return mRtaIvGood;
+    public Map<String, String> getUpdateEvaluateParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = id;
+//        String evaluateType = evaluateType;
+        String isOpr = "";
+        if (evaluate != null) {
+            if ("1".equals(evaluateType)) {
+                isOpr = evaluate.getClickGood();
+            } else if ("0".equals(evaluateType)) {
+                isOpr = evaluate.getClickNotGood();
+            }
+        }
+        //为“”执行+1
+        //为1 执行 -1
+        //为2 执行 +1
+        if ("1".equals(isOpr)) {
+            isOpr = "2";
+        } else if ("2".equals(isOpr)) {
+            isOpr = "1";
+        } else {
+            isOpr = "";
+        }
+        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"isOpr\":\"" + isOpr + "\",\"evaluateType\":\"" + evaluateType + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 
     @Override
-    public LinearLayout getLlNotGood() {
-        return mRtaLlNotGood;
+    public void setUpdateEvaluateResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            ((RichTextPresenter) mPresenter).getInformation();
+        } else {
+            T.ShowToast(this, resBase.getRetMsg());
+        }
     }
 
     @Override
-    public LinearLayout getLlGood() {
-        return mRtaLlGood;
+    public Map<String, String> getInfoParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = id;
+        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 
     @Override
-    public MenuItem getItem() {
-        return item;
+    public void setInfoResult(ResInfo resInfo) {
+        if (resInfo.getRetCode() == 0) {
+
+            mRtaTvGood.setText("" + resInfo.getRetObj().getClickGood());
+            mRtaTvNotGood.setText("" + resInfo.getRetObj().getClickNotGood());
+            //刷新
+//            String evaluateType = iRichTextView.getEvaluateType();
+            if ("1".equals(evaluateType)) {
+
+                String eStr = SharedPreferencesUtil.getString(this, id, "");
+                if (TextUtils.isEmpty(eStr)) {//如果是空那么没操作过直接设置1
+                    evaluate.setClickGood("1");
+                    evaluate.setInformationId(id);
+                    SharedPreferencesUtil.setString(this, id, GsonUtil.toJson(evaluate));
+                    mRtaIvGood.setImageResource(R.mipmap.ic_good_press);
+                } else {
+                    Evaluate eva = GsonUtil.getGsonUtil().getBean(eStr, Evaluate.class);
+                    if ("1".equals(eva.getClickGood())) {
+                        mRtaIvGood.setImageResource(R.mipmap.ic_good);
+                        evaluate.setClickGood("2");
+                        evaluate.setInformationId(id);
+                        SharedPreferencesUtil.setString(this, id, GsonUtil.toJson(evaluate));
+                    } else if ("2".equals(eva.getClickGood())) {
+                        mRtaIvGood.setImageResource(R.mipmap.ic_good_press);
+                        evaluate.setClickGood("1");
+                        evaluate.setInformationId(id);
+                        SharedPreferencesUtil.setString(this, id, GsonUtil.toJson(evaluate));
+                    } else {
+                        evaluate.setClickGood("1");
+                        evaluate.setInformationId(id);
+                        SharedPreferencesUtil.setString(this, id, GsonUtil.toJson(evaluate));
+                        mRtaIvGood.setImageResource(R.mipmap.ic_good_press);
+                    }
+                }
+            } else if ("0".equals(evaluateType)) {
+
+                String eStr = SharedPreferencesUtil.getString(this, id, "");
+                if (TextUtils.isEmpty(eStr)) {//如果是空那么没操作过直接设置1
+                    evaluate.setClickNotGood("1");
+                    evaluate.setInformationId(id);
+                    SharedPreferencesUtil.setString(this, id, GsonUtil.toJson(evaluate));
+                    mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good_press);
+                } else {
+                    Evaluate eva = GsonUtil.getGsonUtil().getBean(eStr, Evaluate.class);
+                    if ("1".equals(eva.getClickNotGood())) {
+                        mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good);
+                        evaluate.setClickNotGood("2");
+                        evaluate.setInformationId(id);
+                        SharedPreferencesUtil.setString(this, id, GsonUtil.toJson(evaluate));
+                    } else if ("2".equals(eva.getClickNotGood())) {
+                        mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good_press);
+                        evaluate.setClickNotGood("1");
+                        evaluate.setInformationId(id);
+                        SharedPreferencesUtil.setString(this, id, GsonUtil.toJson(evaluate));
+                    } else {
+                        evaluate.setClickNotGood("1");
+                        evaluate.setInformationId(id);
+                        SharedPreferencesUtil.setString(this, id, GsonUtil.toJson(evaluate));
+                        mRtaIvNotGood.setImageResource(R.mipmap.ic_not_good_press);
+                    }
+                }
+            }
+        } else {
+            T.ShowToast(this, resInfo.getRetMsg());
+        }
+        mRtaLlGood.setEnabled(true);
+        mRtaLlNotGood.setEnabled(true);
     }
 
     @Override
-    public String getDes() {
-        return abstractContent;
+    public Map<String, String> getCollectionByInfoIdParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = id;
+        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+
+
+    @Override
+    public void setCollectionInfoIdResult(ResCollectionBean resCollectionBean) {
+        mRetObjBean = resCollectionBean.getRetObj();
+        if (resCollectionBean.getRetCode() == 0) {
+            //设置收藏图标
+            if (!resCollectionBean.getRetObj().isDeleteFlag()) {
+//                MenuItem item = iRichTextView.getItem();
+                item.setIcon(R.mipmap.ic_collection_press);
+            } else {
+//                MenuItem item = iRichTextView.getItem();
+                item.setIcon(R.mipmap.ic_collection_normal);
+            }
+        } else {
+//            MenuItem item = iRichTextView.getItem();
+            item.setIcon(R.mipmap.ic_collection_normal);
+        }
     }
 
 

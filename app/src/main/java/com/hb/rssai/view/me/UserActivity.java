@@ -16,6 +16,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,7 +35,9 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.hb.rssai.R;
+import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.MineEvent;
@@ -43,6 +46,7 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.UserPresenter;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.DisplayUtil;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.ImageUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
@@ -56,7 +60,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
@@ -123,6 +129,10 @@ public class UserActivity extends BaseActivity implements IUserView {
 
     private String editType = "";//"1" sex "2" birth
 
+    private MaterialDialog materialDialog;
+    private String etContent = "";
+    private EditText et;
+    private ResUser resUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +150,6 @@ public class UserActivity extends BaseActivity implements IUserView {
 
     @Override
     protected void initView() {
-
         ArrayList<String> genderList = new ArrayList<>();
         genderList.add("男");
         genderList.add("女");
@@ -202,11 +211,9 @@ public class UserActivity extends BaseActivity implements IUserView {
             backgroundAlpha(0.5f);
             mPop.setOnDismissListener(new PopOnDismissListener());
         });
-
         //TODO 头像上传
         selectAvatar();
     }
-
 
     @Override
     protected int providerContentViewId() {
@@ -239,43 +246,7 @@ public class UserActivity extends BaseActivity implements IUserView {
 
     @Override
     protected BasePresenter createPresenter() {
-        return new UserPresenter(this, this);
-    }
-
-
-    @Override
-    public TextView getTvNickName() {
-        return mAmaTvNickName;
-    }
-
-    @Override
-    public TextView getTvDescription() {
-        return mAmaTvSignature;
-    }
-
-    @Override
-    public TextView getTvSex() {
-        return mAmaTvSex;
-    }
-
-    @Override
-    public TextView getTvBirth() {
-        return mAmaTvBirth;
-    }
-
-    @Override
-    public ImageView getTvAvatar() {
-        return mAmaIvUserPhoto;
-    }
-
-    @Override
-    public String getEditType() {
-        return editType;
-    }
-
-    @Override
-    public String getEtContent() {
-        return etContent;
+        return new UserPresenter(this);
     }
 
     @Override
@@ -283,21 +254,100 @@ public class UserActivity extends BaseActivity implements IUserView {
         return filePath;
     }
 
-    MaterialDialog materialDialog;
+    @Override
+    public Map<String, String> getParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+        String jsonParams = "{\"userId\":\"" + userId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
 
-    private String etContent = "";
-    EditText et;
+    @Override
+    public void setUserInfoResult(ResUser resUser) {
+        if (resUser.getRetCode() == 0) {
+            this.resUser = resUser;
+            mAmaTvNickName.setText(resUser.getRetObj().getNickName());
+            mAmaTvSignature.setText(resUser.getRetObj().getDescription());
+            if (resUser.getRetObj().getSex() == -1) {
+                mAmaTvSex.setText("单击设置性别");
+            } else {
+                mAmaTvSex.setText(resUser.getRetObj().getSex() == 1 ? "男" : "女");
+            }
+            mAmaTvBirth.setText(resUser.getRetObj().getBirth());
+            HttpLoadImg.loadCircleImg(this, ApiRetrofit.BASE_IMG_URL + resUser.getRetObj().getAvatar(), mAmaIvUserPhoto);
+        } else {
+            T.ShowToast(this, resUser.getRetMsg());
+        }
+    }
+
+    @Override
+    public void setUpdateResult(ResUser resBase) {
+        if (resBase.getRetCode() == 0) {
+            ((UserPresenter) mPresenter).getUserInfo();
+            EventBus.getDefault().post(new MineEvent(0));
+        }
+        T.ShowToast(this, resBase.getRetMsg());
+    }
+
+    @Override
+    public void setAvatarResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            ((UserPresenter) mPresenter).getUserInfo();
+            EventBus.getDefault().post(new MineEvent(0));
+        }
+        T.ShowToast(this, resBase.getRetMsg());
+    }
+
+    @Override
+    public Map<String, String> getUpdateParams() {
+        HashMap<String, String> map = new HashMap<>();
+        String jsonParams = "";
+        if ("1".equals(editType)) {
+            String gender = mAmaTvSex.getText().toString().trim();
+            String sex = "0";//默认
+            if ("男".equals(gender)) {
+                sex = "1";
+            } else if ("女".equals(gender)) {
+                sex = "2";
+            }
+            jsonParams = "{\"sex\":\"" + sex + "\"}";
+            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        } else if ("2".equals(editType)) {
+            String birth = mAmaTvBirth.getText().toString().trim();
+            jsonParams = "{\"birth\":\"" + birth + "\"}";
+            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        } else if ("3".equals(editType)) {
+            jsonParams = "{\"nickName\":\"" + etContent + "\"}";
+            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        }
+        map.put(Constant.TOKEN, SharedPreferencesUtil.getString(this, Constant.TOKEN, ""));
+        return map;
+    }
+
+    @Override
+    public void loadError(Throwable throwable) {
+        throwable.printStackTrace();
+        T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+        if (TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.TOKEN, ""))) {
+            mAmaTvNickName.setText("点击设置昵称");
+            mAmaTvSignature.setText("点击设置个性签名");
+            mAmaTvSex.setText("点击设置性别");
+            mAmaTvBirth.setText("点击设置生日");
+            HttpLoadImg.loadCircleImg(this, R.mipmap.icon_default_avar, mAmaIvUserPhoto);
+        }
+    }
 
     private void openDialog() {
         if (materialDialog == null) {
-            if (((UserPresenter) mPresenter).getResUser() == null) {
+            if (resUser == null) {
                 return;
             }
             materialDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.dialog_et_view, null);
             et = (EditText) view.findViewById(R.id.dev_et);
-            ResUser.RetObjBean retObjBean = ((UserPresenter) mPresenter).getResUser().getRetObj();
+            ResUser.RetObjBean retObjBean = resUser.getRetObj();
             if (retObjBean != null && retObjBean.getNickName() != null) {
                 et.setText(retObjBean.getNickName());
             }
@@ -495,6 +545,7 @@ public class UserActivity extends BaseActivity implements IUserView {
             e.printStackTrace();
         }
     }
+
     //TODO ###############################################头像上传####################################################
     @Override
     public void onDestroy() {

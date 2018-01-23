@@ -5,19 +5,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.hb.rssai.bean.ResMessageList;
+
+import java.util.Map;
+
 /**
  * Created by Administrator on 2017/8/18.
  */
 
 public interface IMessageView {
-    RecyclerView getRecyclerView();
 
-    SwipeRefreshLayout getSwipeLayout();
+    Map<String, String> getParams(int pageSize,int pageNum);
 
-    LinearLayoutManager getManager();
+    void loadError(Throwable throwable);
 
-    View getIncludeNoData();
-
-    View getIncludeLoadFail();
+    void setListResult(ResMessageList resMessageList);
 
 }

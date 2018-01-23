@@ -108,25 +108,41 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         return new LoginPresenter(this);
     }
 
+    @OnClick({R.id.la_btn_login, R.id.la_tv_register, R.id.la_chktv_psd_control})
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.la_btn_login:
+                ((LoginPresenter) mPresenter).login();
+                break;
+            case R.id.la_tv_register:
+                startActivity(new Intent(this, RegisterActivity.class));
+                break;
+            case R.id.la_chktv_psd_control:
+                if (laChkTvPsdControl.isChecked()) {
+                    laChkTvPsdControl.setChecked(false);
+                    //否则隐藏密码
+                    mLaEtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    mLaEtPassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_gone), null);
+                } else {
+                    laChkTvPsdControl.setChecked(true);
+                    //如果选中，显示密码
+                    mLaEtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    mLaEtPassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_view), null);
+                }
+                break;
+        }
+    }
 
     @Override
     public Map<String, String> getParams() {
         String uName = mLaEtUserName.getText().toString().trim();
         String uPsd = mLaEtPassword.getText().toString().trim();
-        if (TextUtils.isEmpty(uName)) {
-            T.ShowToast(this, "请输入账号");
-            return null;
-        }
-        if (TextUtils.isEmpty(uPsd)) {
-            T.ShowToast(this, "请输入密码");
-            return null;
-        }
         Map<String, String> params = new HashMap<>();
         String jsonParams = "{\"userName\":\"" + uName + "\",\"password\":\"" + uPsd + "\"}";
         params.put("jsonParams", jsonParams);
         return params;
     }
-
 
     @Override
     public void setLoginResult(ResLogin bean) {
@@ -155,30 +171,19 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
     }
 
-    @OnClick({R.id.la_btn_login, R.id.la_tv_register, R.id.la_chktv_psd_control})
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.la_btn_login:
-                ((LoginPresenter) mPresenter).login();
-                break;
-            case R.id.la_tv_register:
-                startActivity(new Intent(this, RegisterActivity.class));
-                break;
-            case R.id.la_chktv_psd_control:
-                if (laChkTvPsdControl.isChecked()) {
-                    laChkTvPsdControl.setChecked(false);
-                    //否则隐藏密码
-                    mLaEtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    mLaEtPassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_gone), null);
-                } else {
-                    laChkTvPsdControl.setChecked(true);
-                    //如果选中，显示密码
-                    mLaEtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    mLaEtPassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_view), null);
-                }
-                break;
-        }
+    public void setCheckError(String error) {
+        T.ShowToast(this, error);
+    }
+
+    @Override
+    public String getUserName() {
+        return mLaEtUserName.getText().toString().trim();
+    }
+
+    @Override
+    public String getPassword() {
+        return mLaEtPassword.getText().toString().trim();
     }
 
     @Override

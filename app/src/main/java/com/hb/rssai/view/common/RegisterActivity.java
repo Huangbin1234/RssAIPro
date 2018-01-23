@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MenuItem;
@@ -123,23 +122,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         String name = mRaEtUserName.getText().toString().trim();
         String psd = mRaEtPassword.getText().toString().trim();
         String spsd = mRaEtSpassword.getText().toString().trim();
-        if (TextUtils.isEmpty(name)) {
-            T.ShowToast(this, "请输入账号");
-            return null;
-        }
-        if (TextUtils.isEmpty(psd)) {
-            T.ShowToast(this, "请输入密码");
-            return null;
-        }
-        if (TextUtils.isEmpty(spsd)) {
-            T.ShowToast(this, "请再次输入密码");
-            return null;
-        }
 
-        if (!spsd.equals(psd)) {
-            T.ShowToast(this, "两次输入的密码不一致");
-            return null;
-        }
         Map<String, String> params = new HashMap<>();
         String jsonParams = "{\"userName\":\"" + name + "\",\"password\":\"" + psd + "\",\"sPassword\":\"" + spsd + "\"}";
         params.put("jsonParams", jsonParams);
@@ -163,6 +146,26 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void loadError(Throwable throwable) {
         throwable.printStackTrace();
         T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+    }
+
+    @Override
+    public void setCheckError(String error) {
+        T.ShowToast(this, error);
+    }
+
+    @Override
+    public String getUserName() {
+        return mRaEtUserName.getText().toString().trim();
+    }
+
+    @Override
+    public String getPassword() {
+        return mRaEtPassword.getText().toString().trim();
+    }
+
+    @Override
+    public String getSurePassword() {
+        return mRaEtSpassword.getText().toString().trim();
     }
 
     @Override

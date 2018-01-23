@@ -10,7 +10,18 @@ import java.util.Map;
 
 public interface IRegisterView {
     void toFinish();
+
     Map<String, String> getParams();
+
     void setRegResult(ResBase resBase);
+
     void loadError(Throwable throwable);
+
+    void setCheckError(String error);
+
+    String getUserName();
+
+    String getPassword();
+
+    String getSurePassword();
 }

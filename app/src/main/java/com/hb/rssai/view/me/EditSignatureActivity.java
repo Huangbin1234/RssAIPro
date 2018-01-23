@@ -11,10 +11,20 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResUser;
+import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.MineEvent;
+import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.EditSignaturePresenter;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IEditSignatureView;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -95,12 +105,33 @@ public class EditSignatureActivity extends BaseActivity implements IEditSignatur
 
     @Override
     protected BasePresenter createPresenter() {
-        return new EditSignaturePresenter(this, this);
+        return new EditSignaturePresenter(this);
     }
 
     @Override
-    public EditText getEtContent() {
-        return mEsaEtSignature;
+    public void setUpdateResult(ResUser resBase) {
+        if (resBase.getRetCode() == 0) {
+            EventBus.getDefault().post(new MineEvent(0));
+            EventBus.getDefault().post(new UserEvent(0));
+            toFinish();
+        }
+        T.ShowToast(this, resBase.getRetMsg());
+    }
+
+    @Override
+    public Map<String, String> getUpdateParams() {
+        HashMap<String, String> map = new HashMap<>();
+        String description = mEsaEtSignature.getText().toString().trim();
+        String jsonParams = "{\"description\":\"" + description + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        map.put(Constant.TOKEN, SharedPreferencesUtil.getString(this, Constant.TOKEN, ""));
+        return map;
+    }
+
+    @Override
+    public void loadError(Throwable throwable) {
+        throwable.printStackTrace();
+        T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
     }
 
     @Override

@@ -8,9 +8,18 @@ import java.util.Map;
  * Created by Administrator on 2017/8/13 0013.
  */
 
-public interface ILoginView extends IBaseView{
+public interface ILoginView extends IBaseView {
 
-    Map<String,String> getParams();
+    Map<String, String> getParams();
+
     void setLoginResult(ResLogin bean);
+
     void loadError(Throwable throwable);
+
+    void setCheckError(String error);
+
+    String getUserName();
+
+    String getPassword();
+
 }

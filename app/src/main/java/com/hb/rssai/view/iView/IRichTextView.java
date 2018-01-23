@@ -1,39 +1,47 @@
 package com.hb.rssai.view.iView;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResCollectionBean;
+import com.hb.rssai.bean.ResInfo;
+import com.hb.rssai.bean.ResInformation;
+import com.hb.rssai.bean.ResShareCollection;
+
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/8/25.
  */
 
 public interface IRichTextView {
-    RecyclerView getRtaRecyclerView();
 
-    String getNewTitle();
+    Map<String, String> getUpdateParams();
 
-    String getNewLink();
+    void loadError(Throwable throwable);
 
+    void setUpdateResult(ResBase resBase);
 
-    String getInformationId();
+    Map<String, String> getParams();
 
-    String getEvaluateType();
+    void setListResult(ResInformation resInfo);
 
-    TextView getTvNotGood();
+    Map<String, String> getAddParams();
 
-    TextView getTvGood();
+    void setAddResult(ResShareCollection resShareCollection);
 
-    ImageView getIvNotGood();
+    void loadEvaluateError(Throwable throwable);
 
-    ImageView getIvGood();
+    Map<String, String> getUpdateEvaluateParams();
 
-    LinearLayout getLlNotGood();
+    void setUpdateEvaluateResult(ResBase resBase);
 
-    LinearLayout getLlGood();
-    MenuItem getItem();
+    Map<String, String> getInfoParams();
 
-    String getDes();
+    void setInfoResult(ResInfo resInfo);
+
+    Map<String, String> getCollectionByInfoIdParams();
+
+    void setCollectionInfoIdResult(ResCollectionBean resCollectionBean);
+
 }

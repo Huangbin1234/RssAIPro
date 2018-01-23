@@ -75,47 +75,15 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> refreshList());
         //TODO 设置上拉加载更多
-//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            int lastVisibleItem;
-//
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (cardAdapter == null) {
-//                    isLoad = false;
-////                    mSwipeRefreshLayout.setRefreshing(false);
-//                    return;
-//                }
-//                // 在最后两条的时候就自动加载
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= cardAdapter.getItemCount()) {
-//                    // 加载更多
-//                    if (!isEnd && !isLoad) {
-////                        mSwipeRefreshLayout.setRefreshing(true);
-//                        page++;
-////                        getListById();
-//                        getListCardById();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
-//            }
-//        });
 
-        mNestView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        mNestView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
 
-                if (v.getChildAt(0) != null && isBottomForNestedScrollView(v, scrollY)) {
-                    // 加载更多
-                    if (!isEnd && !isLoad) {
-                        mSwipeRefreshLayout.setRefreshing(true);
-                        page++;
-                        getListCardById();
-                    }
+            if (v.getChildAt(0) != null && isBottomForNestedScrollView(v, scrollY)) {
+                // 加载更多
+                if (!isEnd && !isLoad) {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    page++;
+                    getListCardById();
                 }
             }
         });
