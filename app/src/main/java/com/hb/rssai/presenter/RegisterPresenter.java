@@ -2,9 +2,9 @@ package com.hb.rssai.presenter;
 
 import android.text.TextUtils;
 
-import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IRegisterView;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -49,7 +49,6 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
         return null;
     }
 
-
     public void register() {
         String name = mIRegisterView.getUserName();
         String psd = mIRegisterView.getPassword();
@@ -71,7 +70,7 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
             mIRegisterView.setCheckError(error);
             return;
         }
-        loginApi.register(mIRegisterView.getParams())
+        loginApi.register(getParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resBase -> {
@@ -79,4 +78,13 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
                 }, mIRegisterView::loadError);
     }
 
+    public Map<String, String> getParams() {
+        String name = mIRegisterView.getUserName();
+        String psd = mIRegisterView.getPassword();
+        String sPsd = mIRegisterView.getSurePassword();
+        Map<String, String> params = new HashMap<>();
+        String jsonParams = "{\"userName\":\"" + name + "\",\"password\":\"" + psd + "\",\"sPassword\":\"" + sPsd + "\"}";
+        params.put("jsonParams", jsonParams);
+        return params;
+    }
 }

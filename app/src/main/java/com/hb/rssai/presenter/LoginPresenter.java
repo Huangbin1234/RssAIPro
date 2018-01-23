@@ -4,6 +4,9 @@ import android.text.TextUtils;
 
 import com.hb.rssai.view.iView.ILoginView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -47,11 +50,20 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             iLoginView.setCheckError(error);
             return;
         }
-        loginApi.doLogin(iLoginView.getParams())
+        loginApi.doLogin(getParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resLogin -> {
                     iLoginView.setLoginResult(resLogin);
                 }, iLoginView::loadError);
+    }
+
+    public Map<String, String> getParams() {
+        String uName = iLoginView.getUserName();
+        String uPsd = iLoginView.getPassword();
+        Map<String, String> params = new HashMap<>();
+        String jsonParams = "{\"userName\":\"" + uName + "\",\"password\":\"" + uPsd + "\"}";
+        params.put("jsonParams", jsonParams);
+        return params;
     }
 }

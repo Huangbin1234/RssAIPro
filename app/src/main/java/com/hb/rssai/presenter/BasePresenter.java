@@ -47,6 +47,4 @@ public abstract class BasePresenter<V> {
             mViewRef = null;
         }
     }
-
-    public void onRefresh(int pageSize,int pageNum){}
 }

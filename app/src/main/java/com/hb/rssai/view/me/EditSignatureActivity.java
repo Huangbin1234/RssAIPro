@@ -17,14 +17,10 @@ import com.hb.rssai.event.MineEvent;
 import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.EditSignaturePresenter;
-import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IEditSignatureView;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -61,16 +57,7 @@ public class EditSignatureActivity extends BaseActivity implements IEditSignatur
     protected void initView() {
         mEsaEtSignature.setText(signatureStr);
         mEsaBtnSave.setOnClickListener(v -> {
-            String str = mEsaEtSignature.getText().toString().trim();
-            if (!"".equals(str)) {
-                if (str.equals(signatureStr)) {
-                    T.ShowToast(EditSignatureActivity.this, "内容没有任何变化，请修改后保存。");
-                } else {
-                    ((EditSignaturePresenter) mPresenter).updateUserInfo();
-                }
-            } else {
-                T.ShowToast(EditSignatureActivity.this, "请输入签名后，再进行保存。");
-            }
+            ((EditSignaturePresenter) mPresenter).updateUserInfo();
         });
     }
 
@@ -113,20 +100,11 @@ public class EditSignatureActivity extends BaseActivity implements IEditSignatur
         if (resBase.getRetCode() == 0) {
             EventBus.getDefault().post(new MineEvent(0));
             EventBus.getDefault().post(new UserEvent(0));
-            toFinish();
+            finish();
         }
         T.ShowToast(this, resBase.getRetMsg());
     }
 
-    @Override
-    public Map<String, String> getUpdateParams() {
-        HashMap<String, String> map = new HashMap<>();
-        String description = mEsaEtSignature.getText().toString().trim();
-        String jsonParams = "{\"description\":\"" + description + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        map.put(Constant.TOKEN, SharedPreferencesUtil.getString(this, Constant.TOKEN, ""));
-        return map;
-    }
 
     @Override
     public void loadError(Throwable throwable) {
@@ -135,7 +113,17 @@ public class EditSignatureActivity extends BaseActivity implements IEditSignatur
     }
 
     @Override
-    public void toFinish() {
-        finish();
+    public String getNewSignature() {
+        return mEsaEtSignature.getText().toString().trim();
+    }
+
+    @Override
+    public String getOldSignature() {
+        return signatureStr;
+    }
+
+    @Override
+    public void setCheckResult(String error) {
+        T.ShowToast(this, error);
     }
 }

@@ -51,7 +51,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
@@ -80,14 +79,25 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     Button mLlfBtnReTry;
 
     private LinearLayoutManager mLayoutManager;
-    //    CollectionAdapter adapter;
     private String collectionId = "";
     private CollectionAdapter adapter;
     private ResCollection.RetObjBean.RowsBean newRowsBean;
     private List<ResCollection.RetObjBean.RowsBean> resCollections = new ArrayList<>();
-    private int page = 1;
+    private int pageNum = 1;
     private boolean isEnd = false, isLoad = false;
     private ResCollection.RetObjBean.RowsBean bean;
+    private String infoId = "";
+
+    private UMShareListener mShareListener;
+    private ShareAction mShareAction;
+
+    /**
+     * 取消对话框
+     *
+     * @return
+     */
+    private DialogAdapter dialogAdapter;
+    private MaterialDialog materialDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +107,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
 
     @Override
     protected void onRefresh() {
-        page = 1;
+        pageNum = 1;
         isLoad = true;
         isEnd = false;
         mCollSwipeLayout.setRefreshing(true);
@@ -108,7 +118,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     protected void loadMore() {
         if (!isEnd && !isLoad) {
             mCollSwipeLayout.setRefreshing(true);
-            page++;
+            pageNum++;
             ((CollectionPresenter) mPresenter).getList();
         }
     }
@@ -152,9 +162,6 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
 
         initShare();
     }
-
-    private UMShareListener mShareListener;
-    private ShareAction mShareAction;
 
     private void initShare() {
         mShareListener = new CustomShareListener(this);
@@ -255,7 +262,6 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-
             Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
@@ -294,7 +300,6 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onItemLongClicked(ResCollection.RetObjBean.RowsBean rowsBean) {
         newRowsBean = rowsBean;
@@ -320,15 +325,6 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
         list.add(map2);
         return list;
     }
-
-    /**
-     * 取消对话框
-     *
-     * @return
-     */
-    DialogAdapter dialogAdapter;
-    MaterialDialog materialDialog;
-
 
     private void sureCollection(ResCollection.RetObjBean.RowsBean rowsBean) {
         if (materialDialog == null) {
@@ -374,45 +370,6 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     }
 
     @Override
-    public RecyclerView getRecyclerView() {
-        return mCollRecyclerView;
-    }
-
-    @Override
-    public SwipeRefreshLayout getSwipeLayout() {
-        return mCollSwipeLayout;
-    }
-
-    @Override
-    public LinearLayoutManager getManager() {
-        return mLayoutManager;
-    }
-
-    public String getCollectionId() {
-        return collectionId;
-    }
-
-    @Override
-    public View getIncludeNoData() {
-        return includeNoData;
-    }
-
-    @Override
-    public View getIncludeLoadFail() {
-        return includeLoadFail;
-    }
-
-    @Override
-    public Map<String, String> getListParams() {
-        Map<String, String> map = new HashMap<>();
-        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
-        String jsonParams = "{\"userId\":\"" + userId + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        System.out.println(map);
-        return map;
-    }
-
-    @Override
     public void loadError(Throwable throwable) {
         includeLoadFail.setVisibility(View.VISIBLE);
         includeNoData.setVisibility(View.GONE);
@@ -434,19 +391,8 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     }
 
     @Override
-    public Map<String, String> getDelParams() {
-        Map<String, String> map = new HashMap<>();
-        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
-        String id = collectionId;
-        String jsonParams = "{\"userId\":\"" + userId + "\",\"id\":\"" + id + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        System.out.println(map);
-        return map;
-    }
-
-    @Override
     public void setListResult(ResCollection resCollection) {
-        if (resCollections != null && page == 1) {
+        if (resCollections != null && pageNum == 1) {
             resCollections.clear();
         }
         isLoad = false;
@@ -499,17 +445,6 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     }
 
     @Override
-    public Map<String, String> getInfoParams() {
-        Map<String, String> map = new HashMap<>();
-        String informationId = infoId;
-        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
-
-    private String infoId = "";
-
-    @Override
     public void setInfoResult(ResInfo resInfo) {
         if (resInfo.getRetCode() == 0) {
             Intent intent = new Intent(this, RichTextActivity.class);
@@ -530,5 +465,25 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
             intent.putExtra(ContentActivity.KEY_INFORMATION_ID, bean.getInformationId());
             startActivity(intent);
         }
+    }
+
+    @Override
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    @Override
+    public String getInfoId() {
+        return infoId;
+    }
+
+    @Override
+    public String getCollectionId() {
+        return collectionId;
+    }
+
+    @Override
+    public String getUserId() {
+        return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
     }
 }

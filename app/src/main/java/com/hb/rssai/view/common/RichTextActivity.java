@@ -60,9 +60,7 @@ import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -403,14 +401,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         RichText.recycle();
     }
 
-    @Override
-    public Map<String, String> getUpdateParams() {
-        Map<String, String> map = new HashMap<>();
-        String informationId = id;
-        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
 
     @Override
     public void loadError(Throwable throwable) {
@@ -433,14 +423,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         //TODO 更新数量成功
     }
 
-    @Override
-    public Map<String, String> getParams() {
-        Map<String, String> map = new HashMap<>();
-        String des = "";
-        String jsonParams = "{\"title\":\"" + title + "\",\"content\":\"" + des + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
 
     @Override
     public void setListResult(ResInformation resInformation) {
@@ -472,28 +454,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     }
 
     @Override
-    public Map<String, String> getAddParams() {
-        Map<String, String> map = new HashMap<>();
-        String newLink = url;
-        String newTitle = title;
-        String informationId = id;
-        boolean isDel;
-        if (mRetObjBean == null) {
-            isDel = false;
-        } else {
-            if (mRetObjBean.isDeleteFlag()) {
-                isDel = false;
-            } else {
-                isDel = true;
-            }
-        }
-        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
-        String jsonParams = "{\"isDel\":\"" + isDel + "\",\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\",\"link\":\"" + newLink + "\",\"title\":\"" + newTitle + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
-
-    @Override
     public void setAddResult(ResShareCollection resShareCollection) {
         ((RichTextPresenter) mPresenter).getCollectionByInfoId();
         T.ShowToast(this, resShareCollection.getRetMsg());
@@ -507,33 +467,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
     }
 
-    @Override
-    public Map<String, String> getUpdateEvaluateParams() {
-        Map<String, String> map = new HashMap<>();
-        String informationId = id;
-//        String evaluateType = evaluateType;
-        String isOpr = "";
-        if (evaluate != null) {
-            if ("1".equals(evaluateType)) {
-                isOpr = evaluate.getClickGood();
-            } else if ("0".equals(evaluateType)) {
-                isOpr = evaluate.getClickNotGood();
-            }
-        }
-        //为“”执行+1
-        //为1 执行 -1
-        //为2 执行 +1
-        if ("1".equals(isOpr)) {
-            isOpr = "2";
-        } else if ("2".equals(isOpr)) {
-            isOpr = "1";
-        } else {
-            isOpr = "";
-        }
-        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"isOpr\":\"" + isOpr + "\",\"evaluateType\":\"" + evaluateType + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
 
     @Override
     public void setUpdateEvaluateResult(ResBase resBase) {
@@ -544,14 +477,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         }
     }
 
-    @Override
-    public Map<String, String> getInfoParams() {
-        Map<String, String> map = new HashMap<>();
-        String informationId = id;
-        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
 
     @Override
     public void setInfoResult(ResInfo resInfo) {
@@ -623,16 +548,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mRtaLlNotGood.setEnabled(true);
     }
 
-    @Override
-    public Map<String, String> getCollectionByInfoIdParams() {
-        Map<String, String> map = new HashMap<>();
-        String informationId = id;
-        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
-        String jsonParams = "{\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
-
 
     @Override
     public void setCollectionInfoIdResult(ResCollectionBean resCollectionBean) {
@@ -650,6 +565,41 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 //            MenuItem item = iRichTextView.getItem();
             item.setIcon(R.mipmap.ic_collection_normal);
         }
+    }
+
+    @Override
+    public String getInfoId() {
+        return id;
+    }
+
+    @Override
+    public String getInfoTitle() {
+        return title;
+    }
+
+    @Override
+    public String getUserId() {
+        return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public String getEvaluateType() {
+        return evaluateType;
+    }
+
+    @Override
+    public Evaluate getEvaluate() {
+        return evaluate;
+    }
+
+    @Override
+    public ResCollectionBean.RetObjBean getRetObjBean() {
+        return mRetObjBean;
     }
 
 

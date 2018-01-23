@@ -1,9 +1,12 @@
 package com.hb.rssai.presenter;
 
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.view.iView.IUserView;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -23,20 +26,17 @@ public class UserPresenter extends BasePresenter<IUserView> {
     }
 
     public void getUserInfo() {
-        loginApi.getUserInfo(iUserView.getParams())
+        loginApi.getUserInfo(getParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resUser -> {
-                    iUserView.setUserInfoResult(resUser);
-                }, iUserView::loadError);
+                .subscribe(resUser -> iUserView.setUserInfoResult(resUser), iUserView::loadError);
     }
 
     public void updateUserInfo() {
-        loginApi.update(iUserView.getUpdateParams()).subscribeOn(Schedulers.io())
+        loginApi.update(getUpdateParams())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> {
-                    iUserView.setUpdateResult(resBase);
-                }, iUserView::loadError);
+                .subscribe(resBase -> iUserView.setUpdateResult(resBase), iUserView::loadError);
     }
 
     private MultipartBody.Builder getBuilder() {
@@ -59,4 +59,38 @@ public class UserPresenter extends BasePresenter<IUserView> {
                 }, iUserView::loadError);
     }
 
+    public Map<String, String> getParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = iUserView.getUserId();
+        String jsonParams = "{\"userId\":\"" + userId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
+    }
+
+    public Map<String, String> getUpdateParams() {
+        HashMap<String, String> map = new HashMap<>();
+        String jsonParams = "";
+        String editType = iUserView.getEtType();
+        String gender = iUserView.getSex();
+        String birth = iUserView.getBirth();
+        String nickName = iUserView.getNickName();
+
+        if ("1".equals(editType)) {
+            String sex = "0";//默认
+            if ("男".equals(gender)) {
+                sex = "1";
+            } else if ("女".equals(gender)) {
+                sex = "2";
+            }
+            jsonParams = "{\"sex\":\"" + sex + "\"}";
+            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        } else if ("2".equals(editType)) {
+            jsonParams = "{\"birth\":\"" + birth + "\"}";
+            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        } else if ("3".equals(editType)) {
+            jsonParams = "{\"nickName\":\"" + nickName + "\"}";
+            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        }
+        return map;
+    }
 }

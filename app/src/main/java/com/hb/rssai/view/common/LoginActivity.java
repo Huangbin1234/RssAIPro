@@ -31,9 +31,6 @@ import com.hb.rssai.view.iView.ILoginView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -134,15 +131,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         }
     }
 
-    @Override
-    public Map<String, String> getParams() {
-        String uName = mLaEtUserName.getText().toString().trim();
-        String uPsd = mLaEtPassword.getText().toString().trim();
-        Map<String, String> params = new HashMap<>();
-        String jsonParams = "{\"userName\":\"" + uName + "\",\"password\":\"" + uPsd + "\"}";
-        params.put("jsonParams", jsonParams);
-        return params;
-    }
+
 
     @Override
     public void setLoginResult(ResLogin bean) {

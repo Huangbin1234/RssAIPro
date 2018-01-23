@@ -31,9 +31,7 @@ import com.hb.rssai.view.common.RichTextActivity;
 import com.hb.rssai.view.iView.IRecordView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -62,7 +60,7 @@ public class RecordActivity extends BaseActivity implements IRecordView {
 
     private LinearLayoutManager mLayoutManager;
     private RecordAdapter adapter;
-    private int page = 1;
+    private int pageNum = 1;
     private boolean isEnd = false, isLoad = false;
     private List<ResUserInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
     private ResUserInformation.RetObjBean.RowsBean bean;
@@ -76,7 +74,7 @@ public class RecordActivity extends BaseActivity implements IRecordView {
 
     @Override
     protected void onRefresh() {
-        page = 1;
+        pageNum = 1;
         isLoad = true;
         isEnd = false;
         if (infoList != null) {
@@ -90,7 +88,7 @@ public class RecordActivity extends BaseActivity implements IRecordView {
     protected void loadMore() {
         if (!isEnd && !isLoad) {
             mRecordSwipeLayout.setRefreshing(true);
-            page++;
+            pageNum++;
             ((RecordPresenter) mPresenter).getList();
         }
     }
@@ -167,41 +165,6 @@ public class RecordActivity extends BaseActivity implements IRecordView {
     }
 
     @Override
-    public RecyclerView getRecyclerView() {
-        return mRecordRecyclerView;
-    }
-
-    @Override
-    public SwipeRefreshLayout getSwipeLayout() {
-        return mRecordSwipeLayout;
-    }
-
-    @Override
-    public LinearLayoutManager getManager() {
-        return mLayoutManager;
-    }
-
-    @Override
-    public View getIncludeNoData() {
-        return includeNoData;
-    }
-
-    @Override
-    public View getIncludeLoadFail() {
-        return includeLoadFail;
-    }
-
-    @Override
-    public Map<String, String> getParams() {
-        Map<String, String> map = new HashMap<>();
-        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
-        String jsonParams = "{\"userId\":\"" + userId + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        System.out.println(map);
-        return map;
-    }
-
-    @Override
     public void loadError(Throwable throwable) {
         includeLoadFail.setVisibility(View.VISIBLE);
         includeNoData.setVisibility(View.GONE);
@@ -210,15 +173,6 @@ public class RecordActivity extends BaseActivity implements IRecordView {
         mRecordSwipeLayout.setRefreshing(false);
         throwable.printStackTrace();
         T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
-    }
-
-    @Override
-    public Map<String, String> getInfoParams() {
-        Map<String, String> map = new HashMap<>();
-        String informationId = infoId;
-        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
     }
 
     @Override
@@ -292,5 +246,20 @@ public class RecordActivity extends BaseActivity implements IRecordView {
             mRecordRecyclerView.setVisibility(View.GONE);
             T.ShowToast(this, resUserInformation.getRetMsg());
         }
+    }
+
+    @Override
+    public String getUserId() {
+        return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+    }
+
+    @Override
+    public String getInfoId() {
+        return infoId;
+    }
+
+    @Override
+    public int getPageNum() {
+        return pageNum;
     }
 }

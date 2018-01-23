@@ -26,9 +26,7 @@ import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IMessageView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -65,7 +63,7 @@ public class MessageActivity extends BaseActivity implements IMessageView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.onRefresh(pageNum, Constant.PAGE_SIZE);
+        ((MessagePresenter) mPresenter).getList();
     }
 
     @Override
@@ -77,7 +75,7 @@ public class MessageActivity extends BaseActivity implements IMessageView {
         mMsgSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-        mLlfBtnReTry.setOnClickListener(v -> ((MessagePresenter) mPresenter).onRefresh(pageNum, Constant.PAGE_SIZE));
+        mLlfBtnReTry.setOnClickListener(v -> ((MessagePresenter) mPresenter).getList());
 
         //设置上下拉刷新
         mMsgSwipeLayout.setOnRefreshListener(() -> onRefresh());
@@ -142,16 +140,6 @@ public class MessageActivity extends BaseActivity implements IMessageView {
     }
 
     @Override
-    public Map<String, String> getParams(int pageSize, int pageNum) {
-        Map<String, String> map = new HashMap<>();
-        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
-        String jsonParams = "{\"userId\":\"" + userId + "\",\"page\":\"" + pageSize + "\",\"size\":\"" + pageNum + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        System.out.println(map);
-        return map;
-    }
-
-    @Override
     public void loadError(Throwable throwable) {
         includeLoadFail.setVisibility(View.VISIBLE);
         includeNoData.setVisibility(View.GONE);
@@ -195,6 +183,16 @@ public class MessageActivity extends BaseActivity implements IMessageView {
         }
     }
 
+    @Override
+    public String getUserId() {
+        return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+    }
+
+    @Override
+    public int getPageNum() {
+        return pageNum;
+    }
+
     /**
      * 下拉刷新
      */
@@ -207,7 +205,7 @@ public class MessageActivity extends BaseActivity implements IMessageView {
             mMessages.clear();
         }
         mMsgSwipeLayout.setRefreshing(true);
-        ((MessagePresenter) mPresenter).onRefresh(pageNum, Constant.PAGE_SIZE);
+        ((MessagePresenter) mPresenter).getList();
     }
 
     /**
@@ -218,7 +216,7 @@ public class MessageActivity extends BaseActivity implements IMessageView {
         if (!isEnd && !isLoad) {
             mMsgSwipeLayout.setRefreshing(true);
             pageNum++;
-            ((MessagePresenter) mPresenter).onRefresh(pageNum, Constant.PAGE_SIZE);
+            ((MessagePresenter) mPresenter).getList();
         }
     }
 }

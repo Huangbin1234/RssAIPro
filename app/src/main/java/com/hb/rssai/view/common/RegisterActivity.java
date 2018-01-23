@@ -23,9 +23,6 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IRegisterView;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -118,18 +115,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public Map<String, String> getParams() {
-        String name = mRaEtUserName.getText().toString().trim();
-        String psd = mRaEtPassword.getText().toString().trim();
-        String spsd = mRaEtSpassword.getText().toString().trim();
-
-        Map<String, String> params = new HashMap<>();
-        String jsonParams = "{\"userName\":\"" + name + "\",\"password\":\"" + psd + "\",\"sPassword\":\"" + spsd + "\"}";
-        params.put("jsonParams", jsonParams);
-        return params;
-    }
-
-    @Override
     public void setRegResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
             String name = mRaEtUserName.getText().toString().trim();
@@ -137,7 +122,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             SharedPreferencesUtil.setString(this, Constant.SP_LOGIN_USER_NAME, name);
             SharedPreferencesUtil.setString(this, Constant.SP_LOGIN_PSD, psd);
 
-            toFinish();
+            finish();
         }
         T.ShowToast(this, resBase.getRetMsg());
     }
@@ -168,8 +153,4 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return mRaEtSpassword.getText().toString().trim();
     }
 
-    @Override
-    public void toFinish() {
-        finish();
-    }
 }

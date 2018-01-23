@@ -1,27 +1,9 @@
 package com.hb.rssai.presenter;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.View;
-
-import com.hb.rssai.adapter.CollectionAdapter;
-import com.hb.rssai.bean.ResBase;
-import com.hb.rssai.bean.ResCollection;
-import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.constants.Constant;
-import com.hb.rssai.util.SharedPreferencesUtil;
-import com.hb.rssai.util.T;
-import com.hb.rssai.view.common.ContentActivity;
-import com.hb.rssai.view.common.RichTextActivity;
 import com.hb.rssai.view.iView.ICollectionView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -39,29 +21,52 @@ public class CollectionPresenter extends BasePresenter<ICollectionView> {
     }
 
     public void getList() {
-        collectionApi.list(iCollectionView.getListParams())
+        collectionApi.list(getListParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resCollection -> {
-                    iCollectionView.setListResult(resCollection);
-                }, iCollectionView::loadError);
+                .subscribe(resCollection -> iCollectionView.setListResult(resCollection), iCollectionView::loadError);
     }
 
     public void del() {
-        collectionApi.del(iCollectionView.getDelParams())
+        collectionApi.del(getDelParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> {
-                    iCollectionView.setDelResult(resBase);
-                }, iCollectionView::loadError);
+                .subscribe(resBase -> iCollectionView.setDelResult(resBase), iCollectionView::loadError);
     }
 
     public void getInformation() {
-        informationApi.getInformation(iCollectionView.getInfoParams())
+        informationApi.getInformation(getInfoParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resInfo -> {
-                    iCollectionView.setInfoResult(resInfo);
-                }, iCollectionView::loadError);
+                .subscribe(resInfo -> iCollectionView.setInfoResult(resInfo), iCollectionView::loadError);
+    }
+
+
+    public Map<String, String> getListParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = iCollectionView.getUserId();
+        int pagNum = iCollectionView.getPageNum();
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"page\":\"" + pagNum + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
+
+    public Map<String, String> getDelParams() {
+        Map<String, String> map = new HashMap<>();
+        String userId = iCollectionView.getUserId();
+        String id = iCollectionView.getCollectionId();
+        String jsonParams = "{\"userId\":\"" + userId + "\",\"id\":\"" + id + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
+
+    public Map<String, String> getInfoParams() {
+        Map<String, String> map = new HashMap<>();
+        String informationId = iCollectionView.getInfoId();
+        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 }

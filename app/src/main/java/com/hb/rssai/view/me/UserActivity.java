@@ -60,9 +60,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
@@ -127,10 +125,9 @@ public class UserActivity extends BaseActivity implements IUserView {
     private OptionsPickerView mGenderPicker;
     private TimePickerView mBirthTimePickerView;
 
-    private String editType = "";//"1" sex "2" birth
-
     private MaterialDialog materialDialog;
-    private String etContent = "";
+    private String etNickName = "";
+    private String editType = "";//"1" sex "2" birth
     private EditText et;
     private ResUser resUser;
 
@@ -255,15 +252,6 @@ public class UserActivity extends BaseActivity implements IUserView {
     }
 
     @Override
-    public Map<String, String> getParams() {
-        Map<String, String> map = new HashMap<>();
-        String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
-        String jsonParams = "{\"userId\":\"" + userId + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
-
-    @Override
     public void setUserInfoResult(ResUser resUser) {
         if (resUser.getRetCode() == 0) {
             this.resUser = resUser;
@@ -300,32 +288,6 @@ public class UserActivity extends BaseActivity implements IUserView {
     }
 
     @Override
-    public Map<String, String> getUpdateParams() {
-        HashMap<String, String> map = new HashMap<>();
-        String jsonParams = "";
-        if ("1".equals(editType)) {
-            String gender = mAmaTvSex.getText().toString().trim();
-            String sex = "0";//默认
-            if ("男".equals(gender)) {
-                sex = "1";
-            } else if ("女".equals(gender)) {
-                sex = "2";
-            }
-            jsonParams = "{\"sex\":\"" + sex + "\"}";
-            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        } else if ("2".equals(editType)) {
-            String birth = mAmaTvBirth.getText().toString().trim();
-            jsonParams = "{\"birth\":\"" + birth + "\"}";
-            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        } else if ("3".equals(editType)) {
-            jsonParams = "{\"nickName\":\"" + etContent + "\"}";
-            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        }
-        map.put(Constant.TOKEN, SharedPreferencesUtil.getString(this, Constant.TOKEN, ""));
-        return map;
-    }
-
-    @Override
     public void loadError(Throwable throwable) {
         throwable.printStackTrace();
         T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
@@ -336,6 +298,31 @@ public class UserActivity extends BaseActivity implements IUserView {
             mAmaTvBirth.setText("点击设置生日");
             HttpLoadImg.loadCircleImg(this, R.mipmap.icon_default_avar, mAmaIvUserPhoto);
         }
+    }
+
+    @Override
+    public String getUserId() {
+        return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+    }
+
+    @Override
+    public String getSex() {
+        return mAmaTvSex.getText().toString().trim();
+    }
+
+    @Override
+    public String getBirth() {
+        return mAmaTvBirth.getText().toString().trim();
+    }
+
+    @Override
+    public String getNickName() {
+        return etNickName;
+    }
+
+    @Override
+    public String getEtType() {
+        return editType;
     }
 
     private void openDialog() {
@@ -356,7 +343,7 @@ public class UserActivity extends BaseActivity implements IUserView {
                         materialDialog.dismiss();
                     }).setPositiveButton("确定", v -> {
                 editType = "3";
-                etContent = et.getText().toString().trim();
+                etNickName = et.getText().toString().trim();
                 ((UserPresenter) mPresenter).updateUserInfo();
                 materialDialog.dismiss();
             }).show();

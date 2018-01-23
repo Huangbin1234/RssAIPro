@@ -36,7 +36,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -200,14 +199,6 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
         return new OfflinePresenter(this);
     }
 
-    @Override
-    public Map<String, String> getParams() {
-        //参数可以不要
-        HashMap<String, String> map = new HashMap<>();
-        String jsonParams = "{\"page\":\"" + 1 + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
 
     @Override
     public void loadError(Throwable throwable) {
