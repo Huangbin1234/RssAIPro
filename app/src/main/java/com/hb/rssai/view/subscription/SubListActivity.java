@@ -20,30 +20,33 @@ import com.hb.rssai.R;
 import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.adapter.SubListAdapter;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.SubListPresenter;
 import com.hb.rssai.util.Base64Util;
-import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISubListView;
 import com.hb.rssai.view.widget.FullListView;
 import com.hb.rssai.view.widget.MyDecoration;
-import com.hb.rssai.view.widget.PrgDialog;
 import com.rss.bean.Website;
 import com.rss.util.FeedReader;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
+import retrofit2.adapter.rxjava.HttpException;
 
 public class SubListActivity extends BaseActivity implements ISubListView {
     LinearLayoutManager mLayoutManager;
@@ -68,11 +71,14 @@ public class SubListActivity extends BaseActivity implements ISubListView {
     @BindView(R.id.llf_btn_re_try)
     Button mLlfBtnReTry;
 
-    private SubListAdapter mSubListAdapter;
     private List<RssSource> list = new ArrayList<>();
-    private PrgDialog dialog;
     private Object isTag = null;
     public static final String KEY_IS_TAG = "key_is_tag";
+
+    private List<ResFindMore.RetObjBean.RowsBean> resLists = new ArrayList<>();
+    private int pageNum = 1;
+    private boolean isEnd = false, isLoad = false;
+    private SubListAdapter mSubListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +95,7 @@ public class SubListActivity extends BaseActivity implements ISubListView {
     }
 
     private void initData() {
-        ((SubListPresenter) mPresenter).refreshList();
+        ((SubListPresenter) mPresenter).getUserSubscribeList();
 //        if (list != null && list.size() > 0) {
 //            list.clear();
 //        }
@@ -118,6 +124,51 @@ public class SubListActivity extends BaseActivity implements ISubListView {
 //        }
 //    };
 
+    /**
+     * 构造对话框数据
+     *
+     * @return
+     */
+    private List<HashMap<String, Object>> initDialogData() {
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", "置顶");
+        map.put("id", 1);
+        map.put("url", R.mipmap.ic_top);
+        list.add(map);
+        HashMap<String, Object> map2 = new HashMap<>();
+        map2.put("name", "分享");
+        map2.put("id", 2);
+        map2.put("url", R.mipmap.ic_share);
+        list.add(map2);
+
+        HashMap<String, Object> map3 = new HashMap<>();
+        map3.put("name", "删除");
+        map3.put("id", 3);
+        map3.put("url", R.mipmap.ic_delete);
+        list.add(map3);
+        return list;
+    }
+
+    @Override
+    protected void onRefresh() {
+        pageNum = 1;
+        isLoad = true;
+        isEnd = false;
+
+        mSubSwipeLayout.setRefreshing(true);
+        ((SubListPresenter) mPresenter).getUserSubscribeList();
+    }
+
+    @Override
+    protected void loadMore() {
+        if (!isEnd && !isLoad) {
+            mSubSwipeLayout.setRefreshing(true);
+            pageNum++;
+            ((SubListPresenter) mPresenter).getUserSubscribeList();
+        }
+    }
+
     @Override
     protected void initView() {
         mLayoutManager = new LinearLayoutManager(this);
@@ -130,7 +181,35 @@ public class SubListActivity extends BaseActivity implements ISubListView {
         mSubSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-        mLlfBtnReTry.setOnClickListener(v -> ((SubListPresenter) mPresenter).refreshList());
+        mLlfBtnReTry.setOnClickListener(v -> onRefresh());
+
+        //TODO 设置下拉刷新
+        mSubSwipeLayout.setOnRefreshListener(() -> onRefresh());
+        //TODO 设置上拉加载更多
+        mSubRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (mSubListAdapter == null) {
+                    isLoad = false;
+                    mSubSwipeLayout.setRefreshing(false);
+                    return;
+                }
+                // 在最后两条的时候就自动加载
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= mSubListAdapter.getItemCount()) {
+                    // 加载更多
+                    loadMore();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+            }
+        });
     }
 
     @Override
@@ -153,7 +232,7 @@ public class SubListActivity extends BaseActivity implements ISubListView {
 
     @Override
     protected BasePresenter createPresenter() {
-        return new SubListPresenter(this, this);
+        return new SubListPresenter(this);
     }
 
 //    @Override
@@ -174,7 +253,7 @@ public class SubListActivity extends BaseActivity implements ISubListView {
         return super.onOptionsItemSelected(item);
     }
 
-    ResFindMore.RetObjBean.RowsBean rssSourceNew;
+//    ResFindMore.RetObjBean.RowsBean rssSourceNew;
 
 //    @Override
 //    public void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rssSource) {
@@ -188,26 +267,26 @@ public class SubListActivity extends BaseActivity implements ISubListView {
      *
      * @return
      */
-    private List<HashMap<String, Object>> initDialogData() {
-        List<HashMap<String, Object>> list = new ArrayList<>();
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("rssTitle", "置顶");
-        map.put("id", 1);
-        map.put("url", R.mipmap.ic_top);
-        list.add(map);
-        HashMap<String, Object> map2 = new HashMap<>();
-        map2.put("rssTitle", "分享");
-        map2.put("id", 2);
-        map2.put("url", R.mipmap.ic_share);
-        list.add(map2);
-
-        HashMap<String, Object> map3 = new HashMap<>();
-        map3.put("rssTitle", "删除");
-        map3.put("id", 3);
-        map3.put("url", R.mipmap.ic_delete);
-        list.add(map3);
-        return list;
-    }
+//    private List<HashMap<String, Object>> initDialogData() {
+//        List<HashMap<String, Object>> list = new ArrayList<>();
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("rssTitle", "置顶");
+//        map.put("id", 1);
+//        map.put("url", R.mipmap.ic_top);
+//        list.add(map);
+//        HashMap<String, Object> map2 = new HashMap<>();
+//        map2.put("rssTitle", "分享");
+//        map2.put("id", 2);
+//        map2.put("url", R.mipmap.ic_share);
+//        list.add(map2);
+//
+//        HashMap<String, Object> map3 = new HashMap<>();
+//        map3.put("rssTitle", "删除");
+//        map3.put("id", 3);
+//        map3.put("url", R.mipmap.ic_delete);
+//        list.add(map3);
+//        return list;
+//    }
 
     /**
      * 菜单对话框
@@ -216,8 +295,10 @@ public class SubListActivity extends BaseActivity implements ISubListView {
      */
     DialogAdapter dialogAdapter;
     MaterialDialog materialDialog;
+    ResFindMore.RetObjBean.RowsBean mClickBean;
 
-    private void openMenu() {
+    private void openMenu(ResFindMore.RetObjBean.RowsBean bean) {
+        mClickBean = bean;
         if (materialDialog == null) {
             materialDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -229,21 +310,23 @@ public class SubListActivity extends BaseActivity implements ISubListView {
                 if (list.get(position).get("id").equals(1)) {
                     //TODO 置顶
                     materialDialog.dismiss();
-                    rssSourceNew.setSort(new Date().getTime());
-                    LiteOrmDBUtil.update(rssSourceNew);
-                    initData();
+//                    mClickBean.setSort(new Date().getTime());
+//                    LiteOrmDBUtil.update(mClickBean);
+//                    refreshList();
+                    ((SubListPresenter) mPresenter).updateUsSort();
                 } else if (list.get(position).get("id").equals(2)) {
                     materialDialog.dismiss();
                     Intent intent = new Intent(this, QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
-                    intent.putExtra(QrCodeActivity.KEY_TITLE, rssSourceNew.getName());
-                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSourceNew.getLink()));
+                    intent.putExtra(QrCodeActivity.KEY_TITLE, mClickBean.getName());
+                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + mClickBean.getLink()));
                     startActivity(intent);
                 } else if (list.get(position).get("id").equals(3)) {
                     materialDialog.dismiss();
-                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSourceNew.getId()});
-                    initData();
-                    T.ShowToast(this, "删除成功！");
+//                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + mClickBean.getId()});
+//                    refreshList();
+//                    T.ShowToast(mContext, "删除成功！");
+                    ((SubListPresenter) mPresenter).delSubscription();
                 }
             });
             if (dialogAdapter == null) {
@@ -259,31 +342,150 @@ public class SubListActivity extends BaseActivity implements ISubListView {
         }
     }
 
-    @Override
-    public RecyclerView getRecyclerView() {
-        return mSubRecyclerView;
-    }
-
-    @Override
-    public LinearLayoutManager getManager() {
-        return mLayoutManager;
-    }
-
-    @Override
-    public SwipeRefreshLayout getSwipeLayout() {
-        return mSubSwipeLayout;
-    }
-
+    //
     @Override
     public Object getIsTag() {
         return isTag;
     }
 
     @Override
-    public LinearLayout getLlEmptyView() {
-        return mSubLl;
+    public void loadError(Throwable throwable) {
+        includeLoadFail.setVisibility(View.VISIBLE);
+        includeNoData.setVisibility(View.GONE);
+        mSubRecyclerView.setVisibility(View.GONE);
+
+        mSubSwipeLayout.setRefreshing(false);
+        throwable.printStackTrace();
+        if (throwable instanceof HttpException) {
+            if (((HttpException) throwable).response().code() == 401) {
+                T.ShowToast(this, Constant.MSG_NO_LOGIN);
+            } else {
+                T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+            }
+        } else {
+            T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+        }
+        mSubLl.setVisibility(View.GONE);
     }
 
+    @Override
+    public String getUserId() {
+        return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+    }
+
+    @Override
+    public void setDelResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            EventBus.getDefault().post(new RssSourceEvent(0));
+            onRefresh();
+        }
+        T.ShowToast(this, resBase.getRetMsg());
+    }
+
+    @Override
+    public void setUpdateUsSortResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            EventBus.getDefault().post(new RssSourceEvent(0));
+            onRefresh();
+        }
+        T.ShowToast(this, resBase.getRetMsg());
+    }
+
+    @Override
+    public ResFindMore.RetObjBean.RowsBean getClickBean() {
+        return mClickBean;
+    }
+
+    @Override
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    @Override
+    public void setUserSubscribeResult(ResFindMore resFindMore) {
+        if (resLists != null && pageNum == 1) {
+            resLists.clear();
+        }
+        isLoad = false;
+        mSubSwipeLayout.setRefreshing(false);
+        mSubLl.setVisibility(View.GONE);
+        //TODO 填充数据
+        if (resFindMore.getRetCode() == 0) {
+            includeNoData.setVisibility(View.GONE);
+            includeLoadFail.setVisibility(View.GONE);
+            mSubRecyclerView.setVisibility(View.VISIBLE);
+
+            if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
+                resLists.addAll(resFindMore.getRetObj().getRows());
+                if (mSubListAdapter == null) {
+                    mSubListAdapter = new SubListAdapter(this, resLists, this);
+                    mSubRecyclerView.setAdapter(mSubListAdapter);
+                    mSubListAdapter.setOnItemLongClickedListener(rssSource -> {
+                        openMenu(rssSource);
+                    });
+                } else {
+                    mSubListAdapter.notifyDataSetChanged();
+                }
+            }
+            if (resLists.size() == resFindMore.getRetObj().getTotal()) {
+                isEnd = true;
+            }
+        } else if (resFindMore.getRetCode() == 10013) {//暂无数据
+            includeNoData.setVisibility(View.VISIBLE);
+            includeLoadFail.setVisibility(View.GONE);
+            mSubRecyclerView.setVisibility(View.GONE);
+        } else {
+            includeNoData.setVisibility(View.GONE);
+            includeLoadFail.setVisibility(View.VISIBLE);
+            mSubRecyclerView.setVisibility(View.GONE);
+            T.ShowToast(this, resFindMore.getRetMsg());
+        }
+    }
+
+//    DialogAdapter dialogAdapter;
+//    MaterialDialog materialDialog;
+//
+//    private void openMenu() {
+//        if (materialDialog == null) {
+//            materialDialog = new MaterialDialog(this);
+//            LayoutInflater inflater = LayoutInflater.from(this);
+//            View view = inflater.inflate(R.layout.view_dialog, null);
+//            FullListView listView = (FullListView) view.findViewById(R.id.dialog_listView);
+//
+//            List<HashMap<String, Object>> list = initDialogData();
+//            listView.setOnItemClickListener((parent, view1, position, id) -> {
+//                if (list.get(position).get("id").equals(1)) {
+//                    //TODO 置顶
+//                    materialDialog.dismiss();
+//                    rssSourceNew.setSort(new Date().getTime());
+//                    LiteOrmDBUtil.update(rssSourceNew);
+//                    initData();
+//                } else if (list.get(position).get("id").equals(2)) {
+//                    materialDialog.dismiss();
+//                    Intent intent = new Intent(this, QrCodeActivity.class);
+//                    intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
+//                    intent.putExtra(QrCodeActivity.KEY_TITLE, rssSourceNew.getName());
+//                    intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rssSourceNew.getLink()));
+//                    startActivity(intent);
+//                } else if (list.get(position).get("id").equals(3)) {
+//                    materialDialog.dismiss();
+//                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rssSourceNew.getId()});
+//                    initData();
+//                    T.ShowToast(this, "删除成功！");
+//                }
+//            });
+//            if (dialogAdapter == null) {
+//                dialogAdapter = new DialogAdapter(this, list);
+//                listView.setAdapter(dialogAdapter);
+//            }
+//            dialogAdapter.notifyDataSetChanged();
+//            materialDialog.setContentView(view).setTitle(Constant.TIPS_SYSTEM).setNegativeButton("关闭", v -> {
+//                materialDialog.dismiss();
+//            }).show();
+//        } else {
+//            materialDialog.show();
+//        }
+//    }
 
 //    class ReadRssTask extends AsyncTask<Void, Void, Void> {
 //
@@ -331,7 +533,6 @@ public class SubListActivity extends BaseActivity implements ISubListView {
         }
     }
 
-
     /**
      * 可以选择插入到数据库
      *
@@ -364,20 +565,10 @@ public class SubListActivity extends BaseActivity implements ISubListView {
     }
 
     @Override
-    public View getIncludeNoData() {
-        return includeNoData;
-    }
-
-    @Override
-    public View getIncludeLoadFail() {
-        return includeLoadFail;
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialog != null) {
-            dialog.closeDialog();
-        }
+//        if (dialog != null) {
+//            dialog.closeDialog();
+//        }
     }
 }

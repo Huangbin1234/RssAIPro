@@ -6,22 +6,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResFindMore;
+
 /**
  * Created by Administrator on 2017/9/17 0017.
  */
 
 public interface ISubListView {
-    RecyclerView getRecyclerView();
-
-    LinearLayoutManager getManager();
-
-    SwipeRefreshLayout getSwipeLayout();
 
     Object getIsTag();
 
-    LinearLayout getLlEmptyView();
+    void loadError(Throwable throwable);
 
-    View getIncludeNoData();
+    String getUserId();
 
-    View getIncludeLoadFail();
+    void setDelResult(ResBase resBase);
+
+    void setUserSubscribeResult(ResFindMore resFindMore);
+
+    void setUpdateUsSortResult(ResBase resBase);
+
+    ResFindMore.RetObjBean.RowsBean getClickBean();
+
+    int getPageNum();
+
 }

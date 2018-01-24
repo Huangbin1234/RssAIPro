@@ -116,8 +116,7 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:25.3.1'
     testImplementation 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-
     compile 'com.jaeger.statusbarutil:library:1.4.0'
-
     dependencies { compile 'com.android.support:multidex:1.0.1' }
+    implementation files('libs/libammsdk.jar')
 }

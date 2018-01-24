@@ -21,7 +21,7 @@ public class ProjectApplication extends MultiDexApplication{
     public static long sys_night_mode_time = 0;
     {
 
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        PlatformConfig.setWeixin("wx722beb7df39ae6c2", "0aa0a79641ca712815308a820cf63d9d");
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }

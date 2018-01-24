@@ -190,7 +190,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     private Map<String, String> getDelParams() {
         Map<String, String> map = new HashMap<>();
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
-//        String usId = mISubscriptionView.getUsId();
+//        String usId = mISubscriptionView.getUserId();
         String subscribeId = mISubscriptionView.getSubscribeId();
         String jsonParams = "{\"subscribeId\":\"" + subscribeId + "\",\"usId\":\"" + userId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
