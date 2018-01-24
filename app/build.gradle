@@ -118,5 +118,4 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jaeger.statusbarutil:library:1.4.0'
     dependencies { compile 'com.android.support:multidex:1.0.1' }
-    implementation files('libs/libammsdk.jar')
 }
