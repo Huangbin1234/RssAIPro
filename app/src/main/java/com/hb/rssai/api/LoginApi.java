@@ -40,4 +40,12 @@ public interface LoginApi {
     @Multipart
     @POST("user/upload")
     Observable<ResBase> upload(@Part List<MultipartBody.Part> partList);
+
+    @FormUrlEncoded
+    @POST("user/modify_password")
+    Observable<ResBase> modifyPassword(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("user/forget_password")
+    Observable<ResBase> forgetPassword(@FieldMap Map<String, String> params);
 }

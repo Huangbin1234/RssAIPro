@@ -289,7 +289,17 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/color_general_line"/>
-
+        <Button
+            android:id="@+id/ama_btn_modify_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/opr_bg_selector"
+            android:text="@string/str_la_btn_modify_password"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/s16p"/>
         <Button
             android:id="@+id/ama_btn_login"
             android:layout_width="match_parent"

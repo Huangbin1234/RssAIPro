@@ -44,16 +44,18 @@ public class Constant {
 
     public static final String LAST_UPDATE_TIME = "last_update_time";
     public static final String TIPS_IMAGE_SELECTOR = "选择封面图片";
-    public static final String KEY_MESSAGE_COUNT ="message_count" ;
+    public static final String KEY_MESSAGE_COUNT = "message_count";
     public static final String KEY_GUIDE = "key_guide";
+    public static final String TYPE_EMAIL = "email";
+    public static final String TYPE_REPRESENTATION = "representation";
 
 
     public static String START_TIME = "1990-01-01 00:00:00";
-    public static String MSG_NO_LOGIN="尚未登录，请登录后操作！";
+    public static String MSG_NO_LOGIN = "尚未登录，请登录后操作！";
 
-    public static String ACTION_BD_KEY="bd_key";
-    public static String ACTION_INPUT_LINK="input_link";
-    public static String ACTION_OPEN_OPML="open_opml";
+    public static String ACTION_BD_KEY = "bd_key";
+    public static String ACTION_INPUT_LINK = "input_link";
+    public static String ACTION_OPEN_OPML = "open_opml";
 
     public static SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
 }

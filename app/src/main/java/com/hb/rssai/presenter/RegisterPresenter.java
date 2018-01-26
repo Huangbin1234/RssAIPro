@@ -32,12 +32,18 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
         if (TextUtils.isEmpty(password)) {
             return "请输入密码";
         }
+        if (password.length() < 6 || password.length() > 16) {
+            return "密码长度应为6~16位，请修改";
+        }
         return null;
     }
 
     private String checkSurePassword(String sPassword) {
         if (TextUtils.isEmpty(sPassword)) {
             return "请再次输入密码";
+        }
+        if (sPassword.length() < 6 || sPassword.length() > 16) {
+            return "密码长度应为6~16位，请修改";
         }
         return null;
     }

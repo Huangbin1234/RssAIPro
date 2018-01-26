@@ -131,5 +131,18 @@
     <string name="str_zh_app_name">孜然阅读器</string>
     <string name="str_email">qianchengluntan@163.com</string>
     <string name="app_abstract">重新定义RSS阅读器</string>
+    <string name="str_la_forget">忘记密码</string>
+    <string name="str_fa_rb_mode">找回方式</string>
+    <string name="str_fa_btn_sure">确定</string>
+    <string name="str_fa_rb_representation">申述</string>
+    <string name="str_fa_rb_email">邮箱</string>
+    <string name="str_fa_et_email_hint">输入绑定的邮箱</string>
+    <string name="str_fa_et_user_name_hint">输入登录账户名</string>
+    <string name="str_fa_et_user_mobile_hint">输入联系手机号</string>
+    <string name="str_la_btn_modify_password">修改密码</string>
+    <string name="str_mpa_hint_psd">输入旧密码</string>
+    <string name="str_mpa_title">修改密码</string>
+    <string name="str_fa_title">忘记密码</string>
+    <string name="str_mpa_hint_new_psd">输入新密码</string>
 
 </resources>

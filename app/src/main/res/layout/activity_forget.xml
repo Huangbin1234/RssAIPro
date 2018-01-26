@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/title_all"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/include_sub_toolbar"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/str_fa_rb_mode"
+            android:textSize="@dimen/s16p"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/fa_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/fa_rb_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/str_fa_rb_email"
+                    android:textSize="@dimen/s16p"/>
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/fa_rb_representation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/str_fa_rb_representation"
+                    android:textSize="@dimen/s16p"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/fa_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/str_fa_et_email_hint"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/s16p"/>
+
+        <EditText
+            android:id="@+id/fa_et_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/str_fa_et_user_name_hint"
+            android:textSize="@dimen/s16p"
+            android:visibility="visible"/>
+
+        <EditText
+            android:id="@+id/fa_et_user_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/str_fa_et_user_mobile_hint"
+            android:textSize="@dimen/s16p"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/fa_btn_sure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/opr_bg_selector"
+            android:text="@string/str_fa_btn_sure"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/s16p"/>
+    </LinearLayout>
+</LinearLayout>

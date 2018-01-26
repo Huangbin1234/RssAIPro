@@ -52,6 +52,8 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     CheckedTextView laChkTvPsdControl;
     @BindView(R.id.la_tv_register)
     TextView mLaTvRegister;
+    @BindView(R.id.la_tv_forget)
+    TextView mLaTvForget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +107,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         return new LoginPresenter(this);
     }
 
-    @OnClick({R.id.la_btn_login, R.id.la_tv_register, R.id.la_chktv_psd_control})
+    @OnClick({R.id.la_btn_login, R.id.la_tv_register, R.id.la_chktv_psd_control,R.id.la_tv_forget})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -114,6 +116,9 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                 break;
             case R.id.la_tv_register:
                 startActivity(new Intent(this, RegisterActivity.class));
+                break;
+            case R.id.la_tv_forget:
+                startActivity(new Intent(this, ForgetActivity.class));
                 break;
             case R.id.la_chktv_psd_control:
                 if (laChkTvPsdControl.isChecked()) {
@@ -130,7 +135,6 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                 break;
         }
     }
-
 
 
     @Override

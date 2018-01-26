@@ -50,6 +50,7 @@ import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.ImageUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.ModifyPasswordActivity;
 import com.hb.rssai.view.iView.IUserView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -121,6 +122,8 @@ public class UserActivity extends BaseActivity implements IUserView {
     LinearLayout mAmaLlSignature;
     @BindView(R.id.llRootView)
     LinearLayout mLlRootView;
+    @BindView(R.id.ama_btn_modify_password)
+    Button mAmaBtnModifyPassword;
 
     private OptionsPickerView mGenderPicker;
     private TimePickerView mBirthTimePickerView;
@@ -187,6 +190,9 @@ public class UserActivity extends BaseActivity implements IUserView {
 
             ((UserPresenter) mPresenter).getUserInfo();
             EventBus.getDefault().post(new MineEvent(0));
+        });
+        mAmaBtnModifyPassword.setOnClickListener(v -> {
+            startActivity(new Intent(this, ModifyPasswordActivity.class));
         });
         mAmaLlSignature.setOnClickListener(v -> {
             Intent intent = new Intent(UserActivity.this, EditSignatureActivity.class);
