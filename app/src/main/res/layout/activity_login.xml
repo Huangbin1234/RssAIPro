@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/title_all"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              style="@style/title_all"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar" />
+    <include layout="@layout/include_sub_toolbar"/>
 
 
     <LinearLayout
@@ -25,7 +25,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line" />
+                android:background="@color/color_general_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
@@ -38,34 +38,34 @@
 
                     android:text="账号"
                     android:textColor="@color/text_color_new"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"/>
 
                 <EditText
-                    android:maxLength="16"
-                    android:theme="@style/EditUnderLineStyle"
                     android:id="@+id/la_et_userName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
                     android:background="@color/trans"
                     android:hint="@string/str_la_hint_uname"
+                    android:maxLength="16"
                     android:padding="16dp"
                     android:singleLine="true"
                     android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"
+                    android:theme="@style/EditUnderLineStyle"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line" />
+                android:background="@color/color_general_line"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="10dp"
-                android:background="@color/color_general_line" />
+                android:background="@color/color_general_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
@@ -79,11 +79,9 @@
 
                     android:text="密码"
                     android:textColor="@color/text_color_new"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"/>
 
                 <EditText
-                    android:maxLength="16"
-                    android:theme="@style/EditUnderLineStyle"
                     android:id="@+id/la_et_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -91,11 +89,13 @@
                     android:background="@color/trans"
                     android:hint="@string/str_la_hint_upsd"
                     android:inputType="textPassword"
+                    android:maxLength="16"
                     android:padding="16dp"
                     android:singleLine="true"
                     android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"
+                    android:theme="@style/EditUnderLineStyle"/>
 
                 <CheckedTextView
                     android:id="@+id/la_chktv_psd_control"
@@ -105,13 +105,13 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/chktv_selector"
                     android:button="@null"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line" />
+                android:background="@color/color_general_line"/>
         </LinearLayout>
 
         <Button
@@ -124,12 +124,13 @@
             android:background="@drawable/opr_bg_selector"
             android:text="@string/str_la_btn_login"
             android:textColor="@color/orange"
-            android:textSize="@dimen/s16p" />
+            android:textSize="@dimen/s16p"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp">
+
             <TextView
                 android:id="@+id/la_tv_forget"
                 android:layout_width="wrap_content"
@@ -139,7 +140,8 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/str_la_forget"
                 android:textColor="@color/color_reg_label"
-                android:textSize="@dimen/s14p" />
+                android:textSize="@dimen/s14p"/>
+
             <TextView
                 android:id="@+id/la_tv_register"
                 android:layout_width="wrap_content"
@@ -149,7 +151,7 @@
                 android:layout_marginTop="16dp"
                 android:text="注册账户"
                 android:textColor="@color/color_reg_label"
-                android:textSize="@dimen/s14p" />
+                android:textSize="@dimen/s14p"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

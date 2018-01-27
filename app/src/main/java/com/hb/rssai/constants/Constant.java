@@ -48,6 +48,7 @@ public class Constant {
     public static final String KEY_GUIDE = "key_guide";
     public static final String TYPE_EMAIL = "email";
     public static final String TYPE_REPRESENTATION = "representation";
+    public static final String TIPS_EMAIL = "修改邮箱";
 
 
     public static String START_TIME = "1990-01-01 00:00:00";

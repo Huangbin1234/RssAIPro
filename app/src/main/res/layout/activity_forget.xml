@@ -13,25 +13,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg"
-        android:orientation="vertical"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/str_fa_rb_mode"
-            android:textSize="@dimen/s16p"/>
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
+            android:background="@color/color_general_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:text="@string/str_fa_rb_mode"
+                android:textColor="@color/text_color_new"
+                android:textSize="@dimen/s16p"/>
 
             <RadioGroup
                 android:id="@+id/fa_rg"
@@ -46,7 +44,9 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:text="@string/str_fa_rb_email"
-                    android:textSize="@dimen/s16p"/>
+                    android:textColor="@color/text_color_new"
+                    android:textSize="@dimen/s16p"
+                    android:theme="@style/EditUnderLineStyle"/>
 
                 <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/fa_rb_representation"
@@ -54,41 +54,128 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/str_fa_rb_representation"
-                    android:textSize="@dimen/s16p"/>
+                    android:textColor="@color/text_color_new"
+                    android:textSize="@dimen/s16p"
+                    android:theme="@style/EditUnderLineStyle"/>
             </RadioGroup>
+
+
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/fa_et_email"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:hint="@string/str_fa_et_email_hint"
-            android:inputType="textEmailAddress"
-            android:textSize="@dimen/s16p"/>
+            android:layout_height="1px"
+            android:background="@color/color_general_line"/>
 
-        <EditText
-            android:id="@+id/fa_et_user_name"
+        <View
+            android:id="@+id/fa_v_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:hint="@string/str_fa_et_user_name_hint"
-            android:textSize="@dimen/s16p"
-            android:visibility="visible"/>
+            android:layout_height="1px"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_general_line"/>
 
-        <EditText
-            android:id="@+id/fa_et_user_mobile"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:hint="@string/str_fa_et_user_mobile_hint"
-            android:textSize="@dimen/s16p"
+            android:background="@color/color_general_white"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/fa_et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/trans"
+                android:hint="@string/str_fa_et_email_hint"
+                android:inputType="textEmailAddress"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_new"
+                android:textColorHint="#BBBBBB"
+                android:textSize="@dimen/s16p"
+                android:theme="@style/EditUnderLineStyle"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/fa_v_email_end"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_general_line"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_general_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_general_white"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/fa_et_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/trans"
+                android:hint="@string/str_fa_et_user_name_hint"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_new"
+                android:textColorHint="#BBBBBB"
+                android:textSize="@dimen/s16p"
+                android:theme="@style/EditUnderLineStyle"
+                android:visibility="visible"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_general_line"/>
+
+        <View
+            android:id="@+id/fa_v_mobile_end"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_general_line"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_general_white"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/fa_et_user_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/trans"
+                android:hint="@string/str_fa_et_user_mobile_hint"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_new"
+                android:textColorHint="#BBBBBB"
+                android:textSize="@dimen/s16p"
+                android:theme="@style/EditUnderLineStyle"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/fa_v_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_general_line"
             android:visibility="gone"/>
 
         <Button

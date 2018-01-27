@@ -74,6 +74,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
         String gender = iUserView.getSex();
         String birth = iUserView.getBirth();
         String nickName = iUserView.getNickName();
+        String email = iUserView.getEmail();
 
         if ("1".equals(editType)) {
             String sex = "0";//默认
@@ -89,6 +90,9 @@ public class UserPresenter extends BasePresenter<IUserView> {
             map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         } else if ("3".equals(editType)) {
             jsonParams = "{\"nickName\":\"" + nickName + "\"}";
+            map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        }else if("4".equals(editType)){
+            jsonParams = "{\"email\":\"" + email + "\"}";
             map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         }
         return map;

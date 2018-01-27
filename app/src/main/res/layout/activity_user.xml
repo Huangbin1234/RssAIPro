@@ -9,307 +9,376 @@
 
     <include layout="@layout/include_sub_toolbar"/>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/ama_rl_head_portrait"
-            style="@style/InfoDetail"
-            android:gravity="center_vertical"
-            android:padding="16dp">
-
-
-            <ImageView
-                android:id="@+id/ama_iv_user_photo"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                android:src="@mipmap/icon_default_avar"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="头像"
-                android:textColor="@color/color_txt"
-                android:textSize="@dimen/s16p"/>
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/white"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"/>
+        android:background="@color/bg">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_general_white"
+            android:layout_height="match_parent"
+            android:background="@color/bg"
             android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/ama_rl_nick_name"
+                android:id="@+id/ama_rl_head_portrait"
                 style="@style/InfoDetail"
                 android:gravity="center_vertical"
                 android:padding="16dp">
 
+
                 <ImageView
-                    android:id="@+id/iv_nick_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/ama_iv_user_photo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:scaleType="centerInside"/>
-
-                <TextView
-                    style="@style/TextLabel"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/iv_nick_name"
-                    android:text="@string/str_nick_name"/>
-
-                <LinearLayout
-                    android:id="@+id/ama_ll_nick_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="32dp">
-
-                    <TextView
-                        android:id="@+id/ama_tv_nick_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/str_ama_nick_name"
-                        android:textColor="@color/color_txt"
-                        android:textSize="@dimen/s16p"/>
-
-                    <ImageView
-                        android:id="@+id/ama_iv_nick_name"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_right"
-                        android:visibility="gone"/>
-
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="16dp"
-                android:background="@color/color_general_line"/>
-
-            <RelativeLayout
-                android:id="@+id/ama_rl_sex"
-                style="@style/InfoDetail"
-                android:background="@drawable/ll_selector"
-                android:gravity="center_vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/iv_sex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerInside"/>
-
-                <TextView
-                    style="@style/TextLabel"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/iv_sex"
-                    android:text="@string/str_sex"/>
-
-                <LinearLayout
-                    android:id="@+id/ama_ll_sex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="32dp">
-
-                    <TextView
-                        android:id="@+id/ama_tv_sex"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/str_ama_sex"
-                        android:textColor="@color/color_txt"
-                        android:textSize="@dimen/s16p"/>
-
-                    <ImageView
-                        android:id="@+id/ama_iv_sex"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_right"
-                        android:visibility="gone"/>
-                </LinearLayout>
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="16dp"
-                android:background="@color/color_general_line"/>
-
-            <RelativeLayout
-                android:id="@+id/ama_rl_birth"
-                style="@style/InfoDetail"
-                android:background="@drawable/ll_selector"
-                android:gravity="center_vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/iv_birth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerInside"/>
-
-                <TextView
-                    style="@style/TextLabel"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/iv_birth"
-                    android:text="@string/str_birth"/>
-
-                <LinearLayout
-                    android:id="@+id/ama_ll_birth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="32dp">
-
-                    <TextView
-                        android:id="@+id/ama_tv_birth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/str_ama_tv_birth"
-                        android:textColor="@color/color_txt"
-                        android:textSize="@dimen/s16p"/>
-
-                    <ImageView
-                        android:id="@+id/ama_iv_birth"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_right"
-                        android:visibility="gone"/>
-
-
-                </LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/color_general_line"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="10dp"
-            android:background="@color/color_general_line"/>
-
-        <RelativeLayout
-            android:id="@+id/ama_rl_phone"
-            style="@style/InfoDetail"
-            android:background="@drawable/ll_selector"
-            android:gravity="center_vertical"
-            android:padding="16dp">
-
-            <ImageView
-                android:id="@+id/iv_signature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerInside"/>
-
-            <TextView
-                style="@style/TextLabel"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/iv_signature"
-                android:text="@string/str_signature"/>
-
-
-            <LinearLayout
-                android:id="@+id/ama_ll_signature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="32dp">
-
-                <ImageView
-                    android:id="@+id/ama_iv_signature"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_right"
-                    android:visibility="gone"/>
+                    android:src="@mipmap/icon_default_avar"/>
 
                 <TextView
-                    android:id="@+id/ama_tv_signature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/str_ama_tv_signature"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="头像"
                     android:textColor="@color/color_txt"
                     android:textSize="@dimen/s16p"/>
-            </LinearLayout>
-        </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/color_general_line"/>
-        <Button
-            android:id="@+id/ama_btn_modify_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/opr_bg_selector"
-            android:text="@string/str_la_btn_modify_password"
-            android:textColor="@color/orange"
-            android:textSize="@dimen/s16p"/>
-        <Button
-            android:id="@+id/ama_btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/opr_bg_selector"
-            android:text="@string/str_la_btn_login_out"
-            android:textColor="@color/orange"
-            android:textSize="@dimen/s16p"/>
-    </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/white"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_general_white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/ama_rl_nick_name"
+                    style="@style/InfoDetail"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv_nick_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"/>
+
+                    <TextView
+                        style="@style/TextLabel"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/iv_nick_name"
+                        android:text="@string/str_nick_name"/>
+
+                    <LinearLayout
+                        android:id="@+id/ama_ll_nick_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="32dp">
+
+                        <TextView
+                            android:id="@+id/ama_tv_nick_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_ama_nick_name"
+                            android:textColor="@color/color_txt"
+                            android:textSize="@dimen/s16p"/>
+
+                        <ImageView
+                            android:id="@+id/ama_iv_nick_name"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_right"
+                            android:visibility="gone"/>
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="16dp"
+                    android:background="@color/color_general_line"/>
+
+                <RelativeLayout
+                    android:id="@+id/ama_rl_sex"
+                    style="@style/InfoDetail"
+                    android:background="@drawable/ll_selector"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"/>
+
+                    <TextView
+                        style="@style/TextLabel"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/iv_sex"
+                        android:text="@string/str_sex"/>
+
+                    <LinearLayout
+                        android:id="@+id/ama_ll_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="32dp">
+
+                        <TextView
+                            android:id="@+id/ama_tv_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_ama_sex"
+                            android:textColor="@color/color_txt"
+                            android:textSize="@dimen/s16p"/>
+
+                        <ImageView
+                            android:id="@+id/ama_iv_sex"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_right"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="16dp"
+                    android:background="@color/color_general_line"/>
+
+                <RelativeLayout
+                    android:id="@+id/ama_rl_birth"
+                    style="@style/InfoDetail"
+                    android:background="@drawable/ll_selector"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv_birth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"/>
+
+                    <TextView
+                        style="@style/TextLabel"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/iv_birth"
+                        android:text="@string/str_birth"/>
+
+                    <LinearLayout
+                        android:id="@+id/ama_ll_birth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="32dp">
+
+                        <TextView
+                            android:id="@+id/ama_tv_birth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_ama_tv_birth"
+                            android:textColor="@color/color_txt"
+                            android:textSize="@dimen/s16p"/>
+
+                        <ImageView
+                            android:id="@+id/ama_iv_birth"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_right"
+                            android:visibility="gone"/>
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="16dp"
+                    android:background="@color/color_general_line"/>
+
+                <RelativeLayout
+                    android:id="@+id/ama_rl_email"
+                    style="@style/InfoDetail"
+                    android:background="@drawable/ll_selector"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"/>
+
+                    <TextView
+                        style="@style/TextLabel"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/iv_email"
+                        android:text="@string/str_ama_email"/>
+
+                    <LinearLayout
+                        android:id="@+id/ama_ll_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="32dp">
+
+                        <TextView
+                            android:id="@+id/ama_tv_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_ama_tv_email"
+                            android:textColor="@color/color_txt"
+                            android:textSize="@dimen/s16p"/>
+
+                        <ImageView
+                            android:id="@+id/ama_iv_email"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_right"
+                            android:visibility="gone"/>
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_general_line"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="10dp"
+                android:background="@color/color_general_line"/>
+
+            <RelativeLayout
+                android:id="@+id/ama_rl_phone"
+                style="@style/InfoDetail"
+                android:background="@drawable/ll_selector"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/iv_signature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    style="@style/TextLabel"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/iv_signature"
+                    android:text="@string/str_signature"/>
+
+
+                <LinearLayout
+                    android:id="@+id/ama_ll_signature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="32dp">
+
+                    <ImageView
+                        android:id="@+id/ama_iv_signature"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/ic_right"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:id="@+id/ama_tv_signature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/str_ama_tv_signature"
+                        android:textColor="@color/color_txt"
+                        android:textSize="@dimen/s16p"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_general_line"/>
+
+            <Button
+                android:id="@+id/ama_btn_modify_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/opr_modify_password_selector"
+                android:text="@string/str_la_btn_modify_password"
+                android:textColor="@color/white"
+                android:textSize="@dimen/s16p"
+                android:visibility="visible"/>
+
+            <Button
+                android:id="@+id/ama_btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/opr_bg_selector"
+                android:text="@string/str_la_btn_login_out"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/s16p"/>
+
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

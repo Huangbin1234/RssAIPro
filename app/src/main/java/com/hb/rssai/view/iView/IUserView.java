@@ -29,4 +29,6 @@ public interface IUserView {
     String getNickName();
 
     String getEtType();
+
+    String getEmail();
 }

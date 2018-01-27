@@ -124,15 +124,28 @@ public class UserActivity extends BaseActivity implements IUserView {
     LinearLayout mLlRootView;
     @BindView(R.id.ama_btn_modify_password)
     Button mAmaBtnModifyPassword;
+    @BindView(R.id.iv_email)
+    ImageView mIvEmail;
+    @BindView(R.id.ama_tv_email)
+    TextView mAmaTvEmail;
+    @BindView(R.id.ama_iv_email)
+    ImageView mAmaIvEmail;
+    @BindView(R.id.ama_ll_email)
+    LinearLayout mAmaLlEmail;
+    @BindView(R.id.ama_rl_email)
+    RelativeLayout mAmaRlEmail;
 
     private OptionsPickerView mGenderPicker;
     private TimePickerView mBirthTimePickerView;
 
     private MaterialDialog materialDialog;
-    private String etNickName = "";
+    private MaterialDialog materialEmailDialog;
+    private String inNickName = "";
     private String editType = "";//"1" sex "2" birth
-    private EditText et;
+    private EditText etNickName;
+    private EditText etMail;
     private ResUser resUser;
+    private String inEmail = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,6 +195,7 @@ public class UserActivity extends BaseActivity implements IUserView {
         mAmaLlBirth.setOnClickListener(v -> mBirthTimePickerView.show());
         mAmaLlSex.setOnClickListener(v -> mGenderPicker.show());
         mAmaLlNickName.setOnClickListener(v -> openDialog());
+        mAmaLlEmail.setOnClickListener(v -> openEmailDialog());
         mAmaBtnLogin.setOnClickListener(v -> {
             SharedPreferencesUtil.setString(UserActivity.this, Constant.SP_LOGIN_USER_NAME, "");
             SharedPreferencesUtil.setString(UserActivity.this, Constant.SP_LOGIN_PSD, "");
@@ -269,6 +283,7 @@ public class UserActivity extends BaseActivity implements IUserView {
                 mAmaTvSex.setText(resUser.getRetObj().getSex() == 1 ? "男" : "女");
             }
             mAmaTvBirth.setText(resUser.getRetObj().getBirth());
+            mAmaTvEmail.setText(resUser.getRetObj().getEmail());
             HttpLoadImg.loadCircleImg(this, ApiRetrofit.BASE_IMG_URL + resUser.getRetObj().getAvatar(), mAmaIvUserPhoto);
         } else {
             T.ShowToast(this, resUser.getRetMsg());
@@ -323,12 +338,17 @@ public class UserActivity extends BaseActivity implements IUserView {
 
     @Override
     public String getNickName() {
-        return etNickName;
+        return inNickName;
     }
 
     @Override
     public String getEtType() {
         return editType;
+    }
+
+    @Override
+    public String getEmail() {
+        return inEmail;
     }
 
     private void openDialog() {
@@ -339,22 +359,49 @@ public class UserActivity extends BaseActivity implements IUserView {
             materialDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.dialog_et_view, null);
-            et = (EditText) view.findViewById(R.id.dev_et);
+            etNickName = (EditText) view.findViewById(R.id.dev_et);
             ResUser.RetObjBean retObjBean = resUser.getRetObj();
             if (retObjBean != null && retObjBean.getNickName() != null) {
-                et.setText(retObjBean.getNickName());
+                etNickName.setText(retObjBean.getNickName());
             }
             materialDialog.setContentView(view).setTitle(Constant.TIPS_NICK_NAME)
                     .setNegativeButton("关闭", v -> {
                         materialDialog.dismiss();
                     }).setPositiveButton("确定", v -> {
                 editType = "3";
-                etNickName = et.getText().toString().trim();
+                inNickName = etNickName.getText().toString().trim();
                 ((UserPresenter) mPresenter).updateUserInfo();
                 materialDialog.dismiss();
             }).show();
         } else {
             materialDialog.show();
+        }
+    }
+
+    private void openEmailDialog() {
+        if (materialEmailDialog == null) {
+            if (resUser == null) {
+                return;
+            }
+            materialEmailDialog = new MaterialDialog(this);
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View view = inflater.inflate(R.layout.dialog_et_email_view, null);
+            etMail = (EditText) view.findViewById(R.id.dev_et);
+            ResUser.RetObjBean retObjBean = resUser.getRetObj();
+            if (retObjBean != null && retObjBean.getEmail() != null) {
+                etMail.setText(retObjBean.getEmail());
+            }
+            materialEmailDialog.setContentView(view).setTitle(Constant.TIPS_EMAIL)
+                    .setNegativeButton("关闭", v -> {
+                        materialEmailDialog.dismiss();
+                    }).setPositiveButton("确定", v -> {
+                editType = "4";
+                inEmail = etMail.getText().toString().trim();
+                ((UserPresenter) mPresenter).updateUserInfo();
+                materialEmailDialog.dismiss();
+            }).show();
+        } else {
+            materialEmailDialog.show();
         }
     }
 

@@ -46,6 +46,15 @@ public class ForgetActivity extends BaseActivity implements IForgetView {
     AppCompatRadioButton mFaRbRepresentation;
     @BindView(R.id.fa_rg)
     RadioGroup mFaRg;
+    @BindView(R.id.fa_v_mobile)
+    View vMobile;
+    @BindView(R.id.fa_v_email)
+    View vEmail;
+    @BindView(R.id.fa_v_email_end)
+    View vMailEnd;
+    @BindView(R.id.fa_v_mobile_end)
+    View vMobileEnd;
+
     private String type = "email";
 
     @Override
@@ -59,15 +68,43 @@ public class ForgetActivity extends BaseActivity implements IForgetView {
             switch (checkedId) {
                 case R.id.fa_rb_email:
                     type = Constant.TYPE_EMAIL;
+                    mFaEtUserName.clearFocus();
+                    mFaEtUserName.setFocusable(false);
+
+                    mFaEtEmail.setFocusable(true);
+                    mFaEtEmail.setFocusableInTouchMode(true);
+                    mFaEtEmail.requestFocus();
+
+                    mFaEtUserName.setFocusable(true);
+                    mFaEtUserName.setFocusableInTouchMode(true);
+
                     mFaEtEmail.setVisibility(View.VISIBLE);
                     mFaEtUserName.setVisibility(View.VISIBLE);
                     mFaEtUserMobile.setVisibility(View.GONE);
+                    vMobile.setVisibility(View.GONE);
+                    vEmail.setVisibility(View.VISIBLE);
+                    vMobileEnd.setVisibility(View.GONE);
+                    vMailEnd.setVisibility(View.VISIBLE);
                     break;
                 case R.id.fa_rb_representation:
                     type = Constant.TYPE_REPRESENTATION;
+                    mFaEtEmail.clearFocus();
+                    mFaEtEmail.setFocusable(false);
+
+                    mFaEtUserName.setFocusable(true);
+                    mFaEtUserName.setFocusableInTouchMode(true);
+                    mFaEtUserName.requestFocus();
+
+                    mFaEtEmail.setFocusable(true);
+                    mFaEtEmail.setFocusableInTouchMode(true);
+
                     mFaEtEmail.setVisibility(View.GONE);
                     mFaEtUserName.setVisibility(View.VISIBLE);
                     mFaEtUserMobile.setVisibility(View.VISIBLE);
+                    vMobile.setVisibility(View.VISIBLE);
+                    vEmail.setVisibility(View.GONE);
+                    vMobileEnd.setVisibility(View.VISIBLE);
+                    vMailEnd.setVisibility(View.GONE);
                     break;
                 default:
                     break;
@@ -135,6 +172,9 @@ public class ForgetActivity extends BaseActivity implements IForgetView {
     @Override
     public void showFindResult(ResBase resBase) {
         T.ShowToast(this, resBase.getRetMsg());
+        if (resBase.getRetCode() == 0) {
+            finish();
+        }
     }
 
     @Override
