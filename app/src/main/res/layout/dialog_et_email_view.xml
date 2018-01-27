@@ -11,7 +11,6 @@
         android:inputType="textEmailAddress"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
-        android:singleLine="true"
         android:textColor="@color/color_txt"
         android:textSize="@dimen/s16p"
         android:theme="@style/EditUnderLineStyle"/>

@@ -86,4 +86,9 @@
     <color name="text_color_time">#B2B2B2</color>
     <color name="color_tab_no_focus">#edbab7</color>
 
+    <color name="modify_psd_color">#B2B2B2</color>
+    <color name="color_pop_media_label">#D9DCE0</color>
+    <color name="color_pop_media_bg">#FFFFFF</color>
+    <color name="pop_media_color_general_line">#DDDDDD</color>
+
 </resources>

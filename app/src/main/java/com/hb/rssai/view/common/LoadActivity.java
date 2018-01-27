@@ -171,6 +171,15 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
     private void reqResult(ResAdvertisement resAdvertisement) {
         if (resAdvertisement.getRetCode() == 0) {
             HttpLoadImg.loadImg(this, resAdvertisement.getRetObj().getImg(), mLoadAdIv);
+            mLoadAdIv.setOnClickListener(v -> {
+                if (null != resAdvertisement.getRetObj() && null != resAdvertisement.getRetObj().getLink()) {
+                    Intent intent = new Intent(this, ContentActivity.class);
+                    intent.putExtra(ContentActivity.KEY_URL, resAdvertisement.getRetObj().getLink());
+                    intent.putExtra(ContentActivity.KEY_TITLE, resAdvertisement.getRetObj().getTitle());
+                    intent.putExtra(ContentActivity.KEY_INFORMATION_ID, resAdvertisement.getRetObj().getId());
+                    startActivity(intent);
+                }
+            });
         } else {
             System.out.println("暂无广告");
         }

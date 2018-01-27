@@ -52,7 +52,7 @@ public class ContentPresenter extends BasePresenter<IContentView> {
 
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
-        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+//        T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
     }
 
     private void setAddResult(ResShareCollection resShareCollection) {

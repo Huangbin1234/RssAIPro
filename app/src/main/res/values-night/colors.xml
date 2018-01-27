@@ -62,4 +62,9 @@
 
     <color name="text_color_title">#EEEEEE</color>
 
+    <color name="modify_psd_color">#212a2f</color>
+    <!--更换头像-->
+    <color name="color_pop_media_label">#212a2f</color>
+    <color name="color_pop_media_bg">#35464e</color>
+    <color name="pop_media_color_general_line">#9C9C9C</color>
 </resources>
