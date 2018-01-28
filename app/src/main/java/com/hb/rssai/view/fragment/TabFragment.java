@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.MyPagerAdapter;
 import com.hb.rssai.base.BaseFragment;
-import com.hb.rssai.base.LazyFragment;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
@@ -172,6 +171,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
             fragments.add(TabDataFragment.newInstance(i));
         }
         mSysTabLayout.addOnTabSelectedListener(this);
+        mFtViewPager.setOffscreenPageLimit(0);
         myPagerAdapter = new MyPagerAdapter(getFragmentManager(), datas, fragments);
         mFtViewPager.setAdapter(myPagerAdapter);
         mSysTabLayout.setupWithViewPager(mFtViewPager);

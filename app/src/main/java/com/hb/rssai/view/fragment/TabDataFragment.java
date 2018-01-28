@@ -150,11 +150,11 @@ public class TabDataFragment extends BaseFragment implements ITabDataView {
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
         if (DF == 0) {
             isUser = false;
-            ((TabDataPresenter) mPresenter).getList();
+//            ((TabDataPresenter) mPresenter).getList();
         } else if (DF == 1) {
             isUser = true;
             dataType = 10;
-            ((TabDataPresenter) mPresenter).getUserList();
+//            ((TabDataPresenter) mPresenter).getUserList();
         }
         return isUser;
     }
