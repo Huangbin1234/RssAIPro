@@ -88,6 +88,20 @@ public class TabDataFragment extends BaseFragment implements ITabDataView {
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
     }
 
+    public OnBackTopListener getOnBackTopListener() {
+        return mOnBackTopListener;
+    }
+
+    public void setOnBackTopListener(OnBackTopListener onBackTopListener) {
+        mOnBackTopListener = onBackTopListener;
+    }
+
+    interface OnBackTopListener {
+        void backTop(RecyclerView mFtdRecyclerView);
+    }
+
+    private OnBackTopListener mOnBackTopListener;
+
     @Override
     protected void lazyLoad() {
 

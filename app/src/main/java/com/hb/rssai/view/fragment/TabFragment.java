@@ -52,7 +52,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     private boolean isPrepared;
 
     private OnFragmentInteractionListener mListener;
-
+    private TabDataFragment mTabDataFragment;
     public TabFragment() {
     }
 
@@ -168,7 +168,10 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         }
         //设置TabLayout点击事件
         for (int i = 0; i < datas.size(); i++) {
-            fragments.add(TabDataFragment.newInstance(i));
+            mTabDataFragment = TabDataFragment.newInstance(i);
+            fragments.add(mTabDataFragment);
+            //设置监听回到顶部事件
+//            mTabDataFragment.setOnBackTopListener(mFtdRecyclerView -> mFtdRecyclerView.scrollToPosition(0));
         }
         mSysTabLayout.addOnTabSelectedListener(this);
         mFtViewPager.setOffscreenPageLimit(0);
@@ -176,6 +179,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         mFtViewPager.setAdapter(myPagerAdapter);
         mSysTabLayout.setupWithViewPager(mFtViewPager);
     }
+
 
 
     public interface OnFragmentInteractionListener {
@@ -197,6 +201,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
