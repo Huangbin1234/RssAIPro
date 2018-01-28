@@ -24,7 +24,6 @@ import butterknife.BindView;
 
 public class TabDataFragment extends BaseFragment implements ITabDataView {
     public static final String ARGS_PAGE = "args_page";
-    private int mPage;
     @BindView(R.id.ftd_recycler_view)
     RecyclerView mFtdRecyclerView;
     @BindView(R.id.ftd_swipe_layout)
@@ -150,11 +149,9 @@ public class TabDataFragment extends BaseFragment implements ITabDataView {
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
         if (DF == 0) {
             isUser = false;
-//            ((TabDataPresenter) mPresenter).getList();
         } else if (DF == 1) {
             isUser = true;
             dataType = 10;
-//            ((TabDataPresenter) mPresenter).getUserList();
         }
         return isUser;
     }
