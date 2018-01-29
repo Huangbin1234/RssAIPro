@@ -5,11 +5,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.MyPagerAdapter;
@@ -20,11 +27,14 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.TabPresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.iView.ITabView;
+import com.hb.rssai.view.widget.TipTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class TabFragment extends BaseFragment implements TabLayout.OnTabSelectedListener, ITabView {
@@ -37,7 +47,17 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     @BindView(R.id.ft_viewPager)
     ViewPager mFtViewPager;
     @BindView(R.id.hf_ll_root)
-    LinearLayout mHfLlRoot;
+    RelativeLayout mHfLlRoot;
+    @BindView(R.id.sys_toolbar)
+    Toolbar mSysToolbar;
+    @BindView(R.id.ft_tv_tips)
+    TipTextView mFtTvTips;
+    @BindView(R.id.sys_tv_title)
+    TextView mSysTvTitle;
+    @BindView(R.id.sys_iv_filter)
+    ImageView mSysIvFilter;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout mAppBarLayout;
 
     private List<String> datas = new ArrayList<>();
     private List<Fragment> fragments = new ArrayList<>();
@@ -53,6 +73,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
 
     private OnFragmentInteractionListener mListener;
     private TabDataFragment mTabDataFragment;
+
     public TabFragment() {
     }
 
@@ -122,7 +143,15 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     @Override
     protected void initView(View rootView) {
         rView = rootView;
-
+        //tvTitle在一个视图树中的焦点状态发生改变时，注册回调接口来获取标题栏的高度
+        ViewTreeObserver vto = mAppBarLayout.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mAppBarLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);//删除监听
+                mFtTvTips.setTitleHeight(mAppBarLayout.getHeight());//把标题栏的高度赋值给自定义的TextView
+            }
+        });
     }
 
     public void onButtonPressed(Uri uri) {
@@ -152,6 +181,9 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         if (datas != null && datas.size() > 0) {
             datas.clear();
         }
+        mFtTvTips.setText("发现" + datas.size() + "条新消息");
+        mFtTvTips.showTips();
+
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
         List<ResDataGroup.RetObjBean.RowsBean> groupList;
         if (DF == 0) {
@@ -179,8 +211,6 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         mFtViewPager.setAdapter(myPagerAdapter);
         mSysTabLayout.setupWithViewPager(mFtViewPager);
     }
-
-
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
