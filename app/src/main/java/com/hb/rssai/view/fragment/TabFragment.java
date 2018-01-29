@@ -56,8 +56,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     TextView mSysTvTitle;
     @BindView(R.id.sys_iv_filter)
     ImageView mSysIvFilter;
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout mAppBarLayout;
+
 
     private List<String> datas = new ArrayList<>();
     private List<Fragment> fragments = new ArrayList<>();
@@ -144,12 +143,12 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     protected void initView(View rootView) {
         rView = rootView;
         //tvTitle在一个视图树中的焦点状态发生改变时，注册回调接口来获取标题栏的高度
-        ViewTreeObserver vto = mAppBarLayout.getViewTreeObserver();
+        ViewTreeObserver vto = mSysTabLayout.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                mAppBarLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);//删除监听
-                mFtTvTips.setTitleHeight(mAppBarLayout.getHeight());//把标题栏的高度赋值给自定义的TextView
+                mSysTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);//删除监听
+                mFtTvTips.setTitleHeight(mSysTabLayout.getHeight());//把标题栏的高度赋值给自定义的TextView
             }
         });
     }
