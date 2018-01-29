@@ -11,9 +11,12 @@ import com.hb.rssai.adapter.InfoAdapter;
 import com.hb.rssai.bean.Information;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.ITabDataView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,6 +115,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
             getList();
         }
     }
+
     public void getList() {
         informationApi.getList(getListParams())
                 .subscribeOn(Schedulers.io())
@@ -214,6 +218,8 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
                     adapter.init();//更新一下是否显示图片首选项
                     adapter.notifyDataSetChanged();
                 }
+                //通知更新
+                EventBus.getDefault().post(new TipsEvent(1, resInformation.getRetObj().getRows().size()));
             }
             if (infoList.size() == resInformation.getRetObj().getTotal()) {
                 isEnd = true;

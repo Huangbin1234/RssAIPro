@@ -67,4 +67,6 @@
     <color name="color_pop_media_label">#212a2f</color>
     <color name="color_pop_media_bg">#35464e</color>
     <color name="pop_media_color_general_line">#9C9C9C</color>
+
+    <color name="color_tips">#dbcfd8dc</color>
 </resources>

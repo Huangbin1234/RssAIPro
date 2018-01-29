@@ -31,6 +31,7 @@
             android:src="@mipmap/ic_filter" />
 
     </android.support.v7.widget.Toolbar>
+
     <android.support.design.widget.TabLayout
         android:id="@+id/sys_tabLayout"
         android:layout_width="match_parent"

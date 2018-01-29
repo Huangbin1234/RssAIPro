@@ -5,17 +5,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -23,18 +20,20 @@ import com.hb.rssai.adapter.MyPagerAdapter;
 import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.TabPresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.iView.ITabView;
 import com.hb.rssai.view.widget.TipTextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
 public class TabFragment extends BaseFragment implements TabLayout.OnTabSelectedListener, ITabView {
@@ -47,7 +46,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     @BindView(R.id.ft_viewPager)
     ViewPager mFtViewPager;
     @BindView(R.id.hf_ll_root)
-    RelativeLayout mHfLlRoot;
+    LinearLayout mHfLlRoot;
     @BindView(R.id.sys_toolbar)
     Toolbar mSysToolbar;
     @BindView(R.id.ft_tv_tips)
@@ -91,6 +90,18 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+        // 注册
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(TipsEvent event) {
+        if (event.getMessage() == 1 && event.getNewsCount() > 0) {
+            getActivity().runOnUiThread(() -> {
+                mFtTvTips.setText("发现" + event.getNewsCount() + "条新消息");
+                mFtTvTips.showTips();
+            });
         }
     }
 
@@ -142,15 +153,12 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     @Override
     protected void initView(View rootView) {
         rView = rootView;
-        //tvTitle在一个视图树中的焦点状态发生改变时，注册回调接口来获取标题栏的高度
-        ViewTreeObserver vto = mSysTabLayout.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mSysTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);//删除监听
-                mFtTvTips.setTitleHeight(mSysTabLayout.getHeight());//把标题栏的高度赋值给自定义的TextView
-            }
-        });
+        // Calculate ActionBar height
+        TypedValue tv = new TypedValue();
+        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getContext().getResources().getDisplayMetrics());
+            mFtTvTips.setTitleHeight(actionBarHeight);//把标题栏的高度赋值给自定义的TextView
+        }
     }
 
     public void onButtonPressed(Uri uri) {
@@ -180,8 +188,6 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         if (datas != null && datas.size() > 0) {
             datas.clear();
         }
-        mFtTvTips.setText("发现" + datas.size() + "条新消息");
-        mFtTvTips.showTips();
 
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
         List<ResDataGroup.RetObjBean.RowsBean> groupList;
@@ -238,5 +244,12 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         //初始化UI完成
         isPrepared = true;
         lazyLoad();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // 取消注册
+        EventBus.getDefault().unregister(this);
     }
 }

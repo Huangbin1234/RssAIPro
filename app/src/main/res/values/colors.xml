@@ -90,5 +90,6 @@
     <color name="color_pop_media_label">#D9DCE0</color>
     <color name="color_pop_media_bg">#FFFFFF</color>
     <color name="pop_media_color_general_line">#DDDDDD</color>
+    <color name="color_tips">#dbffeb3b</color>
 
 </resources>
