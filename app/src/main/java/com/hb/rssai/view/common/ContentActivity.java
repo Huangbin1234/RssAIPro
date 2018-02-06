@@ -86,6 +86,8 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
             actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_back_del);
         }
         mSysToolbar.setOnMenuItemClickListener(this);
     }
