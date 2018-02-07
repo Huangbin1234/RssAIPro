@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -48,14 +47,14 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayoutManager mLinearLayoutManager;
-    private LinearLayout mLlLoad;
+//    private LinearLayout mLlLoad;
 
     private int page = 1;
     private boolean isEnd = false, isLoad = false;
     private SourceListAdapter adapter;
     List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
     List<List<ResCardSubscribe.RetObjBean.RowsBean>> infoListCard = new ArrayList<>();
-    private SourceListCardAdapter cardAdapter;
+//    private SourceListCardAdapter cardAdapter;
     private NestedScrollView mNestView;
     private boolean isCheck;
 
@@ -70,7 +69,7 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
         mSwipeRefreshLayout = iSourceListView.getSwipeLayout();
         mNestView = iSourceListView.getNestLayout();
         mLinearLayoutManager = iSourceListView.getManager();
-        mLlLoad = iSourceListView.getLlLoad();
+//        mLlLoad = iSourceListView.getLlLoad();
 
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> refreshList());
@@ -109,7 +108,6 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
             infoListCard.clear();
         }
         mSwipeRefreshLayout.setRefreshing(true);
-//        getListById();
         getListCardById();
     }
 
@@ -133,17 +131,35 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(resSubscription -> {
                         setFindMoreByIdResult(resSubscription, v);
-                    }, this::loadError);
+                    }, iSourceListView::loadError);
         }
     }
 
-    private Map<String, String> getFindMoreByIdParams() {
-        Map<String, String> map = new HashMap<>();
-        String subscribeId = iSourceListView.getSubscribeId();
-        String jsonParams = "{\"subscribeId\":\"" + subscribeId + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        System.out.println(map);
-        return map;
+    public void addSubscription(View v) {
+        findApi.subscribe(getSubscribeParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setAddResult(resBase, v);
+                }, iSourceListView::loadError);
+    }
+
+    public void getListCardById() {
+        informationApi.listCardById(getListParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resCardSubscribe -> {
+                    iSourceListView.setListCardResult(resCardSubscribe);
+                }, iSourceListView::loadError);
+    }
+
+    public void delSubscription(View v) {
+        findApi.delSubscription(getDelParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setDelResult(resBase, v);
+                }, iSourceListView::loadError);
     }
 
     private void setFindMoreByIdResult(ResSubscription resSubscription, View v) {
@@ -170,24 +186,6 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
         }
     }
 
-    public void addSubscription(View v) {
-        findApi.subscribe(getSubscribeParams())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> {
-                    setAddResult(resBase, v);
-                }, this::loadError);
-    }
-
-    public void delSubscription(View v) {
-        findApi.delSubscription(getDelParams())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> {
-                    setDelResult(resBase, v);
-                }, this::loadError);
-    }
-
     private void setDelResult(ResBase resBase, View v) {
         T.ShowToast(mContext, resBase.getRetMsg());
         if (resBase.getRetCode() == 0) {
@@ -212,6 +210,44 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
         }
     }
 
+//    private void setListCardResult(ResCardSubscribe resCardSubscribe) {
+//        //TODO 填充数据
+//        mLlLoad.setVisibility(View.GONE);
+//        isLoad = false;
+//        mSwipeRefreshLayout.setRefreshing(false);
+//        //TODO 填充数据
+//        if (resCardSubscribe.getRetCode() == 0) {
+//            if (resCardSubscribe.getRetObj().getRows() != null && resCardSubscribe.getRetObj().getRows().size() > 0) {
+//                infoListCard.addAll(resCardSubscribe.getRetObj().getRows());
+//                if (cardAdapter == null) {
+//                    cardAdapter = new SourceListCardAdapter(mContext, infoListCard);
+//                    mRecyclerView.setAdapter(cardAdapter);
+//                } else {
+//                    cardAdapter.notifyDataSetChanged();
+//                }
+//            }
+//            int sum = 0;
+//            for (List<ResCardSubscribe.RetObjBean.RowsBean> rBean : infoListCard) {
+//                sum += rBean.size();
+//            }
+//
+//            if (sum >= resCardSubscribe.getRetObj().getTotal()) {
+//                isEnd = true;
+//            }
+//        } else {
+//            T.ShowToast(mContext, resCardSubscribe.getRetMsg());
+//        }
+//    }
+
+    private Map<String, String> getFindMoreByIdParams() {
+        Map<String, String> map = new HashMap<>();
+        String subscribeId = iSourceListView.getSubscribeId();
+        String jsonParams = "{\"subscribeId\":\"" + subscribeId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
+
     private Map<String, String> getDelParams() {
         Map<String, String> map = new HashMap<>();
         String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
@@ -231,52 +267,6 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
         return map;
     }
 
-    public void getListById() {
-        informationApi.getListById(getListParams())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resInformation -> {
-                    setListResult(resInformation);
-                }, this::loadError);
-    }
-
-    public void getListCardById() {
-        informationApi.listCardById(getListParams())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resCardSubscribe -> {
-                    setListCardResult(resCardSubscribe);
-                }, this::loadError);
-    }
-
-    private void setListCardResult(ResCardSubscribe resCardSubscribe) {
-        //TODO 填充数据
-        mLlLoad.setVisibility(View.GONE);
-        isLoad = false;
-        mSwipeRefreshLayout.setRefreshing(false);
-        //TODO 填充数据
-        if (resCardSubscribe.getRetCode() == 0) {
-            if (resCardSubscribe.getRetObj().getRows() != null && resCardSubscribe.getRetObj().getRows().size() > 0) {
-                infoListCard.addAll(resCardSubscribe.getRetObj().getRows());
-                if (cardAdapter == null) {
-                    cardAdapter = new SourceListCardAdapter(mContext, infoListCard);
-                    mRecyclerView.setAdapter(cardAdapter);
-                } else {
-                    cardAdapter.notifyDataSetChanged();
-                }
-            }
-            int sum = 0;
-            for (List<ResCardSubscribe.RetObjBean.RowsBean> rBean : infoListCard) {
-                sum += rBean.size();
-            }
-
-            if (sum >= resCardSubscribe.getRetObj().getTotal()) {
-                isEnd = true;
-            }
-        } else {
-            T.ShowToast(mContext, resCardSubscribe.getRetMsg());
-        }
-    }
 
     private Map<String, String> getListParams() {
         Map<String, String> map = new HashMap<>();
@@ -285,44 +275,5 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         System.out.println(map);
         return map;
-    }
-
-    private void loadError(Throwable throwable) {
-        mLlLoad.setVisibility(View.GONE);
-        mSwipeRefreshLayout.setRefreshing(false);
-        throwable.printStackTrace();
-        if (throwable instanceof HttpException) {
-            if (((HttpException) throwable).response().code() == 401) {
-                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
-            } else {
-                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
-            }
-        } else {
-            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
-        }
-    }
-
-    private void setListResult(ResInformation resInformation) {
-        //TODO 填充数据
-        mLlLoad.setVisibility(View.GONE);
-        isLoad = false;
-        mSwipeRefreshLayout.setRefreshing(false);
-        //TODO 填充数据
-        if (resInformation.getRetCode() == 0) {
-            if (resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
-                infoList.addAll(resInformation.getRetObj().getRows());
-                if (adapter == null) {
-                    adapter = new SourceListAdapter(mContext, infoList);
-                    mRecyclerView.setAdapter(adapter);
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
-            }
-            if (infoList.size() == resInformation.getRetObj().getTotal()) {
-                isEnd = true;
-            }
-        } else {
-            T.ShowToast(mContext, resInformation.getRetMsg());
-        }
     }
 }

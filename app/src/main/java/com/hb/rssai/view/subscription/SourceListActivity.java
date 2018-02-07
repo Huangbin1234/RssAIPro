@@ -27,13 +27,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.RssListAdapter;
+import com.hb.rssai.adapter.SourceListCardAdapter;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResCardSubscribe;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.SourceListPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.RssDataSourceUtil;
+import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISourceListView;
 import com.hb.rssai.view.widget.PrgDialog;
@@ -45,6 +48,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import retrofit2.adapter.rxjava.HttpException;
 
 public class SourceListActivity extends BaseActivity implements ISourceListView {
 
@@ -244,9 +248,56 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
         return mLayoutManager;
     }
 
+//    @Override
+//    public LinearLayout getLlLoad() {
+//        return mSlaLl;
+//    }
+
     @Override
-    public LinearLayout getLlLoad() {
-        return mSlaLl;
+    public void loadError(Throwable throwable) {
+        mSlaLl.setVisibility(View.GONE);
+        mSlaSwipeLayout.setRefreshing(false);
+        throwable.printStackTrace();
+        if (throwable instanceof HttpException) {
+            if (((HttpException) throwable).response().code() == 401) {
+                T.ShowToast(this, Constant.MSG_NO_LOGIN);
+            } else {
+                T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+            }
+        } else {
+            T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+        }
+    }
+    private SourceListCardAdapter cardAdapter;
+    private List<List<ResCardSubscribe.RetObjBean.RowsBean>> infoListCard = new ArrayList<>();
+    @Override
+    public void setListCardResult(ResCardSubscribe resCardSubscribe) {
+        //TODO 填充数据
+        mSlaLl.setVisibility(View.GONE);
+        isLoad = false;
+        mSlaSwipeLayout.setRefreshing(false);
+        //TODO 填充数据
+        if (resCardSubscribe.getRetCode() == 0) {
+            if (resCardSubscribe.getRetObj().getRows() != null && resCardSubscribe.getRetObj().getRows().size() > 0) {
+                infoListCard.addAll(resCardSubscribe.getRetObj().getRows());
+                if (cardAdapter == null) {
+                    cardAdapter = new SourceListCardAdapter(this, infoListCard);
+                    mSlaRecyclerView.setAdapter(cardAdapter);
+                } else {
+                    cardAdapter.notifyDataSetChanged();
+                }
+            }
+            int sum = 0;
+            for (List<ResCardSubscribe.RetObjBean.RowsBean> rBean : infoListCard) {
+                sum += rBean.size();
+            }
+
+            if (sum >= resCardSubscribe.getRetObj().getTotal()) {
+                isEnd = true;
+            }
+        } else {
+            T.ShowToast(this, resCardSubscribe.getRetMsg());
+        }
     }
 
 
