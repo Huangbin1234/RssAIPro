@@ -100,6 +100,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     private String imageLogo = "";
     private String desc = "";
     private boolean isCheck = false;
+    private boolean isEnd = false, isLoad = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
