@@ -108,7 +108,11 @@ public class WdRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
                     loadImageForListItem(mContext, images[0], rv);
                     System.out.println(position + " _" + images[0]);
                 }
+            }else{
+                loadImageForListItem(mContext, null, rv);
             }
+        } else {
+            loadImageForListItem(mContext, null, rv);
         }
         rv.setTextViewText(R.id.itemText, listData.get(position).getTitle());
         try {
@@ -132,6 +136,11 @@ public class WdRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
     }
 
     private void loadImageForListItem(Context context, String pathName, RemoteViews remoteViews) {
+        if(TextUtils.isEmpty(pathName)){
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_no_image);
+            remoteViews.setImageViewBitmap(R.id.itemImage, bitmap);
+            return;
+        }
         int width = 200;
         int height = 200;
         BitmapRequestBuilder builder =
@@ -145,7 +154,7 @@ public class WdRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_no_image);
-            remoteViews.setImageViewBitmap(R.id.itemImage,bitmap);
+            remoteViews.setImageViewBitmap(R.id.itemImage, bitmap);
         }
     }
 
@@ -199,7 +208,7 @@ public class WdRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
             listData.clear();
         }
         listData = resInformation.getRetObj().getRows();
-        
+
     }
 
     private void loadError(Throwable throwable) {
