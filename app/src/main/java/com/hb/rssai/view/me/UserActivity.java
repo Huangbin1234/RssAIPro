@@ -209,8 +209,12 @@ public class UserActivity extends BaseActivity implements IUserView {
             startActivity(new Intent(this, ModifyPasswordActivity.class));
         });
         mAmaLlSignature.setOnClickListener(v -> {
+            if (resUser == null || resUser.getRetObj() == null) {
+                T.ShowToast(this, "抱歉，没有签名信息");
+                return;
+            }
             Intent intent = new Intent(UserActivity.this, EditSignatureActivity.class);
-            intent.putExtra(EditSignatureActivity.KEY_SIGNATURE, mAmaTvSignature.getText().toString());
+            intent.putExtra(EditSignatureActivity.KEY_SIGNATURE, resUser.getRetObj().getDescription());
             startActivity(intent);
         });
         mAmaIvUserPhoto.setOnClickListener(v -> {
@@ -270,6 +274,7 @@ public class UserActivity extends BaseActivity implements IUserView {
     public String getFilePath() {
         return filePath;
     }
+
 
     @Override
     public void setUserInfoResult(ResUser resUser) {
