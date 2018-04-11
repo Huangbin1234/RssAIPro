@@ -137,7 +137,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     protected void initIntent() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            abstractContent = bundle.getString("abstractContent");
+            abstractContent = null == bundle.getString("abstractContent") ? "" : bundle.getString("abstractContent");
             title = bundle.getString(ContentActivity.KEY_TITLE);
             whereFrom = bundle.getString("whereFrom");
             pubDate = bundle.getString("pubDate");
