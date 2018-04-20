@@ -289,7 +289,7 @@ public class UserActivity extends BaseActivity implements IUserView {
             }
             mAmaTvBirth.setText(resUser.getRetObj().getBirth());
             mAmaTvEmail.setText(resUser.getRetObj().getEmail());
-            HttpLoadImg.loadCircleImg(this, ApiRetrofit.BASE_IMG_URL + resUser.getRetObj().getAvatar(), mAmaIvUserPhoto);
+            HttpLoadImg.loadCircleImg(this, ApiRetrofit.BASE_URL + resUser.getRetObj().getAvatar(), mAmaIvUserPhoto);
         } else {
             T.ShowToast(this, resUser.getRetMsg());
         }
