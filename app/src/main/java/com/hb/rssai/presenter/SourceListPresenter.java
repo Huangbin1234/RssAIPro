@@ -2,22 +2,13 @@ package com.hb.rssai.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.hb.rssai.R;
-import com.hb.rssai.adapter.SourceListAdapter;
-import com.hb.rssai.adapter.SourceListCardAdapter;
 import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.bean.ResBase;
-import com.hb.rssai.bean.ResCardSubscribe;
-import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.bean.ResSubscription;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
@@ -28,9 +19,7 @@ import com.hb.rssai.view.iView.ISourceListView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,72 +33,11 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
     private Context mContext;
     private ISourceListView iSourceListView;
 
-    private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private LinearLayoutManager mLinearLayoutManager;
-//    private LinearLayout mLlLoad;
-
-    private int page = 1;
-    private boolean isEnd = false, isLoad = false;
-    private SourceListAdapter adapter;
-    List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
-    List<List<ResCardSubscribe.RetObjBean.RowsBean>> infoListCard = new ArrayList<>();
-//    private SourceListCardAdapter cardAdapter;
-    private NestedScrollView mNestView;
-    private boolean isCheck;
-
     public SourceListPresenter(Context context, ISourceListView iSourceListView) {
         mContext = context;
         this.iSourceListView = iSourceListView;
-        initView();
     }
 
-    private void initView() {
-        mRecyclerView = iSourceListView.getRecyclerView();
-        mSwipeRefreshLayout = iSourceListView.getSwipeLayout();
-        mNestView = iSourceListView.getNestLayout();
-        mLinearLayoutManager = iSourceListView.getManager();
-//        mLlLoad = iSourceListView.getLlLoad();
-
-
-        mSwipeRefreshLayout.setOnRefreshListener(() -> refreshList());
-        //TODO 设置上拉加载更多
-
-        mNestView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-
-            if (v.getChildAt(0) != null && isBottomForNestedScrollView(v, scrollY)) {
-                // 加载更多
-                if (!isEnd && !isLoad) {
-                    mSwipeRefreshLayout.setRefreshing(true);
-                    page++;
-                    getListCardById();
-                }
-            }
-        });
-    }
-
-
-    // TODO: 判断是不是在底部
-    private boolean isBottomForNestedScrollView(NestedScrollView v, int scrollY) {
-        return (scrollY + v.getHeight()) == (v.getChildAt(0).getHeight() + v.getPaddingTop() + v.getPaddingBottom());
-    }
-
-    /**
-     * 刷新数据
-     */
-    public void refreshList() {
-        page = 1;
-        isLoad = true;
-        isEnd = false;
-        if (infoList != null) {
-            infoList.clear();
-        }
-        if (infoListCard != null) {
-            infoListCard.clear();
-        }
-        mSwipeRefreshLayout.setRefreshing(true);
-        getListCardById();
-    }
 
     public void subscribe(View v) {
         if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
@@ -210,35 +138,6 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
         }
     }
 
-//    private void setListCardResult(ResCardSubscribe resCardSubscribe) {
-//        //TODO 填充数据
-//        mLlLoad.setVisibility(View.GONE);
-//        isLoad = false;
-//        mSwipeRefreshLayout.setRefreshing(false);
-//        //TODO 填充数据
-//        if (resCardSubscribe.getRetCode() == 0) {
-//            if (resCardSubscribe.getRetObj().getRows() != null && resCardSubscribe.getRetObj().getRows().size() > 0) {
-//                infoListCard.addAll(resCardSubscribe.getRetObj().getRows());
-//                if (cardAdapter == null) {
-//                    cardAdapter = new SourceListCardAdapter(mContext, infoListCard);
-//                    mRecyclerView.setAdapter(cardAdapter);
-//                } else {
-//                    cardAdapter.notifyDataSetChanged();
-//                }
-//            }
-//            int sum = 0;
-//            for (List<ResCardSubscribe.RetObjBean.RowsBean> rBean : infoListCard) {
-//                sum += rBean.size();
-//            }
-//
-//            if (sum >= resCardSubscribe.getRetObj().getTotal()) {
-//                isEnd = true;
-//            }
-//        } else {
-//            T.ShowToast(mContext, resCardSubscribe.getRetMsg());
-//        }
-//    }
-
     private Map<String, String> getFindMoreByIdParams() {
         Map<String, String> map = new HashMap<>();
         String subscribeId = iSourceListView.getSubscribeId();
@@ -271,7 +170,7 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
     private Map<String, String> getListParams() {
         Map<String, String> map = new HashMap<>();
         String subscribeId = iSourceListView.getSubscribeId();
-        String jsonParams = "{\"subscribeId\":\"" + subscribeId + "\",\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
+        String jsonParams = "{\"subscribeId\":\"" + subscribeId + "\",\"page\":\"" + iSourceListView.getPageNum() + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         System.out.println(map);
         return map;

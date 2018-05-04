@@ -15,17 +15,9 @@ import com.hb.rssai.bean.ResCardSubscribe;
 public interface ISourceListView {
     String getSubscribeId();
 
-    RecyclerView getRecyclerView();
-
-    SwipeRefreshLayout getSwipeLayout();
-
-    NestedScrollView getNestLayout();
-
-    LinearLayoutManager getManager();
-
-//    LinearLayout getLlLoad();
-
     void loadError(Throwable throwable);
 
     void setListCardResult(ResCardSubscribe resCardSubscribe);
+
+    int getPageNum();
 }

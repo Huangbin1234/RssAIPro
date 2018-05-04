@@ -3,7 +3,6 @@ package com.hb.rssai.view.subscription;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -26,22 +25,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hb.rssai.R;
-import com.hb.rssai.adapter.RssListAdapter;
 import com.hb.rssai.adapter.SourceListCardAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResCardSubscribe;
+import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.SourceListPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.HttpLoadImg;
-import com.hb.rssai.util.RssDataSourceUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISourceListView;
-import com.hb.rssai.view.widget.PrgDialog;
-import com.rss.bean.RSSItemBean;
-import com.rss.bean.Website;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +65,6 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     RecyclerView mSlaRecyclerView;
     @BindView(R.id.sla_swipe_layout)
     SwipeRefreshLayout mSlaSwipeLayout;
-
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.sla_iv_logo)
@@ -88,30 +82,29 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     @BindView(R.id.sla_iv_subscribe)
     ImageView mSlaIvSubscribe;
 
-
     private LinearLayoutManager mLayoutManager;
-    //    private GridLayoutManager mLayoutManager;
     private String linkValue;
-    private ArrayList<RSSItemBean> rssList = new ArrayList<>();
-    private PrgDialog slaDialog;
-    RssListAdapter rssListAdapter;
     private String titleValue = "";
     private String subscribeId = "";
     private String imageLogo = "";
     private String desc = "";
     private boolean isCheck = false;
     private boolean isEnd = false, isLoad = false;
+    private int page = 1;
+
+    private SourceListCardAdapter cardAdapter;
+    private List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
+    private List<List<ResCardSubscribe.RetObjBean.RowsBean>> infoListCard = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        initData();
-//        ((SourceListPresenter) mPresenter).getListById();
-        ((SourceListPresenter) mPresenter).refreshList();
+        refreshList();
     }
 
-    private void initData() {
-        new ReadRssTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    @Override
+    protected int providerContentViewId() {
+        return R.layout.activity_source_list;
     }
 
     @Override
@@ -129,14 +122,12 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
 
     @Override
     protected void initView() {
-        //mSysTvTitle.setText(titleValue);
         if (isCheck) {
             mSlaIvSubscribe.setImageResource(R.mipmap.ic_subscribe_cancel);
         } else {
             mSlaIvSubscribe.setImageResource(R.mipmap.ic_subscribe_add);
         }
         mLayoutManager = new LinearLayoutManager(this);
-        //mLayoutManager = new GridLayoutManager(this,2);
         mSlaRecyclerView.setLayoutManager(mLayoutManager);
         mSlaRecyclerView.setHasFixedSize(true);
         mSlaRecyclerView.setNestedScrollingEnabled(false);
@@ -157,11 +148,42 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
             ((SourceListPresenter) mPresenter).subscribe(v);
         });
 
+        //TODO 设置下拉刷新
+        mSlaSwipeLayout.setOnRefreshListener(() -> refreshList());
+        //TODO 设置上拉加载更多
+        mSlaNestView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+
+            if (v.getChildAt(0) != null && isBottomForNestedScrollView(v, scrollY)) {
+                // 加载更多
+                if (!isEnd && !isLoad) {
+                    mSlaSwipeLayout.setRefreshing(true);
+                    page++;
+                    ((SourceListPresenter) mPresenter).getListCardById();
+                }
+            }
+        });
     }
 
-    @Override
-    protected int providerContentViewId() {
-        return R.layout.activity_source_list;
+
+    // TODO: 判断是不是在底部
+    private boolean isBottomForNestedScrollView(NestedScrollView v, int scrollY) {
+        return (scrollY + v.getHeight()) == (v.getChildAt(0).getHeight() + v.getPaddingTop() + v.getPaddingBottom());
+    }
+
+    /**
+     * 刷新数据
+     */
+    public void refreshList() {
+        page = 1;
+        isLoad = true;
+        isEnd = false;
+        if (infoList != null) {
+            infoList.clear();
+        }
+        if (infoListCard != null) {
+            infoListCard.clear();
+        }
+        ((SourceListPresenter) mPresenter).getListCardById();
     }
 
     @Override
@@ -178,15 +200,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
         HttpLoadImg.loadImg(this, imageLogo, mSlaIvLogo);
         Glide.with(this).load(imageLogo).bitmapTransform(new BlurTransformation(this, 20, 2), new CenterCrop(this)).into(mSlaIvToBg);
 
-//        Glide.with(this).load(imageLogo).asBitmap().into(new SimpleTarget<Bitmap>() {
-//            @Override
-//            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                BitmapDrawable bd = new BitmapDrawable(resource);
-//                mSysToolbar.setBackground(bd);
-//            }
-//        });
         mSysTvTitle.setText(titleValue);
-//        mSlaTvTitle.setText(titleValue);
         mSlaTvDesc.setText(desc);
         mCollapsingToolbarLayout.setCollapsedTitleGravity(Gravity.LEFT);//设置收缩后标题的位置
         mCollapsingToolbarLayout.setExpandedTitleGravity(Gravity.LEFT);////设置展开后标题的位置
@@ -204,7 +218,6 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
             actionBar.setDisplayHomeAsUpEnabled(true);//设置ActionBar一个返回箭头，主界面没有，次级界面有
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        // mSlaIvLogo.setImageResource(R.mipmap.ic_place);
     }
 
     @Override
@@ -230,29 +243,9 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     }
 
     @Override
-    public RecyclerView getRecyclerView() {
-        return mSlaRecyclerView;
+    public int getPageNum() {
+        return page;
     }
-
-    @Override
-    public NestedScrollView getNestLayout() {
-        return mSlaNestView;
-    }
-
-    @Override
-    public SwipeRefreshLayout getSwipeLayout() {
-        return mSlaSwipeLayout;
-    }
-
-    @Override
-    public LinearLayoutManager getManager() {
-        return mLayoutManager;
-    }
-
-//    @Override
-//    public LinearLayout getLlLoad() {
-//        return mSlaLl;
-//    }
 
     @Override
     public void loadError(Throwable throwable) {
@@ -269,8 +262,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
             T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
         }
     }
-    private SourceListCardAdapter cardAdapter;
-    private List<List<ResCardSubscribe.RetObjBean.RowsBean>> infoListCard = new ArrayList<>();
+
     @Override
     public void setListCardResult(ResCardSubscribe resCardSubscribe) {
         //TODO 填充数据
@@ -298,59 +290,6 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
             }
         } else {
             T.ShowToast(this, resCardSubscribe.getRetMsg());
-        }
-    }
-
-
-    class ReadRssTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            slaDialog = new PrgDialog(SourceListActivity.this, true);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            readRssXml();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            mSlaLl.setVisibility(View.GONE);
-            slaDialog.closeDialog();
-            if (rssList != null && rssList.size() > 0) {
-                if (rssListAdapter == null) {
-                    rssListAdapter = new RssListAdapter(SourceListActivity.this, rssList);
-                }
-                mSlaRecyclerView.setAdapter(rssListAdapter);
-            }
-        }
-    }
-
-    private void readRssXml() {
-        Website website = new Website();
-        website.setUrl(linkValue);
-        website.setName("12");
-        website.setOpen("true");
-        website.setEncoding("UTF-8");
-        website.setStartTag("");
-        website.setEndTag("");
-        website.setFid("67");
-
-        List<RSSItemBean> rssTempList = RssDataSourceUtil.getRssData(website, -1);
-        if (rssTempList != null) {
-            rssList.addAll(rssTempList);
-        }
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (slaDialog != null) {
-            slaDialog.closeDialog();
         }
     }
 }
