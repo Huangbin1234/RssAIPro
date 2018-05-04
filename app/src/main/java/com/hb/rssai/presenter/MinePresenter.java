@@ -252,7 +252,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
             }
         }
         //else {
-            // T.ShowToast(mContext, resMessageList.getRetMsg());
+        // T.ShowToast(mContext, resMessageList.getRetMsg());
         //}
     }
 

@@ -258,7 +258,6 @@ public class UserActivity extends BaseActivity implements IUserView {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-
                 break;
             default:
                 break;
