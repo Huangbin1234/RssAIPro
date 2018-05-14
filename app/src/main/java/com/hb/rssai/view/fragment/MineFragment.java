@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,12 +52,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    //    @BindView(R.id.sys_tv_title)
-//    TextView mSysTvTitle;
-//    @BindView(R.id.sys_toolbar)
-//    Toolbar mSysToolbar;
-//    @BindView(R.id.app_bar_layout)
-//    AppBarLayout mAppBarLayout;
     @BindView(R.id.fm_ll_avatar)
     LinearLayout mFmLlAvatar;
     @BindView(R.id.fm_ll_message)
@@ -118,7 +112,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             return;
         }
         ((MinePresenter) mPresenter).getUser();
-//        ((MinePresenter) mPresenter).setUpdate();
         ((MinePresenter) mPresenter).getMessages();
         isPrepared = false;
         System.out.println("====lazyLoad====");
@@ -161,17 +154,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void setAppTitle() {
-//        mSysToolbar.setTitle("");
-//
-//        ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
-//        View decorView=getActivity().getWindow().getDecorView();
-//        int option=View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-//        decorView.setSystemUiVisibility(option);
-//        getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
-//        ActionBar actionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
-//        actionBar.hide();
-
-//        mSysTvTitle.setText(getResources().getString(R.string.str_main_mine));
     }
 
     @Override
@@ -186,31 +168,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void initView(View rootView) {
-//        View mTopView = rootView.findViewById(R.id.view_topview);
-//        SystemStatesBarUtils.setTopViewHeightColor(getActivity(),mTopView,R.color.trans);
         mMfTvOfflineCount.setText("" + LiteOrmDBUtil.getQueryAll(Information.class).size());
-        /** * 设置view高度为statusbar的高度，并填充statusbar */
-//        View mStatusBar = rootView.findViewById(R.id.fillStatusBarView);
-//        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mStatusBar.getLayoutParams();
-//        lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
-//        lp.height = getStatusBar();
-//        mStatusBar.setLayoutParams(lp);
-
-    }
-
-    /**
-     * 获取状态栏高度 * @return
-     */
-    public int getStatusBar() {
-        /** * 获取状态栏高度 * */
-        int statusBarHeight1 = -1;
-        //获取status_bar_height资源的ID
-        int resourceId = ((AppCompatActivity) getActivity()).getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            //根据资源ID获取响应的尺寸值
-            statusBarHeight1 = getResources().getDimensionPixelSize(resourceId);
-        }
-        return statusBarHeight1;
     }
 
     @Override
@@ -256,8 +214,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 getActivity().startActivity(new Intent(getContext(), CollectionActivity.class));
                 break;
             case R.id.fm_ll_message:
-                mIrsTvMsgCount.setVisibility(View.GONE);
-                getActivity().startActivity(new Intent(getContext(), MessageActivity.class));
+                if (!TextUtils.isEmpty(mFmTvAccount.getText().toString()) && !"登录体验更多功能".equals(mFmTvAccount.getText().toString())) {
+                    mIrsTvMsgCount.setVisibility(View.GONE);
+                    getActivity().startActivity(new Intent(getContext(), MessageActivity.class));
+                } else {
+                    T.ShowToast(getContext(), "请登录成功后查看");
+                }
                 break;
             case R.id.fm_ll_setting:
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));

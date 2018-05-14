@@ -159,7 +159,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         return null;
     }
 
-    @OnClick({R.id.sa_rl_about, R.id.sa_rl_advice, R.id.sa_rl_update})
+    @OnClick({R.id.sa_rl_about, R.id.sa_rl_advice, R.id.sa_rl_update, R.id.sa_rl_share})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -171,6 +171,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.sa_rl_update:
                 checkUpdate();
+                break;
+            case R.id.sa_rl_share:
+                T.ShowToast(this, "暂未开放");
+                break;
+            default:
                 break;
         }
     }

@@ -251,9 +251,6 @@ public class MinePresenter extends BasePresenter<IMineView> {
                 }
             }
         }
-        //else {
-        // T.ShowToast(mContext, resMessageList.getRetMsg());
-        //}
     }
 
     private Map<String, String> getMessageParams() {

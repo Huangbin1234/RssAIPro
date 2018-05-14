@@ -6,68 +6,73 @@
 
     <include layout="@layout/include_sub_toolbar" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg"
-        android:orientation="vertical" >
+        android:background="@color/color_general_white">
 
         <LinearLayout
-            android:id="@+id/mc_ll_no_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone">
+            android:background="@color/color_general_white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/mc_ll_no_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_no_data" />
+            </LinearLayout>
 
             <TextView
+                android:id="@+id/mc_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/color_title"
+                android:textSize="@dimen/s22p" />
+
+            <ImageView
+                android:id="@+id/mc_iv_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/str_no_data" />
+                android:layout_gravity="center_horizontal"
+                android:padding="10dp"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/mc_tv_pubTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/color_txt"
+                android:textSize="@dimen/s14p" />
+
+            <TextView
+                android:id="@+id/mc_tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/color_txt"
+                android:textSize="@dimen/s16p" />
+
+            <TextView
+                android:id="@+id/mc_tv_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
+
         </LinearLayout>
-
-        <TextView
-            android:padding="16dp"
-            android:textColor="@color/color_title"
-            android:id="@+id/mc_tv_title"
-            android:background="@color/color_general_white"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/s22p"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/mc_iv_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textColor="@color/color_txt"
-            android:background="@color/color_general_white"
-            android:id="@+id/mc_tv_pubTime"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/s14p"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:padding="16dp"
-            android:background="@color/color_general_white"
-            android:id="@+id/mc_tv_content"
-            android:textSize="@dimen/s16p"
-            android:textColor="@color/color_txt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
-            android:background="@color/color_general_white"
-            android:id="@+id/mc_tv_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoLink="all" />
-
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
 
