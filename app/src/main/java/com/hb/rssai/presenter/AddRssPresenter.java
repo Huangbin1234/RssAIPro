@@ -242,6 +242,7 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
             subscribeId = resBase.getRetObj().toString();
             EventBus.getDefault().post(new RssSourceEvent(0));
             getBDInfo();
+            iAddRssView.addSuccess();
         }
         T.ShowToast(mContext, resBase.getRetMsg());
     }

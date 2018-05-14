@@ -146,5 +146,6 @@
     <string name="str_mpa_hint_new_psd">输入新密码</string>
     <string name="str_ama_tv_email">点击设置邮箱</string>
     <string name="str_ama_email">邮箱</string>
+    <string name="str_sf_web_browser">在浏览器打开</string>
 
 </resources>

@@ -270,6 +270,13 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    @Override
+    public void addSuccess() {
+        if (mPop.isShowing()) {
+            mPop.dismiss();
+        }
+    }
+
 
     class OpmlTask extends AsyncTask<String, Void, List<Outline>> {
 
@@ -451,9 +458,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
         });
         pas_btn_sure.setOnClickListener(arg0 -> {
-            if (mPop.isShowing()) {
-                mPop.dismiss();
-            }
+
             //TODO
             if (flag == 1) {
                 rssTitle = pas_et_name.getText().toString().trim();

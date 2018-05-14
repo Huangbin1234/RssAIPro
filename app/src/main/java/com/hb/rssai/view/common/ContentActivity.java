@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -223,6 +224,16 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
                 intent.putExtra(QrCodeActivity.KEY_TITLE, title);
                 intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_URL_SOURCE + contentUrl));
                 startActivity(intent);
+                break;
+            case R.id.toolbar_web_browser:
+                //从其他浏览器打开
+                Intent urlIntent = new Intent();
+                urlIntent.setAction(Intent.ACTION_VIEW);
+                Uri content_url = Uri.parse(contentUrl);
+                urlIntent.setData(content_url);
+                if (urlIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(Intent.createChooser(urlIntent, "请选择浏览器"));
+                }
                 break;
         }
         return false;
