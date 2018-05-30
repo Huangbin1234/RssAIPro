@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -171,13 +172,31 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
     private void reqResult(ResAdvertisement resAdvertisement) {
         if (resAdvertisement.getRetCode() == 0) {
             HttpLoadImg.loadImg(this, resAdvertisement.getRetObj().getImg(), mLoadAdIv);
+            if (null != resAdvertisement.getRetObj() && null != resAdvertisement.getRetObj().getLink()) {
+                if (resAdvertisement.getRetObj().getLink().startsWith("alipays")) {
+                    SharedPreferencesUtil.setString(this, Constant.AlipaysUrl, resAdvertisement.getRetObj().getLink());
+                }
+            }
             mLoadAdIv.setOnClickListener(v -> {
                 if (null != resAdvertisement.getRetObj() && null != resAdvertisement.getRetObj().getLink()) {
-                    Intent intent = new Intent(this, ContentActivity.class);
-                    intent.putExtra(ContentActivity.KEY_URL, resAdvertisement.getRetObj().getLink());
-                    intent.putExtra(ContentActivity.KEY_TITLE, resAdvertisement.getRetObj().getTitle());
-                    intent.putExtra(ContentActivity.KEY_INFORMATION_ID, resAdvertisement.getRetObj().getId());
-                    startActivity(intent);
+                    String alipayUrl = SharedPreferencesUtil.getString(this, Constant.AlipaysUrl, "");
+                    if (alipayUrl.startsWith("alipays")) {
+                        try {
+                            //利用Intent打开支付宝
+                            Uri uri = Uri.parse(resAdvertisement.getRetObj().getLink());
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            //若无法正常跳转，在此进行错误处理
+                            T.ShowToast(mContext, "无法跳转到支付宝领红包，请检查您是否安装了支付宝！");
+                        }
+                    } else {
+                        Intent intent = new Intent(this, ContentActivity.class);
+                        intent.putExtra(ContentActivity.KEY_URL, resAdvertisement.getRetObj().getLink());
+                        intent.putExtra(ContentActivity.KEY_TITLE, resAdvertisement.getRetObj().getTitle());
+                        intent.putExtra(ContentActivity.KEY_INFORMATION_ID, resAdvertisement.getRetObj().getId());
+                        startActivity(intent);
+                    }
                 }
             });
         } else {

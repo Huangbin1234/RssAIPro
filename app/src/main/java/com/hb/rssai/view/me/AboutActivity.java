@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.util.StringUtils;
 
 import butterknife.BindView;
 
@@ -21,6 +22,8 @@ public class AboutActivity extends BaseActivity {
     Toolbar mSysToolbar;
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
+    @BindView(R.id.aa_tv_qq)
+    TextView mAaTvQq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        mAaTvQq.setOnClickListener(v -> StringUtils.joinQQGroup(AboutActivity.this, "VyA7mXrlsAOQGFbuqX_0CL35MbSEPX3u"));
     }
 
     @Override
@@ -54,6 +57,7 @@ public class AboutActivity extends BaseActivity {
     protected BasePresenter createPresenter() {
         return null;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

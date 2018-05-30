@@ -32,7 +32,7 @@
     <string name="str_mf_search">搜一搜</string>
     <string name="str_sa_update">检查更新</string>
     <string name="str_sa_about">关于我们</string>
-    <string name="str_sa_share">分享好友</string>
+    <string name="str_sa_share">每日红包</string>
     <string name="str_sa_opr_image">无图模式</string>
     <string name="str_sa_day_night">夜间模式</string>
     <string name="str_sa_title">设置</string>
@@ -130,6 +130,7 @@
     <string name="str_contacts_us">邮箱：</string>
     <string name="str_zh_app_name">孜然阅读器</string>
     <string name="str_email">qianchengluntan@163.com</string>
+    <string name="str_qq">699547875</string>
     <string name="app_abstract">重新定义RSS阅读器</string>
     <string name="str_la_forget">忘记密码</string>
     <string name="str_fa_rb_mode">找回方式</string>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/title_all"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar"/>
+    <include layout="@layout/include_sub_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,19 +44,19 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/s14p"
-                        android:text="@string/app_name"/>
+                        android:text="@string/app_name"
+                        android:textSize="@dimen/s14p" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="."/>
+                        android:text="." />
 
                     <TextView
-                        android:textSize="@dimen/s14p"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/str_zh_app_name"/>
+                        android:text="@string/str_zh_app_name"
+                        android:textSize="@dimen/s14p" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -67,16 +67,16 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/app_about"
                 android:textColor="@color/color_txt"
-                android:textSize="@dimen/s16p"/>
+                android:textSize="@dimen/s16p" />
 
         </LinearLayout>
 
-        <View style="@style/view_line_h"/>
+        <View style="@style/view_line_h" />
 
 
         <View
             style="@style/view_line_h"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
 
         <LinearLayout
 
@@ -93,27 +93,51 @@
                 android:text="@string/app_abstract"
                 android:textColor="@color/color_txt"
                 android:textSize="@dimen/s16p"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
         </LinearLayout>
 
-        <View style="@style/view_line_h"/>
+        <View style="@style/view_line_h" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom|center_horizontal"
             android:layout_weight="1"
-            android:padding="16dp"
-            android:orientation="horizontal">
+            android:gravity="bottom|center_horizontal"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QQ交流群："
+                android:textSize="@dimen/s10p" />
+
+            <TextView
+                android:id="@+id/aa_tv_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="email"
+                android:text="@string/str_qq"
+                android:textColorLink="@color/lite_blue"
+                android:textSize="@dimen/s10p" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom|center_horizontal"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="email"
-                android:textSize="@dimen/s10p"
                 android:text="@string/str_email"
-                android:textColorLink="@color/text_color_time"/>
+                android:textColorLink="@color/text_color_time"
+                android:textSize="@dimen/s10p" />
         </LinearLayout>
     </LinearLayout>
 

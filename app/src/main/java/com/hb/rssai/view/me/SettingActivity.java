@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -173,7 +174,18 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 checkUpdate();
                 break;
             case R.id.sa_rl_share:
-                T.ShowToast(this, "暂未开放");
+                try {
+                    String alipayUrl = SharedPreferencesUtil.getString(this, Constant.AlipaysUrl, "");
+                    if (alipayUrl.startsWith("alipays")) {
+                        //利用Intent打开支付宝
+                        Uri uri = Uri.parse(alipayUrl);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                } catch (Exception e) {
+                    //若无法正常跳转，在此进行错误处理
+                    T.ShowToast(this, "无法跳转到支付宝领红包，请检查您是否安装了支付宝！");
+                }
                 break;
             default:
                 break;

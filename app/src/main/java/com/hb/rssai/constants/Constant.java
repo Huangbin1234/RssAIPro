@@ -59,4 +59,5 @@ public class Constant {
     public static String ACTION_OPEN_OPML = "open_opml";
 
     public static SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
+    public static String AlipaysUrl="alipay_url";
 }
