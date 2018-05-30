@@ -68,7 +68,6 @@ public class SubListActivity extends BaseActivity implements ISubListView {
     @BindView(R.id.llf_btn_re_try)
     Button mLlfBtnReTry;
 
-    private List<RssSource> list = new ArrayList<>();
     private Object isTag = null;
     public static final String KEY_IS_TAG = "key_is_tag";
 
@@ -198,7 +197,6 @@ public class SubListActivity extends BaseActivity implements ISubListView {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         mSysTvTitle.setText(getResources().getString(R.string.str_sub_title));
-//        mSysToolbar.setOnMenuItemClickListener(onMenuItemClick);
     }
 
     @Override
