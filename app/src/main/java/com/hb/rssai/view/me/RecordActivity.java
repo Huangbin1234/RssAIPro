@@ -212,21 +212,17 @@ public class RecordActivity extends BaseActivity implements IRecordView {
                 if (adapter == null) {
                     adapter = new RecordAdapter(this, infoList);
                     mRecordRecyclerView.setAdapter(adapter);
-                    adapter.setMyOnItemClickedListener(new RecordAdapter.MyOnItemClickedListener() {
-                        @Override
-                        public void onItemClicked(ResUserInformation.RetObjBean.RowsBean rowsBean) {
-                            bean = rowsBean;
-                            if (!TextUtils.isEmpty(rowsBean.getInformationId())) {
-                                infoId = rowsBean.getInformationId();
-                                ((RecordPresenter) mPresenter).getInformation(); //获取消息
-                            } else {
-                                Intent intent = new Intent(RecordActivity.this, ContentActivity.class);
-                                intent.putExtra(ContentActivity.KEY_URL, rowsBean.getInformationLink());
-                                intent.putExtra(ContentActivity.KEY_TITLE, rowsBean.getInformationTitle());
-                                intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rowsBean.getInformationId());
-                                startActivity(intent);
-//                                T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
-                            }
+                    adapter.setMyOnItemClickedListener(rowsBean -> {
+                        bean = rowsBean;
+                        if (!TextUtils.isEmpty(rowsBean.getInformationId())) {
+                            infoId = rowsBean.getInformationId();
+                            ((RecordPresenter) mPresenter).getInformation(); //获取消息
+                        } else {
+                            Intent intent = new Intent(RecordActivity.this, ContentActivity.class);
+                            intent.putExtra(ContentActivity.KEY_URL, rowsBean.getInformationLink());
+                            intent.putExtra(ContentActivity.KEY_TITLE, rowsBean.getInformationTitle());
+                            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rowsBean.getInformationId());
+                            startActivity(intent);
                         }
                     });
                 } else {

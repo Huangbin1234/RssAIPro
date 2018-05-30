@@ -111,7 +111,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else {
             mSaSwDayNight.setChecked(false);
         }
-
         mSaTvVer.setText("V " + Config.getVerName(this));
         //进入对应的页面判断标记是否有更新在进行调用此方法
         if (SharedPreferencesUtil.getBoolean(SettingActivity.this, Constant.SAVE_IS_UPDATE, false)) {
@@ -120,7 +119,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else {
             mSaTvVerLabel.setVisibility(View.GONE);
         }
-
         mSaSwDayNight.setOnClickListener(v -> {
             SharedPreferencesUtil.setLong(SettingActivity.this, Constant.KEY_SYS_NIGHT_MODE_TIME, new Date().getTime());
             if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {

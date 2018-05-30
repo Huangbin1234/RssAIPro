@@ -65,7 +65,6 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     private String mParam2;
 
     private int DF = 0; //0默认系统数据源1订阅
-    private boolean isUser = false;
 
     private boolean isPrepared;
 

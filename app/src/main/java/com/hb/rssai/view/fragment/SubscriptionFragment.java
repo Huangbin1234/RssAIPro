@@ -22,12 +22,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
-import com.hb.rssai.adapter.CardAdapter;
 import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.adapter.RssSourceAdapter;
 import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.ResFindMore;
-import com.hb.rssai.bean.RssChannel;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
@@ -46,8 +44,6 @@ import com.hb.rssai.view.subscription.SubListActivity;
 import com.hb.rssai.view.widget.FullListView;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
-import com.rss.bean.Website;
-import com.rss.util.FeedReader;
 import com.zbar.lib.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -66,8 +62,6 @@ import me.drakeet.materialdialog.MaterialDialog;
 import static android.app.Activity.RESULT_OK;
 
 public class SubscriptionFragment extends BaseFragment implements View.OnClickListener, RssSourceAdapter.onItemLongClickedListener, ISubscriptionView {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
     @BindView(R.id.sys_toolbar)
@@ -110,20 +104,8 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @BindView(R.id.fs_ll_root)
     LinearLayout mFsLlRoot;
     Unbinder unbinder;
-    //@BindView(R.id.index_function_gridview)
-    // FullGridView mIndexFunctionGridView;
-
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    //    private GridLayoutManager mGridLayoutManager;
-    private RssSourceAdapter mRssSourceAdapter;
-    private List<RssSource> list = new ArrayList<>();
-
-    CardAdapter mCardAdapter;
     public final static int REQUEST_CODE = 1;
     private FullyGridLayoutManager mFullyGridLayoutManager;
     private FullyGridLayoutManager mFullyGridLayoutManagerTopic;
@@ -146,10 +128,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
 
     public static SubscriptionFragment newInstance(String param1, String param2) {
         SubscriptionFragment fragment = new SubscriptionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -172,10 +150,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         // 注册
         EventBus.getDefault().register(this);
     }
@@ -205,11 +179,11 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
     View rView;
+
     @Override
     protected void initView(View rootView) {
         rView = rootView;
         // 卡片式
-        // mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mFullyGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
         mSfRecyclerView.setLayoutManager(mFullyGridLayoutManager);
 
@@ -228,45 +202,17 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSfSwipe.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
-
-        //TODO 设置下拉刷新
-//        mSfSwipe.setOnRefreshListener(() -> initData());
-
-//        mIndexFunctionGridView.setOnItemClickListener((parent, view, position, id) -> {
-//            Intent intent = new Intent(getContext(), SourceListActivity.class);
-//            intent.putExtra(SourceListActivity.KEY_LINK, list.get(position).getLink());
-//            intent.putExtra(SourceListActivity.KEY_TITLE, list.get(position).getName());
-//            getContext().startActivity(intent);
-//        });
     }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        ((SubscriptionPresenter) mPresenter).refreshList();
         System.out.println("====onActivityCreated====");
         //初始化UI完成
         isPrepared = true;
         lazyLoad();
-//        initData();
     }
-
-//    private void initData() {
-//        if (list != null && list.size() > 0) {
-//            list.clear();
-//        }
-//        if (mRssSourceAdapter != null) {
-//            mRssSourceAdapter.notifyDataSetChanged();
-//        }
-////        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllLengthSort(RssSource.class,0,6,"sort");
-//        List<RssSource> dbList = LiteOrmDBUtil.getQueryAllSort(RssSource.class, "sort");
-//        if (dbList == null || dbList.size() <= 0) {
-//            return;
-//        }
-//        list.addAll(dbList);
-//        new ReadRssTask().execute();
-//    }
 
     @Subscribe
     public void onEventMainThread(RssSourceEvent event) {
@@ -275,7 +221,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -305,11 +250,9 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sys_iv_add:
-//                startActivity(new Intent(getContext(), HotTagActivity.class));
                 startActivity(new Intent(getContext(), AddSourceActivity.class));
                 break;
             case R.id.sys_iv_scan:
-//                startActivity(new Intent(getContext(), AddSourceActivity.class));
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUEST_CODE);
                 break;
             case R.id.sub_ll_all:
@@ -378,8 +321,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 if (list.get(position).get("id").equals(1)) {
                     //TODO 置顶
                     materialDialog.dismiss();
-//                    rowsBean.setSort(new Date().getTime());
-//                    LiteOrmDBUtil.update(rowsBean);
                     ((SubscriptionPresenter) mPresenter).updateUsSort();
                 } else if (list.get(position).get("id").equals(2)) {//分享
                     materialDialog.dismiss();
@@ -391,10 +332,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                     startActivity(intent);
                 } else if (list.get(position).get("id").equals(3)) {
                     materialDialog.dismiss();
-//                    LiteOrmDBUtil.deleteWhere(RssSource.class, "id", new String[]{"" + rowsBean.getCollectionId()});
-//                    initData();
                     ((SubscriptionPresenter) mPresenter).delSubscription();
-//                    T.ShowToast(getContext(), "删除成功！");
                 }
             });
             if (dialogAdapter == null) {
@@ -473,92 +411,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
         super.onDestroy();
         // 取消注册
         EventBus.getDefault().unregister(this);
-    }
-    //    class ReadRssTask extends AsyncTask<Void, Void, Void> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-////            readRssXml();
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            mSfSwipe.setRefreshing(false);
-////            if (list.size() < 1) {
-////                if (mCardAdapter == null) {
-////                    mCardAdapter = new CardAdapter(getContext(), list);
-////                    mSfRecyclerView.setAdapter(mCardAdapter);
-////                } else {
-////                    mCardAdapter.notifyDataSetChanged();
-////                }
-////                cardSetting();
-////            } else {
-//            if (mRssSourceAdapter == null) {
-//                mRssSourceAdapter = new RssSourceAdapter(getContext(), list, SubscriptionFragment.this);
-//                mSfRecyclerView.setAdapter(mRssSourceAdapter);
-//            } else {
-//                mRssSourceAdapter.notifyDataSetChanged();
-//            }
-////            }
-//        }
-//    }
-
-
-    private void readRssXml() {
-        List<Website> websiteList = new ArrayList<>();
-        for (RssSource rssSource : list) {
-            Website website = new Website();
-            website.setUrl(rssSource.getLink());
-            website.setName(rssSource.getName());
-            website.setOpen("true");
-            website.setEncoding("UTF-8");
-            website.setStartTag("");
-            website.setEndTag("");
-            website.setFid("" + rssSource.getId());
-            websiteList.add(website);
-        }
-        for (Website we : websiteList) {
-            rssInsert(we);
-        }
-    }
-
-
-    /**
-     * 可以选择插入到数据库
-     *
-     * @param website
-     */
-    String[] urls = {"http://icon.nipic.com/BannerPic/20170531/home/20170531103230.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170531/home/20170531103230.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170531/home/20170531103230.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg", "http://icon.nipic.com/BannerPic/20170509/home/20170509164717.jpg", "http://icon.nipic.com/BannerPic/20170619/home/20170619151644.jpg"};
-
-    public void rssInsert(Website website) {
-        try {
-//            List<RSSItemBean> rssTempList = new FeedReader().getContent(website);
-            RssChannel rssTempList = new FeedReader().getContent(website);
-            if (rssTempList != null && rssTempList.getRSSItemBeen().size() > 0) {
-                int len = list.size();
-                for (int i = 0; i < len; i++) {
-                    if (website.getFid().equals("" + list.get(i).getId())) {
-                        list.get(i).setCount(rssTempList.getRSSItemBeen().size());
-//                        list.get(i).setImgUrl(urls[i]);
-                        if (rssTempList.getImage() != null && rssTempList.getImage().getUrl() != null) {
-                            list.get(i).setImgUrl(rssTempList.getImage().getUrl());
-                            if (rssTempList.getImage().getTitle() != null) {
-                                list.get(i).setName(rssTempList.getTitle());
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

@@ -485,9 +485,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             mRtaTvGood.setText("" + resInfo.getRetObj().getClickGood());
             mRtaTvNotGood.setText("" + resInfo.getRetObj().getClickNotGood());
             //刷新
-//            String evaluateType = iRichTextView.getEvaluateType();
             if ("1".equals(evaluateType)) {
-
                 String eStr = SharedPreferencesUtil.getString(this, id, "");
                 if (TextUtils.isEmpty(eStr)) {//如果是空那么没操作过直接设置1
                     evaluate.setClickGood("1");
@@ -555,14 +553,11 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         if (resCollectionBean.getRetCode() == 0) {
             //设置收藏图标
             if (!resCollectionBean.getRetObj().isDeleteFlag()) {
-//                MenuItem item = iRichTextView.getItem();
                 item.setIcon(R.mipmap.ic_collection_press);
             } else {
-//                MenuItem item = iRichTextView.getItem();
                 item.setIcon(R.mipmap.ic_collection_normal);
             }
         } else {
-//            MenuItem item = iRichTextView.getItem();
             item.setIcon(R.mipmap.ic_collection_normal);
         }
     }

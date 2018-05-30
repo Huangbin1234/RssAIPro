@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -42,19 +41,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FindFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class FindFragment extends BaseFragment implements IFindView {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
     @BindView(R.id.sys_toolbar)
@@ -65,12 +54,10 @@ public class FindFragment extends BaseFragment implements IFindView {
     TextView mFfFindHotLabel;
     @BindView(R.id.tv_sub_right_all)
     TextView mTvSubRightAll;
-    //    @BindView(R.id.ff_find_tv_topic)
-//    TextView mFfFindTvTopic;
+
     @BindView(R.id.ff_tv_right_all)
     TextView mFfTvRightAll;
-    //    @BindView(R.id.ff_topic_iv_all)
-//    ImageView mFfTopicIvAll;
+
     @BindView(R.id.sub_ll_all)
     LinearLayout mSubLlAll;
     @BindView(R.id.ff_find_tv_more)
@@ -81,8 +68,7 @@ public class FindFragment extends BaseFragment implements IFindView {
     LinearLayout mRlLl;
     @BindView(R.id.ff_swipe_layout)
     SwipeRefreshLayout mFfSwipeLayout;
-    //    @BindView(R.id.ff_topic_recycler_view)
-//    RecyclerView mFfTopicRecyclerView;
+
     @BindView(R.id.ff_hot_recycler_view)
     RecyclerView mFfHotRecyclerView;
     @BindView(R.id.ff_nest_scrollview)
@@ -103,15 +89,9 @@ public class FindFragment extends BaseFragment implements IFindView {
     @BindView(R.id.llf_btn_re_try)
     Button mLlfBtnReTry;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
     private LinearLayoutManager mFindMoreLinearManager;
     private LinearLayoutManager mTopicLinearManager1;
-
-//    private FullyGridLayoutManager mRecommendGridLayoutManager;
 
     private boolean isPrepared;
 
@@ -132,10 +112,6 @@ public class FindFragment extends BaseFragment implements IFindView {
 
     public static FindFragment newInstance(String param1, String param2) {
         FindFragment fragment = new FindFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -158,10 +134,6 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         // 注册
         EventBus.getDefault().register(this);
     }
@@ -198,23 +170,12 @@ public class FindFragment extends BaseFragment implements IFindView {
         rView = rootView;
         mFindMoreLinearManager = new LinearLayoutManager(getContext());
         mTopicLinearManager1 = new LinearLayoutManager(getContext());
-//        mRecommendGridLayoutManager = new FullyGridLayoutManager(getContext(), 3);
         LinearLayoutManager mLlm = new LinearLayoutManager(getContext());
         mLlm.setOrientation(LinearLayoutManager.HORIZONTAL);
-
         mFindMoreLinearManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        mTopicLinearManager1.setOrientation(LinearLayoutManager.VERTICAL);
-//        mFfTopicRecyclerView.addItemDecoration(new MyDecoration(getContext(), LinearLayoutManager.VERTICAL));
-
         mFfFindRecyclerView.setLayoutManager(mFindMoreLinearManager);
         mFfFindRecyclerView.setNestedScrollingEnabled(false);//解决卡顿
         mFfFindRecyclerView.setHasFixedSize(true);
-
-//        mFfTopicRecyclerView.setLayoutManager(mTopicLinearManager1);
-//        mFfTopicRecyclerView.setNestedScrollingEnabled(false);
-//        mFfTopicRecyclerView.setHasFixedSize(true);
-
-//        mFfHotRecyclerView.setLayoutManager(mRecommendGridLayoutManager);
         mFfHotRecyclerView.setLayoutManager(mLlm);
         mFfHotRecyclerView.setNestedScrollingEnabled(false);
         mFfHotRecyclerView.setHasFixedSize(true);
@@ -245,8 +206,6 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        ((FindPresenter) mPresenter).findMoreList();
-//        ((FindPresenter) mPresenter).recommendList();
         System.out.println("====onActivityCreated====");
         //初始化UI完成
         isPrepared = true;
@@ -260,7 +219,6 @@ public class FindFragment extends BaseFragment implements IFindView {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -298,7 +256,6 @@ public class FindFragment extends BaseFragment implements IFindView {
 
     @Override
     public RecyclerView getFfTopicRecyclerView() {
-//        return mFfTopicRecyclerView;
         return null;
     }
 

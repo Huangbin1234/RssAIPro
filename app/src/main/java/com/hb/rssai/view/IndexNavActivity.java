@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -75,31 +73,26 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
             Manifest.permission.CAMERA
     };
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    showFragment(R.id.navigation_home);
-                    return true;
-                case R.id.navigation_subscribe:
-                    showFragment(R.id.navigation_subscribe);
-                    return true;
-                case R.id.navigation_find:
-                    showFragment(R.id.navigation_find);
-                    return true;
-                case R.id.navigation_mine:
-                    showFragment(R.id.navigation_mine);
-                    return true;
-            }
-            return false;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                showFragment(R.id.navigation_home);
+                return true;
+            case R.id.navigation_subscribe:
+                showFragment(R.id.navigation_subscribe);
+                return true;
+            case R.id.navigation_find:
+                showFragment(R.id.navigation_find);
+                return true;
+            case R.id.navigation_mine:
+                showFragment(R.id.navigation_mine);
+                return true;
         }
+        return false;
     };
 
     @Override
     public void initStatusBar() {
-//        super.initStatusBar();
         StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
     }
 
@@ -118,25 +111,21 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
     @Override
     protected void initView() {
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         if (savedInstanceState != null) {//恢复现场
             int id = savedInstanceState.getInt("positionId");
             FragmentManager fm = getSupportFragmentManager();
-//            homeFragment = (HomeFragment) fm.getFragment(savedInstanceState, HomeFragment.class.getSimpleName());
             tabFragment = (TabFragment) fm.getFragment(savedInstanceState, HomeFragment.class.getSimpleName());
             subscriptionFragment = (SubscriptionFragment) fm.getFragment(savedInstanceState, SubscriptionFragment.class.getSimpleName());
             findFragment = (FindFragment) fm.getFragment(savedInstanceState, FindFragment.class.getSimpleName());
             mineFragment = (MineFragment) fm.getFragment(savedInstanceState, MineFragment.class.getSimpleName());
             showFragment(id);
         } else {
-//            homeFragment = new HomeFragment();
             tabFragment = new TabFragment();
             findFragment = new FindFragment();
             subscriptionFragment = new SubscriptionFragment();
             mineFragment = new MineFragment();
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.add(R.id.ma_frame_layout, homeFragment);
             fragmentTransaction.add(R.id.ma_frame_layout, tabFragment);
             fragmentTransaction.add(R.id.ma_frame_layout, findFragment);
             fragmentTransaction.add(R.id.ma_frame_layout, subscriptionFragment);
@@ -194,18 +183,14 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
     private void showFragment(int id) {
         positionId = id;
         FragmentTransaction mTransaction = getSupportFragmentManager().beginTransaction();
-//        mTransaction.hide(homeFragment);
         mTransaction.hide(tabFragment);
         mTransaction.hide(findFragment);
         mTransaction.hide(subscriptionFragment);
         mTransaction.hide(mineFragment);
         // 设置按钮 图片为普通颜色
-
         switch (id) {
             case R.id.navigation_home:
-//                mTransaction.show(homeFragment);
                 mTransaction.show(tabFragment);
-//                homeFragment.setUserVisibleHint(true);
                 tabFragment.setUserVisibleHint(true);
                 break;
             case R.id.navigation_find:
@@ -268,9 +253,6 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
         outState.putInt("positionId", positionId);
 
         FragmentManager fm = getSupportFragmentManager();
-//        if (homeFragment.isAdded()) {
-//            fm.putFragment(outState, HomeFragment.class.getSimpleName(), homeFragment);
-//        }
         if (tabFragment.isAdded()) {
             fm.putFragment(outState, HomeFragment.class.getSimpleName(), tabFragment);
         }

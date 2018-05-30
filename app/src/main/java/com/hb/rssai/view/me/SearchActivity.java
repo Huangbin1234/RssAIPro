@@ -40,8 +40,6 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
 
     @BindView(R.id.search_listView)
     RecyclerView mSearchListView;
-    //    @BindView(R.id.sys_tv_title)
-//    TextView mSysTvTitle;
     @BindView(R.id.sys_toolbar)
     Toolbar mSysToolbar;
     @BindView(R.id.app_bar_layout)
@@ -59,8 +57,6 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
-
-    private String[] mStrs = {"aaa", "bbb", "ccc", "airsaid"};
     List<String> mLocales = new ArrayList<>();
     private LinearLayoutManager infoManager;
     private String keyWord = "";
@@ -108,22 +104,13 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
                 if (!TextUtils.isEmpty(keyWord)) {
                     searchListener.search(keyWord);
                     KeyboardUtil.hideSoftKeyboard(SearchActivity.this);
-//                        ((SearchPresenter) mPresenter).refreshInfoList();
                 }
                 return true;
             }
             return false;
         });
-        mItsIvClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItsEtKey.setText("");
-            }
-        });
-
-
+        mItsIvClear.setOnClickListener(v -> mItsEtKey.setText(""));
     }
-
 
     @Override
     protected int providerContentViewId() {
@@ -167,19 +154,6 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
 
     }
 
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                onBackPressed();
-//                break;
-//            default:
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @Override
     protected void setAppTitle() {
         mSysToolbar.setTitle("");
@@ -196,7 +170,6 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
                 finish();
             }
         });
-//        mSysTvTitle.setText(getResources().getString(R.string.str_search_title));
         //修改状态栏文字图标为深色
         StatusBarUtil.StatusBarLightMode(this);
     }
@@ -234,7 +207,6 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
                 keyWord = mItsEtKey.getText().toString();
                 searchListener.search(keyWord);
                 KeyboardUtil.hideSoftKeyboard(this);
-//                ((SearchPresenter) mPresenter).refreshInfoList();
                 break;
         }
     }
@@ -243,46 +215,5 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-    //    private class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.MyViewHolder> {
-//
-//        private List<String> mLocales;
-//
-//        private LanguageAdapter(List<String> mLocales) {
-//            this.mLocales = mLocales;
-//            notifyDataSetChanged();
-//        }
-//
-//        @Override
-//        public LanguageAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-//            return new LanguageAdapter.MyViewHolder(view);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(MyViewHolder holder, int position) {
-//            holder.tv_name.setText(mLocales.get(position));
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return mLocales.size();
-//        }
-//        public class MyViewHolder extends RecyclerView.ViewHolder {
-//
-//            ImageView avatarImageView;
-//            TextView tv_count, tv_name;
-//            Button tv_view;
-//
-//            MyViewHolder(View itemView) {
-//                super(itemView);
-//                avatarImageView = (ImageView) itemView.findViewById(R.id.iv_avatar);
-//                tv_count = (TextView) itemView.findViewById(R.id.tv_count);
-//                tv_view = (Button) itemView.findViewById(R.id.tv_view);
-//                tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-//            }
-//        }
-//    }
-
 
 }

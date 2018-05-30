@@ -50,8 +50,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class MineFragment extends BaseFragment implements View.OnClickListener, IMineView {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.fm_ll_avatar)
     LinearLayout mFmLlAvatar;
     @BindView(R.id.fm_ll_message)
@@ -93,11 +91,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @BindView(R.id.mf_ll_clear)
     LinearLayout mFllClean;
 
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
     public final static int REQUESTCODE = 1;
     public final static int REQUEST_LOGIN = 2;
@@ -123,20 +116,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     public static MineFragment newInstance(String param1, String param2) {
         MineFragment fragment = new MineFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         // 注册
         EventBus.getDefault().register(this);
     }
@@ -174,14 +159,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        ((MinePresenter) mPresenter).getUser();
         //初始化UI完成
         System.out.println("====onActivityCreated====");
         isPrepared = true;
         lazyLoad();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -346,8 +329,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     rssSource.setName("订阅");
                     rssSource.setLink(info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
                     LiteOrmDBUtil.insert(rssSource);
-                    // initData();
-
                     //TODO 订阅 写入服务器
                     subscibeId = info.replace(Constant.FLAG_PRESS_RSS_SOURCE, "");
                     ((MinePresenter) mPresenter).addSubscription();
@@ -366,11 +347,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     //TODO 收藏 写入服务器
                     infoId = info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE, "");//获取资讯ID
                     ((MinePresenter) mPresenter).addCollection();
-
-//                    Intent intent = new Intent(getContext(), ContentActivity.class);
-//                    intent.putExtra(ContentActivity.KEY_TITLE, "访问");
-//                    intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_PRESS_COLLECTION_SOURCE + Constant.FLAG_COLLECTION_SOURCE, ""));
-//                    getContext().startActivity(intent);
 
                 } else if (info.startsWith(Constant.FLAG_PRESS_URL_SOURCE)) {
                     Intent intent = new Intent(getContext(), ContentActivity.class);

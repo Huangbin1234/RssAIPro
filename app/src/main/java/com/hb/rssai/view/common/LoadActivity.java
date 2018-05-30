@@ -54,12 +54,10 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_load);
         ButterKnife.bind(this);
         mContext = this;
         getAd();
-
     }
 
 
@@ -75,14 +73,9 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
             Log.d("GeneralUpdateLib", "Network connection failed, pleaseheck the network.");
             T.ShowToast(mContext, Constant.FAILED_NETWORK);
             //弹出更新对话框
-//            startActivity(new Intent(LoadActivity.this, MainActivity.class));
             startActivity(new Intent(LoadActivity.this, IndexNavActivity.class));
-            finishAct();
+            finish();
         }
-    }
-
-    private void finishAct() {
-        finish();
     }
 
     /**
@@ -127,16 +120,13 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
                 default:
                     break;
             }
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    mHandler.sendEmptyMessage(1);
+            new Thread(() -> {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                mHandler.sendEmptyMessage(1);
             }).start();
 
         }
@@ -146,9 +136,8 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
-//                startActivity(new Intent(LoadActivity.this, MainActivity.class));
                 startActivity(new Intent(LoadActivity.this, IndexNavActivity.class));
-                finishAct();
+                finish();
             }
         }
     };
@@ -176,9 +165,7 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
                 if (resAdvertisement.getRetObj().getLink().startsWith("alipays")) {
                     SharedPreferencesUtil.setString(this, Constant.AlipaysUrl, resAdvertisement.getRetObj().getLink());
                 }
-            }
-            mLoadAdIv.setOnClickListener(v -> {
-                if (null != resAdvertisement.getRetObj() && null != resAdvertisement.getRetObj().getLink()) {
+                mLoadAdIv.setOnClickListener(v -> {
                     String alipayUrl = SharedPreferencesUtil.getString(this, Constant.AlipaysUrl, "");
                     if (alipayUrl.startsWith("alipays")) {
                         try {
@@ -197,8 +184,9 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
                         intent.putExtra(ContentActivity.KEY_INFORMATION_ID, resAdvertisement.getRetObj().getId());
                         startActivity(intent);
                     }
-                }
-            });
+                });
+            }
+
         } else {
             System.out.println("暂无广告");
         }
