@@ -35,8 +35,8 @@ import com.hb.rssai.view.me.RecordActivity;
 import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.me.SettingActivity;
 import com.hb.rssai.view.me.UserActivity;
-import com.hb.rssai.view.subscription.SourceListActivity;
-import com.hb.rssai.view.subscription.SubListActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
+import com.hb.rssai.view.subscription.SubscribeAllActivity;
 import com.zbar.lib.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -92,12 +92,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     LinearLayout mFllClean;
 
     private OnFragmentInteractionListener mListener;
-    public final static int REQUESTCODE = 1;
+    public final static int REQUEST_CODE = 1;
     public final static int REQUEST_LOGIN = 2;
 
     private boolean isPrepared;
     private String infoId;
-    private String subscibeId;
+    private String subscribeId;
 
     @Override
     protected void lazyLoad() {
@@ -160,7 +160,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //初始化UI完成
-        System.out.println("====onActivityCreated====");
         isPrepared = true;
         lazyLoad();
     }
@@ -208,7 +207,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
             case R.id.fm_ll_scan:
-                startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUESTCODE);
+                startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUEST_CODE);
                 break;
             case R.id.fm_ll_avatar:
                 startActivityForResult(new Intent(getContext(), UserActivity.class), REQUEST_LOGIN);
@@ -223,7 +222,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 getActivity().startActivity(new Intent(getContext(), OfflineActivity.class));
                 break;
             case R.id.mf_ll_subcribe_count:
-                startActivity(new Intent(getContext(), SubListActivity.class));
+                startActivity(new Intent(getContext(), SubscribeAllActivity.class));
                 break;
             case R.id.sys_iv_setting:
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
@@ -275,7 +274,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public String getSubscribeId() {
-        return subscibeId;
+        return subscribeId;
     }
 
     @Override
@@ -305,13 +304,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         super.onActivityResult(requestCode, resultCode, data);
 
         if (RESULT_OK == resultCode) {
-            if (requestCode == REQUESTCODE) {
+            if (requestCode == REQUEST_CODE) {
                 String info = Base64Util.getDecodeStr(data.getStringExtra("info"));
                 if (info.startsWith(Constant.FLAG_RSS_SOURCE)) {
                     //打开
-                    Intent intent = new Intent(getContext(), SourceListActivity.class);
-                    intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_RSS_SOURCE, ""));
-                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
+                    Intent intent = new Intent(getContext(), SourceCardActivity.class);
+                    intent.putExtra(SourceCardActivity.KEY_LINK, info.replace(Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceCardActivity.KEY_TITLE, "分享资讯");
                     getContext().startActivity(intent);
 
                 } else if (info.startsWith(Constant.FLAG_COLLECTION_SOURCE)) {
@@ -330,13 +329,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     rssSource.setLink(info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
                     LiteOrmDBUtil.insert(rssSource);
                     //TODO 订阅 写入服务器
-                    subscibeId = info.replace(Constant.FLAG_PRESS_RSS_SOURCE, "");
+                    subscribeId = info.replace(Constant.FLAG_PRESS_RSS_SOURCE, "");
                     ((MinePresenter) mPresenter).addSubscription();
                     //打开
-                    Intent intent = new Intent(getContext(), SourceListActivity.class);
-                    intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
-                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享主题");
-                    intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, subscibeId);
+                    Intent intent = new Intent(getContext(), SourceCardActivity.class);
+                    intent.putExtra(SourceCardActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceCardActivity.KEY_TITLE, "分享主题");
+                    intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, subscribeId);
                     getContext().startActivity(intent);
                 } else if (info.startsWith(Constant.FLAG_PRESS_COLLECTION_SOURCE)) {
                     UserCollection userCollection = new UserCollection();

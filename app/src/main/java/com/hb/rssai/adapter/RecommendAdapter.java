@@ -15,7 +15,7 @@ import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.SharedPreferencesUtil;
-import com.hb.rssai.view.subscription.SourceListActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
 
 import java.util.List;
 
@@ -92,13 +92,13 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
             }
         });
         holder.v.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, SourceListActivity.class);
-            intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
-            intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
-            intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
-            intent.putExtra(SourceListActivity.KEY_IMAGE, rssList.get(position).getImg());
-            intent.putExtra(SourceListActivity.KEY_DESC, rssList.get(position).getAbstractContent());
-            intent.putExtra(SourceListActivity.KEY_IS_CHECK, rssList.get(position).isCheck());
+            Intent intent = new Intent(mContext, SourceCardActivity.class);
+            intent.putExtra(SourceCardActivity.KEY_LINK, rssList.get(position).getLink());
+            intent.putExtra(SourceCardActivity.KEY_TITLE, rssList.get(position).getName());
+            intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
+            intent.putExtra(SourceCardActivity.KEY_IMAGE, rssList.get(position).getImg());
+            intent.putExtra(SourceCardActivity.KEY_DESC, rssList.get(position).getAbstractContent());
+            intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rssList.get(position).isCheck());
             mContext.startActivity(intent);
         });
     }

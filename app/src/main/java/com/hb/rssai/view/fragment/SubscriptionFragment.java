@@ -39,8 +39,8 @@ import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISubscriptionView;
 import com.hb.rssai.view.subscription.AddSourceActivity;
-import com.hb.rssai.view.subscription.SourceListActivity;
-import com.hb.rssai.view.subscription.SubListActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
+import com.hb.rssai.view.subscription.SubscribeAllActivity;
 import com.hb.rssai.view.widget.FullListView;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
@@ -109,15 +109,15 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     public final static int REQUEST_CODE = 1;
     private FullyGridLayoutManager mFullyGridLayoutManager;
     private FullyGridLayoutManager mFullyGridLayoutManagerTopic;
-    ResFindMore.RetObjBean.RowsBean rowsBean;
+    private ResFindMore.RetObjBean.RowsBean rowsBean;
     private boolean isPrepared;
-
+    private  DialogAdapter dialogAdapter;
+    private  MaterialDialog materialDialog;
     @Override
     protected void lazyLoad() {
         if (!isVisible || !isPrepared) {
             return;
         }
-
         ((SubscriptionPresenter) mPresenter).refreshList();
         isPrepared = false;
         System.out.println("====lazyLoad====");
@@ -257,13 +257,13 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 break;
             case R.id.sub_ll_all:
                 Bundle bundle = new Bundle();
-                bundle.putBoolean(SubListActivity.KEY_IS_TAG, true);
-                startActivity(new Intent(getContext(), SubListActivity.class).putExtras(bundle));
+                bundle.putBoolean(SubscribeAllActivity.KEY_IS_TAG, true);
+                startActivity(new Intent(getContext(), SubscribeAllActivity.class).putExtras(bundle));
                 break;
             case R.id.sub_ll_all_topic:
                 Bundle bundle2 = new Bundle();
-                bundle2.putBoolean(SubListActivity.KEY_IS_TAG, false);
-                startActivity(new Intent(getContext(), SubListActivity.class).putExtras(bundle2));
+                bundle2.putBoolean(SubscribeAllActivity.KEY_IS_TAG, false);
+                startActivity(new Intent(getContext(), SubscribeAllActivity.class).putExtras(bundle2));
                 break;
         }
     }
@@ -306,8 +306,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
      *
      * @return
      */
-    DialogAdapter dialogAdapter;
-    MaterialDialog materialDialog;
+
 
     private void openMenu() {
         if (materialDialog == null) {
@@ -423,9 +422,9 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 String info = Base64Util.getDecodeStr(data.getStringExtra("info"));
                 if (info.startsWith(Constant.FLAG_RSS_SOURCE)) {
                     //打开
-                    Intent intent = new Intent(getContext(), SourceListActivity.class);
-                    intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_RSS_SOURCE, ""));
-                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
+                    Intent intent = new Intent(getContext(), SourceCardActivity.class);
+                    intent.putExtra(SourceCardActivity.KEY_LINK, info.replace(Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceCardActivity.KEY_TITLE, "分享资讯");
                     getContext().startActivity(intent);
 
                 } else if (info.startsWith(Constant.FLAG_COLLECTION_SOURCE)) {
@@ -445,9 +444,9 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                     LiteOrmDBUtil.insert(rssSource);
                     // initData();
                     //打开
-                    Intent intent = new Intent(getContext(), SourceListActivity.class);
-                    intent.putExtra(SourceListActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
-                    intent.putExtra(SourceListActivity.KEY_TITLE, "分享资讯");
+                    Intent intent = new Intent(getContext(), SourceCardActivity.class);
+                    intent.putExtra(SourceCardActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceCardActivity.KEY_TITLE, "分享资讯");
                     getContext().startActivity(intent);
                 } else if (info.startsWith(Constant.FLAG_PRESS_COLLECTION_SOURCE)) {
                     UserCollection userCollection = new UserCollection();

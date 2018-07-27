@@ -26,6 +26,9 @@ import static com.hb.rssai.presenter.BasePresenter.informationApi;
 public class DownNewsService extends Service {
 
     private MyBinder mBinder = new MyBinder();
+    private HashMap<Integer, String> groupIds = new HashMap<>();
+    private OfflineEvent mOfflineEvent = new OfflineEvent();
+    private ResInformation.RetObjBean.RowsBean info;
 
     public DownNewsService() {
 
@@ -38,7 +41,6 @@ public class DownNewsService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         return mBinder;
     }
 
@@ -56,13 +58,12 @@ public class DownNewsService extends Service {
         }
     }
 
-    private HashMap<Integer, String> groupIds = new HashMap<>();
 
-    private void downLoadData(String groupDatas, HashMap<Integer, String> groupIds) {
+    private void downLoadData(String groupData, HashMap<Integer, String> groupIds) {
         this.groupIds = groupIds;
-        if (!TextUtils.isEmpty(groupDatas)) {
+        if (!TextUtils.isEmpty(groupData)) {
             //开始写入数据
-            String[] groups = groupDatas.split(",");
+            String[] groups = groupData.split(",");
             for (int i = 0; i < groups.length; i++) {
                 getList(groups[i]);
             }
@@ -75,28 +76,26 @@ public class DownNewsService extends Service {
         informationApi.getList(getListParams(group))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resInformation -> {
-                    setListResult(resInformation, group);
-                }, this::loadError);
+                .subscribe(resInformation -> setListResult(resInformation, group), this::loadError);
     }
 
-    OfflineEvent mOfflineEvent = new OfflineEvent();
 
     private void setListResult(ResInformation resInformation, String group) {
-        if (resInformation.getRetObj() == null || resInformation.getRetObj().getRows() == null) {
+        ResInformation.RetObjBean bean = resInformation.getRetObj();
+        if (bean == null || bean.getRows() == null) {
             return;
         }
         //先清除所有数据在插入
         LiteOrmDBUtil.deleteAll(Information.class);
-        int len = resInformation.getRetObj().getRows().size();
+        int len = bean.getRows().size();
         for (int i = 0; i < len; i++) {
-            ResInformation.RetObjBean.RowsBean info = resInformation.getRetObj().getRows().get(i);
+            info = bean.getRows().get(i);
             Information rowBean = new Information();
             rowBean.setAuthor(info.getAuthor());
             rowBean.setPubTime(info.getPubTime());
             rowBean.setDataType(info.getDataType());
             rowBean.setAbstractContent(info.getAbstractContent());
-            rowBean.setCount((int) info.getCount());
+            rowBean.setCount(info.getCount());
             rowBean.setLink(info.getLink());
             rowBean.setWhereFrom(info.getWhereFrom());
             rowBean.setTitle(info.getTitle());
@@ -107,11 +106,9 @@ public class DownNewsService extends Service {
             rowBean.setOprTime(info.getOprTime());
             rowBean.setClickGood(info.getClickGood());
             rowBean.setClickNotGood(info.getClickNotGood());
-
-            if (i == 5 || i == 10 || i == 15 || i == len-1) {
-
+            if (i == 5 || i == 10 || i == 15 || i == len - 1) {
                 mOfflineEvent.setMaxVal(len);
-                mOfflineEvent.setProgressVal(i+1);
+                mOfflineEvent.setProgressVal(i + 1);
                 mOfflineEvent.setId(groupIds.get(Integer.valueOf(group)));
                 EventBus.getDefault().post(mOfflineEvent);
             }
@@ -124,7 +121,6 @@ public class DownNewsService extends Service {
         int dataType = Integer.valueOf(group);
         String jsonParams = "{\"dataType\":\"" + dataType + "\",\"page\":\"" + 1 + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        System.out.println(map);
         return map;
     }
 

@@ -31,16 +31,17 @@
 
         <ImageView
             android:id="@+id/dialog_item_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@mipmap/ic_place"
-            android:visibility="gone"/>
+            android:paddingRight="5dp"
+            android:scaleType="centerInside"
+            android:visibility="visible"/>
         <!--android:layout_marginLeft="10dp"-->
         <TextView
             android:id="@+id/dialog_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:textColor="@color/color_txt"
             android:textSize="@dimen/s18p"/>
 
@@ -50,8 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:progressDrawable="@drawable/progressbar_offline_color"
-            />
+            android:progressDrawable="@drawable/progressbar_offline_color"  />
     </LinearLayout>
 
 </RelativeLayout>

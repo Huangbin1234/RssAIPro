@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.util.HttpLoadImg;
 
@@ -24,23 +25,24 @@ import java.util.List;
 public class OfflineAdapter extends BaseAdapter {
     private List<ResDataGroup.RetObjBean.RowsBean> list;
     private Context mContext;
-    LayoutInflater inflater;
-    public static HashMap<Integer, Boolean> isSelecteds;
+    private LayoutInflater inflater;
+    public static HashMap<Integer, Boolean> isSelectMap;
 
     public static HashMap<Integer, Boolean> getIsSelected() {
-        return isSelecteds;
+        return isSelectMap;
     }
 
     public OfflineAdapter(Context context, List<ResDataGroup.RetObjBean.RowsBean> list) {
         this.mContext = context;
         this.list = list;
         inflater = LayoutInflater.from(mContext);
-        isSelecteds = new HashMap<Integer, Boolean>();
+        isSelectMap = new HashMap<>();
         init();
     }
 
     private void init() {
-        for (int i = 0; i < list.size(); i++) {
+        int len = list.size();
+        for (int i = 0; i < len; i++) {
             OfflineAdapter.getIsSelected().put(i, false);
         }
     }
@@ -62,7 +64,7 @@ public class OfflineAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.view_offiline_item, null);
@@ -81,7 +83,7 @@ public class OfflineAdapter extends BaseAdapter {
         holder.progressBar.setMax(list.get(position).getMaxVal());
         holder.progressBar.setProgress(list.get(position).getProgressVal());
         holder.dialog_item_tv.setText(list.get(position).getName());
-        HttpLoadImg.loadCircleImg(mContext, list.get(position).getUrl(), holder.dialog_item_iv);
+        HttpLoadImg.loadImg(mContext,  ApiRetrofit.BASE_URL +list.get(position).getUrl(), holder.dialog_item_iv);
         return convertView;
     }
 

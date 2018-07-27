@@ -15,8 +15,8 @@ import com.hb.rssai.R;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
-import com.hb.rssai.view.subscription.SourceListActivity;
-import com.hb.rssai.view.subscription.SubListActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
+import com.hb.rssai.view.subscription.SubscribeAllActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,7 +34,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
     List<ResFindMore.RetObjBean.RowsBean> rssList;
     //    List<RssSource> themeList;
     private LayoutInflater layoutInflater;
-    private SubListActivity activity;
+    private SubscribeAllActivity activity;
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -57,7 +57,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
-        this.activity = (SubListActivity) activity;
+        this.activity = (SubscribeAllActivity) activity;
     }
 
     @Override
@@ -95,17 +95,17 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
 //        });
         holder.item_sla_iv_menu.setOnClickListener(v -> mOnItemLongClickedListener.onItemLongClicked(rssList.get(position)));
         holder.v.setOnClickListener(v -> {
-//            Intent intent = new Intent(mContext, SourceListActivity.class);
-//            intent.putExtra(SourceListActivity.KEY_LINK, themeList.get(position).getLink());
-//            intent.putExtra(SourceListActivity.KEY_TITLE, themeList.get(position).getName());
+//            Intent intent = new Intent(mContext, SourceCardActivity.class);
+//            intent.putExtra(SourceCardActivity.KEY_LINK, themeList.get(position).getLink());
+//            intent.putExtra(SourceCardActivity.KEY_TITLE, themeList.get(position).getName());
 //            mContext.startActivity(intent);
-            Intent intent = new Intent(mContext, SourceListActivity.class);
-            intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
-            intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
-            intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
-            intent.putExtra(SourceListActivity.KEY_IMAGE, rssList.get(position).getImg());
-            intent.putExtra(SourceListActivity.KEY_DESC, rssList.get(position).getAbstractContent());
-            intent.putExtra(SourceListActivity.KEY_IS_CHECK, true);
+            Intent intent = new Intent(mContext, SourceCardActivity.class);
+            intent.putExtra(SourceCardActivity.KEY_LINK, rssList.get(position).getLink());
+            intent.putExtra(SourceCardActivity.KEY_TITLE, rssList.get(position).getName());
+            intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
+            intent.putExtra(SourceCardActivity.KEY_IMAGE, rssList.get(position).getImg());
+            intent.putExtra(SourceCardActivity.KEY_DESC, rssList.get(position).getAbstractContent());
+            intent.putExtra(SourceCardActivity.KEY_IS_CHECK, true);
             mContext.startActivity(intent);
         });
 //        holder.v.setOnLongClickListener(v -> {

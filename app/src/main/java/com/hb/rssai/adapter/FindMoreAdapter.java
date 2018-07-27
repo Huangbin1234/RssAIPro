@@ -69,8 +69,7 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         } else {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_image, holder.ifm_iv_img);
         }
-
-        holder.ifm_tv_people.setText(""+resList.get(position).getCount());
+        holder.ifm_tv_people.setText("" + resList.get(position).getCount());
         holder.ifm_tv_abstract.setText(resList.get(position).getAbstractContent());
         holder.ifm_tv_title.setText(resList.get(position).getName());
 //        1、如果被删除 true
@@ -84,15 +83,7 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         if (!resList.get(position).isCheck()) {
             holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
         } else {
-//            if (TextUtils.isEmpty(resList.get(position).getUserId())) {
-//                holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
-//            } else {
-//                if (userId.equals(resList.get(position).getUserId())) {
-                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_cancel);
-//                } else {
-//                    holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_add);
-//                }
-//            }
+            holder.ifm_iv_add.setImageResource(R.mipmap.ic_subscribe_cancel);
         }
         holder.ifm_iv_add.setOnClickListener(v -> {
             onAddClickedListener.onAdd(resList.get(position), v);
@@ -108,7 +99,6 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public View v;
         TextView ifm_tv_people;
-        //        JustifyTextView ifm_tv_abstract;
         TextView ifm_tv_abstract;
         ImageView ifm_iv_img;
         ImageView ifm_iv_add;
@@ -118,7 +108,6 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
             super(itemView);
             v = itemView;
             ifm_tv_people = (TextView) itemView.findViewById(R.id.ifm_tv_people);
-//            ifm_tv_abstract = (JustifyTextView) itemView.findViewById(R.id.ifm_tv_abstract);
             ifm_tv_abstract = (TextView) itemView.findViewById(R.id.ifm_tv_abstract);
             ifm_tv_title = (TextView) itemView.findViewById(R.id.ifm_tv_title);
             ifm_iv_img = (ImageView) itemView.findViewById(R.id.ifm_iv_img);

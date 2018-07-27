@@ -17,7 +17,7 @@ import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
-import com.hb.rssai.view.subscription.SourceListActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,30 +58,24 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.irs_tv_name.setText(rssList.get(position).getName());
-//        holder.irs_tv_count.setText(themeList.get(position).getFindCount() + "条资讯");
-//        holder.irs_tv_count.setText(themeList.get(position).getFindCount() + "条资讯");
         try {
-//            holder.item_sla_tv_count.setText("[" + themeList.get(position).getCount() + "条]");
             holder.irs_tv_count.setText(TextUtils.isEmpty(rssList.get(position).getLastTime()) ? "" : DateUtil.showDate(sdf.parse(rssList.get(position).getLastTime()), longDatePat));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         if (TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_image, holder.irs_iv_logo);
-//            holder.irs_iv_logo.setImageBitmap(ImageUtil.textAsBitmap(themeList.get(position).getName().substring(1,2),20));
-
         } else {
             HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.irs_iv_logo);
         }
-
         holder.v.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, SourceListActivity.class);
-            intent.putExtra(SourceListActivity.KEY_LINK, rssList.get(position).getLink());
-            intent.putExtra(SourceListActivity.KEY_TITLE, rssList.get(position).getName());
-            intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
-            intent.putExtra(SourceListActivity.KEY_IMAGE, rssList.get(position).getImg());
-            intent.putExtra(SourceListActivity.KEY_DESC, rssList.get(position).getAbstractContent());
-            intent.putExtra(SourceListActivity.KEY_IS_CHECK, true);
+            Intent intent = new Intent(mContext, SourceCardActivity.class);
+            intent.putExtra(SourceCardActivity.KEY_LINK, rssList.get(position).getLink());
+            intent.putExtra(SourceCardActivity.KEY_TITLE, rssList.get(position).getName());
+            intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
+            intent.putExtra(SourceCardActivity.KEY_IMAGE, rssList.get(position).getImg());
+            intent.putExtra(SourceCardActivity.KEY_DESC, rssList.get(position).getAbstractContent());
+            intent.putExtra(SourceCardActivity.KEY_IS_CHECK, true);
             mContext.startActivity(intent);
         });
         holder.v.setOnLongClickListener(v -> {
@@ -89,7 +83,6 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
             return true;
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -103,17 +96,13 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         TextView irs_tv_count;
         ImageView irs_iv_logo;
 
-
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
             irs_layout = (LinearLayout) itemView.findViewById(R.id.irs_layout);
-
             irs_tv_count = (TextView) itemView.findViewById(R.id.irs_tv_count);
             irs_tv_name = (TextView) itemView.findViewById(R.id.irs_tv_name);
             irs_iv_logo = (ImageView) itemView.findViewById(R.id.irs_iv_logo);
-//            irs_iv_logo.setLayoutParams(new LinearLayout.LayoutParams());
-
         }
     }
 }

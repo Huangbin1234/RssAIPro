@@ -91,7 +91,7 @@ public class TabResourceActivity extends BaseActivity implements ITabResourceVie
                 .setLoadHeaderImagesListener((imageView, tab) -> {
 
                     if (null == loadMap.get(tab.getPosition())) {
-                        HttpLoadImg.loadCircleImg(TabResourceActivity.this, ApiRetrofit.BASE_URL+mRowsBeanList.get(tab.getPosition()).getUrl(), imageView);
+                        HttpLoadImg.loadImg(TabResourceActivity.this, ApiRetrofit.BASE_URL+mRowsBeanList.get(tab.getPosition()).getUrl(), imageView);
                         //加载数据
                         ((TabContentPresenter) fList.get(tab.getPosition()).mPresenter).getListData(mRowsBeanList.get(tab.getPosition()).getVal());
                         loadMap.put(tab.getPosition(), true);

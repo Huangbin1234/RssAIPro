@@ -10,7 +10,9 @@ public class TipsEvent {
         this.message = message;
         this.newsCount = newsCount;
     }
-
+    public TipsEvent(int message) {
+        this.message = message;
+    }
     public int getMessage() {
         return message;
     }

@@ -101,6 +101,8 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
                 mFtTvTips.setText("发现" + event.getNewsCount() + "条新消息");
                 mFtTvTips.showTips();
             });
+        } else if (event.getMessage() == 2) {
+            ((TabPresenter) mPresenter).getDataGroupList();
         }
     }
 
@@ -186,6 +188,9 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     public void loadGroupDown() {
         if (datas != null && datas.size() > 0) {
             datas.clear();
+        }
+        if (fragments != null && fragments.size() > 0) {
+            fragments.clear();
         }
 
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);

@@ -100,8 +100,8 @@ public class FindFragment extends BaseFragment implements IFindView {
         if (!isVisible || !isPrepared) {
             return;
         }
-        ((FindPresenter) mPresenter).findMoreList();
         ((FindPresenter) mPresenter).recommendList();
+        ((FindPresenter) mPresenter).findMoreList();
         isPrepared = false;
         System.out.println("====lazyLoad====");
     }

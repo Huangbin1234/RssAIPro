@@ -28,8 +28,8 @@ import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.constants.Constant;
-import com.hb.rssai.event.HomeSourceEvent;
 import com.hb.rssai.event.MainEvent;
+import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
@@ -283,11 +283,19 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }
                 if (isChecked) {
                     //changed subs source
+                    int dateFrom = SharedPreferencesUtil.getInt(this, Constant.KEY_DATA_FROM, 0);
+                    if (dateFrom == 0) {
+                        //通知更新
+                        new Handler().postDelayed(() -> EventBus.getDefault().post(new TipsEvent(2)), 2000);
+                    }
                     SharedPreferencesUtil.setInt(this, Constant.KEY_DATA_FROM, 1);
-                    EventBus.getDefault().post(new HomeSourceEvent(1));
                 } else {
+                    int dateFrom = SharedPreferencesUtil.getInt(this, Constant.KEY_DATA_FROM, 0);
+                    if (dateFrom == 1) {
+                        //通知更新
+                        new Handler().postDelayed(() -> EventBus.getDefault().post(new TipsEvent(2)), 2000);
+                    }
                     SharedPreferencesUtil.setInt(this, Constant.KEY_DATA_FROM, 0);
-                    EventBus.getDefault().post(new HomeSourceEvent(0));
                 }
                 break;
             case R.id.sa_sw_no_image:
@@ -296,11 +304,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_LOAD_IMAGE, false);
                 }
-                EventBus.getDefault().post(new HomeSourceEvent(3));
+                //通知更新
+                new Handler().postDelayed(() -> EventBus.getDefault().post(new TipsEvent(2)), 2000);
                 break;
             default:
                 break;
         }
     }
-
 }

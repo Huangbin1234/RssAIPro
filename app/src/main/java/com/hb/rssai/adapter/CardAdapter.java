@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.util.HttpLoadImg;
-import com.hb.rssai.view.subscription.SourceListActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
 
 import java.util.List;
 
@@ -43,9 +43,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         HttpLoadImg.loadImg(mContext, list.get(position).getImgUrl(), holder.avatarImageView);
         holder.tv_name.setText(list.get(position).getName().trim());
         holder.tv_view.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, SourceListActivity.class);
-            intent.putExtra(SourceListActivity.KEY_LINK, list.get(position).getLink());
-            intent.putExtra(SourceListActivity.KEY_TITLE, list.get(position).getName());
+            Intent intent = new Intent(mContext, SourceCardActivity.class);
+            intent.putExtra(SourceCardActivity.KEY_LINK, list.get(position).getLink());
+            intent.putExtra(SourceCardActivity.KEY_TITLE, list.get(position).getName());
             mContext.startActivity(intent);
         });
         holder.tv_count.setText("已有" + list.get(position).getCount() + "条资讯");

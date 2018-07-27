@@ -20,7 +20,7 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.iView.ISearchSubscribeView;
-import com.hb.rssai.view.subscription.SourceListActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -142,13 +142,13 @@ public class SearchSubscribePresenter extends BasePresenter {
 //                        intent.putExtra("id", rowsBean1.getId());
 //                        mContext.startActivity(intent);//将Intent传递给Activity
 
-                        Intent intent = new Intent(mContext, SourceListActivity.class);
-                        intent.putExtra(SourceListActivity.KEY_LINK, rowsBean1.getLink());
-                        intent.putExtra(SourceListActivity.KEY_TITLE, rowsBean1.getName());
-                        intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
-                        intent.putExtra(SourceListActivity.KEY_IMAGE, rowsBean1.getImg());
-                        intent.putExtra(SourceListActivity.KEY_DESC, rowsBean1.getAbstractContent());
-                        intent.putExtra(SourceListActivity.KEY_IS_CHECK,  rowsBean1.isCheck());
+                        Intent intent = new Intent(mContext, SourceCardActivity.class);
+                        intent.putExtra(SourceCardActivity.KEY_LINK, rowsBean1.getLink());
+                        intent.putExtra(SourceCardActivity.KEY_TITLE, rowsBean1.getName());
+                        intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
+                        intent.putExtra(SourceCardActivity.KEY_IMAGE, rowsBean1.getImg());
+                        intent.putExtra(SourceCardActivity.KEY_DESC, rowsBean1.getAbstractContent());
+                        intent.putExtra(SourceCardActivity.KEY_IS_CHECK,  rowsBean1.isCheck());
                         mContext.startActivity(intent);
                     });
                     mAdapter.setOnAddClickedListener((bean, v) -> {

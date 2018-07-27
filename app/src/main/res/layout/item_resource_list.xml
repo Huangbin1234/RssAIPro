@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <android.support.v7.widget.CardView
         android:id="@+id/item_na_layout"
         android:layout_width="match_parent"
@@ -176,9 +175,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-
-        <!--</LinearLayout>-->
     </android.support.v7.widget.CardView>
 
     <TextView

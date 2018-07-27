@@ -45,7 +45,7 @@ import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import retrofit2.adapter.rxjava.HttpException;
 
-public class SourceListActivity extends BaseActivity implements ISourceListView {
+public class SourceCardActivity extends BaseActivity implements ISourceListView {
 
     public static final String KEY_LINK = "rssLink";
     public static final String KEY_TITLE = "rssTitle";
@@ -90,7 +90,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
     private String desc = "";
     private boolean isCheck = false;
     private boolean isEnd = false, isLoad = false;
-    private int page = 1;
+    private int pageNum = 1;
 
     private SourceListCardAdapter cardAdapter;
     private List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
@@ -104,7 +104,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
 
     @Override
     protected int providerContentViewId() {
-        return R.layout.activity_source_list;
+        return R.layout.activity_source_card;
     }
 
     @Override
@@ -137,7 +137,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
         mSysIvShare.setOnClickListener(v -> {
-            Intent intent = new Intent(SourceListActivity.this, QrCodeActivity.class);
+            Intent intent = new Intent(SourceCardActivity.this, QrCodeActivity.class);
             intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
             intent.putExtra(QrCodeActivity.KEY_TITLE, titleValue);
             intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + linkValue));
@@ -157,7 +157,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
                 // 加载更多
                 if (!isEnd && !isLoad) {
                     mSlaSwipeLayout.setRefreshing(true);
-                    page++;
+                    pageNum++;
                     ((SourceListPresenter) mPresenter).getListCardById();
                 }
             }
@@ -174,7 +174,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
      * 刷新数据
      */
     public void refreshList() {
-        page = 1;
+        pageNum = 1;
         isLoad = true;
         isEnd = false;
         if (infoList != null) {
@@ -244,7 +244,7 @@ public class SourceListActivity extends BaseActivity implements ISourceListView 
 
     @Override
     public int getPageNum() {
-        return page;
+        return pageNum;
     }
 
     @Override

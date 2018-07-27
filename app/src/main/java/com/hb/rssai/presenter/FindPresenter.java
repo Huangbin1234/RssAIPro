@@ -24,7 +24,7 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.iView.IFindView;
-import com.hb.rssai.view.subscription.SourceListActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -237,7 +237,7 @@ public class FindPresenter extends BasePresenter<IFindView> {
         swipeLayout.setRefreshing(false);
         //TODO 填充数据
         if (resFindMore.getRetCode() == 0) {
-
+            mFfFindRecyclerView.setVisibility(View.VISIBLE);
             include_load_fail.setVisibility(View.GONE);
             include_no_data.setVisibility(View.GONE);
 
@@ -247,35 +247,27 @@ public class FindPresenter extends BasePresenter<IFindView> {
                     findMoreAdapter = new FindMoreAdapter(mContext, resFindMores);
                     findMoreAdapter.setOnItemClickedListener(rowsBean1 -> {
 
-                        Intent intent = new Intent(mContext, SourceListActivity.class);
-                        intent.putExtra(SourceListActivity.KEY_LINK, rowsBean1.getLink());
-                        intent.putExtra(SourceListActivity.KEY_TITLE, rowsBean1.getName());
-                        intent.putExtra(SourceListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
-                        intent.putExtra(SourceListActivity.KEY_IMAGE, rowsBean1.getImg());
-                        intent.putExtra(SourceListActivity.KEY_DESC, rowsBean1.getAbstractContent());
-                        intent.putExtra(SourceListActivity.KEY_IS_CHECK, rowsBean1.isCheck());
+                        Intent intent = new Intent(mContext, SourceCardActivity.class);
+                        intent.putExtra(SourceCardActivity.KEY_LINK, rowsBean1.getLink());
+                        intent.putExtra(SourceCardActivity.KEY_TITLE, rowsBean1.getName());
+                        intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
+                        intent.putExtra(SourceCardActivity.KEY_IMAGE, rowsBean1.getImg());
+                        intent.putExtra(SourceCardActivity.KEY_DESC, rowsBean1.getAbstractContent());
+                        intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rowsBean1.isCheck());
                         mContext.startActivity(intent);
                     });
-                    findMoreAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {
-                        @Override
-                        public void onAdd(ResFindMore.RetObjBean.RowsBean bean, View v) {
-                            rowsBean = bean;
+                    findMoreAdapter.setOnAddClickedListener((bean, v) -> {
+                        rowsBean = bean;
 
-                            if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
-                                //TODO 先去查询服务器上此条数据
-                                findMoreListById(v, false);
-//                                if (bean.isCheck()) {
-//                                    delSubscription(v, false);
-//                                } else {
-//                                    addSubscription(v, false);
-//                                }
-                            } else {
-                                //跳转到登录
-                                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
-                                Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                ProjectApplication.mContext.startActivity(intent);
-                            }
+                        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
+                            //TODO 先去查询服务器上此条数据
+                            findMoreListById(v, false);
+                        } else {
+                            //跳转到登录
+                            T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+                            Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ProjectApplication.mContext.startActivity(intent);
                         }
                     });
                     mFfFindRecyclerView.setAdapter(findMoreAdapter);
@@ -310,25 +302,17 @@ public class FindPresenter extends BasePresenter<IFindView> {
                 resRecommends.addAll(resFindMore.getRetObj().getRows());
                 if (recommendAdapter == null) {
                     recommendAdapter = new RecommendAdapter(mContext, resRecommends);
-                    recommendAdapter.setOnAddClickedListener(new FindMoreAdapter.OnAddClickedListener() {
-                        @Override
-                        public void onAdd(ResFindMore.RetObjBean.RowsBean bean, View v) {
-                            rowsBean = bean;
-                            if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
-                                //TODO 先去查询服务器上此条数据
-                                findMoreListById(v, true);
-//                                if (bean.isCheck()) {
-//                                    delSubscription(v, true);
-//                                } else {
-//                                    addSubscription(v, true);
-//                                }
-                            } else {
-                                //跳转到登录
-                                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
-                                Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                ProjectApplication.mContext.startActivity(intent);
-                            }
+                    recommendAdapter.setOnAddClickedListener((bean, v) -> {
+                        rowsBean = bean;
+                        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
+                            //TODO 先去查询服务器上此条数据
+                            findMoreListById(v, true);
+                        } else {
+                            //跳转到登录
+                            T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+                            Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ProjectApplication.mContext.startActivity(intent);
                         }
                     });
                     mFfHotRecyclerView.setAdapter(recommendAdapter);

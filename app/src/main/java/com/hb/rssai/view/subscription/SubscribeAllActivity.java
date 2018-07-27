@@ -22,7 +22,6 @@ import com.hb.rssai.adapter.SubListAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
-import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
@@ -45,7 +44,7 @@ import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
 import retrofit2.adapter.rxjava.HttpException;
 
-public class SubListActivity extends BaseActivity implements ISubListView {
+public class SubscribeAllActivity extends BaseActivity implements ISubListView {
     LinearLayoutManager mLayoutManager;
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -184,7 +183,7 @@ public class SubListActivity extends BaseActivity implements ISubListView {
 
     @Override
     protected int providerContentViewId() {
-        return R.layout.activity_sub_list;
+        return R.layout.activity_subscribe_all;
     }
 
     @Override

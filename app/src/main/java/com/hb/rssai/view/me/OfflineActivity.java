@@ -53,8 +53,6 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
     Button mOaBtnDown;
     @BindView(R.id.oa_chk_all)
     CheckBox mOaChkAll;
-    @BindView(R.id.oa_chk_personal)
-    CheckBox mOaChkPersonal;
     @BindView(R.id.oa_rl_all)
     RelativeLayout mOaRlAll;
 
@@ -74,9 +72,20 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
     @Subscribe
     public void onEventMainThread(OfflineEvent event) {
         runOnUiThread(() -> {
-            mOaBtnDown.setText("ProgressVal:" + event.getProgressVal() + " ,MaxVal:" + event.getMaxVal());
+            mOaBtnDown.setText(getName(event.getId()) + " | 进度：" + event.getProgressVal() + " /" + event.getMaxVal());
             setProgress(event.getId(), event.getProgressVal(), event.getMaxVal());
         });
+    }
+
+    private String getName(String id) {
+        String name = "";
+        for (ResDataGroup.RetObjBean.RowsBean bean : mBeanList) {
+            if (id.equals(bean.getId())) {
+                name = bean.getName();
+                break;
+            }
+        }
+        return name;
     }
 
     public void setProgress(String id, int currentVal, int maxVal) {
@@ -86,7 +95,6 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
                 row.setProgressVal(currentVal);
             }
         }
-        System.out.println(currentVal + "  " + maxVal);
         if (mOfflineAdapter != null) {
             mOfflineAdapter.notifyDataSetChanged();
         }
@@ -102,7 +110,6 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
                     for (int i = 0; i < mBeanList.size(); i++) {
                         OfflineAdapter.getIsSelected().put(i, true);
                     }
-
                 } else {
                     for (int i = 0; i < mBeanList.size(); i++) {
                         OfflineAdapter.getIsSelected().put(i, false);
@@ -144,7 +151,9 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
                 T.ShowToast(OfflineActivity.this, "没有选择任何频道！");
                 return;
             }
-
+            if (groupDatas.startsWith(",")) {
+                groupDatas = groupDatas.substring(1);
+            }
             SharedPreferencesUtil.setBoolean(OfflineActivity.this, "isClickOffline", true);
             //TODO 开始去服务器下载数据到本地数据库
             Intent bindIntent = new Intent(OfflineActivity.this, DownNewsService.class);

@@ -57,6 +57,9 @@ public class TabPresenter extends BasePresenter<IInformationView> {
             if (mRowsBeanList.size() > 0) {
                 mRowsBeanList.clear();
             }
+            if (mMeRowsBeanList.size() > 0) {
+                mMeRowsBeanList.clear();
+            }
             for (ResDataGroup.RetObjBean.RowsBean bean : resDataGroup.getRetObj().getRows()) {
                 if (bean.getGroupType() == 0) {
                     mRowsBeanList.add(bean);

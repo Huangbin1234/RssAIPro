@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.FileProvider;
@@ -41,6 +42,7 @@ import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.MineEvent;
+import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.UserPresenter;
@@ -201,8 +203,10 @@ public class UserActivity extends BaseActivity implements IUserView {
             SharedPreferencesUtil.setString(UserActivity.this, Constant.SP_LOGIN_PSD, "");
             SharedPreferencesUtil.setString(UserActivity.this, Constant.TOKEN, "");
             SharedPreferencesUtil.setString(UserActivity.this, Constant.USER_ID, "");
+            SharedPreferencesUtil.setInt(this, Constant.KEY_DATA_FROM, 0);
 
             ((UserPresenter) mPresenter).getUserInfo();
+            new Handler().postDelayed(() -> EventBus.getDefault().post(new TipsEvent(2)),2000);
             EventBus.getDefault().post(new MineEvent(0));
         });
         mAmaBtnModifyPassword.setOnClickListener(v -> {
