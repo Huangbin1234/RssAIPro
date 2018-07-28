@@ -25,6 +25,10 @@ public class GuideActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+
+    private void init() {
         if (SharedPreferencesUtil.getString(this, Constant.KEY_GUIDE, "2").equals("1")) {
             Intent intent = new Intent(GuideActivity.this, LoadActivity.class);
             startActivity(intent);

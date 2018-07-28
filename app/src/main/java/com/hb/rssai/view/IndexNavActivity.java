@@ -161,7 +161,6 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
     protected void setAppTitle() {
         mContext = this;
         BottomNavigationViewHelper.disableShiftMode(mNavigation);
-
     }
 
     @Override
