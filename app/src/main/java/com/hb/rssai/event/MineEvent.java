@@ -17,4 +17,5 @@ public class MineEvent {
     public void setMessage(int message) {
         this.message = message;
     }
+
 }

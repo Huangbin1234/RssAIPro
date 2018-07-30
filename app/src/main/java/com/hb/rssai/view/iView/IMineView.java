@@ -16,8 +16,6 @@ public interface IMineView {
 
     ImageView getIvAva();
 
-    TextView getTvMessageFlag();
-
     String getInformationId();
 
     String getSubscribeId();

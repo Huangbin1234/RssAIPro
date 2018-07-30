@@ -130,10 +130,19 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public void onEventMainThread(MineEvent event) {
         if (event.getMessage() == 0) {
             ((MinePresenter) mPresenter).getUser();
-            ((MinePresenter) mPresenter).setUpdate();
             ((MinePresenter) mPresenter).getMessages();
         } else if (event.getMessage() == 1) {
             mMfTvOfflineCount.setText("" + LiteOrmDBUtil.getQueryAll(Information.class).size());
+        } else if (event.getMessage() == 2) {
+            //TODO  有点击消息 或 当有加载消息列表时
+            long msgTotalCount = SharedPreferencesUtil.getLong(getContext(), Constant.KEY_MESSAGE_TOTAL_COUNT, 0);
+            long localMsgCount = SharedPreferencesUtil.getLong(getContext(), Constant.KEY_MESSAGE_COUNT, 0);
+            if (msgTotalCount > localMsgCount) {
+                mIrsTvMsgCount.setVisibility(View.VISIBLE);
+                mIrsTvMsgCount.setText("" + (msgTotalCount - localMsgCount));
+            } else {
+                mIrsTvMsgCount.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -197,7 +206,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.fm_ll_message:
                 if (!TextUtils.isEmpty(mFmTvAccount.getText().toString()) && !"登录体验更多功能".equals(mFmTvAccount.getText().toString())) {
-                    mIrsTvMsgCount.setVisibility(View.GONE);
+//                    mIrsTvMsgCount.setVisibility(View.GONE);
                     getActivity().startActivity(new Intent(getContext(), MessageActivity.class));
                 } else {
                     T.ShowToast(getContext(), "请登录成功后查看");
@@ -260,11 +269,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public ImageView getIvAva() {
         return mFmIvAva;
-    }
-
-    @Override
-    public TextView getTvMessageFlag() {
-        return mIrsTvMsgCount;
     }
 
     @Override

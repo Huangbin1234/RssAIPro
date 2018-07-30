@@ -2,6 +2,7 @@ package com.hb.rssai.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,14 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResMessageList;
+import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.MineEvent;
+import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.me.MessageContentActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,7 +65,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             holder.irs_tv_msg_flag.setVisibility(View.VISIBLE);
         }
         holder.v.setOnClickListener(v -> {
-            SharedPreferencesUtil.setBoolean(mContext, messages.get(position).getId(), true);
+
+            if (!SharedPreferencesUtil.getBoolean(mContext, messages.get(position).getId(), false)) {
+                SharedPreferencesUtil.setBoolean(mContext, messages.get(position).getId(), true);
+                long localMsgCount = SharedPreferencesUtil.getLong(mContext, Constant.KEY_MESSAGE_COUNT, 0);
+                SharedPreferencesUtil.setLong(mContext, Constant.KEY_MESSAGE_COUNT, localMsgCount + 1);
+                //触发一次更新 消息数量
+                new Handler().postDelayed(() -> EventBus.getDefault().post(new MineEvent(2)),1500);
+            }
+
             notifyItemChanged(position, messages.size());
             Intent intent = new Intent(mContext, MessageContentActivity.class);
             intent.putExtra(MessageContentActivity.KEY_MSG_BEAN, messages.get(position));

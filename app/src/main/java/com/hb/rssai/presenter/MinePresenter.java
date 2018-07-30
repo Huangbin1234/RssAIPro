@@ -42,7 +42,6 @@ public class MinePresenter extends BasePresenter<IMineView> {
     private TextView tvSubscribeCount;
     private TextView tvAccount;
     private ImageView ivAva;
-    private TextView tvMessageFlag;
     private TextView tvSignature;
     private TextView tvMsgCount;
     private ImageView mfIvToBg;
@@ -59,7 +58,6 @@ public class MinePresenter extends BasePresenter<IMineView> {
         tvSubscribeCount = iMineView.getTvSubscribeCount();
         tvAccount = iMineView.getTvAccount();
         ivAva = iMineView.getIvAva();
-        tvMessageFlag = iMineView.getTvMessageFlag();
         tvSignature = iMineView.getTvSignature();
         tvMsgCount = iMineView.getTvMsgCount();
         mfIvToBg = iMineView.getMfIvToBg();
@@ -73,15 +71,6 @@ public class MinePresenter extends BasePresenter<IMineView> {
                 .subscribe(resUser -> {
                     setResult(resUser);
                 }, this::loadUserError);
-    }
-
-    public void setUpdate() {
-        messageApi.selUpdate(getSelUpdateParams())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> {
-                    setSelUpdateResult(resBase);
-                }, this::loadError);
     }
 
     //添加收藏
@@ -147,16 +136,6 @@ public class MinePresenter extends BasePresenter<IMineView> {
             }
         }
         T.ShowToast(mContext, resBase.getRetMsg());
-    }
-
-    private void setSelUpdateResult(ResBase resBase) {
-        if (resBase.getRetCode() == 0) {
-            if (null != resBase.getRetObj() && ("" + resBase.getRetObj()).length() > 4) {
-                tvMessageFlag.setVisibility(View.VISIBLE);
-            } else {
-                tvMessageFlag.setVisibility(View.GONE);
-            }
-        }
     }
 
     private void loadError(Throwable throwable) {
@@ -242,10 +221,16 @@ public class MinePresenter extends BasePresenter<IMineView> {
         //TODO 填充数据
         if (resMessageList.getRetCode() == 0) {
             if (resMessageList.getRetObj() != null) {
-                if (resMessageList.getRetObj().getTotal() > SharedPreferencesUtil.getLong(mContext, Constant.KEY_MESSAGE_COUNT, 0)) {
+//                1、获取消息总数
+//                2、用户每点击一条新消息则设置本地累计次数变量+1
+//                3、根据本地累计次数变量与消息总数进行比较如果大于或等于则不再显示消息数
+                int t = resMessageList.getRetObj().getTotal();
+                long localMsgCount = SharedPreferencesUtil.getLong(mContext, Constant.KEY_MESSAGE_COUNT, 0);
+                //存储上一次的消息总数
+                SharedPreferencesUtil.setLong(mContext, Constant.KEY_MESSAGE_TOTAL_COUNT, t);
+                if (t > localMsgCount) {
                     tvMsgCount.setVisibility(View.VISIBLE);
-                    tvMsgCount.setText("" + (resMessageList.getRetObj().getTotal() - SharedPreferencesUtil.getLong(mContext, Constant.KEY_MESSAGE_COUNT, 0)));
-                    SharedPreferencesUtil.setLong(mContext, Constant.KEY_MESSAGE_COUNT, resMessageList.getRetObj().getTotal());
+                    tvMsgCount.setText("" + (t - localMsgCount));
                 } else {
                     tvMsgCount.setVisibility(View.GONE);
                 }

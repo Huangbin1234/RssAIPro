@@ -1,6 +1,7 @@
 package com.hb.rssai.view.me;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -19,11 +20,14 @@ import com.hb.rssai.adapter.MessageAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResMessageList;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.event.MineEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.MessagePresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IMessageView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,6 +172,10 @@ public class MessageActivity extends BaseActivity implements IMessageView {
                     adapter.notifyDataSetChanged();
                 }
             }
+            //存储上一次的消息总数
+            SharedPreferencesUtil.setLong(this, Constant.KEY_MESSAGE_TOTAL_COUNT, resMessageList.getRetObj().getTotal());
+            //触发一次更新 消息数量
+            new Handler().postDelayed(() -> EventBus.getDefault().post(new MineEvent(2)), 1500);
             if (this.mMessages.size() == resMessageList.getRetObj().getTotal()) {
                 isEnd = true;
             }
