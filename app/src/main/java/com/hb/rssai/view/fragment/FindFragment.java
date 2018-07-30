@@ -14,9 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,7 +36,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
@@ -54,10 +51,8 @@ public class FindFragment extends BaseFragment implements IFindView {
     TextView mFfFindHotLabel;
     @BindView(R.id.tv_sub_right_all)
     TextView mTvSubRightAll;
-
     @BindView(R.id.ff_tv_right_all)
     TextView mFfTvRightAll;
-
     @BindView(R.id.sub_ll_all)
     LinearLayout mSubLlAll;
     @BindView(R.id.ff_find_tv_more)
@@ -68,12 +63,10 @@ public class FindFragment extends BaseFragment implements IFindView {
     LinearLayout mRlLl;
     @BindView(R.id.ff_swipe_layout)
     SwipeRefreshLayout mFfSwipeLayout;
-
     @BindView(R.id.ff_hot_recycler_view)
     RecyclerView mFfHotRecyclerView;
     @BindView(R.id.ff_nest_scrollview)
     NestedScrollView mFfNestScrollview;
-
     @BindView(R.id.ll_recommend)
     LinearLayout mLlRecommend;
     @BindView(R.id.ff_ll_root)
@@ -81,7 +74,6 @@ public class FindFragment extends BaseFragment implements IFindView {
     Unbinder unbinder;
     @BindView(R.id.sys_iv_search)
     ImageView mSysIvSearch;
-
     @BindView(R.id.include_no_data)
     LinearLayout include_no_data;
     @BindView(R.id.include_load_fail)
@@ -94,7 +86,7 @@ public class FindFragment extends BaseFragment implements IFindView {
     private LinearLayoutManager mTopicLinearManager1;
 
     private boolean isPrepared;
-
+    private View rView;
     @Override
     protected void lazyLoad() {
         if (!isVisible || !isPrepared) {
@@ -139,19 +131,11 @@ public class FindFragment extends BaseFragment implements IFindView {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        unbinder = ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
     protected void setAppTitle() {
         mSysToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mSysToolbar);
         mSysTvTitle.setText(getResources().getString(R.string.str_main_find));
     }
-
 
     @Override
     protected BasePresenter createPresenter() {
@@ -162,8 +146,6 @@ public class FindFragment extends BaseFragment implements IFindView {
     protected int providerContentViewId() {
         return R.layout.fragment_find;
     }
-
-    View rView;
 
     @Override
     protected void initView(View rootView) {
@@ -202,11 +184,9 @@ public class FindFragment extends BaseFragment implements IFindView {
         });
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        System.out.println("====onActivityCreated====");
         //初始化UI完成
         isPrepared = true;
         lazyLoad();
@@ -231,8 +211,7 @@ public class FindFragment extends BaseFragment implements IFindView {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -245,7 +224,6 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         EventBus.getDefault().unregister(this);
     }
 
