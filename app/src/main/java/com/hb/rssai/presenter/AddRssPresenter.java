@@ -182,6 +182,23 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                 }, this::loadError);
     }
 
+    public void addOpmlRss() {
+        findApi.addRssByUser(getParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    setAddOpmlResult(resBase);
+                }, this::loadError);
+    }
+
+    private void setAddOpmlResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            T.ShowToast(mContext, "数据采集将在5分钟内开始，请稍等片刻！");
+        }else{
+            T.ShowToast(mContext, resBase.getRetMsg());
+        }
+    }
+
     public void updateImage() {
         findApi.updateImage(getUpdateImageParams())
                 .subscribeOn(Schedulers.io())

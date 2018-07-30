@@ -305,7 +305,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
                         rssLink = outline.getXmlUrl();
 
-                        ((AddRssPresenter) mPresenter).addRss();
+                        ((AddRssPresenter) mPresenter).addOpmlRss();
                     }
                     for (Outline subOutline : outline.getChildren()) {
                         if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
@@ -322,7 +322,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                             LiteOrmDBUtil.insert(rssSource);
                             rssLink = subOutline.getXmlUrl();
 
-                            ((AddRssPresenter) mPresenter).addRss();
+                            ((AddRssPresenter) mPresenter).addOpmlRss();
                         }
                     }
                 }
@@ -457,6 +457,17 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         pas_iv_scan.setOnClickListener(v -> {
             startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
         });
+        pas_btn_opml.setOnClickListener(v -> {
+            T.ShowToast(this, "功能优化中暂不开放");
+            return;
+//            String link2 = pas_et_link.getText().toString().trim();
+//            if (TextUtils.isEmpty(link2)) {
+//                T.ShowToast(this, "请输入opml链接地址");
+//                return;
+//            }
+//            opmlTask = new OpmlTask();
+//            opmlTask.execute(link2);
+        });
         pas_btn_sure.setOnClickListener(arg0 -> {
 
             //TODO
@@ -498,6 +509,10 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 ((AddRssPresenter) mPresenter).addRss();
             } else if (flag == 3) {
                 String link2 = pas_et_link.getText().toString().trim();
+                if (TextUtils.isEmpty(link2)) {
+                    T.ShowToast(this, "请输入opml链接地址");
+                    return;
+                }
                 opmlTask = new OpmlTask();
                 opmlTask.execute(link2);
             }
