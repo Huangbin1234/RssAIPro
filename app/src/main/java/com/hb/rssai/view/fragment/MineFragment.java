@@ -216,7 +216,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.fm_ll_message:
                 if (!TextUtils.isEmpty(mFmTvAccount.getText().toString()) && !"登录体验更多功能".equals(mFmTvAccount.getText().toString())) {
-//                    mIrsTvMsgCount.setVisibility(View.GONE);
                     getActivity().startActivity(new Intent(getContext(), MessageActivity.class));
                 } else {
                     T.ShowToast(getContext(), "请登录成功后查看");
