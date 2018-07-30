@@ -24,4 +24,10 @@ public interface IMineView {
     void setMessageListResult(ResMessageList resMessageList);
 
     void showLoadUserError();
+
+    void showNetError();
+
+    void showNoLogin();
+
+    String getUserId();
 }

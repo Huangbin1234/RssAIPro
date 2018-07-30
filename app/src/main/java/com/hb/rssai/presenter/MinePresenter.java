@@ -1,10 +1,8 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.hb.rssai.constants.Constant;
-import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IMineView;
 
@@ -70,12 +68,12 @@ public class MinePresenter extends BasePresenter<IMineView> {
         throwable.printStackTrace();
         if (throwable instanceof HttpException) {
             if (((HttpException) throwable).response().code() == 401) {
-                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+                iMineView.showNoLogin();
             } else {
-                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+                iMineView.showNetError();
             }
         } else {
-            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+            iMineView.showNetError();
         }
     }
 
@@ -85,19 +83,17 @@ public class MinePresenter extends BasePresenter<IMineView> {
             if (((HttpException) throwable).response().code() == 401) {
                 T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
             } else {
-                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+                iMineView.showNetError();
             }
         } else {
-            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+            iMineView.showNetError();
         }
-        if (TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
-            iMineView.showLoadUserError();
-        }
+        iMineView.showLoadUserError();
     }
 
     private Map<String, String> getParams() {
         Map<String, String> map = new HashMap<>();
-        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String userId = iMineView.getUserId();
         String jsonParams = "{\"userId\":\"" + userId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         System.out.println(map);
@@ -107,7 +103,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
     private Map<String, String> getSubscribeParams() {
         Map<String, String> map = new HashMap<>();
         String subscribeId = iMineView.getSubscribeId();
-        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String userId = iMineView.getUserId();
         String jsonParams = "{\"userId\":\"" + userId + "\",\"subscribeId\":\"" + subscribeId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
@@ -117,7 +113,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         Map<String, String> map = new HashMap<>();
         String informationId = iMineView.getInformationId();
         boolean isDel = false;
-        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String userId = iMineView.getUserId();
         String jsonParams = "{\"isDel\":\"" + isDel + "\",\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
@@ -125,7 +121,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
 
     private Map<String, String> getMessageParams() {
         Map<String, String> map = new HashMap<>();
-        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String userId = iMineView.getUserId();
         String jsonParams = "{\"userId\":\"" + userId + "\",\"page\":\"" + 1 + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         System.out.println(map);

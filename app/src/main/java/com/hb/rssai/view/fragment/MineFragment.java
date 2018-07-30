@@ -207,7 +207,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         mListener = null;
     }
 
-
     @OnClick({R.id.mf_ll_clear, R.id.sla_iv_to_bg, R.id.mf_ll_record, R.id.mf_ll_subcribe_count, R.id.sys_iv_setting, R.id.fm_ll_collection, R.id.fm_ll_setting, R.id.fm_ll_scan, R.id.fm_ll_avatar, R.id.fm_ll_message, R.id.fm_ll_search, R.id.mf_ll_offline})
     @Override
     public void onClick(View v) {
@@ -410,10 +409,27 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void showLoadUserError() {
-        mMfTvReadCount.setText("0");
-        mMfTvSubscribeCount.setText("0");
-        mFmTvAccount.setText(getContext().getResources().getString(R.string.str_mf_no_login));
-        HttpLoadImg.loadRoundImg(getContext(), R.mipmap.icon_default_avar, mFmIvAva);
+        if (TextUtils.isEmpty(SharedPreferencesUtil.getString(getContext(), Constant.TOKEN, ""))) {
+            mMfTvReadCount.setText("0");
+            mMfTvSubscribeCount.setText("0");
+            mFmTvAccount.setText(getContext().getResources().getString(R.string.str_mf_no_login));
+            HttpLoadImg.loadRoundImg(getContext(), R.mipmap.icon_default_avar, mFmIvAva);
+        }
+    }
+
+    @Override
+    public void showNetError() {
+        T.ShowToast(getContext(), Constant.MSG_NETWORK_ERROR);
+    }
+
+    @Override
+    public void showNoLogin() {
+        T.ShowToast(getContext(), Constant.MSG_NO_LOGIN);
+    }
+
+    @Override
+    public String getUserId() {
+        return SharedPreferencesUtil.getString(getContext(), Constant.USER_ID, "");
     }
 
     @Override
