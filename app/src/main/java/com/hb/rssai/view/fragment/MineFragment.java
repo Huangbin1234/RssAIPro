@@ -277,10 +277,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             mFmTvAccount.setText(user.getRetObj().getNickName());
 
             if (!TextUtils.isEmpty(user.getRetObj().getDescription())) {
-                mFmTvAccount.setVisibility(View.VISIBLE);
-                mFmTvAccount.setText(user.getRetObj().getDescription());
+                mFmTvSignature.setVisibility(View.VISIBLE);
+                mFmTvSignature.setText(user.getRetObj().getDescription());
             } else {
-                mFmTvAccount.setVisibility(View.GONE);
+                mFmTvSignature.setVisibility(View.GONE);
             }
             HttpLoadImg.loadCircleWithBorderImg(getContext(), ApiRetrofit.BASE_URL + user.getRetObj().getAvatar(), mFmIvAva);
             //毛玻璃效果 与 状态栏不沉浸
