@@ -12,9 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hb.rssai.R;
+import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.Information;
+import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResMessageList;
+import com.hb.rssai.bean.ResShareCollection;
+import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
@@ -23,10 +30,12 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.MinePresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DataCleanManager;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
+import com.hb.rssai.view.common.RichTextActivity;
 import com.hb.rssai.view.iView.IMineView;
 import com.hb.rssai.view.me.CollectionActivity;
 import com.hb.rssai.view.me.MessageActivity;
@@ -44,6 +53,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -120,6 +130,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
+    protected void setAppTitle() {
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 注册
@@ -146,8 +160,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
-    @Override
-    protected void setAppTitle() {
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
     }
 
     @Override
@@ -173,11 +189,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         lazyLoad();
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -250,27 +261,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
-
-    @Override
-    public TextView getTvReadCount() {
-        return mMfTvReadCount;
-    }
-
-    @Override
-    public TextView getTvSubscribeCount() {
-        return mMfTvSubscribeCount;
-    }
-
-    @Override
-    public TextView getTvAccount() {
-        return mFmTvAccount;
-    }
-
-    @Override
-    public ImageView getIvAva() {
-        return mFmIvAva;
-    }
-
     @Override
     public String getInformationId() {
         return infoId;
@@ -282,18 +272,24 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
-    public TextView getTvSignature() {
-        return mFmTvSignature;
-    }
+    public void setResult(ResUser user) {
+        if (user.getRetCode() == 0) {
+            mMfTvReadCount.setText("" + user.getRetObj().getReadCount());
+            mMfTvSubscribeCount.setText("" + user.getRetObj().getSubscribeCount());
+            mFmTvAccount.setText(user.getRetObj().getNickName());
 
-    @Override
-    public TextView getTvMsgCount() {
-        return mIrsTvMsgCount;
-    }
-
-    @Override
-    public ImageView getMfIvToBg() {
-        return mMfIvToBg;
+            if (!TextUtils.isEmpty(user.getRetObj().getDescription())) {
+                mFmTvAccount.setVisibility(View.VISIBLE);
+                mFmTvAccount.setText(user.getRetObj().getDescription());
+            } else {
+                mFmTvAccount.setVisibility(View.GONE);
+            }
+            HttpLoadImg.loadCircleWithBorderImg(getContext(), ApiRetrofit.BASE_URL + user.getRetObj().getAvatar(), mFmIvAva);
+            //毛玻璃效果 与 状态栏不沉浸
+            Glide.with(getContext()).load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar()).bitmapTransform(new BlurTransformation(getContext(), 20, 2), new CenterCrop(getContext())).into(mMfIvToBg);
+        } else {
+            T.ShowToast(getContext(), Constant.MSG_NETWORK_ERROR);
+        }
     }
 
 
@@ -362,6 +358,62 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 ((MinePresenter) mPresenter).getUser();
             }
         }
+    }
+
+    @Override
+    public void setAddResult(ResShareCollection resBase) {
+        if (resBase.getRetCode() == 0) {
+            if (resBase.getRetObj() != null) {
+                Intent intent = new Intent(getContext(), RichTextActivity.class);
+                intent.putExtra("abstractContent", resBase.getRetObj().getAbstractContent());
+                intent.putExtra(ContentActivity.KEY_TITLE, resBase.getRetObj().getTitle());
+                intent.putExtra("whereFrom", resBase.getRetObj().getWhereFrom());
+                intent.putExtra("pubDate", resBase.getRetObj().getPubTime());
+                intent.putExtra("url", resBase.getRetObj().getLink());
+                intent.putExtra("id", resBase.getRetObj().getId());
+                intent.putExtra("clickGood", resBase.getRetObj().getClickGood());
+                intent.putExtra("clickNotGood", resBase.getRetObj().getClickNotGood());
+                getContext().startActivity(intent);
+            } else {
+                T.ShowToast(getContext(), "抱歉，文章链接已失效，无法打开！");
+            }
+        }
+        T.ShowToast(getContext(), resBase.getRetMsg());
+    }
+
+    @Override
+    public void setAddSubscribeResult(ResBase resBase) {
+        T.ShowToast(getContext(), resBase.getRetMsg());
+    }
+
+    @Override
+    public void setMessageListResult(ResMessageList resMessageList) {
+        //TODO 填充数据
+        if (resMessageList.getRetCode() == 0) {
+            if (resMessageList.getRetObj() != null) {
+//                1、获取消息总数
+//                2、用户每点击一条新消息则设置本地累计次数变量+1
+//                3、根据本地累计次数变量与消息总数进行比较如果大于或等于则不再显示消息数
+                int t = resMessageList.getRetObj().getTotal();
+                long localMsgCount = SharedPreferencesUtil.getLong(getContext(), Constant.KEY_MESSAGE_COUNT, 0);
+                //存储上一次的消息总数
+                SharedPreferencesUtil.setLong(getContext(), Constant.KEY_MESSAGE_TOTAL_COUNT, t);
+                if (t > localMsgCount) {
+                    mIrsTvMsgCount.setVisibility(View.VISIBLE);
+                    mIrsTvMsgCount.setText("" + (t - localMsgCount));
+                } else {
+                    mIrsTvMsgCount.setVisibility(View.GONE);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void showLoadUserError() {
+        mMfTvReadCount.setText("0");
+        mMfTvSubscribeCount.setText("0");
+        mFmTvAccount.setText(getContext().getResources().getString(R.string.str_mf_no_login));
+        HttpLoadImg.loadRoundImg(getContext(), R.mipmap.icon_default_avar, mFmIvAva);
     }
 
     @Override

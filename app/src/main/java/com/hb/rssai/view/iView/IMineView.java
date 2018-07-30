@@ -1,29 +1,27 @@
 package com.hb.rssai.view.iView;
 
-import android.widget.ImageView;
-import android.widget.TextView;
+import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResMessageList;
+import com.hb.rssai.bean.ResShareCollection;
+import com.hb.rssai.bean.ResUser;
 
 /**
  * Created by Administrator on 2017/8/20 0020.
  */
 
 public interface IMineView {
-    TextView getTvReadCount();
-
-    TextView getTvSubscribeCount();
-
-    TextView getTvAccount();
-
-    ImageView getIvAva();
 
     String getInformationId();
 
     String getSubscribeId();
 
-    TextView getTvSignature();
+    void setResult(ResUser resUser);
 
-    TextView  getTvMsgCount();
+    void setAddResult(ResShareCollection resShareCollection);
 
-    ImageView getMfIvToBg();
+    void setAddSubscribeResult(ResBase resBase);
 
+    void setMessageListResult(ResMessageList resMessageList);
+
+    void showLoadUserError();
 }

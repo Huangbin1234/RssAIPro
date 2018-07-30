@@ -1,32 +1,16 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.hb.rssai.R;
-import com.hb.rssai.api.ApiRetrofit;
-import com.hb.rssai.bean.ResBase;
-import com.hb.rssai.bean.ResMessageList;
-import com.hb.rssai.bean.ResShareCollection;
-import com.hb.rssai.bean.ResUser;
 import com.hb.rssai.constants.Constant;
-import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.common.ContentActivity;
-import com.hb.rssai.view.common.RichTextActivity;
 import com.hb.rssai.view.iView.IMineView;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -38,30 +22,10 @@ import rx.schedulers.Schedulers;
 public class MinePresenter extends BasePresenter<IMineView> {
     private Context mContext;
     private IMineView iMineView;
-    private TextView tvReadCount;
-    private TextView tvSubscribeCount;
-    private TextView tvAccount;
-    private ImageView ivAva;
-    private TextView tvSignature;
-    private TextView tvMsgCount;
-    private ImageView mfIvToBg;
-
 
     public MinePresenter(Context context, IMineView iMineView) {
         mContext = context;
         this.iMineView = iMineView;
-        initView();
-    }
-
-    private void initView() {
-        tvReadCount = iMineView.getTvReadCount();
-        tvSubscribeCount = iMineView.getTvSubscribeCount();
-        tvAccount = iMineView.getTvAccount();
-        ivAva = iMineView.getIvAva();
-        tvSignature = iMineView.getTvSignature();
-        tvMsgCount = iMineView.getTvMsgCount();
-        mfIvToBg = iMineView.getMfIvToBg();
-
     }
 
     public void getUser() {
@@ -69,7 +33,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resUser -> {
-                    setResult(resUser);
+                    iMineView.setResult(resUser);
                 }, this::loadUserError);
     }
 
@@ -78,7 +42,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         collectionApi.add(getAddParams()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resShareCollection -> {
-                    setAddResult(resShareCollection);
+                    iMineView.setAddResult(resShareCollection);
                 }, this::loadError);
     }
 
@@ -88,54 +52,18 @@ public class MinePresenter extends BasePresenter<IMineView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resBase -> {
-                    setAddSubscribeResult(resBase);
+                    iMineView.setAddSubscribeResult(resBase);
                 }, this::loadError);
     }
 
-    private void setResult(ResUser user) {
-        if (user.getRetCode() == 0) {
-            tvReadCount.setText("" + user.getRetObj().getReadCount());
-            tvSubscribeCount.setText("" + user.getRetObj().getSubscribeCount());
-            tvAccount.setText(user.getRetObj().getNickName());
-
-            if (!TextUtils.isEmpty(user.getRetObj().getDescription())) {
-                tvSignature.setVisibility(View.VISIBLE);
-                tvSignature.setText(user.getRetObj().getDescription());
-            } else {
-                tvSignature.setVisibility(View.GONE);
-            }
-
-            HttpLoadImg.loadCircleWithBorderImg(mContext, ApiRetrofit.BASE_URL + user.getRetObj().getAvatar(), ivAva);
-            //毛玻璃效果 与 状态栏不沉浸
-            Glide.with(mContext).load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar()).bitmapTransform(new BlurTransformation(mContext, 20, 2), new CenterCrop(mContext)).into(mfIvToBg);
-        } else {
-            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
-        }
-    }
-
-    private void setAddSubscribeResult(ResBase resBase) {
-        T.ShowToast(mContext, resBase.getRetMsg());
-    }
-
-    private void setAddResult(ResShareCollection resBase) {
-        if (resBase.getRetCode() == 0) {
-            if (resBase.getRetObj() != null) {
-
-                Intent intent = new Intent(mContext, RichTextActivity.class);
-                intent.putExtra("abstractContent", resBase.getRetObj().getAbstractContent());
-                intent.putExtra(ContentActivity.KEY_TITLE, resBase.getRetObj().getTitle());
-                intent.putExtra("whereFrom", resBase.getRetObj().getWhereFrom());
-                intent.putExtra("pubDate", resBase.getRetObj().getPubTime());
-                intent.putExtra("url", resBase.getRetObj().getLink());
-                intent.putExtra("id", resBase.getRetObj().getId());
-                intent.putExtra("clickGood", resBase.getRetObj().getClickGood());
-                intent.putExtra("clickNotGood", resBase.getRetObj().getClickNotGood());
-                mContext.startActivity(intent);
-            } else {
-                T.ShowToast(mContext, "抱歉，文章链接已失效，无法打开！");
-            }
-        }
-        T.ShowToast(mContext, resBase.getRetMsg());
+    //获取消息数
+    public void getMessages() {
+        messageApi.list(getMessageParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resMessageList -> {
+                    iMineView.setMessageListResult(resMessageList);
+                }, this::loadError);
     }
 
     private void loadError(Throwable throwable) {
@@ -163,10 +91,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
             T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
         }
         if (TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext, Constant.TOKEN, ""))) {
-            tvReadCount.setText("0");
-            tvSubscribeCount.setText("0");
-            tvAccount.setText(mContext.getResources().getString(R.string.str_mf_no_login));
-            HttpLoadImg.loadRoundImg(mContext, R.mipmap.icon_default_avar, ivAva);
+            iMineView.showLoadUserError();
         }
     }
 
@@ -176,14 +101,6 @@ public class MinePresenter extends BasePresenter<IMineView> {
         String jsonParams = "{\"userId\":\"" + userId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         System.out.println(map);
-        return map;
-    }
-
-    private Map<String, String> getSelUpdateParams() {
-        HashMap<String, String> map = new HashMap<>();
-        String localTime = SharedPreferencesUtil.getString(mContext, Constant.LAST_UPDATE_TIME, Constant.START_TIME);
-        String jsonParams = "{\"localTime\":\"" + localTime + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
 
@@ -204,38 +121,6 @@ public class MinePresenter extends BasePresenter<IMineView> {
         String jsonParams = "{\"isDel\":\"" + isDel + "\",\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
-    }
-
-
-    public void getMessages() {
-        messageApi.list(getMessageParams())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resMessageList -> {
-                    setMessageListResult(resMessageList);
-                }, this::loadError);
-    }
-
-
-    private void setMessageListResult(ResMessageList resMessageList) {
-        //TODO 填充数据
-        if (resMessageList.getRetCode() == 0) {
-            if (resMessageList.getRetObj() != null) {
-//                1、获取消息总数
-//                2、用户每点击一条新消息则设置本地累计次数变量+1
-//                3、根据本地累计次数变量与消息总数进行比较如果大于或等于则不再显示消息数
-                int t = resMessageList.getRetObj().getTotal();
-                long localMsgCount = SharedPreferencesUtil.getLong(mContext, Constant.KEY_MESSAGE_COUNT, 0);
-                //存储上一次的消息总数
-                SharedPreferencesUtil.setLong(mContext, Constant.KEY_MESSAGE_TOTAL_COUNT, t);
-                if (t > localMsgCount) {
-                    tvMsgCount.setVisibility(View.VISIBLE);
-                    tvMsgCount.setText("" + (t - localMsgCount));
-                } else {
-                    tvMsgCount.setVisibility(View.GONE);
-                }
-            }
-        }
     }
 
     private Map<String, String> getMessageParams() {
