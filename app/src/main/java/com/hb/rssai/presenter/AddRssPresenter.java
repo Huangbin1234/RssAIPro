@@ -134,19 +134,16 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                 this.mThemes.addAll(resTheme.getRetObj().getRows());
                 if (adapter == null) {
                     adapter = new ThemeAdapter(mContext, mThemes);
-                    adapter.setItemClickedListener(new ThemeAdapter.OnItemClickedListener() {
-                        @Override
-                        public void onClick(ResTheme.RetObjBean.RowsBean rowsBean, View v) {
-                            if (Constant.ACTION_BD_KEY.equals(rowsBean.getAction())) {
-                                //TODO
-                                iAddRssView.showPop(1, rowsBean.getName());
-                            } else if (Constant.ACTION_INPUT_LINK.equals(rowsBean.getAction())) {
-                                //TODO
-                                iAddRssView.showPop(2, rowsBean.getName());
-                            } else if (Constant.ACTION_OPEN_OPML.equals(rowsBean.getAction())) {
-                                //TODO
-                                iAddRssView.showPop(3, rowsBean.getName());
-                            }
+                    adapter.setItemClickedListener((rowsBean, v) -> {
+                        if (Constant.ACTION_BD_KEY.equals(rowsBean.getAction())) {
+                            //TODO
+                            iAddRssView.showPop(1, rowsBean.getName());
+                        } else if (Constant.ACTION_INPUT_LINK.equals(rowsBean.getAction())) {
+                            //TODO
+                            iAddRssView.showPop(2, rowsBean.getName());
+                        } else if (Constant.ACTION_OPEN_OPML.equals(rowsBean.getAction())) {
+                            //TODO
+                            iAddRssView.showPop(3, rowsBean.getName());
                         }
                     });
                     recyclerView.setAdapter(adapter);
@@ -245,6 +242,7 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
             iAddRssView.addSuccess();
         }
         T.ShowToast(mContext, resBase.getRetMsg());
+        T.ShowToast(mContext, "数据采集将在5分钟内开始，请稍等片刻！");
     }
 
     private void getBDInfo() {
@@ -252,12 +250,9 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
         String keyword = iAddRssView.getRssTitle();
         String url = null;
         url = "[{\"ct\":\"simi\",\"cv\":[{\"provider\":\"piclist\",\"Https\":\"1\",\"query\":\"" + keyword + "\",\"SimiCs\":\"4013908033,1059441773\",\"type\":\"card\",\"pn\":\"0\",\"rn\":\"6\",\"srctype\":\"\",\"bdtype\":\"\",\"os\":\"1462401673,115618024\"}]}]";
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(String message) {
-                //打印retrofit日志
-                Log.i("RetrofitLog", "retrofitBack = " + message);
-            }
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> {
+            //打印retrofit日志
+            Log.i("RetrofitLog", "retrofitBack = " + message);
         });
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -288,7 +283,7 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                         if (imgs != null && imgs.size() > 0) {
                             imgs.clear();
                         }
-                        if (null!=result.getData().getSimi().getXiangshi_info()&&null != result.getData().getSimi().getXiangshi_info().getUrl()) {
+                        if (null != result.getData().getSimi().getXiangshi_info() && null != result.getData().getSimi().getXiangshi_info().getUrl()) {
                             imgs.addAll(result.getData().getSimi().getXiangshi_info().getUrl());
                             openImageSelector();
                         }
