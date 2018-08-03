@@ -208,7 +208,7 @@ public class WdRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
             listData.clear();
         }
         listData = resInformation.getRetObj().getRows();
-
+        // 更新Wdiget
     }
 
     private void loadError(Throwable throwable) {
