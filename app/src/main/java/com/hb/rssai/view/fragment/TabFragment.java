@@ -98,6 +98,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     public void onEventMainThread(TipsEvent event) {
         if (event.getMessage() == 1 && event.getNewsCount() > 0) {
             getActivity().runOnUiThread(() -> {
+                mFtTvTips.setVisibility(View.VISIBLE);
                 mFtTvTips.setText("发现" + event.getNewsCount() + "条新消息");
                 mFtTvTips.showTips();
             });
