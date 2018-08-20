@@ -1,8 +1,6 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,18 +8,13 @@ import android.view.View;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.ImageDialogAdapter;
-import com.hb.rssai.adapter.ThemeAdapter;
 import com.hb.rssai.api.FindApi;
 import com.hb.rssai.bean.ResBDJson;
 import com.hb.rssai.bean.ResBase;
-import com.hb.rssai.bean.ResTheme;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
-import com.hb.rssai.util.SharedPreferencesUtil;
-import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IAddRssView;
 import com.hb.rssai.view.widget.FullGridView;
-import com.hb.rssai.view.widget.FullyGridLayoutManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -48,69 +41,20 @@ import rx.schedulers.Schedulers;
  */
 
 public class AddRssPresenter extends BasePresenter<IAddRssView> {
-    private Context mContext;
-    private IAddRssView iAddRssView;
-    private int page = 1;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerView;
-    private FullyGridLayoutManager manager;
-    private boolean isEnd = false, isLoad = false;
-
-    private List<ResTheme.RetObjBean.RowsBean> mThemes = new ArrayList<>();
-    private ThemeAdapter adapter;
+    Context mContext;
+    IAddRssView iAddRssView;
+    String subscribeId = "";
+    String imgUrl = "";
+    List<String> imgs = new ArrayList<>();
+    /**
+     * 弹出图片选择框
+     */
+    MaterialDialog materialDialog;
+    ImageDialogAdapter dialogAdapter;
 
     public AddRssPresenter(Context context, IAddRssView iAddRssView) {
         mContext = context;
         this.iAddRssView = iAddRssView;
-        initView();
-    }
-
-    private void initView() {
-        recyclerView = iAddRssView.getRecyclerView();
-        swipeRefreshLayout = iAddRssView.getSwipeLayout();
-        manager = iAddRssView.getManager();
-
-        swipeRefreshLayout.setOnRefreshListener(() -> refreshList());
-        //TODO 设置上拉加载更多
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem;
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (adapter == null) {
-                    isLoad = false;
-                    swipeRefreshLayout.setRefreshing(false);
-                    return;
-                }
-                // 在最后两条的时候就自动加载
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= adapter.getItemCount()) {
-                    // 加载更多
-                    if (!isEnd && !isLoad) {
-                        swipeRefreshLayout.setRefreshing(true);
-                        page++;
-                        getList();
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = manager.findLastVisibleItemPosition();
-            }
-        });
-    }
-
-    private void refreshList() {
-        page = 1;
-        isLoad = true;
-        isEnd = false;
-        if (mThemes != null) {
-            mThemes.clear();
-        }
-        swipeRefreshLayout.setRefreshing(true);
-        getList();
     }
 
     public void getList() {
@@ -118,60 +62,10 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resTheme -> {
-                    setListResult(resTheme);
+                    iAddRssView.setListResult(resTheme);
                 }, this::loadError);
     }
 
-    private void setListResult(ResTheme resTheme) {
-        isLoad = false;
-        swipeRefreshLayout.setRefreshing(false);
-        //TODO 填充数据
-        if (resTheme.getRetCode() == 0) {
-            iAddRssView.getIncludeNoData().setVisibility(View.GONE);
-            iAddRssView.getIncludeLoadFail().setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            if (resTheme.getRetObj().getRows() != null && resTheme.getRetObj().getRows().size() > 0) {
-                this.mThemes.addAll(resTheme.getRetObj().getRows());
-                if (adapter == null) {
-                    adapter = new ThemeAdapter(mContext, mThemes);
-                    adapter.setItemClickedListener((rowsBean, v) -> {
-                        if (Constant.ACTION_BD_KEY.equals(rowsBean.getAction())) {
-                            //TODO
-                            iAddRssView.showPop(1, rowsBean.getName());
-                        } else if (Constant.ACTION_INPUT_LINK.equals(rowsBean.getAction())) {
-                            //TODO
-                            iAddRssView.showPop(2, rowsBean.getName());
-                        } else if (Constant.ACTION_OPEN_OPML.equals(rowsBean.getAction())) {
-                            //TODO
-                            iAddRssView.showPop(3, rowsBean.getName());
-                        }
-                    });
-                    recyclerView.setAdapter(adapter);
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
-            }
-            if (this.mThemes.size() == resTheme.getRetObj().getTotal()) {
-                isEnd = true;
-            }
-        } else if (resTheme.getRetCode() == 10013) {//暂无数据
-            iAddRssView.getIncludeNoData().setVisibility(View.VISIBLE);
-            iAddRssView.getIncludeLoadFail().setVisibility(View.GONE);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            iAddRssView.getIncludeNoData().setVisibility(View.GONE);
-            iAddRssView.getIncludeLoadFail().setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-            T.ShowToast(mContext, resTheme.getRetMsg());
-        }
-    }
-
-    private Map<String, String> getListParams() {
-        Map<String, String> map = new HashMap<>();
-        String jsonParams = "{\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
-    }
 
     public void addRss() {
         findApi.addRssByUser(getParams())
@@ -193,9 +87,10 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
 
     private void setAddOpmlResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
-            T.ShowToast(mContext, "数据采集将在5分钟内开始，请稍等片刻！");
-        }else{
-            T.ShowToast(mContext, resBase.getRetMsg());
+            iAddRssView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
+
+        } else {
+            iAddRssView.showMsg(resBase.getRetMsg());
         }
     }
 
@@ -211,15 +106,24 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
     private void setUpdateImageResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
             String rssTitle = iAddRssView.getRssTitle();
-            T.ShowToast(mContext, rssTitle + "自动配图成功");
+            iAddRssView.showMsg(rssTitle + "自动配图成功");
+
         } else {
-            T.ShowToast(mContext, resBase.getRetMsg());
+            iAddRssView.showMsg(resBase.getRetMsg());
         }
+    }
+
+    private Map<String, String> getListParams() {
+        Map<String, String> map = new HashMap<>();
+        int page = iAddRssView.getPage();
+        String jsonParams = "{\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        return map;
     }
 
     private Map<String, String> getUpdateImageParams() {
         Map<String, String> map = new HashMap<>();
-        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String userId = iAddRssView.getUserID();
         String jsonParams = "{\"userId\":\"" + userId + "\",\"subscribeId\":\"" + subscribeId + "\",\"imgUrl\":\"" + imgUrl + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
@@ -229,7 +133,7 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
         Map<String, String> map = new HashMap<>();
         String rssLink = iAddRssView.getRssLink();
         String rssTitle = iAddRssView.getRssTitle();
-        String userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
+        String userId = iAddRssView.getUserID();
         String jsonParams = "{\"userId\":\"" + userId + "\",\"link\":\"" + rssLink + "\",\"title\":\"" + rssTitle + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
@@ -239,17 +143,14 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
         throwable.printStackTrace();
         if (throwable instanceof HttpException) {
             if (((HttpException) throwable).response().code() == 401) {
-                T.ShowToast(mContext, Constant.MSG_NO_LOGIN);
+                iAddRssView.showMsg(Constant.MSG_NO_LOGIN);
             } else {
-                T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+                iAddRssView.showMsg(Constant.MSG_NETWORK_ERROR);
             }
         } else {
-            T.ShowToast(mContext, Constant.MSG_NETWORK_ERROR);
+            iAddRssView.showMsg(Constant.MSG_NETWORK_ERROR);
         }
     }
-
-    private String subscribeId = "";
-    private String imgUrl = "";
 
     private void setAddResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
@@ -258,14 +159,14 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
             getBDInfo();
             iAddRssView.addSuccess();
         }
-        T.ShowToast(mContext, resBase.getRetMsg());
-        T.ShowToast(mContext, "数据采集将在5分钟内开始，请稍等片刻！");
+        iAddRssView.showMsg(resBase.getRetMsg());
+        iAddRssView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
     }
 
     private void getBDInfo() {
         //开始自动配图
         String keyword = iAddRssView.getRssTitle();
-        String url = null;
+        String url;
         url = "[{\"ct\":\"simi\",\"cv\":[{\"provider\":\"piclist\",\"Https\":\"1\",\"query\":\"" + keyword + "\",\"SimiCs\":\"4013908033,1059441773\",\"type\":\"card\",\"pn\":\"0\",\"rn\":\"6\",\"srctype\":\"\",\"bdtype\":\"\",\"os\":\"1462401673,115618024\"}]}]";
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> {
             //打印retrofit日志
@@ -315,12 +216,6 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
         });
     }
 
-    List<String> imgs = new ArrayList<>();
-    /**
-     * 弹出图片选择框
-     */
-    MaterialDialog materialDialog;
-    ImageDialogAdapter dialogAdapter;
 
     private void openImageSelector() {
         if (materialDialog == null) {
@@ -356,7 +251,6 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                 for (int i = 0; i < imgs.size(); i++) {
                     if (ImageDialogAdapter.getIsSelected().get(i)) {
                         imgUrl = imgs.get(i);//获取到源图片
-
                         break;
                     }
                 }
@@ -364,7 +258,7 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                     //TODO 更新
                     updateImage();
                 } else {
-                    T.ShowToast(mContext, "未选择任何图片，将采用默认图片封面。");
+                    iAddRssView.showMsg("未选择任何图片，将采用默认图片封面。");
                 }
                 materialDialog.dismiss();
             }).show();
@@ -372,6 +266,4 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
             materialDialog.show();
         }
     }
-
-
 }

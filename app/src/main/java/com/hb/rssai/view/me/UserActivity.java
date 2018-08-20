@@ -558,7 +558,6 @@ public class UserActivity extends BaseActivity implements IUserView {
             } else if (requestCode == 0) {// 本地相册返回
                 Uri uriB = data.getData();
                 String selectedImagePath = ImageUtil.getPath(uriB, this);
-                new DateFormat();
                 String nameB = DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
                 Bitmap bp;
                 BitmapFactory.Options options = new BitmapFactory.Options();

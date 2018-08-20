@@ -28,13 +28,17 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.adapter.ThemeAdapter;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResTheme;
 import com.hb.rssai.bean.RssSource;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.AddRssPresenter;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IAddRssView;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
@@ -51,6 +55,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -72,8 +77,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     LinearLayout mActivityAddSource;
     @BindView(R.id.asa_iv_scan)
     ImageView mAsaIvScan;
-
-    public final static int REQUESTCODE = 1;
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.asa_btn_opml)
@@ -95,14 +98,19 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     LinearLayout mAsaLl;
     @BindView(R.id.llf_btn_re_try)
     Button mLlfBtnReTry;
-
     @BindView(R.id.include_no_data)
     View includeNoData;
     @BindView(R.id.include_load_fail)
     View includeLoadFail;
 
-    //    private LinearLayoutManager mFullyGridLayoutManager;
-    private FullyGridLayoutManager mFullyGridLayoutManager;
+    public final static int REQUESTCODE = 1;
+    FullyGridLayoutManager mFullyGridLayoutManager;
+    boolean isEnd = false, isLoad = false;
+    int page = 1;
+    List<ResTheme.RetObjBean.RowsBean> mThemes = new ArrayList<>();
+    ThemeAdapter adapter;
+    String rssTitle = "";
+    String rssLink = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +121,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initView() {
         mFullyGridLayoutManager = new FullyGridLayoutManager(this, 1);
-//        mFullyGridLayoutManager = new LinearLayoutManager(this);
         mAasRecyclerView.setLayoutManager(mFullyGridLayoutManager);
         mAasRecyclerView.setNestedScrollingEnabled(false);
         mAasRecyclerView.setHasFixedSize(true);
@@ -123,6 +130,54 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mAasSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
+
+        mAasSwipeLayout.setOnRefreshListener(() -> onRefresh());
+        //TODO 设置上拉加载更多
+        mAasRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (adapter == null) {
+                    isLoad = false;
+                    mAasSwipeLayout.setRefreshing(false);
+                    return;
+                }
+                // 在最后两条的时候就自动加载
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 2 >= adapter.getItemCount()) {
+                    // 加载更多
+                    loadMore();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = mFullyGridLayoutManager.findLastVisibleItemPosition();
+            }
+        });
+    }
+
+    @Override
+    protected void onRefresh() {
+        page = 1;
+        isLoad = true;
+        isEnd = false;
+        if (mThemes != null) {
+            mThemes.clear();
+        }
+        mAasSwipeLayout.setRefreshing(true);
+        ((AddRssPresenter) mPresenter).getList();
+    }
+
+    @Override
+    protected void loadMore() {
+        if (!isEnd && !isLoad) {
+            mAasSwipeLayout.setRefreshing(true);
+            page++;
+            ((AddRssPresenter) mPresenter).getList();
+        }
     }
 
     @Override
@@ -158,9 +213,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     protected BasePresenter createPresenter() {
         return new AddRssPresenter(this, this);
     }
-
-    String rssTitle = "";
-    String rssLink = "";
 
     @OnClick({R.id.asa_btn_save, R.id.asa_iv_scan, R.id.asa_btn_opml, R.id.asa_btn_key})
     @Override
@@ -215,6 +267,65 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void setListResult(ResTheme resTheme) {
+        isLoad = false;
+        mAasSwipeLayout.setRefreshing(false);
+        //TODO 填充数据
+        if (resTheme.getRetCode() == 0) {
+            includeNoData.setVisibility(View.GONE);
+            includeLoadFail.setVisibility(View.GONE);
+            mAasRecyclerView.setVisibility(View.VISIBLE);
+            if (resTheme.getRetObj().getRows() != null && resTheme.getRetObj().getRows().size() > 0) {
+                this.mThemes.addAll(resTheme.getRetObj().getRows());
+                if (adapter == null) {
+                    adapter = new ThemeAdapter(this, mThemes);
+                    adapter.setItemClickedListener((rowsBean, v) -> {
+                        if (Constant.ACTION_BD_KEY.equals(rowsBean.getAction())) {
+                            //TODO
+                            showPop(1, rowsBean.getName());
+                        } else if (Constant.ACTION_INPUT_LINK.equals(rowsBean.getAction())) {
+                            //TODO
+                            showPop(2, rowsBean.getName());
+                        } else if (Constant.ACTION_OPEN_OPML.equals(rowsBean.getAction())) {
+                            //TODO
+                            showPop(3, rowsBean.getName());
+                        }
+                    });
+                    mAasRecyclerView.setAdapter(adapter);
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+            if (this.mThemes.size() == resTheme.getRetObj().getTotal()) {
+                isEnd = true;
+            }
+        } else if (resTheme.getRetCode() == 10013) {//暂无数据
+            includeNoData.setVisibility(View.VISIBLE);
+            includeLoadFail.setVisibility(View.GONE);
+            mAasRecyclerView.setVisibility(View.GONE);
+        } else {
+            includeNoData.setVisibility(View.GONE);
+            includeLoadFail.setVisibility(View.VISIBLE);
+            mAasRecyclerView.setVisibility(View.GONE);
+            T.ShowToast(this, resTheme.getRetMsg());
+        }
+    }
+
+    @Override
+    public void showMsg(String s) {
+        T.ShowToast(this, s);
+    }
+
+    @Override
+    public int getPage() {
+        return page;
+    }
+
+    @Override
+    public String getUserID() {
+        return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+    }
 
     @Override
     public String getRssLink() {
@@ -226,32 +337,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         return rssTitle;
     }
 
-    @Override
-    public RecyclerView getRecyclerView() {
-        return mAasRecyclerView;
-    }
-
-    @Override
-    public SwipeRefreshLayout getSwipeLayout() {
-        return mAasSwipeLayout;
-    }
-
-    @Override
-    public FullyGridLayoutManager getManager() {
-        return mFullyGridLayoutManager;
-    }
-
-    @Override
-    public View getIncludeNoData() {
-        return includeNoData;
-    }
-
-    @Override
-    public View getIncludeLoadFail() {
-        return includeLoadFail;
-    }
-
-    @Override
     public void showPop(int i, String title) {
         showPopView(i, title);
         if (mPop.isShowing()) {
@@ -276,7 +361,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             mPop.dismiss();
         }
     }
-
 
     class OpmlTask extends AsyncTask<String, Void, List<Outline>> {
 

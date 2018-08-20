@@ -4,6 +4,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.hb.rssai.bean.ResTheme;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 
 /**
@@ -15,17 +16,14 @@ public interface IAddRssView {
 
     String getRssTitle();
 
-    RecyclerView getRecyclerView();
-
-    SwipeRefreshLayout getSwipeLayout();
-
-    FullyGridLayoutManager getManager();
-
-    View getIncludeNoData();
-
-    View getIncludeLoadFail();
-
-    void showPop(int i, String title);
-
     void addSuccess();
+
+    void setListResult(ResTheme resTheme);
+
+    int getPage();
+
+    void showMsg(String s);
+
+    String getUserID();
+
 }
