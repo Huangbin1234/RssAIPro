@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -21,13 +22,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
+import com.hb.rssai.adapter.FindMoreAdapter;
+import com.hb.rssai.adapter.RecommendAdapter;
+import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseFragment;
+import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResFindMore;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.FindMoreEvent;
+import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.FindPresenter;
 import com.hb.rssai.util.DisplayUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.iView.IFindView;
 import com.hb.rssai.view.me.SearchActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
 import com.hb.rssai.view.subscription.tab.TabResourceActivity;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
 import com.hb.rssai.view.widget.MyDecoration;
@@ -35,11 +47,14 @@ import com.hb.rssai.view.widget.MyDecoration;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
-import butterknife.Unbinder;
+import butterknife.OnClick;
 
 
-public class FindFragment extends BaseFragment implements IFindView {
+public class FindFragment extends BaseFragment implements IFindView, View.OnClickListener {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -71,7 +86,6 @@ public class FindFragment extends BaseFragment implements IFindView {
     LinearLayout mLlRecommend;
     @BindView(R.id.ff_ll_root)
     LinearLayout mFfLlRoot;
-    Unbinder unbinder;
     @BindView(R.id.sys_iv_search)
     ImageView mSysIvSearch;
     @BindView(R.id.include_no_data)
@@ -87,6 +101,18 @@ public class FindFragment extends BaseFragment implements IFindView {
 
     private boolean isPrepared;
     private View rView;
+
+    private RecommendAdapter recommendAdapter;
+    private FindMoreAdapter findMoreAdapter;
+
+    private int page = 1;
+    private boolean isEnd = false, isLoad = false;
+    private List<ResFindMore.RetObjBean.RowsBean> resFindMores = new ArrayList<>();
+    private List<ResFindMore.RetObjBean.RowsBean> resRecommends = new ArrayList<>();
+    private int recommendPage = 1;
+    private boolean isRecommendEnd = false, isRecommendLoad = false;
+    private ResFindMore.RetObjBean.RowsBean rowsBean;
+
     @Override
     protected void lazyLoad() {
         if (!isVisible || !isPrepared) {
@@ -139,7 +165,7 @@ public class FindFragment extends BaseFragment implements IFindView {
 
     @Override
     protected BasePresenter createPresenter() {
-        return new FindPresenter(getContext(), this);
+        return new FindPresenter(this);
     }
 
     @Override
@@ -169,20 +195,59 @@ public class FindFragment extends BaseFragment implements IFindView {
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mFfSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-        mSubLlAll.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), TabResourceActivity.class);
-            startActivity(intent);
-        });
-        mSysIvSearch.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), SearchActivity.class);
-            startActivity(intent);
-        });
+        mFfSwipeLayout.setOnRefreshListener(() -> onRefresh());
+        mFfNestScrollview.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
 
-        mLlfBtnReTry.setOnClickListener(v -> {
-            ((FindPresenter) mPresenter).findMoreList();
-            ((FindPresenter) mPresenter).recommendList();
+            if (v.getChildAt(0) != null && isBottomForNestedScrollView(v, scrollY)) {
+                // 加载更多
+                loadMore();
+            }
         });
     }
+
+    // TODO: 判断是不是在底部
+    private boolean isBottomForNestedScrollView(NestedScrollView v, int scrollY) {
+        return (scrollY + v.getHeight()) == (v.getChildAt(0).getHeight() + v.getPaddingTop() + v.getPaddingBottom());
+    }
+
+    @Override
+    protected void onRefresh() {
+        page = 1;
+        recommendPage = 1;
+        isLoad = true;
+        isRecommendLoad = true;
+
+        isEnd = false;
+        isRecommendEnd = false;
+
+        if (resFindMores != null) {
+            resFindMores.clear();
+        }
+        if (resRecommends != null) {
+            resRecommends.clear();
+        }
+        mFfSwipeLayout.setRefreshing(true);
+
+        if (findMoreAdapter != null) {
+            findMoreAdapter.init();
+        }
+        if (recommendAdapter != null) {
+            recommendAdapter.init();
+        }
+
+        ((FindPresenter) mPresenter).recommendList();
+        ((FindPresenter) mPresenter).findMoreList();
+    }
+
+    @Override
+    protected void loadMore() {
+        if (!isEnd && !isLoad) {
+            mFfSwipeLayout.setRefreshing(true);
+            page++;
+            ((FindPresenter) mPresenter).findMoreList();
+        }
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -195,7 +260,7 @@ public class FindFragment extends BaseFragment implements IFindView {
     @Subscribe
     public void onEventMainThread(FindMoreEvent event) {
         if (event.getMessage() == 0) {
-            ((FindPresenter) mPresenter).refreshList();
+            onRefresh();
         }
     }
 
@@ -215,6 +280,11 @@ public class FindFragment extends BaseFragment implements IFindView {
         }
     }
 
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -227,53 +297,209 @@ public class FindFragment extends BaseFragment implements IFindView {
         EventBus.getDefault().unregister(this);
     }
 
+    @OnClick({R.id.sub_ll_all, R.id.sys_iv_search, R.id.llf_btn_re_try, R.id.ll_recommend})
     @Override
-    public RecyclerView getFfFindRecyclerView() {
-        return mFfFindRecyclerView;
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sub_ll_all:
+                startActivity(new Intent(getContext(), TabResourceActivity.class));
+                break;
+            case R.id.sys_iv_search:
+                startActivity(new Intent(getContext(), SearchActivity.class));
+                break;
+            case R.id.llf_btn_re_try:
+                ((FindPresenter) mPresenter).findMoreList();
+                ((FindPresenter) mPresenter).recommendList();
+                break;
+            case R.id.ll_recommend:
+                if (!isRecommendEnd && !isRecommendLoad) {
+                    recommendPage++;
+                    ((FindPresenter) mPresenter).recommendList();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
-    public RecyclerView getFfTopicRecyclerView() {
-        return null;
+    public void setFindMoreResult(ResFindMore resFindMore) {
+        isLoad = false;
+        mFfSwipeLayout.setRefreshing(false);
+        //TODO 填充数据
+        if (resFindMore.getRetCode() == 0) {
+            mFfFindRecyclerView.setVisibility(View.VISIBLE);
+            include_load_fail.setVisibility(View.GONE);
+            include_no_data.setVisibility(View.GONE);
+
+            if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
+                resFindMores.addAll(resFindMore.getRetObj().getRows());
+                if (findMoreAdapter == null) {
+                    findMoreAdapter = new FindMoreAdapter(getContext(), resFindMores);
+                    findMoreAdapter.setOnItemClickedListener(rowsBean1 -> {
+
+                        Intent intent = new Intent(getContext(), SourceCardActivity.class);
+                        intent.putExtra(SourceCardActivity.KEY_LINK, rowsBean1.getLink());
+                        intent.putExtra(SourceCardActivity.KEY_TITLE, rowsBean1.getName());
+                        intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
+                        intent.putExtra(SourceCardActivity.KEY_IMAGE, rowsBean1.getImg());
+                        intent.putExtra(SourceCardActivity.KEY_DESC, rowsBean1.getAbstractContent());
+                        intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rowsBean1.isCheck());
+                        getContext().startActivity(intent);
+                    });
+                    findMoreAdapter.setOnAddClickedListener((bean, v) -> {
+                        rowsBean = bean;
+
+                        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(getContext(), Constant.TOKEN, ""))) {
+                            //TODO 先去查询服务器上此条数据
+                            ((FindPresenter) mPresenter).findMoreListById(v, false);
+                        } else {
+                            //跳转到登录
+                            T.ShowToast(getContext(), Constant.MSG_NO_LOGIN);
+                            Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ProjectApplication.mContext.startActivity(intent);
+                        }
+                    });
+                    mFfFindRecyclerView.setAdapter(findMoreAdapter);
+                } else {
+                    findMoreAdapter.notifyDataSetChanged();
+                }
+            }
+            if (resFindMores.size() == resFindMore.getRetObj().getTotal()) {
+                isEnd = true;
+            }
+        } else if (resFindMore.getRetCode() == 10013) {//暂无数据
+            include_no_data.setVisibility(View.VISIBLE);
+            include_load_fail.setVisibility(View.GONE);
+            mFfFindRecyclerView.setVisibility(View.GONE);
+        } else {
+            include_no_data.setVisibility(View.GONE);
+            include_load_fail.setVisibility(View.VISIBLE);
+            mFfFindRecyclerView.setVisibility(View.GONE);
+            T.ShowToast(getContext(), resFindMore.getRetMsg());
+        }
     }
 
     @Override
-    public RecyclerView getFfHotRecyclerView() {
-        return mFfHotRecyclerView;
+    public void setRecommendResult(ResFindMore resFindMore) {
+        isRecommendLoad = false;
+        //TODO 填充数据
+        if (resFindMore.getRetCode() == 0) {
+            if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
+                if (resRecommends.size() > 0) {
+                    resRecommends.clear();
+                    recommendAdapter.notifyDataSetChanged();
+                }
+                resRecommends.addAll(resFindMore.getRetObj().getRows());
+                if (recommendAdapter == null) {
+                    recommendAdapter = new RecommendAdapter(getContext(), resRecommends);
+                    recommendAdapter.setOnAddClickedListener((bean, v) -> {
+                        rowsBean = bean;
+                        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(getContext(), Constant.TOKEN, ""))) {
+                            //TODO 先去查询服务器上此条数据
+                            ((FindPresenter) mPresenter).findMoreListById(v, true);
+                        } else {
+                            //跳转到登录
+                            T.ShowToast(getContext(), Constant.MSG_NO_LOGIN);
+                            Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ProjectApplication.mContext.startActivity(intent);
+                        }
+                    });
+                    mFfHotRecyclerView.setAdapter(recommendAdapter);
+                } else {
+                    recommendAdapter.notifyDataSetChanged();
+                }
+                if (recommendPage * Constant.RECOMMEND_PAGE_SIZE + resRecommends.size() >= resFindMore.getRetObj().getTotal()) {
+                    isRecommendEnd = true;
+                }
+            }
+        } else {
+            T.ShowToast(getContext(), resFindMore.getRetMsg());
+        }
     }
 
     @Override
-    public SwipeRefreshLayout getFfSwipeLayout() {
-        return mFfSwipeLayout;
+    public void setDelResult(ResBase resBase, View v, boolean isRecommend) {
+        T.ShowToast(getContext(), resBase.getRetMsg());
+        if (resBase.getRetCode() == 0) {
+            EventBus.getDefault().post(new RssSourceEvent(0));
+        }
+        if (isRecommend) {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setImageResource(R.mipmap.ic_recommend_add);
+            } else {
+                ((ImageView) v).setImageResource(R.color.trans);
+            }
+        } else {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_add);
+            } else {
+                ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_cancel);
+            }
+        }
     }
 
     @Override
-    public LinearLayoutManager getFindMoreManager() {
-        return mFindMoreLinearManager;
+    public String getRowsBeanId() {
+        return rowsBean.getId();
     }
 
     @Override
-    public NestedScrollView getNestScrollView() {
-        return mFfNestScrollview;
+    public String getPage() {
+        return "" + page;
     }
 
     @Override
-    public LinearLayout getLlRecommend() {
-        return mLlRecommend;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public String getRecommendPage() {
+        return "" + recommendPage;
     }
 
     @Override
-    public View getIncludeNoData() {
-        return include_no_data;
+    public void showFindError() {
+        if (!(null != resFindMores && resFindMores.size() > 0)) {
+            include_load_fail.setVisibility(View.VISIBLE);
+            include_no_data.setVisibility(View.GONE);
+        }
+        mFfSwipeLayout.setRefreshing(false);
+        T.ShowToast(getContext(), Constant.MSG_NETWORK_ERROR);
     }
 
     @Override
-    public View getIncludeLoadFail() {
-        return include_load_fail;
+    public void showLoadError() {
+        mFfSwipeLayout.setRefreshing(false);
+        T.ShowToast(getContext(), Constant.MSG_NETWORK_ERROR);
+    }
+
+    @Override
+    public String getUserID() {
+        return SharedPreferencesUtil.getString(getContext(), Constant.USER_ID, "");
+    }
+
+    @Override
+    public void showToast(String retMsg) {
+        T.ShowToast(getContext(), retMsg);
+    }
+
+    @Override
+    public void setAddResult(ResBase resBase, View v, boolean isRecommend) {
+        T.ShowToast(getContext(), resBase.getRetMsg());
+        if (resBase.getRetCode() == 0) {
+            EventBus.getDefault().post(new RssSourceEvent(0));
+        }
+        if (isRecommend) {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setImageResource(R.color.trans);
+            } else {
+                ((ImageView) v).setImageResource(R.mipmap.ic_recommend_add);
+            }
+        } else {
+            if (resBase.getRetCode() == 0) {
+                ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_cancel);
+            } else {
+                ((ImageView) v).setImageResource(R.mipmap.ic_subscribe_add);
+            }
+        }
     }
 }

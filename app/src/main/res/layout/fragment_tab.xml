@@ -32,7 +32,7 @@
             android:padding="16dp"
             android:textSize="@dimen/s14p"
             android:textColor="@color/color_reg_label"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
     </RelativeLayout>
     <!-- TODO: Update blank fragment layout -->
     <!--<LinearLayout-->

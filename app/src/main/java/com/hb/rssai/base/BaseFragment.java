@@ -22,7 +22,6 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends LazyFr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -52,6 +51,14 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends LazyFr
 
     //初始化控件信息
     protected abstract void initView(View rootView);
+
+    //下拉刷新
+    protected void onRefresh() {
+    }
+
+    //上拉加载更多
+    protected void loadMore() {
+    }
 
     @Override
     public void onDestroy() {

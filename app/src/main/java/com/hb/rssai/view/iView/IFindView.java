@@ -1,32 +1,35 @@
 package com.hb.rssai.view.iView;
 
-import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
+
+import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResFindMore;
 
 /**
  * Created by Administrator on 2017/8/15.
  */
 
 public interface IFindView {
-    RecyclerView getFfFindRecyclerView();
 
-    RecyclerView getFfTopicRecyclerView();
+    void setFindMoreResult(ResFindMore resFindMore);
 
-    RecyclerView getFfHotRecyclerView();
+    void setRecommendResult(ResFindMore resFindMore);
 
-    SwipeRefreshLayout getFfSwipeLayout();
+    void setAddResult(ResBase resBase, View v, boolean isRecommend);
 
-    LinearLayoutManager getFindMoreManager();
+    void setDelResult(ResBase resBase, View v, boolean isRecommend);
 
-    NestedScrollView getNestScrollView();
+    String getRowsBeanId();
 
-    LinearLayout getLlRecommend();
+    String getPage();
 
-    View getIncludeNoData();
+    String getRecommendPage();
 
-    View getIncludeLoadFail();
+    void showFindError();
+
+    void showLoadError();
+
+    String getUserID();
+
+    void showToast(String retMsg);
 }
