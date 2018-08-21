@@ -258,18 +258,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
     };
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @OnCheckedChanged({R.id.sa_sw_change_source, R.id.sa_sw_no_image})
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

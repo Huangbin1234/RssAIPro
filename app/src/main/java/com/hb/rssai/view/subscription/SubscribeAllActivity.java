@@ -203,18 +203,6 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
         return new SubListPresenter(this);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * 菜单对话框
      *

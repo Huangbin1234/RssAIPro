@@ -89,17 +89,7 @@ public class HotTagActivity extends BaseActivity {
         }
         mSysTvTitle.setText(getResources().getString(R.string.str_hta_title));
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
     @Override
     protected BasePresenter createPresenter() {
         return null;

@@ -90,17 +90,6 @@ public class MessageContentActivity extends BaseActivity {
         mSysTvTitle.setText(getResources().getString(R.string.str_message_content_title));
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected BasePresenter createPresenter() {

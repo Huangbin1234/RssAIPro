@@ -127,18 +127,6 @@ public class MessageActivity extends BaseActivity implements IMessageView {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected BasePresenter createPresenter() {
         return new MessagePresenter(this);
     }

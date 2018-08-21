@@ -192,18 +192,6 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected BasePresenter createPresenter() {
         return new OfflinePresenter(this);
     }

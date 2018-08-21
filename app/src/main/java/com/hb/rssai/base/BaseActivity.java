@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -84,12 +85,7 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
             setSupportActionBar(sysToolbar);
             sysTvTitle.setText(title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            sysToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finish();
-                }
-            });
+            sysToolbar.setNavigationOnClickListener(view -> finish());
         }
     }
 
@@ -99,5 +95,17 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         if (mPresenter != null) {
             mPresenter.detachView();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
