@@ -2,7 +2,7 @@ package com.hb.rssai.presenter;
 
 import android.text.TextUtils;
 
-import com.hb.rssai.view.iView.ILoginView;
+import com.hb.rssai.contract.LoginContract;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,12 +14,15 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2017/8/13 0013.
  */
 
-public class LoginPresenter extends BasePresenter<ILoginView> {
-    private ILoginView iLoginView;
+public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
 
-    public LoginPresenter(ILoginView iLoginView) {
-        this.iLoginView = iLoginView;
+    private LoginContract.View mView;
+
+    public LoginPresenter(LoginContract.View mView) {
+        this.mView = mView;
+        this.mView.setPresenter(this);
     }
+
 
     private String checkUserName(String userName) {
         if (TextUtils.isEmpty(userName)) {
@@ -38,32 +41,34 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         return null;
     }
 
-    public void login() {
+    @Override
+    public void login(String name, String password) {
         String error;
-        String uName = iLoginView.getUserName();
-        String uPsd = iLoginView.getPassword();
-        if ((error = checkUserName(uName)) != null) {
-            iLoginView.setCheckError(error);
+        if ((error = checkUserName(name)) != null) {
+            mView.showCheckError(error);
             return;
         }
-        if ((error = checkPassword(uPsd)) != null) {
-            iLoginView.setCheckError(error);
+        if ((error = checkPassword(password)) != null) {
+            mView.showCheckError(error);
             return;
         }
-        loginApi.doLogin(getParams())
+        loginApi.doLogin(getParams(name, password))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resLogin -> {
-                    iLoginView.setLoginResult(resLogin);
-                }, iLoginView::loadError);
+                    mView.showLoginSuccess(resLogin);
+                }, mView::showLoginFailed);
     }
 
-    public Map<String, String> getParams() {
-        String uName = iLoginView.getUserName();
-        String uPsd = iLoginView.getPassword();
+    public Map<String, String> getParams(String name, String password) {
         Map<String, String> params = new HashMap<>();
-        String jsonParams = "{\"userName\":\"" + uName + "\",\"password\":\"" + uPsd + "\"}";
+        String jsonParams = "{\"userName\":\"" + name + "\",\"password\":\"" + password + "\"}";
         params.put("jsonParams", jsonParams);
         return params;
+    }
+
+    @Override
+    public void start() {
+
     }
 }

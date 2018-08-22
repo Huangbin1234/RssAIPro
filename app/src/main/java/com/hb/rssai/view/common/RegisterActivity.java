@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
@@ -17,16 +16,18 @@ import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.contract.RegisterContract;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.RegisterPresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.iView.IRegisterView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class RegisterActivity extends BaseActivity implements View.OnClickListener, IRegisterView {
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, RegisterContract.View {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -44,6 +45,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     CheckedTextView mRaChktvSpsdControl;
     @BindView(R.id.ra_btn_register)
     Button mRaBtnRegister;
+
+    RegisterContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +80,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return new RegisterPresenter(this);
     }
 
+    @Override
+    public void setPresenter(RegisterContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
+
     @OnClick({R.id.ra_btn_register, R.id.ra_chktv_spsd_control})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ra_btn_register:
-                ((RegisterPresenter) mPresenter).register();
+                String name = mRaEtUserName.getText().toString().trim();
+                String psd = mRaEtPassword.getText().toString().trim();
+                String sPsd = mRaEtSpassword.getText().toString().trim();
+
+                mPresenter.register(name, psd, sPsd);
                 break;
             case R.id.ra_chktv_spsd_control:
                 if (mRaChktvSpsdControl.isChecked()) {
@@ -101,7 +113,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public void setRegResult(ResBase resBase) {
+    public void showCheckError(String error) {
+        T.ShowToast(this, error);
+    }
+
+    @Override
+    public void showRegisterSuccess(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
             String name = mRaEtUserName.getText().toString().trim();
             String psd = mRaEtSpassword.getText().toString().trim();
@@ -114,29 +131,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public void loadError(Throwable throwable) {
+    public void showRegisterFailed(Throwable throwable) {
         throwable.printStackTrace();
         T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
-    }
-
-    @Override
-    public void setCheckError(String error) {
-        T.ShowToast(this, error);
-    }
-
-    @Override
-    public String getUserName() {
-        return mRaEtUserName.getText().toString().trim();
-    }
-
-    @Override
-    public String getPassword() {
-        return mRaEtPassword.getText().toString().trim();
-    }
-
-    @Override
-    public String getSurePassword() {
-        return mRaEtSpassword.getText().toString().trim();
     }
 
 }

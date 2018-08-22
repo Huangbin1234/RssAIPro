@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
@@ -19,6 +18,7 @@ import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResLogin;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.contract.LoginContract;
 import com.hb.rssai.event.FindMoreEvent;
 import com.hb.rssai.event.MineEvent;
 import com.hb.rssai.event.RssSourceEvent;
@@ -27,14 +27,15 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.LoginPresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.iView.ILoginView;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity implements ILoginView, View.OnClickListener {
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public class LoginActivity extends BaseActivity implements LoginContract.View, View.OnClickListener {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -54,6 +55,8 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     TextView mLaTvRegister;
     @BindView(R.id.la_tv_forget)
     TextView mLaTvForget;
+
+    public LoginContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +98,20 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         return new LoginPresenter(this);
     }
 
-    @OnClick({R.id.la_btn_login, R.id.la_tv_register, R.id.la_chktv_psd_control,R.id.la_tv_forget})
+    @Override
+    public void setPresenter(LoginContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
+
+    @OnClick({R.id.la_btn_login, R.id.la_tv_register, R.id.la_chktv_psd_control, R.id.la_tv_forget})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.la_btn_login:
-                ((LoginPresenter) mPresenter).login();
+                String name = mLaEtUserName.getText().toString().trim();
+                String password = mLaEtPassword.getText().toString().trim();
+
+                mPresenter.login(name, password);
                 break;
             case R.id.la_tv_register:
                 startActivity(new Intent(this, RegisterActivity.class));
@@ -124,9 +135,8 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         }
     }
 
-
     @Override
-    public void setLoginResult(ResLogin bean) {
+    public void showLoginSuccess(ResLogin bean) {
         if (bean.getRetCode() == 0) {
             String uName = mLaEtUserName.getText().toString().trim();
             String uPsd = mLaEtPassword.getText().toString().trim();
@@ -147,27 +157,16 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     }
 
     @Override
-    public void loadError(Throwable throwable) {
+    public void showLoginFailed(Throwable throwable) {
         throwable.printStackTrace();
         T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
     }
 
     @Override
-    public void setCheckError(String error) {
+    public void showCheckError(String error) {
         T.ShowToast(this, error);
     }
 
-    @Override
-    public String getUserName() {
-        return mLaEtUserName.getText().toString().trim();
-    }
-
-    @Override
-    public String getPassword() {
-        return mLaEtPassword.getText().toString().trim();
-    }
-
-    @Override
     public void toFinish() {
         setResult(RESULT_OK);
         finish();
