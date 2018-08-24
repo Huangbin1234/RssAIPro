@@ -32,6 +32,7 @@ import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.bean.ResShareCollection;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.contract.RichTextContract;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.RichTextPresenter;
 import com.hb.rssai.util.DateUtil;
@@ -42,7 +43,6 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.iView.IRichTextView;
 import com.hb.rssai.view.widget.MyDecoration;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -66,7 +66,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import retrofit2.adapter.rxjava.HttpException;
 
-public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, IRichTextView, View.OnClickListener {
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener, RichTextContract.View {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -123,14 +125,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     private LikeAdapter likeAdapter;
     private Evaluate evaluate = new Evaluate();
 
+    RichTextContract.Presenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((RichTextPresenter) mPresenter).getLikeByTitle();
+        mPresenter.getLikeByTitle(title);
         if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.TOKEN, ""))) {
-            ((RichTextPresenter) mPresenter).updateCount();
+            mPresenter.updateCount(id);
         }
-        ((RichTextPresenter) mPresenter).getInformation();
+        mPresenter.getInformation(id);
     }
 
     @Override
@@ -246,6 +250,11 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
     }
 
+    @Override
+    public void setPresenter(RichTextContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
+
     private static class CustomShareListener implements UMShareListener {
 
         private WeakReference<RichTextActivity> mActivity;
@@ -338,7 +347,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         MenuItem item = menu.findItem(R.id.toolbar_add_collection);
         this.item = item;
         if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.TOKEN, ""))) {
-            ((RichTextPresenter) mPresenter).getCollectionByInfoId();
+            mPresenter.getCollectionByInfoId(id, getUserID());
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -358,18 +367,15 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     collection.setTitle(title);
                     LiteOrmDBUtil.insert(collection);
                     T.ShowToast(RichTextActivity.this, "收藏成功！");
-                    ((RichTextPresenter) mPresenter).add();
+
+                    String userId = getUserID();
+                    mPresenter.add(title, url, id, mRetObjBean, userId);
 
                 } else {
                     T.ShowToast(this, "收藏失败，链接错误！");
                 }
                 break;
             case R.id.toolbar_add_share:
-//                Intent intent = new Intent(this, QrCodeActivity.class);
-//                intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[2]);
-//                intent.putExtra(QrCodeActivity.KEY_TITLE, title);
-//                intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_URL_SOURCE + url));
-//                startActivity(intent);
                 ShareBoardConfig config = new ShareBoardConfig();
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_NONE);
                 mShareAction.open(config);
@@ -407,13 +413,13 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     }
 
     @Override
-    public void setUpdateResult(ResBase resBase) {
+    public void showUpdateResult(ResBase resBase) {
         //TODO 更新数量成功
     }
 
 
     @Override
-    public void setListResult(ResInformation resInformation) {
+    public void showListResult(ResInformation resInformation) {
         if (resInformation.getRetCode() == 0) {
             if (resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
                 resInfoList.addAll(resInformation.getRetObj().getRows());
@@ -442,8 +448,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     }
 
     @Override
-    public void setAddResult(ResShareCollection resShareCollection) {
-        ((RichTextPresenter) mPresenter).getCollectionByInfoId();
+    public void showAddResult(ResShareCollection resShareCollection) {
+        mPresenter.getCollectionByInfoId(id, getUserID());
         T.ShowToast(this, resShareCollection.getRetMsg());
     }
 
@@ -457,9 +463,9 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
 
     @Override
-    public void setUpdateEvaluateResult(ResBase resBase) {
+    public void showUpdateEvaluateResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
-            ((RichTextPresenter) mPresenter).getInformation();
+            mPresenter.getInformation(id);
         } else {
             T.ShowToast(this, resBase.getRetMsg());
         }
@@ -467,9 +473,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
 
     @Override
-    public void setInfoResult(ResInfo resInfo) {
+    public void showInfoResult(ResInfo resInfo) {
         if (resInfo.getRetCode() == 0) {
-
             mRtaTvGood.setText("" + resInfo.getRetObj().getClickGood());
             mRtaTvNotGood.setText("" + resInfo.getRetObj().getClickNotGood());
             //刷新
@@ -536,7 +541,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
 
     @Override
-    public void setCollectionInfoIdResult(ResCollectionBean resCollectionBean) {
+    public void showCollectionInfoIdResult(ResCollectionBean resCollectionBean) {
         mRetObjBean = resCollectionBean.getRetObj();
         if (resCollectionBean.getRetCode() == 0) {
             //设置收藏图标
@@ -548,41 +553,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         } else {
             item.setIcon(R.mipmap.ic_collection_normal);
         }
-    }
-
-    @Override
-    public String getInfoId() {
-        return id;
-    }
-
-    @Override
-    public String getInfoTitle() {
-        return title;
-    }
-
-    @Override
-    public String getUserId() {
-        return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
-    }
-
-    @Override
-    public String getUrl() {
-        return url;
-    }
-
-    @Override
-    public String getEvaluateType() {
-        return evaluateType;
-    }
-
-    @Override
-    public Evaluate getEvaluate() {
-        return evaluate;
-    }
-
-    @Override
-    public ResCollectionBean.RetObjBean getRetObjBean() {
-        return mRetObjBean;
     }
 
 
@@ -599,7 +569,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 } else {
                     mRtaLlGood.setEnabled(false);
                     mRtaLlNotGood.setEnabled(false);
-                    ((RichTextPresenter) mPresenter).updateEvaluateCount();
+                    mPresenter.updateEvaluateCount(id, evaluateType, evaluate);
                 }
                 break;
             case R.id.rta_ll_not_good:
@@ -609,7 +579,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 } else {
                     mRtaLlGood.setEnabled(false);
                     mRtaLlNotGood.setEnabled(false);
-                    ((RichTextPresenter) mPresenter).updateEvaluateCount();
+                    mPresenter.updateEvaluateCount(id, evaluateType, evaluate);
                 }
                 break;
         }

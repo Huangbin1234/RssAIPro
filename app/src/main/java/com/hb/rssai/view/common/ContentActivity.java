@@ -1,9 +1,6 @@
 package com.hb.rssai.view.common;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -24,21 +21,27 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResShareCollection;
 import com.hb.rssai.bean.UserCollection;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.contract.ContentContract;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.ContentPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.iView.IContentView;
+import com.hb.rssai.util.WifiUtil;
 
 import java.util.Date;
 
 import butterknife.BindView;
 
-public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, IContentView {
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, ContentContract.View {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -58,10 +61,12 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
     private String title = "";
     private String informationId = "";
 
+    ContentContract.Presenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((ContentPresenter) mPresenter).updateCount();
+        mPresenter.updateCount(informationId);
     }
 
     @Override
@@ -95,7 +100,7 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
 
     @Override
     protected BasePresenter createPresenter() {
-        return new ContentPresenter(this, this);
+        return new ContentPresenter(this);
     }
 
     @Override
@@ -112,7 +117,7 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
         // 运行加载JS
         mCaWvContent.getSettings().setJavaScriptEnabled(true);
         // 采用缓存模式 需要对应清除缓存操作
-        if (isWIFIkAvailable()) {
+        if (WifiUtil.isWIFIkAvailable(this)) {
             //当前有可用网络
             mCaWvContent.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);  //设置 缓存模式( 根据cache-control决定是否从网络上取数据。)
         } else {
@@ -178,17 +183,6 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
     }
 
 
-    private boolean isWIFIkAvailable() {
-        ConnectivityManager cwjManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = cwjManager.getActiveNetworkInfo();
-        if (info != null && info.isAvailable()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
@@ -201,7 +195,9 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
                     collection.setTitle(title);
                     LiteOrmDBUtil.insert(collection);
                     T.ShowToast(ContentActivity.this, "收藏成功！");
-                    ((ContentPresenter) mPresenter).add();
+
+                    String userId = SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
+                    mPresenter.add(title,contentUrl,  informationId, userId);
                 } else {
                     T.ShowToast(this, "收藏失败，链接错误！");
                 }
@@ -228,17 +224,27 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
     }
 
     @Override
-    public String getNewTitle() {
-        return title;
+    public void showAddSuccess(ResShareCollection resShareCollection) {
+        T.ShowToast(this, resShareCollection.getRetMsg());
     }
 
     @Override
-    public String getNewLink() {
-        return contentUrl;
+    public void showUpdateSuccess(ResBase resBase) {
+        //TODO
     }
 
     @Override
-    public String getInformationId() {
-        return informationId;
+    public void showUpdateFailed(Throwable throwable) {
+        throwable.printStackTrace();
+    }
+
+    @Override
+    public void showAddFailed(Throwable throwable) {
+        throwable.printStackTrace();
+    }
+
+    @Override
+    public void setPresenter(ContentContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 }

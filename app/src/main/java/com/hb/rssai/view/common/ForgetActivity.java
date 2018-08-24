@@ -5,7 +5,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,14 +15,16 @@ import com.hb.rssai.R;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.contract.ForgetContract;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.ForgetPresenter;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.iView.IForgetView;
 
 import butterknife.BindView;
 
-public class ForgetActivity extends BaseActivity implements IForgetView {
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public class ForgetActivity extends BaseActivity implements ForgetContract.View {
 
 
     @BindView(R.id.sys_tv_title)
@@ -56,6 +57,8 @@ public class ForgetActivity extends BaseActivity implements IForgetView {
     View vMobileEnd;
 
     private String type = "email";
+
+    ForgetContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +113,12 @@ public class ForgetActivity extends BaseActivity implements IForgetView {
                     break;
             }
         });
-        mFaBtnSure.setOnClickListener(v -> ((ForgetPresenter) mPresenter).findPsd());
+        mFaBtnSure.setOnClickListener(v -> {
+            String email = mFaEtEmail.getText().toString().trim();
+            String userName = mFaEtUserName.getText().toString().trim();
+            String mobile = mFaEtUserMobile.getText().toString().trim();
+            mPresenter.retrievePassword(type, email, userName, mobile);
+        });
     }
 
     @Override
@@ -135,29 +143,8 @@ public class ForgetActivity extends BaseActivity implements IForgetView {
         return new ForgetPresenter(this);
     }
 
-
     @Override
-    public String getType() {
-        return type;
-    }
-
-    @Override
-    public String getEmail() {
-        return mFaEtEmail.getText().toString().trim();
-    }
-
-    @Override
-    public String getUserName() {
-        return mFaEtUserName.getText().toString().trim();
-    }
-
-    @Override
-    public String getMobile() {
-        return mFaEtUserMobile.getText().toString().trim();
-    }
-
-    @Override
-    public void showFindResult(ResBase resBase) {
+    public void showRetrieveSuccess(ResBase resBase) {
         T.ShowToast(this, resBase.getRetMsg());
         if (resBase.getRetCode() == 0) {
             finish();
@@ -165,13 +152,18 @@ public class ForgetActivity extends BaseActivity implements IForgetView {
     }
 
     @Override
-    public void loadError(Throwable throwable) {
+    public void showRetrieveFailed(Throwable throwable) {
         T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
         throwable.printStackTrace();
     }
 
     @Override
-    public void setCheckError(String error) {
+    public void showCheckError(String error) {
         T.ShowToast(this, error);
+    }
+
+    @Override
+    public void setPresenter(ForgetContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 }

@@ -3,7 +3,7 @@ package com.hb.rssai.presenter;
 import com.hb.rssai.bean.Evaluate;
 import com.hb.rssai.bean.ResCollectionBean;
 import com.hb.rssai.constants.Constant;
-import com.hb.rssai.view.iView.IRichTextView;
+import com.hb.rssai.contract.RichTextContract;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,70 +15,72 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2017/8/25.
  */
 
-public class RichTextPresenter extends BasePresenter<IRichTextView> {
+public class RichTextPresenter extends BasePresenter<RichTextContract.View> implements RichTextContract.Presenter {
 
-    private IRichTextView iRichTextView;
+    private RichTextContract.View mView;
 
-    public RichTextPresenter(IRichTextView iRichTextView) {
-        this.iRichTextView = iRichTextView;
+    public RichTextPresenter(RichTextContract.View mView) {
+        this.mView = mView;
+        this.mView.setPresenter(this);
     }
 
-    public void updateCount() {
-        informationApi.updateCount(getUpdateParams())
+    @Override
+    public void updateCount(String informationId) {
+        informationApi.updateCount(getInfoParams(informationId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> iRichTextView.setUpdateResult(resBase), iRichTextView::loadError);
+                .subscribe(resBase -> mView.showUpdateResult(resBase), mView::loadError);
     }
 
-    public void getLikeByTitle() {
-        informationApi.getLikeByTitle(getParams()).subscribeOn(Schedulers.io())
+    @Override
+    public void getLikeByTitle(String title) {
+        informationApi.getLikeByTitle(getParams(title)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resInfo -> iRichTextView.setListResult(resInfo), iRichTextView::loadError);
+                .subscribe(resInfo -> mView.showListResult(resInfo), mView::loadError);
     }
 
-    public void add() {
-        collectionApi.add(getAddParams())
+    @Override
+    public void add(String newTitle, String newLink, String informationId, ResCollectionBean.RetObjBean mRetObjBean, String userId) {
+        collectionApi.add(getAddParams(newTitle, newLink, informationId, mRetObjBean, userId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resShareCollection -> iRichTextView.setAddResult(resShareCollection), iRichTextView::loadError);
+                .subscribe(resShareCollection -> mView.showAddResult(resShareCollection), mView::loadError);
     }
 
-    public void updateEvaluateCount() {
-        informationApi.updateEvaluateCount(getUpdateEvaluateParams())
+    @Override
+    public void updateEvaluateCount(String informationId, String evaluateType, Evaluate evaluate) {
+        informationApi.updateEvaluateCount(getUpdateEvaluateParams(informationId, evaluateType, evaluate))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resBase -> iRichTextView.setUpdateEvaluateResult(resBase), iRichTextView::loadEvaluateError);
+                .subscribe(resBase -> mView.showUpdateEvaluateResult(resBase), mView::loadEvaluateError);
     }
 
-    public void getInformation() {
-        informationApi.getInformation(getInfoParams())
+    @Override
+    public void getInformation(String informationId) {
+        informationApi.getInformation(getInfoParams(informationId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resInfo -> iRichTextView.setInfoResult(resInfo), iRichTextView::loadError);
+                .subscribe(resInfo -> mView.showInfoResult(resInfo), mView::loadError);
     }
 
-    public void getCollectionByInfoId() {
-        collectionApi.getCollectionByInfoId(getCollectionByInfoIdParams())
+    @Override
+    public void getCollectionByInfoId(String informationId, String userId) {
+        collectionApi.getCollectionByInfoId(getCollectionByInfoIdParams(informationId, userId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resCollectionBean -> iRichTextView.setCollectionInfoIdResult(resCollectionBean), iRichTextView::loadError);
+                .subscribe(resCollectionBean -> mView.showCollectionInfoIdResult(resCollectionBean), mView::loadError);
     }
 
-    public Map<String, String> getParams() {
+    public Map<String, String> getParams(String title) {
         Map<String, String> map = new HashMap<>();
         String des = "";
-        String title = iRichTextView.getInfoTitle();
         String jsonParams = "{\"title\":\"" + title + "\",\"content\":\"" + des + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
 
-    public Map<String, String> getAddParams() {
+    public Map<String, String> getAddParams(String newTitle, String newLink, String informationId, ResCollectionBean.RetObjBean mRetObjBean, String userId) {
         Map<String, String> map = new HashMap<>();
-        String newLink = iRichTextView.getUrl();
-        String newTitle = iRichTextView.getInfoTitle();
-        String informationId = iRichTextView.getInfoId();
-        ResCollectionBean.RetObjBean mRetObjBean = iRichTextView.getRetObjBean();
         boolean isDel;
         if (mRetObjBean == null) {
             isDel = false;
@@ -89,17 +91,13 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
                 isDel = true;
             }
         }
-        String userId = iRichTextView.getUserId();
         String jsonParams = "{\"isDel\":\"" + isDel + "\",\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\",\"link\":\"" + newLink + "\",\"title\":\"" + newTitle + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
 
-    public Map<String, String> getUpdateEvaluateParams() {
+    public Map<String, String> getUpdateEvaluateParams(String informationId, String evaluateType, Evaluate evaluate) {
         Map<String, String> map = new HashMap<>();
-        String informationId = iRichTextView.getInfoId();
-        String evaluateType = iRichTextView.getEvaluateType();
-        Evaluate evaluate = iRichTextView.getEvaluate();
         String isOpr = "";
         if (evaluate != null) {
             if ("1".equals(evaluateType)) {
@@ -123,28 +121,22 @@ public class RichTextPresenter extends BasePresenter<IRichTextView> {
         return map;
     }
 
-    public Map<String, String> getInfoParams() {
+    public Map<String, String> getInfoParams(String informationId) {
         Map<String, String> map = new HashMap<>();
-        String informationId = iRichTextView.getInfoId();
         String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
 
-    public Map<String, String> getCollectionByInfoIdParams() {
+    public Map<String, String> getCollectionByInfoIdParams(String informationId, String userId) {
         Map<String, String> map = new HashMap<>();
-        String informationId = iRichTextView.getInfoId();
-        String userId = iRichTextView.getUserId();
         String jsonParams = "{\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
 
-    public Map<String, String> getUpdateParams() {
-        Map<String, String> map = new HashMap<>();
-        String informationId = iRichTextView.getInfoId();
-        String jsonParams = "{\"informationId\":\"" + informationId + "\"}";
-        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-        return map;
+    @Override
+    public void start() {
+
     }
 }

@@ -12,7 +12,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.jaeger.library.StatusBarUtil;
 
 import butterknife.ButterKnife;
@@ -96,7 +98,13 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
             mPresenter.detachView();
         }
     }
+    /**
+     * 获取用户ID
+     */
 
+    public String getUserID() {
+        return SharedPreferencesUtil.getString(this, Constant.USER_ID,"");
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
