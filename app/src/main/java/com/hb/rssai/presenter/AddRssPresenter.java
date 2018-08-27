@@ -55,6 +55,7 @@ public class AddRssPresenter extends BasePresenter<AddSourcesContract.View> impl
     public AddRssPresenter(Context context, AddSourcesContract.View mView) {
         mContext = context;
         this.mView = mView;
+        this.mView.setPresenter(this);
     }
 
     @Override
