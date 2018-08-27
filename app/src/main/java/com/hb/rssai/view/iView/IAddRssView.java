@@ -20,9 +20,9 @@ public interface IAddRssView {
 
     void setListResult(ResTheme resTheme);
 
-    int getPage();
-
     void showMsg(String s);
+
+    int getPage();
 
     String getUserID();
 

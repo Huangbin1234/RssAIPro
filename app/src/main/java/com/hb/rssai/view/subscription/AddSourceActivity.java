@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -33,6 +32,7 @@ import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResTheme;
 import com.hb.rssai.bean.RssSource;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.contract.AddSourcesContract;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.AddRssPresenter;
 import com.hb.rssai.presenter.BasePresenter;
@@ -40,7 +40,6 @@ import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.iView.IAddRssView;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
 import com.rometools.opml.feed.opml.Outline;
@@ -61,7 +60,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AddSourceActivity extends BaseActivity implements View.OnClickListener, IAddRssView {
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public class AddSourceActivity extends BaseActivity implements View.OnClickListener, AddSourcesContract.View {
 
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -112,10 +113,12 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     String rssTitle = "";
     String rssLink = "";
 
+    AddSourcesContract.Presenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AddRssPresenter) mPresenter).getList();
+        mPresenter.getList(page);
     }
 
     @Override
@@ -168,7 +171,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             mThemes.clear();
         }
         mAasSwipeLayout.setRefreshing(true);
-        ((AddRssPresenter) mPresenter).getList();
+        mPresenter.getList(page);
     }
 
     @Override
@@ -176,7 +179,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         if (!isEnd && !isLoad) {
             mAasSwipeLayout.setRefreshing(true);
             page++;
-            ((AddRssPresenter) mPresenter).getList();
+            mPresenter.getList(page);
         }
     }
 
@@ -224,7 +227,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 LiteOrmDBUtil.insert(rssSource);
                 T.ShowToast(this, "添加成功");
                 EventBus.getDefault().post(new RssSourceEvent(0));
-                ((AddRssPresenter) mPresenter).addRss();
+                mPresenter.addRss(rssLink, rssTitle, getUserID());
                 break;
             case R.id.asa_iv_scan:
                 startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
@@ -250,13 +253,20 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 }
                 LiteOrmDBUtil.insert(keySource);
 
-                ((AddRssPresenter) mPresenter).addRss();
+                mPresenter.addRss(rssLink, rssTitle, getUserID());
                 break;
         }
     }
 
     @Override
-    public void setListResult(ResTheme resTheme) {
+    public void showAddSuccess() {
+        if (mPop.isShowing()) {
+            mPop.dismiss();
+        }
+    }
+
+    @Override
+    public void showListResult(ResTheme resTheme) {
         isLoad = false;
         mAasSwipeLayout.setRefreshing(false);
         //TODO 填充数据
@@ -305,25 +315,12 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         T.ShowToast(this, s);
     }
 
-    @Override
-    public int getPage() {
-        return page;
-    }
 
     @Override
     public String getUserID() {
         return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
     }
 
-    @Override
-    public String getRssLink() {
-        return rssLink;
-    }
-
-    @Override
-    public String getRssTitle() {
-        return rssTitle;
-    }
 
     public void showPop(int i, String title) {
         showPopView(i, title);
@@ -343,11 +340,10 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+
     @Override
-    public void addSuccess() {
-        if (mPop.isShowing()) {
-            mPop.dismiss();
-        }
+    public void setPresenter(AddSourcesContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     class OpmlTask extends AsyncTask<String, Void, List<Outline>> {
@@ -377,7 +373,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
                         rssLink = outline.getXmlUrl();
 
-                        ((AddRssPresenter) mPresenter).addOpmlRss();
+                        mPresenter.addOpmlRss(rssLink, rssTitle, getUserID());
                     }
                     for (Outline subOutline : outline.getChildren()) {
                         if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
@@ -394,7 +390,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                             LiteOrmDBUtil.insert(rssSource);
                             rssLink = subOutline.getXmlUrl();
 
-                            ((AddRssPresenter) mPresenter).addOpmlRss();
+                            mPresenter.addOpmlRss(rssLink, rssTitle, getUserID());
                         }
                     }
                 }
@@ -559,7 +555,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 }
                 LiteOrmDBUtil.insert(keySource);
 
-                ((AddRssPresenter) mPresenter).addRss();
+                mPresenter.addRss(rssLink, rssTitle, getUserID());
             } else if (flag == 2) {
                 //TODO 写入首选
                 rssTitle = pas_et_name.getText().toString().trim();
@@ -578,7 +574,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 LiteOrmDBUtil.insert(rssSource);
                 T.ShowToast(this, "添加成功");
                 EventBus.getDefault().post(new RssSourceEvent(0));
-                ((AddRssPresenter) mPresenter).addRss();
+                mPresenter.addRss(rssLink, rssTitle, getUserID());
             } else if (flag == 3) {
                 String link2 = pas_et_link.getText().toString().trim();
                 if (TextUtils.isEmpty(link2)) {

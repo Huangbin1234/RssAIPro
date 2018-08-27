@@ -12,8 +12,8 @@ import com.hb.rssai.api.FindApi;
 import com.hb.rssai.bean.ResBDJson;
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.constants.Constant;
+import com.hb.rssai.contract.AddSourcesContract;
 import com.hb.rssai.event.RssSourceEvent;
-import com.hb.rssai.view.iView.IAddRssView;
 import com.hb.rssai.view.widget.FullGridView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,9 +40,9 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2017/8/15 0015.
  */
 
-public class AddRssPresenter extends BasePresenter<IAddRssView> {
+public class AddRssPresenter extends BasePresenter<AddSourcesContract.View> implements AddSourcesContract.Presenter {
     Context mContext;
-    IAddRssView iAddRssView;
+    AddSourcesContract.View mView;
     String subscribeId = "";
     String imgUrl = "";
     List<String> imgs = new ArrayList<>();
@@ -52,32 +52,35 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
     MaterialDialog materialDialog;
     ImageDialogAdapter dialogAdapter;
 
-    public AddRssPresenter(Context context, IAddRssView iAddRssView) {
+    public AddRssPresenter(Context context, AddSourcesContract.View mView) {
         mContext = context;
-        this.iAddRssView = iAddRssView;
+        this.mView = mView;
     }
 
-    public void getList() {
-        themeApi.list(getListParams())
+    @Override
+    public void getList(int page) {
+        themeApi.list(getListParams(page))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resTheme -> {
-                    iAddRssView.setListResult(resTheme);
+                    mView.showListResult(resTheme);
                 }, this::loadError);
     }
 
 
-    public void addRss() {
-        findApi.addRssByUser(getParams())
+    @Override
+    public void addRss(String rssLink,String rssTitle,String userId) {
+        findApi.addRssByUser(getParams(rssLink,rssTitle,userId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resBase -> {
-                    setAddResult(resBase);
+                    setAddResult(resBase,rssTitle,userId);
                 }, this::loadError);
     }
 
-    public void addOpmlRss() {
-        findApi.addRssByUser(getParams())
+    @Override
+    public void addOpmlRss(String rssLink,String rssTitle,String userId) {
+        findApi.addRssByUser(getParams(rssLink,rssTitle, userId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resBase -> {
@@ -85,55 +88,50 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                 }, this::loadError);
     }
 
-    private void setAddOpmlResult(ResBase resBase) {
-        if (resBase.getRetCode() == 0) {
-            iAddRssView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
-
-        } else {
-            iAddRssView.showMsg(resBase.getRetMsg());
-        }
-    }
-
-    public void updateImage() {
-        findApi.updateImage(getUpdateImageParams())
+    @Override
+    public void updateImage(String rssTitle,String userId) {
+        findApi.updateImage(getUpdateImageParams(userId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resBase -> {
-                    setUpdateImageResult(resBase);
+                    setUpdateImageResult(resBase,rssTitle);
                 }, this::loadError);
     }
 
-    private void setUpdateImageResult(ResBase resBase) {
+    private void setAddOpmlResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
-            String rssTitle = iAddRssView.getRssTitle();
-            iAddRssView.showMsg(rssTitle + "自动配图成功");
+            mView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
 
         } else {
-            iAddRssView.showMsg(resBase.getRetMsg());
+            mView.showMsg(resBase.getRetMsg());
         }
     }
 
-    private Map<String, String> getListParams() {
+    private void setUpdateImageResult(ResBase resBase,String rssTitle) {
+        if (resBase.getRetCode() == 0) {
+            mView.showMsg(rssTitle + "自动配图成功");
+
+        } else {
+            mView.showMsg(resBase.getRetMsg());
+        }
+    }
+
+    private Map<String, String> getListParams(int page) {
         Map<String, String> map = new HashMap<>();
-        int page = iAddRssView.getPage();
         String jsonParams = "{\"page\":\"" + page + "\",\"size\":\"" + Constant.PAGE_SIZE + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
 
-    private Map<String, String> getUpdateImageParams() {
+    private Map<String, String> getUpdateImageParams(String userId) {
         Map<String, String> map = new HashMap<>();
-        String userId = iAddRssView.getUserID();
         String jsonParams = "{\"userId\":\"" + userId + "\",\"subscribeId\":\"" + subscribeId + "\",\"imgUrl\":\"" + imgUrl + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
     }
 
-    private Map<String, String> getParams() {
+    private Map<String, String> getParams(String rssLink,String rssTitle,String userId) {
         Map<String, String> map = new HashMap<>();
-        String rssLink = iAddRssView.getRssLink();
-        String rssTitle = iAddRssView.getRssTitle();
-        String userId = iAddRssView.getUserID();
         String jsonParams = "{\"userId\":\"" + userId + "\",\"link\":\"" + rssLink + "\",\"title\":\"" + rssTitle + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         return map;
@@ -143,31 +141,30 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
         throwable.printStackTrace();
         if (throwable instanceof HttpException) {
             if (((HttpException) throwable).response().code() == 401) {
-                iAddRssView.showMsg(Constant.MSG_NO_LOGIN);
+                mView.showMsg(Constant.MSG_NO_LOGIN);
             } else {
-                iAddRssView.showMsg(Constant.MSG_NETWORK_ERROR);
+                mView.showMsg(Constant.MSG_NETWORK_ERROR);
             }
         } else {
-            iAddRssView.showMsg(Constant.MSG_NETWORK_ERROR);
+            mView.showMsg(Constant.MSG_NETWORK_ERROR);
         }
     }
 
-    private void setAddResult(ResBase resBase) {
+    private void setAddResult(ResBase resBase,String rssTitle,String userId) {
         if (resBase.getRetCode() == 0) {
             subscribeId = resBase.getRetObj().toString();
             EventBus.getDefault().post(new RssSourceEvent(0));
-            getBDInfo();
-            iAddRssView.addSuccess();
+            getBDInfo(rssTitle,userId);
+            mView.showAddSuccess();
         }
-        iAddRssView.showMsg(resBase.getRetMsg());
-        iAddRssView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
+        mView.showMsg(resBase.getRetMsg());
+        mView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
     }
 
-    private void getBDInfo() {
+    private void getBDInfo(String rssTitle, String userId) {
         //开始自动配图
-        String keyword = iAddRssView.getRssTitle();
         String url;
-        url = "[{\"ct\":\"simi\",\"cv\":[{\"provider\":\"piclist\",\"Https\":\"1\",\"query\":\"" + keyword + "\",\"SimiCs\":\"4013908033,1059441773\",\"type\":\"card\",\"pn\":\"0\",\"rn\":\"6\",\"srctype\":\"\",\"bdtype\":\"\",\"os\":\"1462401673,115618024\"}]}]";
+        url = "[{\"ct\":\"simi\",\"cv\":[{\"provider\":\"piclist\",\"Https\":\"1\",\"query\":\"" + rssTitle + "\",\"SimiCs\":\"4013908033,1059441773\",\"type\":\"card\",\"pn\":\"0\",\"rn\":\"6\",\"srctype\":\"\",\"bdtype\":\"\",\"os\":\"1462401673,115618024\"}]}]";
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> {
             //打印retrofit日志
             Log.i("RetrofitLog", "retrofitBack = " + message);
@@ -203,7 +200,7 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                         }
                         if (null != result.getData().getSimi().getXiangshi_info() && null != result.getData().getSimi().getXiangshi_info().getUrl()) {
                             imgs.addAll(result.getData().getSimi().getXiangshi_info().getUrl());
-                            openImageSelector();
+                            openImageSelector( rssTitle,  userId);
                         }
                     }
                 }
@@ -217,7 +214,7 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
     }
 
 
-    private void openImageSelector() {
+    private void openImageSelector(String rssTitle, String userId) {
         if (materialDialog == null) {
             materialDialog = new MaterialDialog(mContext);
             LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -256,14 +253,19 @@ public class AddRssPresenter extends BasePresenter<IAddRssView> {
                 }
                 if (!TextUtils.isEmpty(imgUrl)) {
                     //TODO 更新
-                    updateImage();
+                    updateImage(rssTitle,userId);
                 } else {
-                    iAddRssView.showMsg("未选择任何图片，将采用默认图片封面。");
+                    mView.showMsg("未选择任何图片，将采用默认图片封面。");
                 }
                 materialDialog.dismiss();
             }).show();
         } else {
             materialDialog.show();
         }
+    }
+
+    @Override
+    public void start() {
+
     }
 }
