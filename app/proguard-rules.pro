@@ -136,6 +136,10 @@
 # For using GSON @Expose annotation
 -keepattributes *Annotation*
 
+-dontwarn javax.annotation.**
+-dontwarn javax.inject.**
+-dontwarn sun.misc.Unsafe
+
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 #-keep class com.google.gson.stream.** { *; }
