@@ -330,6 +330,8 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             mPop.setAnimationStyle(R.style.PopupAnimation);
             if (Build.VERSION.SDK_INT < 24) {
                 mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, 0, 0);
+            } else if (Build.VERSION.SDK_INT >= 26) {
+                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, 0, 0);
             } else {
                 mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
             }

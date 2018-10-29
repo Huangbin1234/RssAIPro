@@ -21,7 +21,6 @@ import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -206,7 +205,7 @@ public class UserActivity extends BaseActivity implements IUserView {
             SharedPreferencesUtil.setInt(this, Constant.KEY_DATA_FROM, 0);
 
             ((UserPresenter) mPresenter).getUserInfo();
-            new Handler().postDelayed(() -> EventBus.getDefault().post(new TipsEvent(2)),2000);
+            new Handler().postDelayed(() -> EventBus.getDefault().post(new TipsEvent(2)), 2000);
             EventBus.getDefault().post(new MineEvent(0));
         });
         mAmaBtnModifyPassword.setOnClickListener(v -> {
@@ -227,6 +226,8 @@ public class UserActivity extends BaseActivity implements IUserView {
             } else {
                 mPop.setAnimationStyle(R.style.PopupAnimation);
                 if (Build.VERSION.SDK_INT < 24) {
+                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, 0, 0);
+                } else if (Build.VERSION.SDK_INT >= 26) {
                     mPop.showAtLocation(mLlRootView, Gravity.CENTER, 0, 0);
                 } else {
                     mPop.showAtLocation(mLlRootView, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
