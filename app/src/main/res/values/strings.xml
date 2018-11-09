@@ -32,7 +32,7 @@
     <string name="str_mf_search">搜一搜</string>
     <string name="str_sa_update">检查更新</string>
     <string name="str_sa_about">关于我们</string>
-    <string name="str_sa_share">每日红包</string>
+    <string name="str_sa_share">推荐内容</string>
     <string name="str_sa_opr_image">无图模式</string>
     <string name="str_sa_day_night">夜间模式</string>
     <string name="str_sa_title">设置</string>
@@ -148,5 +148,6 @@
     <string name="str_ama_tv_email">点击设置邮箱</string>
     <string name="str_ama_email">邮箱</string>
     <string name="str_sf_web_browser">在浏览器打开</string>
+    <string name="str_share_content">推广内容</string>
 
 </resources>

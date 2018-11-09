@@ -73,8 +73,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 //触发一次更新 消息数量
                 new Handler().postDelayed(() -> EventBus.getDefault().post(new MineEvent(2)),1500);
             }
-
-            notifyItemChanged(position, messages.size());
             Intent intent = new Intent(mContext, MessageContentActivity.class);
             intent.putExtra(MessageContentActivity.KEY_MSG_BEAN, messages.get(position));
             mContext.startActivity(intent);

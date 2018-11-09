@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -202,6 +201,14 @@ public class MessageActivity extends BaseActivity implements IMessageView {
         }
         mMsgSwipeLayout.setRefreshing(true);
         ((MessagePresenter) mPresenter).getList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     /**

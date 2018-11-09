@@ -162,9 +162,9 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
         if (resAdvertisement.getRetCode() == 0) {
             HttpLoadImg.loadImg(this, resAdvertisement.getRetObj().getImg(), mLoadAdIv);
             if (null != resAdvertisement.getRetObj() && null != resAdvertisement.getRetObj().getLink()) {
-                if (resAdvertisement.getRetObj().getLink().startsWith("alipays")) {
+//                if (resAdvertisement.getRetObj().getLink().startsWith("alipays")) {
                     SharedPreferencesUtil.setString(this, Constant.AlipaysUrl, resAdvertisement.getRetObj().getLink());
-                }
+//                }
                 mLoadAdIv.setOnClickListener(v -> {
                     String alipayUrl = SharedPreferencesUtil.getString(this, Constant.AlipaysUrl, "");
                     if (alipayUrl.startsWith("alipays")) {
@@ -175,7 +175,7 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
                             startActivity(intent);
                         } catch (Exception e) {
                             //若无法正常跳转，在此进行错误处理
-                            T.ShowToast(mContext, "无法跳转到支付宝领红包，请检查您是否安装了支付宝！");
+                            T.ShowToast(this, getResources().getString(R.string.str_no_data));
                         }
                     } else {
                         Intent intent = new Intent(this, ContentActivity.class);

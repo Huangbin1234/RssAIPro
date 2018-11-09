@@ -33,6 +33,7 @@ import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.hb.update.Config;
 import com.hb.update.UpdateManager;
@@ -179,10 +180,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         Uri uri = Uri.parse(alipayUrl);
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(this, ContentActivity.class);
+                        intent.putExtra(ContentActivity.KEY_URL, alipayUrl);
+                        intent.putExtra(ContentActivity.KEY_TITLE, getResources().getString(R.string.str_share_content));
+                        intent.putExtra(ContentActivity.KEY_INFORMATION_ID, "");
+                        startActivity(intent);
                     }
                 } catch (Exception e) {
                     //若无法正常跳转，在此进行错误处理
-                    T.ShowToast(this, "无法跳转到支付宝领红包，请检查您是否安装了支付宝！");
+                    T.ShowToast(this, getResources().getString(R.string.str_no_data));
                 }
                 break;
             default:
