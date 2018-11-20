@@ -118,6 +118,7 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
         if (!isVisible || !isPrepared) {
             return;
         }
+        mFfSwipeLayout.setRefreshing(true);
         ((FindPresenter) mPresenter).recommendList();
         ((FindPresenter) mPresenter).findMoreList();
         isPrepared = false;

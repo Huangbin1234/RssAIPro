@@ -114,5 +114,4 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
             ifm_iv_add = (ImageView) itemView.findViewById(R.id.ifm_iv_add);
         }
     }
-
 }

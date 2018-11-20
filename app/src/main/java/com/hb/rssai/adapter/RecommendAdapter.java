@@ -43,9 +43,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         layoutInflater = LayoutInflater.from(mContext);
         init();
     }
+
     public void init() {
         userId = SharedPreferencesUtil.getString(mContext, Constant.USER_ID, "");
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.item_recommend, parent, false);
@@ -55,42 +57,17 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.ir_tv_name.setText(rssList.get(position).getName());
-//        if (TextUtils.isEmpty(themeList.get(position).getImg())) {
-//            HttpLoadImg.loadImg(mContext, R.mipmap.ic_error, holder.ir_iv_logo);
-//        } else {
-//            HttpLoadImg.loadRoundImg(mContext, themeList.get(position).getImg(), holder.ir_iv_logo);
-//        }
         if (!TextUtils.isEmpty(rssList.get(position).getImg())) {
             HttpLoadImg.loadImg(mContext, rssList.get(position).getImg(), holder.ir_iv_logo);
         } else {
             HttpLoadImg.loadImg(mContext, R.mipmap.ic_no_image, holder.ir_iv_logo);
         }
-
-
         if (!rssList.get(position).isCheck()) {
             holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
         } else {
-//            if (TextUtils.isEmpty(rssList.get(position).getUserId())) {
-//                holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
-//            } else {
-//                if (userId.equals(rssList.get(position).getUserId())) {
-                    holder.ir_iv_add.setImageResource(R.color.trans);
-//                } else {
-//                    holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
-//                }
-//            }
+            holder.ir_iv_add.setImageResource(R.color.trans);
         }
-//        if (themeList.get(position).isDeleteFlag() && userId.equals(themeList.get(position).getUserId())) {
-//            holder.ir_iv_add.setImageResource(R.mipmap.ic_recommend_add);
-//        } else {
-//            holder.ir_iv_add.setImageResource(R.color.trans);
-//        }
-        holder.ir_iv_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAddClickedListener.onAdd(rssList.get(position), v);
-            }
-        });
+        holder.ir_iv_add.setOnClickListener(v -> onAddClickedListener.onAdd(rssList.get(position), v));
         holder.v.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SourceCardActivity.class);
             intent.putExtra(SourceCardActivity.KEY_LINK, rssList.get(position).getLink());
