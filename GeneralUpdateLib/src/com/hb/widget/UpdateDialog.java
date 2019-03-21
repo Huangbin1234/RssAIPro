@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.hb.generalupdate.R;
 import com.hb.update.Config;
+import com.hb.util.DownloadManagerUtil;
 import com.hb.util.StringUtils;
 
 /**
@@ -31,15 +32,21 @@ public class UpdateDialog {
     private LinearLayout buttonLayout;
     private ProgressBar progressx;
     private TextView update_alert_tv_url_down;
+    private TextView update_alert_tv_back_down;
     private TextView update_tv_title;
     private String strHit = null;//下载地址
+
+    private DownloadManagerUtil downloadManagerUtil;
+
+    long downloadId = 0;
 
     public UpdateDialog(Context context) {
         if (null == context) {
             return;
         }
         this.mContext = context;
-        adialog = new Builder(context,R.style.CustomProgressDialog).create();
+        downloadManagerUtil = new DownloadManagerUtil(mContext);
+        adialog = new Builder(context, R.style.CustomProgressDialog).create();
         adialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 返回取消对话框
         adialog.setCancelable(false);
@@ -67,6 +74,22 @@ public class UpdateDialog {
                 mContext.startActivity(intent);
             }
         });
+        update_alert_tv_back_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //跳转打开浏览器下载APK
+                strHit = Config.APK_DOWNLOAD_URL;
+                if (StringUtils.isBlank(strHit)) {
+                    return;
+                }
+                //TODO 跳转到后台下载
+                if (downloadId != 0) {
+                    downloadManagerUtil.clearCurrentTask(downloadId);
+                }
+                downloadId = downloadManagerUtil.download(strHit, Config.getAppName(mContext) + " v" + Config.NEW_VER_CODE, Config.UPDATE_CONTENT);
+                dismiss();
+            }
+        });
     }
 
     private void initView() {
@@ -83,6 +106,9 @@ public class UpdateDialog {
                 .findViewById(R.id.update_alert_tv_url_down);
         update_tv_title = (TextView) window
                 .findViewById(R.id.update_tv_title);
+        update_alert_tv_back_down = (TextView) window
+                .findViewById(R.id.update_alert_tv_back_down);
+
     }
 
     public void setAlertTitle(int resId) {

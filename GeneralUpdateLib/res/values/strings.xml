@@ -4,4 +4,5 @@
     <string name="app_name">GUpdateLib</string>
     <string name="title_activity_test">GUpdateLib测试</string>
     <string name="update_string_url_down"><u>浏览器下载</u></string>
+    <string name="update_string_back_down">后台升级</string>
 </resources>
