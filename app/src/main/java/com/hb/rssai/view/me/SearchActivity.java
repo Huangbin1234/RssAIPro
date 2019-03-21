@@ -57,7 +57,6 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
-    List<String> mLocales = new ArrayList<>();
     private LinearLayoutManager infoManager;
     private String keyWord = "";
     private SearchFragmentAdapter adapter;
@@ -90,12 +89,6 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
         infoManager = new LinearLayoutManager(this);
         mSearchListView.setLayoutManager(infoManager);
         mSearchListView.addItemDecoration(new MyDecoration(this, LinearLayoutManager.VERTICAL));
-        mLocales.add("asdasd");
-        mLocales.add("asdasd2");
-        mLocales.add("asdasd3");
-        mLocales.add("asdasd4");
-        mLocales.add("asdasd5");
-        mLocales.add("asdasd6");
 
         mItsEtKey.addTextChangedListener(new SearchTextWatcher(mItsEtKey, mItsIvClear));
         mItsEtKey.setOnEditorActionListener((v, actionId, event) -> {

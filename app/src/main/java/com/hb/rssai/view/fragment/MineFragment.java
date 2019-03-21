@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -52,7 +54,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static android.app.Activity.RESULT_OK;
@@ -100,6 +104,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     ImageView mMfIvToBg;
     @BindView(R.id.mf_ll_clear)
     LinearLayout mFllClean;
+    @BindView(R.id.fm_iv_modify_ava)
+    ImageView mFmIvModifyAva;
+    Unbinder unbinder;
 
     private OnFragmentInteractionListener mListener;
     public final static int REQUEST_CODE = 1;
@@ -275,6 +282,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             mMfTvReadCount.setText("" + user.getRetObj().getReadCount());
             mMfTvSubscribeCount.setText("" + user.getRetObj().getSubscribeCount());
             mFmTvAccount.setText(user.getRetObj().getNickName());
+            mFmIvModifyAva.setVisibility(View.GONE);
 
             if (!TextUtils.isEmpty(user.getRetObj().getDescription())) {
                 mFmTvSignature.setVisibility(View.VISIBLE);
@@ -288,6 +296,20 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         } else {
             T.ShowToast(getContext(), Constant.MSG_NETWORK_ERROR);
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
 
@@ -412,6 +434,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             mMfTvReadCount.setText("0");
             mMfTvSubscribeCount.setText("0");
             mFmTvAccount.setText(getContext().getResources().getString(R.string.str_mf_no_login));
+            mFmIvModifyAva.setVisibility(View.VISIBLE);
             HttpLoadImg.loadRoundImg(getContext(), R.mipmap.icon_default_avar, mFmIvAva);
         }
     }

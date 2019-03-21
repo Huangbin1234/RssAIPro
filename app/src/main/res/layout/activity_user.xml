@@ -41,8 +41,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="头像"
-                    android:textColor="@color/color_txt"
+                    android:text="更换头像"
+                    android:textColor="@color/text_color_abstract"
                     android:textSize="@dimen/s16p"/>
 
             </RelativeLayout>
@@ -101,15 +101,15 @@
                             android:ellipsize="end"
                             android:maxLength="16"
                             android:singleLine="true"
+
                             android:text="@string/str_ama_nick_name"
-                            android:textColor="@color/color_txt"
+                            android:textColor="@color/text_color_abstract"
                             android:textSize="@dimen/s16p"/>
 
                         <ImageView
                             android:id="@+id/ama_iv_nick_name"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-
                             android:scaleType="centerInside"
                             android:src="@mipmap/ic_right"
                             android:visibility="gone"/>
@@ -161,7 +161,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/str_ama_sex"
-                            android:textColor="@color/color_txt"
+
+                            android:textColor="@color/text_color_abstract"
                             android:textSize="@dimen/s16p"/>
 
                         <ImageView
@@ -216,7 +217,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/str_ama_tv_birth"
-                            android:textColor="@color/color_txt"
+                            android:textColor="@color/text_color_abstract"
                             android:textSize="@dimen/s16p"/>
 
                         <ImageView
@@ -276,7 +277,7 @@
                             android:maxLength="18"
                             android:singleLine="true"
                             android:text="@string/str_ama_tv_email"
-                            android:textColor="@color/color_txt"
+                            android:textColor="@color/text_color_abstract"
                             android:textSize="@dimen/s16p"/>
 
                         <ImageView
@@ -351,7 +352,7 @@
                         android:maxLength="16"
                         android:singleLine="true"
                         android:text="@string/str_ama_tv_signature"
-                        android:textColor="@color/color_txt"
+                        android:textColor="@color/text_color_abstract"
                         android:textSize="@dimen/s16p"/>
                 </LinearLayout>
             </RelativeLayout>

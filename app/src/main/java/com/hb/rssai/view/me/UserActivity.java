@@ -220,7 +220,7 @@ public class UserActivity extends BaseActivity implements IUserView {
             intent.putExtra(EditSignatureActivity.KEY_SIGNATURE, resUser.getRetObj().getDescription());
             startActivity(intent);
         });
-        mAmaIvUserPhoto.setOnClickListener(v -> {
+        mAmaRlHeadPortrait.setOnClickListener(v -> {
             if (mPop.isShowing()) {
                 mPop.dismiss();
             } else {
