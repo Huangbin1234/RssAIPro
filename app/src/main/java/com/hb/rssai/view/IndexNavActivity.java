@@ -70,8 +70,7 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
     static final String[] PERMISSIONS = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA,
-            Manifest.permission.REQUEST_INSTALL_PACKAGES
+            Manifest.permission.CAMERA
     };
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {

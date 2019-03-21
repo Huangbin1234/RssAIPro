@@ -87,8 +87,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     static final String[] PERMISSIONS = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA,
-            Manifest.permission.REQUEST_INSTALL_PACKAGES
+            Manifest.permission.CAMERA
     };
     private PermissionsChecker mPermissionsChecker;
     private final int REQUEST_CODE = 1;

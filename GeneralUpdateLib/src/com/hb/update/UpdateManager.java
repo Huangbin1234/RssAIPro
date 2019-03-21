@@ -3,11 +3,12 @@ package com.hb.update;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -65,6 +66,8 @@ public class UpdateManager {
                     messageView.setText("正在下载更新程序：" + progress + "%");
                     break;
                 case DOWN_OVER:
+                    closeDownloadDialog();
+                    showInstallDialog();
                     installApk();
                     break;
                 default:
@@ -202,12 +205,19 @@ public class UpdateManager {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //判读版本是否在7.0以上
-            if (Build.VERSION.SDK_INT >= 24) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 //provider authorities
                 Uri apkUri = FileProvider.getUriForFile(mContext, mContext.getPackageName() + ".fileprovider", apkFilePath);
                 //Granting Temporary Permissions to a URI
                 i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 i.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    boolean hasInstallPermission = mContext.getPackageManager().canRequestPackageInstalls();
+                    if (!hasInstallPermission) {
+                        startInstallPermissionSettingActivity(mContext);
+                        return;
+                    }
+                }
             } else {
                 i.setDataAndType(Uri.parse("file://" + filePath + File.separator + SAVE_DIR_NAME), "application/vnd.android.package-archive");
             }
@@ -217,18 +227,37 @@ public class UpdateManager {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //判读版本是否在7.0以上
-            if (Build.VERSION.SDK_INT >= 24) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 //provider authorities
                 Uri apkUri = FileProvider.getUriForFile(mContext, mContext.getPackageName() + ".fileprovider", apkFilePath);
                 //Granting Temporary Permissions to a URI
                 i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 i.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    boolean hasInstallPermission = mContext.getPackageManager().canRequestPackageInstalls();
+                    if (!hasInstallPermission) {
+                        startInstallPermissionSettingActivity(mContext);
+                        return;
+                    }
+                }
             } else {
                 i.setDataAndType(Uri.parse("file://" + apkFilePath.toString()), "application/vnd.android.package-archive");
             }
             Log.d(TAG, "file://" + apkFilePath.toString());
             mContext.startActivity(i);
         }
+    }
+
+    /**
+     * 跳转到设置-允许安装未知来源-页面
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startInstallPermissionSettingActivity(final Context context) {
+        //注意这个是8.0新API
+        Uri packageURI = Uri.parse("package:" + context.getPackageName());
+        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     /**
@@ -364,12 +393,14 @@ public class UpdateManager {
     /**
      * 显示下载对话框
      */
+    UpdateDialog updateDialog;
+
     private void showDownloadDialog() {
         if (mContext == null) {
             Log.d(TAG, "上下文已经不存在");
             return;
         }
-        final UpdateDialog updateDialog = new UpdateDialog(mContext);
+        updateDialog = new UpdateDialog(mContext);
         updateDialog.setAlertTitle(Config.getAppName(mContext) + "版本升级");
         updateDialog.setViewProgress(true);
         mProgress = updateDialog.getProcessbar();
@@ -382,6 +413,42 @@ public class UpdateManager {
             }
         });
         downloadApk();
+    }
+
+    /**
+     * 关闭下载对话框
+     */
+    private void closeDownloadDialog() {
+        if (mContext == null) {
+            Log.d(TAG, "上下文已经不存在");
+            return;
+        }
+        if (null != updateDialog) {
+            updateDialog.dismiss();
+        }
+    }
+
+    /**
+     * 显示点击安装对话框
+     */
+    private void showInstallDialog() {
+        if (mContext == null) {
+            Log.d(TAG, "上下文已经不存在");
+            return;
+        }
+        final UpdateDialog updateDialog = new UpdateDialog(mContext);
+        updateDialog.setAlertTitle(Config.getAppName(mContext) + "版本升级");
+        updateDialog.setViewProgress(true);
+        mProgress = updateDialog.getProcessbar();
+        mProgress.setProgress(100);
+        messageView = updateDialog.getTextView();
+        updateDialog.setNegativeButton("点击安装", new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateDialog.dismiss();
+                installApk();
+            }
+        });
     }
 
     /**
