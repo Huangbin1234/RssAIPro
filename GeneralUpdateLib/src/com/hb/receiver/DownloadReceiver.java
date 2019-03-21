@@ -5,6 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 /**
@@ -39,11 +42,35 @@ public class DownloadReceiver extends BroadcastReceiver {
         Uri downloadFileUri = dManager.getUriForDownloadedFile(downloadApkId);
         if (downloadFileUri != null) {
             Log.d("DownloadManager", downloadFileUri.toString());
-            install.setDataAndType(downloadFileUri, "application/vnd.android.package-archive");
             install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //添加这一句表示对目标应用临时授权该Uri所代表的文件
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//判读版本是否在7.0以上
+                install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+            install.setDataAndType(downloadFileUri, "application/vnd.android.package-archive");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                boolean hasInstallPermission = context.getPackageManager().canRequestPackageInstalls();
+                if (!hasInstallPermission) {
+                    startInstallPermissionSettingActivity(context);
+                    return;
+                }
+            }
+
             context.startActivity(install);
         } else {
             Log.e("DownloadManager", "download error");
         }
+    }
+
+    /**
+     * 跳转到设置-允许安装未知来源-页面
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static void startInstallPermissionSettingActivity(final Context context) {
+        //注意这个是8.0新API
+        Uri packageURI = Uri.parse("package:" + context.getPackageName());
+        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }
