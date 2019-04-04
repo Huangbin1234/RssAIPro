@@ -64,6 +64,7 @@ public class UpdateManager {
                 case DOWN_UPDATE:
                     mProgress.setProgress(progress);
                     messageView.setText("正在下载更新程序：" + progress + "%");
+                    removeMessages(DOWN_UPDATE);
                     break;
                 case DOWN_OVER:
                     closeDownloadDialog();

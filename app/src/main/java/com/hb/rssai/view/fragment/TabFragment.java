@@ -245,7 +245,6 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        System.out.println("====onActivityCreated====");
         //初始化UI完成
         isPrepared = true;
         lazyLoad();

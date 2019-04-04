@@ -104,11 +104,9 @@ public class TabDataFragment extends BaseFragment implements ITabDataView {
 
     @Override
     protected void lazyLoad() {
-
         if (!isVisible || !isPrepared) {
             return;
         }
-
         DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
         if (DF == 0) {
             isUser = false;

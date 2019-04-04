@@ -63,23 +63,6 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
         holder.item_na_name.setText(rssList.get(position).getTitle() != null ? rssList.get(position).getTitle() : "");
         images = TextUtils.isEmpty(rssList.get(position).getImageUrls()) ? null : rssList.get(position).getImageUrls().split(",http");
         if (images != null && images.length > 0) {
-//            if (images.length >= 2 && !(images[1].startsWith("http"))) {
-//                holder.item_na_group_ll.setVisibility(View.GONE);
-//                holder.irl_bottom_a.setVisibility(View.VISIBLE);
-//                holder.irl_bottom_b.setVisibility(View.GONE);
-//                holder.item_na_type_a.setText(rssList.get(position).getWhereFrom());
-//                try {
-//                    holder.item_na_time_a.setText(DateUtil.showDate(sdf.parse(rssList.get(position).getPubTime()), longDatePat));
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//                if (isLoadImage) {
-//                    holder.item_na_img.setVisibility(View.GONE);
-//                } else {
-//                    holder.item_na_img.setVisibility(View.VISIBLE);
-//                    HttpLoadImg.loadImg(mContext, rssList.get(position).getImageUrls(), holder.item_na_img);
-//                }
-//            } else {
             if (images.length >= 3) {
                 holder.item_na_img.setVisibility(View.GONE);
                 holder.irl_bottom_a.setVisibility(View.GONE);
@@ -91,7 +74,6 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
                 if (isLoadImage) {
                     holder.item_na_group_ll.setVisibility(View.GONE);
                 } else {
@@ -117,14 +99,11 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
                     HttpLoadImg.loadImg(mContext, images[0], holder.item_na_img);
                 }
             }
-//            }
-
         } else {
             holder.item_na_group_ll.setVisibility(View.GONE);
             holder.item_na_img.setVisibility(View.GONE);
             holder.irl_bottom_a.setVisibility(View.VISIBLE);
             holder.irl_bottom_b.setVisibility(View.GONE);
-
             holder.item_na_type_a.setText(rssList.get(position).getWhereFrom());
             try {
                 holder.item_na_time_a.setText(DateUtil.showDate(sdf.parse(rssList.get(position).getPubTime()), longDatePat));

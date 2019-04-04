@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/color_time"
+            android:textColor="@color/text_color_abstract"
             android:textSize="@dimen/s12p"/>
 
 
@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
+            android:layout_marginTop="5dp"
             android:textColor="@color/color_time"
             android:textSize="@dimen/s14p"/>
 

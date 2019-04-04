@@ -320,6 +320,7 @@
                     android:scaleType="centerInside"/>
 
                 <TextView
+                    android:id="@+id/ua_tv_sinature"
                     style="@style/TextLabel"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/iv_signature"
@@ -327,12 +328,14 @@
 
 
                 <LinearLayout
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/ua_tv_sinature"
                     android:id="@+id/ama_ll_signature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|right"
                     android:orientation="horizontal"
                     android:paddingLeft="32dp">
 
@@ -341,6 +344,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:scaleType="centerInside"
+
                         android:src="@mipmap/ic_right"
                         android:visibility="gone"/>
 
@@ -349,7 +353,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLength="16"
                         android:singleLine="true"
                         android:text="@string/str_ama_tv_signature"
                         android:textColor="@color/text_color_abstract"
