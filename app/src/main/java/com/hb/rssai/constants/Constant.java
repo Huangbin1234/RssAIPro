@@ -27,7 +27,7 @@ public class Constant {
     public static final String TOKEN = "token";
     public static final String SP_LOGIN_USER_NAME = "sp_login_user_name";
     public static final String SP_LOGIN_PSD = "sp_login_password";
-    public static final String KEY_IS_LOAD_IMAGE = "isLoadImage";//是否加载图片
+    public static final String KEY_IS_NO_IMAGE_MODE = "isLoadImage";//是否加载图片
 
     public static final String MSG_NETWORK_ERROR = "网络慢或连接失败，请稍后重试。";
     public static final String FAILED_NETWORK = "网络连接不可用，请稍后重试。";

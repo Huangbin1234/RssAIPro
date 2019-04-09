@@ -44,7 +44,7 @@
                 android:visibility="visible">
 
                 <TextView
-                    android:id="@+id/item_na_type_a"
+                    android:id="@+id/item_na_where_from"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -136,7 +136,7 @@
             android:visibility="visible">
 
             <TextView
-                android:id="@+id/item_na_type_b"
+                android:id="@+id/item_na_where_from_three"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="21111111111111"
-                android:layout_toLeftOf="@+id/item_na_type_b"
+                android:layout_toLeftOf="@+id/item_na_where_from_three"
                 android:textColor="@color/color_time"
                 android:textSize="@dimen/s14p" />
         </LinearLayout>

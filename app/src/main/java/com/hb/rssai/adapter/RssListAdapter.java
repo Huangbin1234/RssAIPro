@@ -41,7 +41,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
-        isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE, true);
+        isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_NO_IMAGE_MODE, true);
     }
 
     @Override
@@ -145,9 +145,9 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.MyViewHo
 
             item_na_name = (TextView) itemView.findViewById(R.id.item_na_title);
             item_na_time_a = (TextView) itemView.findViewById(R.id.item_na_time_a);
-            item_na_type_a = (TextView) itemView.findViewById(R.id.item_na_type_a);
+            item_na_type_a = (TextView) itemView.findViewById(R.id.item_na_where_from);
             item_na_time_b = (TextView) itemView.findViewById(R.id.item_na_time_b);
-            item_na_type_b = (TextView) itemView.findViewById(R.id.item_na_type_b);
+            item_na_type_b = (TextView) itemView.findViewById(R.id.item_na_where_from_three);
 
             item_na_img = (ImageView) itemView.findViewById(R.id.item_na_img);
             item_na_group_a = (ImageView) itemView.findViewById(R.id.item_na_group_a);

@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -100,7 +99,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else if (dateFrom == 1) {
             mSaSwChangeSource.setChecked(true);
         }
-        boolean isLoadImage = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_LOAD_IMAGE, false);
+        boolean isLoadImage = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_NO_IMAGE_MODE, false);
         if (isLoadImage) {
             mSaSwNoImage.setChecked(true);
         } else {
@@ -295,9 +294,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.sa_sw_no_image:
                 if (isChecked) {
-                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_LOAD_IMAGE, true);
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_NO_IMAGE_MODE, true);
                 } else {
-                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_LOAD_IMAGE, false);
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_NO_IMAGE_MODE, false);
                 }
                 //通知更新
                 new Handler().postDelayed(() -> EventBus.getDefault().post(new TipsEvent(2)), 2000);

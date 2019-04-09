@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -32,14 +33,21 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/12/10 0010.
  */
-public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> {
+public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<ResInformation.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String[] images = null;
-    private boolean isLoadImage = true;
+    private boolean isNoImageMode = true;
+
+    private static final int TYPE_NO_IMAGE = 1;
+    private static final int TYPE_ONE_IMAGE = 2;
+    private static final int TYPE_THREE_IMAGE = 3;
+    private String title;
+    private String time;
+    private ResInformation.RetObjBean.RowsBean rowsBean;
 
     public InfoAdapter(Context mContext, List<ResInformation.RetObjBean.RowsBean> rssList) {
         this.mContext = mContext;
@@ -49,133 +57,169 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewHolder> 
     }
 
     public void init() {
-        isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE, false);
+        isNoImageMode = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_NO_IMAGE_MODE, false);
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.item_rss_list, parent, false);
-        return new MyViewHolder(view);
+    public int getItemViewType(int position) {
+        if (TextUtils.isEmpty(rssList.get(position).getImageUrls())) {
+            return TYPE_NO_IMAGE;
+        }
+        String[] images = rssList.get(position).getImageUrls().split(",http");
+        if (images.length >= 3) {
+            return TYPE_THREE_IMAGE;
+        } else {
+            return TYPE_ONE_IMAGE;
+        }
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.item_na_name.setText(rssList.get(position).getTitle() != null ? rssList.get(position).getTitle() : "");
-        images = TextUtils.isEmpty(rssList.get(position).getImageUrls()) ? null : rssList.get(position).getImageUrls().split(",http");
-        if (images != null && images.length > 0) {
-            if (images.length >= 3) {
-                holder.item_na_img.setVisibility(View.GONE);
-                holder.irl_bottom_a.setVisibility(View.GONE);
-                holder.irl_bottom_b.setVisibility(View.VISIBLE);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_NO_IMAGE) {
+            View view = layoutInflater.inflate(R.layout.include_item_no_image, parent, false);
+            return new NoImageViewHolder(view);
+        } else if (viewType == TYPE_ONE_IMAGE) {
+            View view = layoutInflater.inflate(R.layout.include_item_one_image, parent, false);
+            return new OneImageViewHolder(view);
+        } else if (viewType == TYPE_THREE_IMAGE) {
+            View view = layoutInflater.inflate(R.layout.include_item_three_image, parent, false);
+            return new ThreeImageViewHolder(view);
+        }
+        return null;
+    }
 
-                holder.item_na_type_b.setText(rssList.get(position).getWhereFrom());
-                try {
-                    holder.item_na_time_b.setText(DateUtil.showDate(sdf.parse(rssList.get(position).getPubTime()), longDatePat));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (isLoadImage) {
-                    holder.item_na_group_ll.setVisibility(View.GONE);
-                } else {
-                    holder.item_na_group_ll.setVisibility(View.VISIBLE);
-                    HttpLoadImg.loadImg(mContext, images[0], holder.item_na_group_a);
-                    HttpLoadImg.loadImg(mContext, "http" + images[1], holder.item_na_group_b);
-                    HttpLoadImg.loadImg(mContext, "http" + images[2], holder.item_na_group_c);
-                }
+
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        rowsBean = rssList.get(position);
+        title = rowsBean.getTitle() != null ? rowsBean.getTitle() : "";
+        try {
+            time = DateUtil.showDate(sdf.parse(rowsBean.getPubTime()), longDatePat);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (holder instanceof NoImageViewHolder) {
+            ((NoImageViewHolder) holder).item_na_title.setText(title);
+            ((NoImageViewHolder) holder).item_na_time.setText(time);
+            ((NoImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
+
+            ((NoImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
+        } else if (holder instanceof OneImageViewHolder) {
+            ((OneImageViewHolder) holder).item_na_title.setText(title);
+            ((OneImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
+            ((OneImageViewHolder) holder).item_na_time.setText(time);
+            if(isNoImageMode){
+                ((OneImageViewHolder) holder).item_na_img.setVisibility(View.GONE);
+            }else{
+                ((OneImageViewHolder) holder).item_na_img.setVisibility(View.VISIBLE);
+                images = TextUtils.isEmpty(rowsBean.getImageUrls()) ? null : rowsBean.getImageUrls().split(",http");
+                HttpLoadImg.loadImg(mContext, images[0], ((OneImageViewHolder) holder).item_na_img);
+            }
+            ((OneImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
+        } else if (holder instanceof ThreeImageViewHolder) {
+            ((ThreeImageViewHolder) holder).item_na_title.setText(title);
+            ((ThreeImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
+            ((ThreeImageViewHolder) holder).item_na_time.setText(time);
+
+            if(isNoImageMode){
+                ((ThreeImageViewHolder) holder).item_na_image_group.setVisibility(View.GONE);
+            }else{
+                ((ThreeImageViewHolder) holder).item_na_image_group.setVisibility(View.VISIBLE);
+                images = TextUtils.isEmpty(rowsBean.getImageUrls()) ? null : rowsBean.getImageUrls().split(",http");
+                HttpLoadImg.loadImg(mContext, images[0], ((ThreeImageViewHolder) holder).item_na_image_a);
+                HttpLoadImg.loadImg(mContext, "http" + images[1], ((ThreeImageViewHolder) holder).item_na_image_b);
+                HttpLoadImg.loadImg(mContext, "http" + images[2], ((ThreeImageViewHolder) holder).item_na_image_c);
+            }
+            ((ThreeImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
+        }
+    }
+
+    private void click(int position) {
+        if (rssList.size() > 0) {
+            ResInformation.RetObjBean.RowsBean rowsBean = rssList.get(position);
+            String data = rowsBean.getLink();//获取编辑框里面的文本内容
+            if (!TextUtils.isEmpty(data)) {
+                Intent intent = new Intent(mContext, RichTextActivity.class);//创建Intent对象
+                intent.putExtra(ContentActivity.KEY_TITLE, rowsBean.getTitle());
+                intent.putExtra(ContentActivity.KEY_URL, rowsBean.getLink());
+                intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rowsBean.getId());
+                intent.putExtra("pubDate", rowsBean.getPubTime());
+                intent.putExtra("whereFrom", rowsBean.getWhereFrom());
+                intent.putExtra("abstractContent", rowsBean.getAbstractContent());
+                intent.putExtra("clickGood", rowsBean.getClickGood());
+                intent.putExtra("clickNotGood", rowsBean.getClickNotGood());
+                intent.putExtra("id", rowsBean.getId());
+                mContext.startActivity(intent);//将Intent传递给Activity
             } else {
-                holder.item_na_group_ll.setVisibility(View.GONE);
-                holder.irl_bottom_a.setVisibility(View.VISIBLE);
-                holder.irl_bottom_b.setVisibility(View.GONE);
-                holder.item_na_type_a.setText(rssList.get(position).getWhereFrom());
-                try {
-                    holder.item_na_time_a.setText(DateUtil.showDate(sdf.parse(rssList.get(position).getPubTime()), longDatePat));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (isLoadImage) {
-                    holder.item_na_img.setVisibility(View.GONE);
-                } else {
-                    holder.item_na_img.setVisibility(View.VISIBLE);
-                    HttpLoadImg.loadImg(mContext, images[0], holder.item_na_img);
-                }
+                T.ShowToast(mContext, "链接错误，无法跳转！");
             }
         } else {
-            holder.item_na_group_ll.setVisibility(View.GONE);
-            holder.item_na_img.setVisibility(View.GONE);
-            holder.irl_bottom_a.setVisibility(View.VISIBLE);
-            holder.irl_bottom_b.setVisibility(View.GONE);
-            holder.item_na_type_a.setText(rssList.get(position).getWhereFrom());
-            try {
-                holder.item_na_time_a.setText(DateUtil.showDate(sdf.parse(rssList.get(position).getPubTime()), longDatePat));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            T.ShowToast(mContext, "请等待数据加载完成！");
         }
-
-        holder.item_na_layout.setOnClickListener(v -> {
-            if (rssList.size() > 0) {
-                String data = rssList.get(position).getLink();//获取编辑框里面的文本内容
-                if (!TextUtils.isEmpty(data)) {
-                    Intent intent = new Intent(mContext, RichTextActivity.class);//创建Intent对象
-                    intent.putExtra(ContentActivity.KEY_TITLE, rssList.get(position).getTitle());
-                    intent.putExtra(ContentActivity.KEY_URL, rssList.get(position).getLink());
-                    intent.putExtra(ContentActivity.KEY_INFORMATION_ID, rssList.get(position).getId());
-                    intent.putExtra("pubDate", rssList.get(position).getPubTime());
-                    intent.putExtra("whereFrom", rssList.get(position).getWhereFrom());
-                    intent.putExtra("abstractContent", rssList.get(position).getAbstractContent());
-                    intent.putExtra("clickGood", rssList.get(position).getClickGood());
-                    intent.putExtra("clickNotGood", rssList.get(position).getClickNotGood());
-                    intent.putExtra("id", rssList.get(position).getId());
-                    mContext.startActivity(intent);//将Intent传递给Activity
-                } else {
-                    T.ShowToast(mContext, "链接错误，无法跳转！");
-                }
-            } else {
-                T.ShowToast(mContext, "请等待数据加载完成！");
-            }
-        });
     }
-
 
     @Override
     public int getItemCount() {
         return rssList == null ? 0 : rssList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout irl_bottom_b;
-        LinearLayout irl_bottom_a;
-        LinearLayout item_na_layout;
-        LinearLayout item_na_group_ll;
+    class NoImageViewHolder extends RecyclerView.ViewHolder {
+        TextView item_na_title;
+        TextView item_na_where_from;
+        TextView item_na_time;
+        RelativeLayout item_na_layout;
 
-        ImageView item_na_img;
-        ImageView item_na_group_a;
-        ImageView item_na_group_b;
-        ImageView item_na_group_c;
-
-        TextView item_na_name;
-        TextView item_na_time_a;
-        TextView item_na_type_a;
-        TextView item_na_time_b;
-        TextView item_na_type_b;
-
-        public MyViewHolder(View itemView) {
+        public NoImageViewHolder(View itemView) {
             super(itemView);
-            item_na_layout = (LinearLayout) itemView.findViewById(R.id.item_na_layout);
-            item_na_group_ll = (LinearLayout) itemView.findViewById(R.id.item_na_group_ll);
-            irl_bottom_a = (LinearLayout) itemView.findViewById(R.id.irl_bottom_a);
-            irl_bottom_b = (LinearLayout) itemView.findViewById(R.id.irl_bottom_b);
+            item_na_title = itemView.findViewById(R.id.item_na_title);
+            item_na_where_from = itemView.findViewById(R.id.item_na_where_from);
+            item_na_time = itemView.findViewById(R.id.item_na_time);
 
-            item_na_name = (TextView) itemView.findViewById(R.id.item_na_title);
-            item_na_time_a = (TextView) itemView.findViewById(R.id.item_na_time_a);
-            item_na_type_a = (TextView) itemView.findViewById(R.id.item_na_type_a);
-            item_na_time_b = (TextView) itemView.findViewById(R.id.item_na_time_b);
-            item_na_type_b = (TextView) itemView.findViewById(R.id.item_na_type_b);
+            item_na_layout = itemView.findViewById(R.id.item_na_layout);
+        }
+    }
 
-            item_na_img = (ImageView) itemView.findViewById(R.id.item_na_img);
-            item_na_group_a = (ImageView) itemView.findViewById(R.id.item_na_group_a);
-            item_na_group_b = (ImageView) itemView.findViewById(R.id.item_na_group_b);
-            item_na_group_c = (ImageView) itemView.findViewById(R.id.item_na_group_c);
+    class OneImageViewHolder extends RecyclerView.ViewHolder {
+        ImageView item_na_img;
+        TextView item_na_title;
+        TextView item_na_time;
+        TextView item_na_where_from;
+
+        LinearLayout item_na_layout;
+
+        public OneImageViewHolder(View itemView) {
+            super(itemView);
+            item_na_title = itemView.findViewById(R.id.item_na_title);
+            item_na_time = itemView.findViewById(R.id.item_na_time);
+            item_na_where_from = itemView.findViewById(R.id.item_na_where_from);
+            item_na_img = itemView.findViewById(R.id.item_na_img);
+
+            item_na_layout = itemView.findViewById(R.id.item_na_layout);
+        }
+    }
+
+    class ThreeImageViewHolder extends RecyclerView.ViewHolder {
+        TextView item_na_where_from;
+        TextView item_na_time;
+        TextView item_na_title;
+        ImageView item_na_image_a;
+        ImageView item_na_image_b;
+        ImageView item_na_image_c;
+
+        LinearLayout item_na_layout;
+        LinearLayout item_na_image_group;
+
+        public ThreeImageViewHolder(View itemView) {
+            super(itemView);
+            item_na_where_from = itemView.findViewById(R.id.item_na_where_from);
+            item_na_time = itemView.findViewById(R.id.item_na_time);
+            item_na_title = itemView.findViewById(R.id.item_na_title);
+            item_na_image_a = itemView.findViewById(R.id.item_na_image_a);
+            item_na_image_b = itemView.findViewById(R.id.item_na_image_b);
+            item_na_image_c = itemView.findViewById(R.id.item_na_image_c);
+
+            item_na_layout = itemView.findViewById(R.id.item_na_layout);
+            item_na_image_group = itemView.findViewById(R.id.item_na_image_group);
         }
     }
 }

@@ -14,11 +14,8 @@ import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResCardSubscribe;
-import com.hb.rssai.bean.ResTheme;
-import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
-import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
@@ -55,7 +52,7 @@ public class SourceListCardAdapter extends RecyclerView.Adapter<SourceListCardAd
     }
 
     private void clickItem(int position, int index) {
-        List<ResCardSubscribe.RetObjBean.RowsBean> rowBean= rssList.get(position) ;
+        List<ResCardSubscribe.RetObjBean.RowsBean> rowBean = rssList.get(position);
         if (rssList.size() > 0) {
             if (!TextUtils.isEmpty(rowBean.get(index).getLink())) {
                 Intent intent = new Intent(mContext, RichTextActivity.class);//创建Intent对象
@@ -77,19 +74,22 @@ public class SourceListCardAdapter extends RecyclerView.Adapter<SourceListCardAd
         }
     }
 
+    ResCardSubscribe.RetObjBean.RowsBean tempRowsBean;
+
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        List<ResCardSubscribe.RetObjBean.RowsBean> rowBean= rssList.get(position) ;
+        List<ResCardSubscribe.RetObjBean.RowsBean> rowBean = rssList.get(position);
         int len = rowBean.size();
         if (len >= 1 && rowBean.get(0) != null) {
+            tempRowsBean = rowBean.get(0);
             try {
-                holder.irl_tv_top_time.setText(DateUtil.showDate(sdf.parse(rowBean.get(0).getPubTime()), longDatePat));
+                holder.irl_tv_top_time.setText(DateUtil.showDate(sdf.parse(tempRowsBean.getPubTime()), longDatePat));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            holder.irl_tv_top.setText(rowBean.get(0).getTitle());
+            holder.irl_tv_top.setText(tempRowsBean.getTitle());
             holder.irl_top_rl.setOnClickListener(v -> clickItem(position, 0));
-            images = TextUtils.isEmpty(rowBean.get(0).getImageUrls()) ? null : rowBean.get(0).getImageUrls().split(",http");
+            images = TextUtils.isEmpty(tempRowsBean.getImageUrls()) ? null : tempRowsBean.getImageUrls().split(",http");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top);
             } else {
@@ -99,9 +99,10 @@ public class SourceListCardAdapter extends RecyclerView.Adapter<SourceListCardAd
             holder.irl_top_rl.setVisibility(View.GONE);
         }
         if (len >= 2 && rowBean.get(1) != null) {
-            holder.irl_tv_top1.setText(rowBean.get(1).getTitle());
+            tempRowsBean = rowBean.get(1);
+            holder.irl_tv_top1.setText(tempRowsBean.getTitle());
             holder.irl_top_ll1.setOnClickListener(v -> clickItem(position, 1));
-            images = TextUtils.isEmpty(rowBean.get(1).getImageUrls()) ? null : rowBean.get(1).getImageUrls().split(",http");
+            images = TextUtils.isEmpty(tempRowsBean.getImageUrls()) ? null : tempRowsBean.getImageUrls().split(",http");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top1);
             } else {
@@ -111,9 +112,10 @@ public class SourceListCardAdapter extends RecyclerView.Adapter<SourceListCardAd
             holder.irl_top_ll1.setVisibility(View.GONE);
         }
         if (len >= 3 && rowBean.get(2) != null) {
-            holder.irl_tv_top2.setText(rowBean.get(2).getTitle());
+            tempRowsBean = rowBean.get(2);
+            holder.irl_tv_top2.setText(tempRowsBean.getTitle());
             holder.irl_top_ll2.setOnClickListener(v -> clickItem(position, 2));
-            images = TextUtils.isEmpty(rowBean.get(2).getImageUrls()) ? null : rowBean.get(2).getImageUrls().split(",http");
+            images = TextUtils.isEmpty(tempRowsBean.getImageUrls()) ? null : tempRowsBean.getImageUrls().split(",http");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top2);
             } else {
@@ -123,9 +125,10 @@ public class SourceListCardAdapter extends RecyclerView.Adapter<SourceListCardAd
             holder.irl_top_ll2.setVisibility(View.GONE);
         }
         if (len >= 4 && rowBean.get(3) != null) {
-            holder.irl_tv_top3.setText(rowBean.get(3).getTitle());
+            tempRowsBean = rowBean.get(3);
+            holder.irl_tv_top3.setText(tempRowsBean.getTitle());
             holder.irl_top_ll3.setOnClickListener(v -> clickItem(position, 3));
-            images = TextUtils.isEmpty(rowBean.get(3).getImageUrls()) ? null : rowBean.get(3).getImageUrls().split(",http");
+            images = TextUtils.isEmpty(tempRowsBean.getImageUrls()) ? null : tempRowsBean.getImageUrls().split(",http");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top3);
             } else {
@@ -135,9 +138,10 @@ public class SourceListCardAdapter extends RecyclerView.Adapter<SourceListCardAd
             holder.irl_top_ll3.setVisibility(View.GONE);
         }
         if (len >= 5 && rowBean.get(4) != null) {
-            holder.irl_tv_top4.setText(rowBean.get(4).getTitle());
+            tempRowsBean = rowBean.get(4);
+            holder.irl_tv_top4.setText(tempRowsBean.getTitle());
             holder.irl_top_ll4.setOnClickListener(v -> clickItem(position, 4));
-            images = TextUtils.isEmpty(rowBean.get(4).getImageUrls()) ? null : rowBean.get(4).getImageUrls().split(",http");
+            images = TextUtils.isEmpty(tempRowsBean.getImageUrls()) ? null : tempRowsBean.getImageUrls().split(",http");
             if (images != null && images.length > 0) {
                 HttpLoadImg.loadImg(mContext, images[0], holder.irl_iv_top4);
             } else {

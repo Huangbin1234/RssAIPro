@@ -44,7 +44,7 @@ public class SourceListAdapter extends RecyclerView.Adapter<SourceListAdapter.My
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
-        isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_LOAD_IMAGE, true);
+        isLoadImage = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_NO_IMAGE_MODE, true);
     }
 
     @Override
