@@ -62,4 +62,5 @@ public class Constant {
 
     public static SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
     public static String AlipaysUrl="alipay_url";
+
 }

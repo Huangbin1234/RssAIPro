@@ -49,7 +49,7 @@ public class SourceListAdapter extends RecyclerView.Adapter<SourceListAdapter.My
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.item_resource_list, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_resource_list_five, parent, false);
         return new MyViewHolder(view);
     }
 

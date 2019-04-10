@@ -259,7 +259,7 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
         //TODO 填充数据
         if (resCardSubscribe.getRetCode() == 0) {
             if (resCardSubscribe.getRetObj().getRows() != null && resCardSubscribe.getRetObj().getRows().size() > 0) {
-                infoListCard.addAll(resCardSubscribe.getRetObj().getRows());
+                cleaningData(resCardSubscribe.getRetObj().getRows());
                 if (cardAdapter == null) {
                     cardAdapter = new SourceListCardAdapter(this, infoListCard);
                     mSlaRecyclerView.setAdapter(cardAdapter);
@@ -278,5 +278,31 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
         } else {
             T.ShowToast(this, resCardSubscribe.getRetMsg());
         }
+    }
+
+    /**
+     * 清洗空数据
+     *
+     * @param tRssList
+     */
+    private void cleaningData(List<List<ResCardSubscribe.RetObjBean.RowsBean>> tRssList) {
+        List<List<ResCardSubscribe.RetObjBean.RowsBean>> tempList = new ArrayList<>();
+        List<ResCardSubscribe.RetObjBean.RowsBean> tempSubList;
+        if (null != tRssList && tRssList.size() > 0) {
+            for (List<ResCardSubscribe.RetObjBean.RowsBean> list : tRssList) {
+                if (null != list && list.size() > 0) {
+                    tempSubList = new ArrayList<>();
+                    for (ResCardSubscribe.RetObjBean.RowsBean rowsBean : list) {
+                        if (null != rowsBean) {
+                            tempSubList.add(rowsBean);
+                        }
+                    }
+                    if (tempSubList.size() > 0) {
+                        tempList.add(tempSubList);
+                    }
+                }
+            }
+        }
+        infoListCard.addAll(tempList);
     }
 }

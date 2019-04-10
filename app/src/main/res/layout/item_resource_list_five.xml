@@ -66,8 +66,8 @@
 
                     <ImageView
                         android:id="@+id/irl_iv_top1"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/ic_place" />
 
@@ -75,7 +75,10 @@
                         android:id="@+id/irl_tv_top1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
                         android:textColor="@color/color_big_label"
                         android:textSize="@dimen/s16p" />
                 </LinearLayout>
@@ -97,8 +100,8 @@
 
                     <ImageView
                         android:id="@+id/irl_iv_top2"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/ic_place" />
 
@@ -106,7 +109,10 @@
                         android:id="@+id/irl_tv_top2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
                         android:textColor="@color/color_big_label"
                         android:textSize="@dimen/s16p" />
                 </LinearLayout>
@@ -129,8 +135,8 @@
 
                     <ImageView
                         android:id="@+id/irl_iv_top3"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/ic_place" />
 
@@ -138,7 +144,10 @@
                         android:id="@+id/irl_tv_top3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
                         android:textColor="@color/color_big_label"
                         android:textSize="@dimen/s16p" />
                 </LinearLayout>
@@ -160,8 +169,8 @@
 
                     <ImageView
                         android:id="@+id/irl_iv_top4"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/ic_place" />
 
@@ -169,7 +178,10 @@
                         android:id="@+id/irl_tv_top4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
                         android:textColor="@color/color_big_label"
                         android:textSize="@dimen/s16p" />
                 </LinearLayout>
