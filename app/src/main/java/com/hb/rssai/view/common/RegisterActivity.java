@@ -101,12 +101,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     mRaChktvSpsdControl.setChecked(false);
                     //否则隐藏密码
                     mRaEtSpassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    mRaEtSpassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_gone), null);
+//                    mRaEtSpassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_gone), null);
                 } else {
                     mRaChktvSpsdControl.setChecked(true);
                     //如果选中，显示密码
                     mRaEtSpassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    mRaEtSpassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_view), null);
+//                    mRaEtSpassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_view), null);
                 }
                 break;
         }
