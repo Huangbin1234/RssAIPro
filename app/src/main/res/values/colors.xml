@@ -33,6 +33,7 @@
     <color name="view_line">#05896f</color>
 
     <color name="bg">#EAEEEF</color>
+    <!--<color name="bg">#F6F6F6</color>-->
 
     <color name="color_ll_press">#DDDDDD</color>
     <color name="color_ll_normal">#FFFFFF</color>
@@ -75,6 +76,7 @@
     <color name="color_article">#000000</color>
     <color name="color_reg">#DDDDDD</color>
 
+    <!--<color name="color_reg_label">#303F9F</color>-->
     <color name="color_reg_label">#2196F3</color>
     <color name="color_iv_bg">#F7F7F7</color>
     <color name="color_list_txt">#4a4b4d</color>

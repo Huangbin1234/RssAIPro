@@ -1,10 +1,10 @@
 <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--tools:context="com.hb.rssai.view.fragment.HomeFragment">-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/hf_ll_root"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/color_toolbar_bg"
-              android:orientation="vertical">
+    android:id="@+id/hf_ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_toolbar_bg"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/ft_top"
-            layout="@layout/include_tab_toolbar"/>
+            layout="@layout/include_tab_toolbar" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/ft_viewPager"
@@ -20,19 +20,21 @@
             android:layout_height="match_parent"
             android:layout_below="@id/ft_top"
             android:layout_weight="1"
-            android:background="@color/bg"/>
+            android:background="@color/bg" />
 
+        <!--android:background="@color/color_tips"-->
         <com.hb.rssai.view.widget.TipTextView
             android:id="@+id/ft_tv_tips"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/color_tips"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/ic_search_key"
             android:gravity="center"
-            android:padding="16dp"
-            android:textSize="@dimen/s14p"
             android:textColor="@color/color_reg_label"
-            android:visibility="gone"/>
+            android:textSize="@dimen/s14p"
+            android:visibility="visible" />
+
     </RelativeLayout>
     <!-- TODO: Update blank fragment layout -->
     <!--<LinearLayout-->

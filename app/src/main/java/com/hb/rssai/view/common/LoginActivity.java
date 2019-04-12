@@ -124,12 +124,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
                     laChkTvPsdControl.setChecked(false);
                     //否则隐藏密码
                     mLaEtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    mLaEtPassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_gone), null);
+                    mLaEtPassword.setCompoundDrawables(getResources().getDrawable(R.drawable.selector_ic_lock), null, getResources().getDrawable(R.mipmap.icon_psd_gone), null);
                 } else {
                     laChkTvPsdControl.setChecked(true);
                     //如果选中，显示密码
                     mLaEtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    mLaEtPassword.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.icon_psd_view), null);
+                    mLaEtPassword.setCompoundDrawables(getResources().getDrawable(R.drawable.selector_ic_lock), null, getResources().getDrawable(R.mipmap.icon_psd_view), null);
                 }
                 break;
         }

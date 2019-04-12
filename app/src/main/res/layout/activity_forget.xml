@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/title_all"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar"/>
+    <include layout="@layout/include_sub_toolbar" />
 
 
     <LinearLayout
@@ -29,7 +29,7 @@
                 android:layout_marginRight="16dp"
                 android:text="@string/str_fa_rb_mode"
                 android:textColor="@color/text_color_new"
-                android:textSize="@dimen/s16p"/>
+                android:textSize="@dimen/s16p" />
 
             <RadioGroup
                 android:id="@+id/fa_rg"
@@ -46,7 +46,7 @@
                     android:text="@string/str_fa_rb_email"
                     android:textColor="@color/text_color_new"
                     android:textSize="@dimen/s16p"
-                    android:theme="@style/EditUnderLineStyle"/>
+                    android:theme="@style/EditUnderLineStyle" />
 
                 <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/fa_rb_representation"
@@ -56,7 +56,7 @@
                     android:text="@string/str_fa_rb_representation"
                     android:textColor="@color/text_color_new"
                     android:textSize="@dimen/s16p"
-                    android:theme="@style/EditUnderLineStyle"/>
+                    android:theme="@style/EditUnderLineStyle" />
             </RadioGroup>
 
 
@@ -65,14 +65,14 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <View
             android:id="@+id/fa_v_email"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginTop="10dp"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,20 +95,20 @@
                 android:textColor="@color/text_color_new"
                 android:textColorHint="#BBBBBB"
                 android:textSize="@dimen/s16p"
-                android:theme="@style/EditUnderLineStyle"/>
+                android:theme="@style/EditUnderLineStyle" />
         </LinearLayout>
 
         <View
             android:id="@+id/fa_v_email_end"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginTop="10dp"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,13 +131,13 @@
                 android:textColorHint="#BBBBBB"
                 android:textSize="@dimen/s16p"
                 android:theme="@style/EditUnderLineStyle"
-                android:visibility="visible"/>
+                android:visibility="visible" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/color_general_line"/>
+            android:background="@color/color_general_line" />
 
         <View
             android:id="@+id/fa_v_mobile_end"
@@ -145,7 +145,7 @@
             android:layout_height="1px"
             android:layout_marginTop="10dp"
             android:background="@color/color_general_line"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -168,7 +168,7 @@
                 android:textColorHint="#BBBBBB"
                 android:textSize="@dimen/s16p"
                 android:theme="@style/EditUnderLineStyle"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
         <View
@@ -176,7 +176,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/color_general_line"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/fa_btn_sure"
@@ -185,9 +185,11 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/opr_bg_selector"
+            android:background="@drawable/btn_selector"
             android:text="@string/str_fa_btn_sure"
             android:textColor="@color/orange"
-            android:textSize="@dimen/s16p"/>
+            android:textSize="@dimen/s16p" />
+
+        <!--android:background="@drawable/opr_bg_selector"-->
     </LinearLayout>
 </LinearLayout>

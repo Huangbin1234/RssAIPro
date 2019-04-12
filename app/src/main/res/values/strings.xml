@@ -132,7 +132,7 @@
     <string name="str_email">qianchengluntan@163.com</string>
     <string name="str_qq">699547875</string>
     <string name="app_abstract">重新定义RSS阅读器</string>
-    <string name="str_la_forget">忘记密码</string>
+    <string name="str_la_forget">忘记密码?</string>
     <string name="str_fa_rb_mode">找回方式</string>
     <string name="str_fa_btn_sure">确定</string>
     <string name="str_fa_rb_representation">申述</string>
