@@ -6,5 +6,5 @@
         <!--android:color="@color/input_style" />-->
     <!--<solid-->
         <!--android:color="#FFFFFF"/>-->
-    <item android:drawable="@drawable/ic_person_white"/>
+    <!--<item android:drawable="@drawable/ic_person_white"/>-->
 </shape>

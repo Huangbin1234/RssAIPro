@@ -1,6 +1,8 @@
 package com.hb.rssai.view.common;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -57,6 +59,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
     TextView mLaTvForget;
 
     public LoginContract.Presenter mPresenter;
+    @BindView(R.id.la_tv_userName_label)
+    TextView mLaTvUserNameLabel;
+    @BindView(R.id.la_tv_password_label)
+    TextView mLaTvPasswordLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +79,20 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
             //密码
             laChkTvPsdControl.setVisibility(View.VISIBLE);
             laChkTvPsdControl.setOnClickListener(this);
+        }
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            mLaTvUserNameLabel.setVisibility(View.VISIBLE);
+            mLaTvPasswordLabel.setVisibility(View.VISIBLE);
+        } else {
+            mLaTvUserNameLabel.setVisibility(View.GONE);
+            mLaTvPasswordLabel.setVisibility(View.GONE);
+            Drawable draName = getResources().getDrawable(R.drawable.selector_ic_person);
+            draName.setBounds(0, 0, draName.getMinimumWidth(), draName.getMinimumHeight());
+            mLaEtUserName.setCompoundDrawables(draName, null, null, null);
+            //setCompoundDrawables设置前需要先setBounds
+            Drawable draPsd = getResources().getDrawable(R.drawable.selector_ic_lock);
+            draPsd.setBounds(0, 0, draPsd.getMinimumWidth(), draPsd.getMinimumHeight());
+            mLaEtPassword.setCompoundDrawables(draPsd, null, null, null);
         }
     }
 

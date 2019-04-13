@@ -1,5 +1,7 @@
 package com.hb.rssai.view.common;
 
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -47,6 +49,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     Button mRaBtnRegister;
 
     RegisterContract.Presenter mPresenter;
+    @BindView(R.id.ra_tv_userName_label)
+    TextView mRaTvUserNameLabel;
+    @BindView(R.id.ra_tv_password_label)
+    TextView mRaTvPasswordLabel;
+    @BindView(R.id.ra_tv_spassword_label)
+    TextView mRaTvSPasswordLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +63,29 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            mRaTvUserNameLabel.setVisibility(View.VISIBLE);
+            mRaTvPasswordLabel.setVisibility(View.VISIBLE);
+            mRaTvSPasswordLabel.setVisibility(View.VISIBLE);
+        } else {
+            mRaTvUserNameLabel.setVisibility(View.GONE);
+            mRaTvPasswordLabel.setVisibility(View.GONE);
+            mRaTvSPasswordLabel.setVisibility(View.GONE);
 
+            //setCompoundDrawables设置前需要先setBounds
+
+            Drawable draName = getResources().getDrawable(R.drawable.selector_ic_person);
+            draName.setBounds(0, 0, draName.getMinimumWidth(), draName.getMinimumHeight());
+            mRaEtUserName.setCompoundDrawables(draName, null, null, null);
+
+            Drawable draPsd = getResources().getDrawable(R.drawable.selector_ic_lock);
+            draPsd.setBounds(0, 0, draPsd.getMinimumWidth(), draPsd.getMinimumHeight());
+            mRaEtPassword.setCompoundDrawables(draPsd, null, null, null);
+
+            Drawable draSPsd = getResources().getDrawable(R.drawable.selector_ic_lock);
+            draSPsd.setBounds(0, 0, draSPsd.getMinimumWidth(), draSPsd.getMinimumHeight());
+            mRaEtSpassword.setCompoundDrawables(draSPsd, null, null, null);
+        }
     }
 
     @Override
