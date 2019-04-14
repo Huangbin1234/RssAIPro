@@ -38,7 +38,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="16dp"
-                        android:background="@drawable/opr_bg_selector"
+                        android:background="@drawable/btn_selector"
                         android:text="@string/str_la_btn_offline"
                         android:textColor="@color/orange"
                         android:textSize="@dimen/s16p" />

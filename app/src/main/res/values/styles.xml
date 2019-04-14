@@ -61,6 +61,7 @@
 
     <style name="title_all">
         <item name="android:background">@color/color_toolbar_bg</item>
+        <!--<item name="android:background">@color/black_de</item>-->
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
@@ -163,4 +164,29 @@
         <item name="android:windowActionBar">false</item>
     </style>
     <!-- Activity全屏 结束-->
+
+    <style name="CheckBoxStyle" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorControlNormal">@color/gray_light</item>
+        <item name="colorControlActivated">@color/color_line_blue</item>
+    </style>
+
+
+  <style name="Theme_default"  parent="AppTheme2">
+      <item name="colorAccent">@color/color_toolbar_bg</item>
+      <item name="colorPrimary">@color/color_toolbar_bg</item>
+      <item name="colorPrimaryDark">@color/color_toolbar_bg</item>
+    </style>
+
+    <style name="Theme_blue" >
+        <item name="colorPrimary">@color/lightblue500</item>
+        <!--<item name="colorPrimaryDark">@color/lightblue700</item>-->
+        <item name="colorPrimaryDark">@color/lightblue500</item>
+        <item name="colorAccent">@color/lightblue500</item>
+    </style>
+    <style name="Theme_green">
+            <item name="colorPrimary">@color/teal500</item>
+            <!--<item name="colorPrimaryDark">@color/teal700</item>-->
+            <item name="colorPrimaryDark">@color/teal500</item>
+            <item name="colorAccent">@color/teal500</item>
+    </style>
 </resources>

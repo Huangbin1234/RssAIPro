@@ -189,18 +189,22 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
         // 设置按钮 图片为普通颜色
         switch (id) {
             case R.id.navigation_home:
+                setTranslucentStatus(this);
                 mTransaction.show(tabFragment);
                 tabFragment.setUserVisibleHint(true);
                 break;
             case R.id.navigation_find:
+                setTranslucentStatus(this);
                 mTransaction.show(findFragment);
                 findFragment.setUserVisibleHint(true);
                 break;
             case R.id.navigation_subscribe:
+                setTranslucentStatus(this);
                 mTransaction.show(subscriptionFragment);
                 subscriptionFragment.setUserVisibleHint(true);
                 break;
             case R.id.navigation_mine:
+                setTranslucentStatus2(this);
                 mTransaction.show(mineFragment);
                 mineFragment.setUserVisibleHint(true);
                 break;

@@ -7,8 +7,8 @@ android {
         applicationId "com.hb.rssai"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 18
-        versionName "1.1.7"
+        versionCode 19
+        versionName "1.1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -121,4 +121,5 @@ dependencies {
     dependencies { implementation 'com.android.support:multidex:1.0.1' }
     implementation "com.google.guava:guava:$rootProject.guavaVersion"
     implementation 'com.android.support:support-v4:26.1.0'
+
 }

@@ -1,11 +1,14 @@
 package com.hb.rssai.view.common;
 
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -35,6 +38,18 @@ public class ModifyPasswordActivity extends BaseActivity implements IModifyPassw
     EditText mMpaEtNewSpsd;
     @BindView(R.id.mpa_btn_sure)
     Button mMpaBtnSure;
+    @BindView(R.id.mpa_tv_old_psd_label)
+    TextView mMpaTvOldPsdLabel;
+    @BindView(R.id.la_chktv_old_psd_control)
+    CheckedTextView mLaChktvOldPsdControl;
+    @BindView(R.id.mpa_tv_new_psd_label)
+    TextView mMpaTvNewPsdLabel;
+    @BindView(R.id.la_chktv_new_psd_control)
+    CheckedTextView mLaChktvNewPsdControl;
+    @BindView(R.id.mpa_tv_new_spsd_label)
+    TextView mMpaTvNewSpsdLabel;
+    @BindView(R.id.la_chktv_new_spsd_control)
+    CheckedTextView mLaChktvNewSpsdControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +58,29 @@ public class ModifyPasswordActivity extends BaseActivity implements IModifyPassw
 
     @Override
     protected void initView() {
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            mMpaTvOldPsdLabel.setVisibility(View.VISIBLE);
+            mMpaTvNewPsdLabel.setVisibility(View.VISIBLE);
+            mMpaTvNewSpsdLabel.setVisibility(View.VISIBLE);
+        } else {
+            mMpaTvOldPsdLabel.setVisibility(View.GONE);
+            mMpaTvNewPsdLabel.setVisibility(View.GONE);
+            mMpaTvNewSpsdLabel.setVisibility(View.GONE);
+
+            Drawable draOldPsd = getResources().getDrawable(R.drawable.selector_ic_lock);
+            draOldPsd.setBounds(0, 0, draOldPsd.getMinimumWidth(), draOldPsd.getMinimumHeight());
+            mMpaEtOldPsd.setCompoundDrawables(draOldPsd, null, null, null);
+            //setCompoundDrawables设置前需要先setBounds
+            Drawable draNewPsd = getResources().getDrawable(R.drawable.selector_ic_lock);
+            draNewPsd.setBounds(0, 0, draNewPsd.getMinimumWidth(), draNewPsd.getMinimumHeight());
+            mMpaEtNewPsd.setCompoundDrawables(draNewPsd, null, null, null);
+
+            Drawable draNewSPsd = getResources().getDrawable(R.drawable.selector_ic_lock);
+            draNewSPsd.setBounds(0, 0, draNewSPsd.getMinimumWidth(), draNewSPsd.getMinimumHeight());
+            mMpaEtNewSpsd.setCompoundDrawables(draNewSPsd, null, null, null);
+        }
+
         mMpaBtnSure.setOnClickListener(v -> {
             ((ModifyPasswordPresenter) mPresenter).modify();
         });
@@ -102,7 +140,7 @@ public class ModifyPasswordActivity extends BaseActivity implements IModifyPassw
 
     @Override
     public void setCheckError(String error) {
-        T.ShowToast(this,error);
+        T.ShowToast(this, error);
     }
 
 }

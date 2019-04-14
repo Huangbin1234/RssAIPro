@@ -8,9 +8,9 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/sys_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tool_bar_height"
-        android:background="@color/color_toolbar_bg">
-
+        android:layout_height="?attr/actionBarSize"
+        >
+        <!--?attr/actionBarSize-->
         <TextView
             android:id="@+id/sys_tv_title"
             android:layout_width="wrap_content"

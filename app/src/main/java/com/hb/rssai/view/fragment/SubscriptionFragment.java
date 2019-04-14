@@ -2,6 +2,8 @@ package com.hb.rssai.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,12 +15,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -35,6 +42,7 @@ import com.hb.rssai.presenter.SubscriptionPresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
+import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISubscriptionView;
@@ -111,8 +119,9 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     private FullyGridLayoutManager mFullyGridLayoutManagerTopic;
     private ResFindMore.RetObjBean.RowsBean rowsBean;
     private boolean isPrepared;
-    private  DialogAdapter dialogAdapter;
-    private  MaterialDialog materialDialog;
+    private DialogAdapter dialogAdapter;
+    private MaterialDialog materialDialog;
+
     @Override
     protected void lazyLoad() {
         if (!isVisible || !isPrepared) {
@@ -121,6 +130,12 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
         ((SubscriptionPresenter) mPresenter).refreshList();
         isPrepared = false;
         System.out.println("====lazyLoad====");
+
+        String token = SharedPreferencesUtil.getString(getContext(), Constant.TOKEN, "");
+        boolean isShowPop = SharedPreferencesUtil.getBoolean(getContext(), Constant.KEY_IS_SHOW_POP, false);
+        if (!TextUtils.isEmpty(token) && !isShowPop) {
+            initShowPop();
+        }
     }
 
     public SubscriptionFragment() {
@@ -202,8 +217,76 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSfSwipe.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
+
     }
 
+    View popupView;
+    PopupWindow mPop;
+
+    void initShowPop() {
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        popupView = inflater.inflate(R.layout.pop_add_subscription, null);
+        mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(getActivity()) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPop.setFocusable(true);
+        ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
+        mPop.setBackgroundDrawable(cd);
+        mPop.update();
+        mPop.setOutsideTouchable(true);
+        mPop.setAnimationStyle(R.style.PopupAnimation);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            mPop.showAtLocation(mFsLlRoot, Gravity.CENTER, 0, 0);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mPop.showAtLocation(mFsLlRoot, Gravity.CENTER, 0, 0);
+        } else {
+            mPop.showAtLocation(mFsLlRoot, Gravity.CENTER, (DisplayUtil.getMobileWidth(getActivity()) - (DisplayUtil.getMobileWidth(getActivity()) * 8 / 10)) / 2, DisplayUtil.dip2px(getContext(), 90));
+        }
+        mPop.update();
+        backgroundAlpha(0.5f);
+        mPop.setOnDismissListener(new PopOnDismissListener());
+        Button pas_btn_sure = popupView.findViewById(R.id.pas_btn_sure);
+        ImageView pas_iv_close = popupView.findViewById(R.id.pas_btn_close);
+        pas_iv_close.setOnClickListener(arg0 -> {
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+        });
+        pas_btn_sure.setOnClickListener(view -> {
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+            Intent intent = new Intent(getActivity(), AddSourceActivity.class);
+            getActivity().startActivity(intent);
+        });
+
+        SharedPreferencesUtil.setBoolean(getContext(), Constant.KEY_IS_SHOW_POP, true);
+    }
+
+    /**
+     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
+     *
+     * @author cg
+     */
+    class PopOnDismissListener implements PopupWindow.OnDismissListener {
+
+        @Override
+        public void onDismiss() {
+            // TODO Auto-generated method stub
+            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+            backgroundAlpha(1f);
+        }
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getActivity().getWindow().setAttributes(lp);
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -313,7 +396,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
             materialDialog = new MaterialDialog(getContext());
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View view = inflater.inflate(R.layout.view_dialog, null);
-            FullListView listView = (FullListView) view.findViewById(R.id.dialog_listView);
+            FullListView listView = view.findViewById(R.id.dialog_listView);
 
             List<HashMap<String, Object>> list = initDialogData();
             listView.setOnItemClickListener((parent, view1, position, id) -> {
@@ -325,8 +408,10 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                     materialDialog.dismiss();
                     Intent intent = new Intent(getContext(), QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
-                    intent.putExtra(QrCodeActivity.KEY_TITLE, rowsBean.getName());
                     intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_ID, rowsBean.getId());
+                    intent.putExtra(QrCodeActivity.KEY_TITLE, rowsBean.getName());
+                    intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_IMAGE, rowsBean.getImg());
+                    intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_DEC, rowsBean.getAbstractContent());
                     intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + rowsBean.getLink()));
                     startActivity(intent);
                 } else if (list.get(position).get("id").equals(3)) {

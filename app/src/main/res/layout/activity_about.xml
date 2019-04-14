@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/title_all"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              style="@style/title_all"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar" />
+    <include layout="@layout/include_sub_toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,15 +16,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_general_white"
+            android:background="@color/white"
             android:gravity="center"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -33,11 +32,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"></ImageView>
+                    android:src="@mipmap/load_logo"></ImageView>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
@@ -45,83 +45,109 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/app_name"
-                        android:textSize="@dimen/s14p" />
+                        android:textColor="@color/color_title"
+                        android:textIsSelectable="true"
+                        android:textSize="@dimen/s16p"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="." />
+                        android:text="."/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/str_zh_app_name"
-                        android:textSize="@dimen/s14p" />
+                        android:textColor="@color/color_title"
+                        android:textIsSelectable="true"
+                        android:textSize="@dimen/s16p"/>
                 </LinearLayout>
             </LinearLayout>
 
+            <View
+                style="@style/view_line_h"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:padding="16dp"
                 android:text="@string/app_about"
-                android:textColor="@color/color_txt"
-                android:textSize="@dimen/s16p" />
+                android:textColor="@color/text_color_abstract"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/s14p"/>
 
         </LinearLayout>
 
-        <View style="@style/view_line_h" />
+        <View
+            style="@style/view_line_h"
+            android:visibility="visible"/>
 
 
         <View
             style="@style/view_line_h"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="10dp"
+            android:visibility="visible"/>
 
-        <LinearLayout
-
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_general_white"
-            android:gravity="center"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_abstract"
-                android:textColor="@color/color_txt"
-                android:textSize="@dimen/s16p"
-                android:visibility="visible" />
-
-        </LinearLayout>
-
-        <View style="@style/view_line_h" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="QQ交流群："
-                android:textSize="@dimen/s10p" />
+                android:layout_centerVertical="true"
+                android:drawablePadding="10dp"
+                android:text="QQ交流群"
+                android:textColor="@color/color_title"
+                android:textSize="@dimen/s16p"/>
 
             <TextView
                 android:id="@+id/aa_tv_qq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:autoLink="email"
                 android:text="@string/str_qq"
+                android:textColor="@color/lite_blue"
                 android:textColorLink="@color/lite_blue"
-                android:textSize="@dimen/s10p" />
-        </LinearLayout>
+                android:textSize="@dimen/s16p"/>
+
+        </RelativeLayout>
+
+
+        <View style="@style/view_line_h"/>
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="bottom|center_horizontal"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="16dp">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="QQ交流群："-->
+        <!--android:textSize="@dimen/s10p"/>-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/aa_tv_qq"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:autoLink="email"-->
+        <!--android:text="@string/str_qq"-->
+        <!--android:textColorLink="@color/lite_blue"-->
+        <!--android:textSize="@dimen/s10p"/>-->
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,14 +156,24 @@
             android:gravity="bottom|center_horizontal"
             android:orientation="horizontal"
             android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="联系邮箱："
+
+                android:textColor="@color/text_color_abstract"
+                android:textSize="@dimen/s10p"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="email"
                 android:text="@string/str_email"
-                android:textColorLink="@color/text_color_time"
-                android:textSize="@dimen/s10p" />
+                android:textColorLink="@color/text_color_abstract"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/s10p"/>
         </LinearLayout>
     </LinearLayout>
 

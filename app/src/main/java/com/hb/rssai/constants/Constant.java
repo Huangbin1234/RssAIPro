@@ -20,6 +20,7 @@ public class Constant {
     public static final String FLAG_URL_SOURCE = "url_source|";
 
     public static final String FLAG_PRESS_RSS_SOURCE = "press_rss_source|";
+    public static final String FLAG_PRESS_SUB_RSS_SOURCE = "press_sub_rss_source|";//订阅
     public static final String FLAG_PRESS_COLLECTION_SOURCE = "press_collection_source|";
     public static final String FLAG_PRESS_URL_SOURCE = "press_url_source|";
 
@@ -28,6 +29,7 @@ public class Constant {
     public static final String SP_LOGIN_USER_NAME = "sp_login_user_name";
     public static final String SP_LOGIN_PSD = "sp_login_password";
     public static final String KEY_IS_NO_IMAGE_MODE = "isLoadImage";//是否加载图片
+    public static final String KEY_IS_COLD_REBOOT_MODE ="isColdReboot" ;//是否是冷启动模式
 
     public static final String MSG_NETWORK_ERROR = "网络慢或连接失败，请稍后重试。";
     public static final String FAILED_NETWORK = "网络连接不可用，请稍后重试。";
@@ -42,6 +44,7 @@ public class Constant {
     public static final String KEY_SYS_NIGHT_MODE = "sys_night_mode";
     public static final String KEY_SYS_NIGHT_MODE_TIME = "sys_night_mode_time";
 
+
     public static final String LAST_UPDATE_TIME = "last_update_time";
     public static final String TIPS_IMAGE_SELECTOR = "选择封面图片";
     public static final String KEY_MESSAGE_COUNT = "message_count";
@@ -51,6 +54,8 @@ public class Constant {
     public static final String TIPS_EMAIL = "修改邮箱";
     //上一次的消息总数 当消息列表加载的时候 用于更新 我的界面消息总数显示
     public static final String KEY_MESSAGE_TOTAL_COUNT = "message_total_count";
+    public static final String KEY_IS_SHOW_POP = "isShowPop";//是否显示过pop弹窗
+    public static final String KEY_THEME = "key_theme";//设置主题保存
 
 
     public static String START_TIME = "1990-01-01 00:00:00";

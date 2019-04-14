@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +40,8 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
     //新版本收藏和订阅
     public static final String KEY_INFO_ID = "key_info_id";
     public static final String KEY_SUBSCRIBE_ID = "key_subscribe_id";
+    public static final String KEY_SUBSCRIBE_IMAGE = "key_subscribe_image";
+    public static final String KEY_SUBSCRIBE_DEC = "key_subscribe_dec";
 
     public final static String KEY_CONTENT = "key_content";
     public final static String KEY_FROM = "key_from";
@@ -50,9 +52,13 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
     Button mQaBtn;
     @BindView(R.id.qa_tv_title)
     TextView mQaTvTitle;
+    @BindView(R.id.qa_cb)
+    CheckBox mQaCb;
     private String content = null;
     private String from = null;
     private String title = null;
+    private String image = null;
+    private String dec = null;
     private String infoId = null;
     private String subscribeId = null;
 
@@ -69,6 +75,8 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
             content = bundle.getString(KEY_CONTENT);
             from = bundle.getString(KEY_FROM);
             title = bundle.getString(KEY_TITLE);
+            image = bundle.getString(KEY_SUBSCRIBE_IMAGE);
+            dec = bundle.getString(KEY_SUBSCRIBE_DEC);
             infoId = bundle.getString(KEY_INFO_ID);
             subscribeId = bundle.getString(KEY_SUBSCRIBE_ID);
         }
@@ -78,21 +86,85 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
     protected void initView() {
         mQaTvTitle.setText(title);
         if (content != null) {
-            try {
-                Bitmap logo = BitmapFactory.decodeResource(super.getResources(), R.mipmap.ic_launcher);
-                mQaIv.setImageBitmap(QRCodeUtil.createCode(this, content, logo));
-                logo.recycle();
-                if (FROM_VALUES[0].equals(from)) {
-                    mQaBtn.setText(FROM_TEXT_VALUES[0]);
-                } else if (FROM_VALUES[1].equals(from)) {
-                    mQaBtn.setText(FROM_TEXT_VALUES[1]);
-                } else if (FROM_VALUES[2].equals(from)) {
-                    mQaBtn.setVisibility(View.GONE);
+            Bitmap logo = BitmapFactory.decodeResource(super.getResources(), R.mipmap.ic_launcher_qrcode);
+            if (FROM_VALUES[0].equals(from)) {//从订阅点过来的
+                String encodeSubscribeId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_RSS_SOURCE + subscribeId + "@,@" + title + "@,@" + image + "@,@" + dec);
+                try {
+                    mQaIv.setImageBitmap(QRCodeUtil.createCode(this, encodeSubscribeId, logo));
+                } catch (WriterException e) {
+                    e.printStackTrace();
                 }
-            } catch (WriterException e) {
-                e.printStackTrace();
+            } else if (FROM_VALUES[1].equals(from)) {//从收藏点过来的
+                String encodeInfoId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_COLLECTION_SOURCE + infoId);
+                try {
+                    mQaIv.setImageBitmap(QRCodeUtil.createCode(this, encodeInfoId, logo));
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            } else if (FROM_VALUES[2].equals(from)) {
+                String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_URL_SOURCE + Base64Util.getDecodeStr(content));
+                try {
+                    mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s, logo));
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
             }
+            logo.recycle();
+
         }
+        mQaCb.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                Bitmap logo = BitmapFactory.decodeResource(super.getResources(), R.mipmap.ic_launcher_qrcode);
+                if (FROM_VALUES[0].equals(from)) {//从订阅点过来的
+                    String encodeSubscribeId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_SUB_RSS_SOURCE + subscribeId+ "@,@" + title + "@,@" + image + "@,@" + dec);
+                    try {
+                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, encodeSubscribeId, logo));
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                } else if (FROM_VALUES[1].equals(from)) {//从收藏点过来的
+                    String encodeInfoId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_COLLECTION_SOURCE + infoId);
+                    try {
+                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, encodeInfoId, logo));
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                } else if (FROM_VALUES[2].equals(from)) {
+                    String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_URL_SOURCE + Base64Util.getDecodeStr(content));
+                    try {
+                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s, logo));
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
+                logo.recycle();
+            } else {
+                Bitmap logo = BitmapFactory.decodeResource(super.getResources(), R.mipmap.ic_launcher_qrcode);
+                if (FROM_VALUES[0].equals(from)) {//从订阅点过来的
+                    String encodeSubscribeId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_RSS_SOURCE + subscribeId+ "@,@" + title + "@,@" + image + "@,@" + dec);
+                    try {
+                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, encodeSubscribeId, logo));
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                } else if (FROM_VALUES[1].equals(from)) {//从收藏点过来的
+                    String encodeInfoId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_COLLECTION_SOURCE + infoId);
+                    try {
+                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, encodeInfoId, logo));
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                } else if (FROM_VALUES[2].equals(from)) {
+                    String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_URL_SOURCE + Base64Util.getDecodeStr(content));
+                    try {
+                        mQaIv.setImageBitmap(QRCodeUtil.createCode(this, s, logo));
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
+                logo.recycle();
+            }
+        });
     }
 
     @Override
@@ -122,7 +194,7 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.qa_btn:
-                Bitmap logo = BitmapFactory.decodeResource(super.getResources(), R.mipmap.ic_launcher);
+                Bitmap logo = BitmapFactory.decodeResource(super.getResources(), R.mipmap.ic_launcher_qrcode);
                 if (FROM_VALUES[0].equals(from)) {//从订阅点过来的
 //                    String s = Base64Util.getEncodeStr(Constant.FLAG_PRESS_RSS_SOURCE + Base64Util.getDecodeStr(content));
                     String encodeSubscribeId = Base64Util.getEncodeStr(Constant.FLAG_PRESS_RSS_SOURCE + subscribeId);

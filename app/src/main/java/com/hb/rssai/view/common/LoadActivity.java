@@ -54,12 +54,22 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_load);
-        ButterKnife.bind(this);
-        mContext = this;
-        getAd();
+        coldRebootMode();
+
     }
 
+    private void coldRebootMode() {
+        boolean isColdReboot = com.hb.rssai.util.SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_COLD_REBOOT_MODE, false);
+        if (isColdReboot) {
+            startActivity(new Intent(LoadActivity.this, IndexNavActivity.class));
+            finish();
+        } else {
+            setContentView(R.layout.activity_load);
+            ButterKnife.bind(this);
+            mContext = this;
+            getAd();
+        }
+    }
 
     @Override
     public void checkUpdate() {
@@ -163,7 +173,7 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
             HttpLoadImg.loadImg(this, resAdvertisement.getRetObj().getImg(), mLoadAdIv);
             if (null != resAdvertisement.getRetObj() && null != resAdvertisement.getRetObj().getLink()) {
 //                if (resAdvertisement.getRetObj().getLink().startsWith("alipays")) {
-                    SharedPreferencesUtil.setString(this, Constant.AlipaysUrl, resAdvertisement.getRetObj().getLink());
+                SharedPreferencesUtil.setString(this, Constant.AlipaysUrl, resAdvertisement.getRetObj().getLink());
 //                }
                 mLoadAdIv.setOnClickListener(v -> {
                     String alipayUrl = SharedPreferencesUtil.getString(this, Constant.AlipaysUrl, "");

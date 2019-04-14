@@ -8,7 +8,7 @@
 
     <include layout="@layout/include_sub_toolbar"/>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg"
@@ -18,25 +18,8 @@
             android:id="@+id/sa_ll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/bg"
             android:orientation="vertical">
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--<android.support.v7.widget.CardView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:elevation="2dp"-->
-            <!--app:cardCornerRadius="0dp"-->
-            <!--app:cardElevation="2dp"-->
-            <!--android:layout_marginTop="14dp"-->
-            <!--app:contentPaddingBottom="2dp"-->
-            <!--app:contentPaddingLeft="2dp"-->
-            <!--app:contentPaddingRight="2dp"-->
-            <!--app:contentPaddingTop="2dp">-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
 
             <RelativeLayout
                 android:id="@+id/sa_rl_change_source"
@@ -73,8 +56,6 @@
             </RelativeLayout>
 
             <View style="@style/view_line_h"/>
-            <!--</LinearLayout>-->
-            <!--</android.support.v7.widget.CardView>-->
 
             <RelativeLayout
                 android:id="@+id/sa_rl_opr_image"
@@ -109,7 +90,47 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
+
             <View style="@style/view_line_h"/>
+
+            <RelativeLayout
+                android:id="@+id/sa_rl_cold_reboot"
+                style="@style/InfoDetail"
+                android:padding="16dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/sa_tv_cold_reboot"
+                        style="@style/TextLabel"
+                        android:text="@string/str_sa_cold_reboot"/>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/sa_tv_cold_reboot"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/sa_tv_cold_reboot_label"
+                        android:textColor="@color/text_color_abstract"
+                        android:textSize="@dimen/s12p"/>
+                </RelativeLayout>
+
+
+                <Switch
+                    android:id="@+id/sa_sw_cold_reboot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <View style="@style/view_line_h"/>
+
             <RelativeLayout
                 android:id="@+id/sa_rl_day_night"
                 style="@style/InfoDetail"
@@ -136,7 +157,17 @@
                 style="@style/view_line_h"
                 android:layout_marginTop="10dp"/>
 
+            <RelativeLayout
+                android:id="@+id/sa_rl_theme"
+                style="@style/InfoDetail"
+                android:padding="16dp">
 
+                <TextView
+                    style="@style/TextLabel"
+                    android:text="@string/str_sa_theme"/>
+
+            </RelativeLayout>
+            <View style="@style/view_line_h"/>
             <RelativeLayout
                 android:id="@+id/sa_rl_share"
                 style="@style/InfoDetail"
@@ -234,9 +265,13 @@
                     android:visibility="gone"/>
 
             </RelativeLayout>
-            <!--</LinearLayout>-->
-            <!--</android.support.v7.widget.CardView>-->
+
             <View style="@style/view_line_h"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
         </LinearLayout>
-    </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

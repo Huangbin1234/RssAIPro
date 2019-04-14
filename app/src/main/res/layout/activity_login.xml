@@ -123,7 +123,6 @@
                     android:layout_alignParentLeft="true"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="16dp"
-
                     android:text="@string/str_la_forget"
                     android:textColor="@color/text_color_abstract"
                     android:textSize="@dimen/s14p"/>
@@ -149,7 +148,6 @@
         <!--android:background="@drawable/opr_bg_selector"-->
         <RelativeLayout
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_weight="1">
@@ -167,11 +165,14 @@
             <!--android:textColor="@color/color_reg_label"-->
             <TextView
                 android:id="@+id/la_tv_register"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_gravity="right"
-                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:background="@drawable/round_register"
+                android:gravity="center"
+
+                android:padding="13dp"
                 android:text="点此注册，体验更多专属功能。"
                 android:textColor="@color/color_reg_label"
                 android:textSize="@dimen/s14p"/>

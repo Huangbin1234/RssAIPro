@@ -69,4 +69,6 @@
     <color name="pop_media_color_general_line">#9C9C9C</color>
 
     <color name="color_tips">#dbcfd8dc</color>
+
+    <color name="card_bg">#212a2f</color>
 </resources>

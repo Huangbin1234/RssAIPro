@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
+import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.Information;
 import com.hb.rssai.bean.ResBase;
@@ -37,6 +38,7 @@ import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
+import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.common.RichTextActivity;
 import com.hb.rssai.view.iView.IMineView;
 import com.hb.rssai.view.me.CollectionActivity;
@@ -115,6 +117,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     private boolean isPrepared;
     private String infoId;
     private String subscribeId;
+
+    private String FLAG_USER_ACTIVITY = "UserActivity.class";
+    private String FLAG_RECORD_ACTIVITY = "RecordActivity.class";
+    private String FLAG_SUBSCRIBE_ALL_ACTIVITY = "SubscribeAllActivity.class";
+    private String FLAG_MESSAGE_ACTIVITY = "MessageActivity.class";
+    private String FLAG_COLLECTION_ACTIVITY = "CollectionActivity.class";
 
     @Override
     protected void lazyLoad() {
@@ -219,13 +227,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fm_ll_collection:
-                getActivity().startActivity(new Intent(getContext(), CollectionActivity.class));
+                toLogin(FLAG_COLLECTION_ACTIVITY);
                 break;
             case R.id.fm_ll_message:
                 if (!TextUtils.isEmpty(mFmTvAccount.getText().toString()) && !"登录体验更多功能".equals(mFmTvAccount.getText().toString())) {
                     getActivity().startActivity(new Intent(getContext(), MessageActivity.class));
                 } else {
                     T.ShowToast(getContext(), "请登录成功后查看");
+                    toLogin(FLAG_MESSAGE_ACTIVITY);
                 }
                 break;
             case R.id.fm_ll_setting:
@@ -235,10 +244,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUEST_CODE);
                 break;
             case R.id.fm_ll_avatar:
-                startActivityForResult(new Intent(getContext(), UserActivity.class), REQUEST_LOGIN);
+                toLogin(FLAG_USER_ACTIVITY);
                 break;
             case R.id.sla_iv_to_bg:
-                startActivityForResult(new Intent(getContext(), UserActivity.class), REQUEST_LOGIN);
+                toLogin(FLAG_USER_ACTIVITY);
                 break;
             case R.id.fm_ll_search:
                 getActivity().startActivity(new Intent(getContext(), SearchActivity.class));
@@ -247,13 +256,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 getActivity().startActivity(new Intent(getContext(), OfflineActivity.class));
                 break;
             case R.id.mf_ll_subcribe_count:
-                startActivity(new Intent(getContext(), SubscribeAllActivity.class));
+                toLogin(FLAG_SUBSCRIBE_ALL_ACTIVITY);
                 break;
             case R.id.sys_iv_setting:
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
             case R.id.mf_ll_record:
-                getActivity().startActivity(new Intent(getContext(), RecordActivity.class));
+                toLogin(FLAG_RECORD_ACTIVITY);
                 break;
             case R.id.mf_ll_clear:
                 try {
@@ -263,6 +272,28 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     e.printStackTrace();
                 }
                 break;
+        }
+    }
+
+    private void toLogin(String flag) {
+        String token = SharedPreferencesUtil.getString(getContext(), Constant.TOKEN, "");
+        if (TextUtils.isEmpty(token)) {
+            //跳转到登录
+            Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ProjectApplication.mContext.startActivity(intent);
+        } else {
+            if (flag.equals(FLAG_USER_ACTIVITY)) {
+                startActivityForResult(new Intent(getContext(), UserActivity.class), REQUEST_LOGIN);
+            } else if (flag.equals(FLAG_RECORD_ACTIVITY)) {
+                startActivityForResult(new Intent(getContext(), RecordActivity.class), REQUEST_LOGIN);
+            } else if (flag.equals(FLAG_SUBSCRIBE_ALL_ACTIVITY)) {
+                startActivityForResult(new Intent(getContext(), SubscribeAllActivity.class), REQUEST_LOGIN);
+            } else if (flag.equals(FLAG_MESSAGE_ACTIVITY)) {
+                startActivityForResult(new Intent(getContext(), MessageActivity.class), REQUEST_LOGIN);
+            } else if (flag.equals(FLAG_COLLECTION_ACTIVITY)) {
+                startActivityForResult(new Intent(getContext(), CollectionActivity.class), REQUEST_LOGIN);
+            }
         }
     }
 
@@ -332,7 +363,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     intent.putExtra(SourceCardActivity.KEY_LINK, info.replace(Constant.FLAG_RSS_SOURCE, ""));
                     intent.putExtra(SourceCardActivity.KEY_TITLE, "分享资讯");
                     getContext().startActivity(intent);
-
                 } else if (info.startsWith(Constant.FLAG_COLLECTION_SOURCE)) {
                     Intent intent = new Intent(getContext(), ContentActivity.class);
                     intent.putExtra(ContentActivity.KEY_TITLE, "收藏");
@@ -343,20 +373,45 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     intent.putExtra(ContentActivity.KEY_TITLE, "访问");
                     intent.putExtra(ContentActivity.KEY_URL, info.replace(Constant.FLAG_URL_SOURCE, ""));
                     getContext().startActivity(intent);
+                } else if (info.startsWith(Constant.FLAG_PRESS_SUB_RSS_SOURCE)) {
+                    RssSource rssSource = new RssSource();
+                    rssSource.setName("订阅");
+                    rssSource.setLink(info.replace(Constant.FLAG_PRESS_SUB_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
+                    LiteOrmDBUtil.insert(rssSource);
+                    //TODO 订阅 写入服务器
+                    subscribeId = info.replace(Constant.FLAG_PRESS_SUB_RSS_SOURCE, "").split("@,@")[0];
+                    ((MinePresenter) mPresenter).addSubscription();
+
+                    String name = info.replace(Constant.FLAG_PRESS_SUB_RSS_SOURCE, "").split("@,@")[1];
+                    String image = info.replace(Constant.FLAG_PRESS_SUB_RSS_SOURCE, "").split("@,@")[2];
+                    String dec = info.replace(Constant.FLAG_PRESS_SUB_RSS_SOURCE, "").split("@,@")[3];
+                    //打开
+                    Intent intent = new Intent(getContext(), SourceCardActivity.class);
+                    intent.putExtra(SourceCardActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_SUB_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
+                    intent.putExtra(SourceCardActivity.KEY_TITLE, name);
+                    intent.putExtra(SourceCardActivity.KEY_DESC, dec);
+                    intent.putExtra(SourceCardActivity.KEY_IMAGE, image);
+                    intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, subscribeId);
+                    getContext().startActivity(intent);
                 } else if (info.startsWith(Constant.FLAG_PRESS_RSS_SOURCE)) {
                     RssSource rssSource = new RssSource();
                     rssSource.setName("订阅");
                     rssSource.setLink(info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
                     LiteOrmDBUtil.insert(rssSource);
-                    //TODO 订阅 写入服务器
-                    subscribeId = info.replace(Constant.FLAG_PRESS_RSS_SOURCE, "");
-                    ((MinePresenter) mPresenter).addSubscription();
+
+                    subscribeId = info.replace(Constant.FLAG_PRESS_RSS_SOURCE, "").split("@,@")[0];
+                    String name = info.replace(Constant.FLAG_PRESS_RSS_SOURCE, "").split("@,@")[1];
+                    String image = info.replace(Constant.FLAG_PRESS_RSS_SOURCE, "").split("@,@")[2];
+                    String dec = info.replace(Constant.FLAG_PRESS_RSS_SOURCE, "").split("@,@")[3];
                     //打开
                     Intent intent = new Intent(getContext(), SourceCardActivity.class);
                     intent.putExtra(SourceCardActivity.KEY_LINK, info.replace(Constant.FLAG_PRESS_RSS_SOURCE + Constant.FLAG_RSS_SOURCE, ""));
-                    intent.putExtra(SourceCardActivity.KEY_TITLE, "分享主题");
+                    intent.putExtra(SourceCardActivity.KEY_TITLE, name);
+                    intent.putExtra(SourceCardActivity.KEY_DESC, dec);
+                    intent.putExtra(SourceCardActivity.KEY_IMAGE, image);
                     intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, subscribeId);
                     getContext().startActivity(intent);
+
                 } else if (info.startsWith(Constant.FLAG_PRESS_COLLECTION_SOURCE)) {
                     UserCollection userCollection = new UserCollection();
                     userCollection.setTitle("收藏");

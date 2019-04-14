@@ -24,12 +24,12 @@
     <string name="str_no_data">没有更多数据</string>
 
     <string name="str_mf_user_center">个人中心</string>
-    <string name="str_mf_message_center">我的消息</string>
-    <string name="str_mf_collection">我的收藏</string>
+    <string name="str_mf_message_center">消息</string>
+    <string name="str_mf_collection">收藏</string>
     <string name="str_mf_setting">设置</string>
     <string name="str_coll_title">我的收藏</string>
-    <string name="str_mf_scan">扫一扫</string>
-    <string name="str_mf_search">搜一搜</string>
+    <string name="str_mf_scan">扫码</string>
+    <string name="str_mf_search">搜索</string>
     <string name="str_sa_update">检查更新</string>
     <string name="str_sa_about">关于我们</string>
     <string name="str_sa_share">推荐内容</string>
@@ -42,7 +42,7 @@
     <string name="str_mf_no_login">登录体验更多功能</string>
     <string name="str_sa_change_source">订阅模式</string>
     <string name="str_hta_title">热门订阅</string>
-    <string name="str_qa_title">二维码</string>
+    <string name="str_qa_title">分享订阅二维码</string>
     <string name="str_sf_new_share">分享</string>
     <string name="sub_label">专属订阅</string>
     <string name="sub_recommend_label">热门推荐</string>
@@ -66,16 +66,16 @@
     <string name="hint_str_aa_advice">请输入反馈内容，限140字</string>
     <string name="str_la_btn_login">登录</string>
     <string name="str_la_title">登录</string>
-    <string name="str_message_title">消息中心</string>
+    <string name="str_message_title">我的消息</string>
     <string name="str_message_content_title">消息详情</string>
     <string name="str_la_hint_uname">输入账号（最长16位）</string>
-    <string name="str_la_hint_upsd">输入密码(6~16位)</string>
+    <string name="str_la_hint_upsd">输入密码（6~16位）</string>
     <string name="str_ra_btn_register">注册</string>
-    <string name="str_ra_hint_spsd">确认新密码(6~16位)</string>
-    <string name="str_ra_hint_psd">输入密码(6~16位)</string>
+    <string name="str_ra_hint_spsd">确认新密码（6~16位）</string>
+    <string name="str_ra_hint_psd">输入密码（6~16位）</string>
     <!--密码限制-->
     <string name="dig_str">0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM</string>
-    <string name="str_ra_title">注册</string>
+    <string name="str_ra_title">欢迎加入我们</string>
     <string name="ff_find_like_label">相关资讯</string>
     <string name="str_mf_scan_label">资讯分享与互动</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
@@ -100,7 +100,7 @@
     <string name="str_la_btn_signature">保存</string>
     <string name="str_signature_title">个性签名</string>
 
-    <string name="str_pop_avanew">修改头像</string>
+    <string name="str_pop_avanew">更换头像</string>
     <string name="str_pop_canmara">拍照上传</string>
     <string name="str_pop_local">本地上传</string>
     <string name="str_la_btn_offline">离线下载</string>
@@ -141,13 +141,26 @@
     <string name="str_fa_et_user_name_hint">输入登录账户名</string>
     <string name="str_fa_et_user_mobile_hint">输入联系手机号</string>
     <string name="str_la_btn_modify_password">修改密码</string>
-    <string name="str_mpa_hint_psd">输入旧密码</string>
+
     <string name="str_mpa_title">修改密码</string>
     <string name="str_fa_title">忘记密码</string>
-    <string name="str_mpa_hint_new_psd">输入新密码</string>
+    <string name="str_mpa_hint_psd">输入旧密码（6~16位）</string>
+    <string name="str_mpa_hint_new_psd">输入新密码（6~16位）</string>
     <string name="str_ama_tv_email">点击设置邮箱</string>
     <string name="str_ama_email">邮箱</string>
     <string name="str_sf_web_browser">在浏览器打开</string>
-    <string name="str_share_content">推广内容</string>
+    <string name="str_share_content">推荐内容</string>
+    <string name="str_sa_cold_reboot">冷启动模式</string>
+    <string name="sa_tv_cold_reboot_label">秒级别启动应用</string>
+    <string name="str_add_sub_guide">创建专属订阅</string>
+    <string name="str_add_desc">可以订阅百度关键词，可以添加RSS源链接，支持导入OPML文件，更多功能陆续开方中。</string>
+    <string name="str_go_add">即刻前往</string>
+    <string name="str_scan_share">用Zr扫码获取信息</string>
+    <string name="str_sa_theme">设置主题</string>
+    <string name="str_blue">蓝色</string>
+    <string name="str_green">绿色</string>
+    <string name="str_default">默认</string>
+    <string name="str_set_theme">设置主题颜色</string>
+    <string name="str_set_theme_content">更多主题，不断开放中，请稍后关注。</string>
 
 </resources>

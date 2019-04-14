@@ -4,9 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,9 +19,16 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -30,8 +40,10 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.MainEvent;
 import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.util.ThemeUtils;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.hb.update.Config;
@@ -85,6 +97,18 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     TextView mSaTvVer;
     @BindView(R.id.sa_tv_ver_label)
     TextView mSaTvVerLabel;
+    @BindView(R.id.sa_tv_change_source)
+    TextView mSaTvChangeSource;
+    @BindView(R.id.sa_tv_opr_image)
+    TextView mSaTvOprImage;
+    @BindView(R.id.sa_tv_cold_reboot)
+    TextView mSaTvColdReboot;
+    @BindView(R.id.sa_sw_cold_reboot)
+    Switch mSaSwColdReboot;
+    @BindView(R.id.sa_rl_cold_reboot)
+    RelativeLayout mSaRlColdReboot;
+    @BindView(R.id.sa_rl_theme)
+    RelativeLayout mSaRlTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +135,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else {
             mSaSwDayNight.setChecked(false);
         }
+        boolean isColdReboot = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_COLD_REBOOT_MODE, false);
+        if (isColdReboot) {
+            mSaSwColdReboot.setChecked(true);
+        } else {
+            mSaSwColdReboot.setChecked(false);
+        }
+
         mSaTvVer.setText("V " + Config.getVerName(this));
         //进入对应的页面判断标记是否有更新在进行调用此方法
         if (SharedPreferencesUtil.getBoolean(SettingActivity.this, Constant.SAVE_IS_UPDATE, false)) {
@@ -158,7 +189,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         return null;
     }
 
-    @OnClick({R.id.sa_rl_about, R.id.sa_rl_advice, R.id.sa_rl_update, R.id.sa_rl_share})
+    @OnClick({R.id.sa_rl_about, R.id.sa_rl_advice, R.id.sa_rl_update, R.id.sa_rl_share, R.id.sa_rl_theme})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -179,7 +210,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         Uri uri = Uri.parse(alipayUrl);
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
-                    }else{
+                    } else {
                         Intent intent = new Intent(this, ContentActivity.class);
                         intent.putExtra(ContentActivity.KEY_URL, alipayUrl);
                         intent.putExtra(ContentActivity.KEY_TITLE, getResources().getString(R.string.str_share_content));
@@ -191,9 +222,125 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     T.ShowToast(this, getResources().getString(R.string.str_no_data));
                 }
                 break;
+            case R.id.sa_rl_theme:
+
+                shopThemePop();
+
+
+                break;
             default:
                 break;
         }
+    }
+
+    View popupView;
+    PopupWindow mPop;
+
+    /**
+     * 弹出主题设置框
+     */
+    private void shopThemePop() {
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        popupView = inflater.inflate(R.layout.pop_theme, null);
+        mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPop.setFocusable(true);
+        ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
+        mPop.setBackgroundDrawable(cd);
+        mPop.update();
+        mPop.setOutsideTouchable(true);
+        mPop.setAnimationStyle(R.style.PopupAnimation);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            mPop.showAtLocation(mSaLl, Gravity.CENTER, 0, 0);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mPop.showAtLocation(mSaLl, Gravity.CENTER, 0, 0);
+        } else {
+            mPop.showAtLocation(mSaLl, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
+        }
+        mPop.update();
+        backgroundAlpha(0.5f);
+        mPop.setOnDismissListener(new PopOnDismissListener());
+        RadioButton pas_rb_default = popupView.findViewById(R.id.pas_rb_default);
+        RadioButton pas_rb_blue = popupView.findViewById(R.id.pas_rb_blue);
+        RadioButton pas_rb_green = popupView.findViewById(R.id.pas_rb_green);
+
+        ImageView pas_iv_close = popupView.findViewById(R.id.pas_iv_close);
+
+        pas_iv_close.setOnClickListener(arg0 -> {
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+        });
+        pas_rb_default.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                if (mPop.isShowing()) {
+                    mPop.dismiss();
+                }
+                //TODO 设置主题
+                setTheme(R.style.Theme_default);
+                setColor();
+
+                SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_default);
+            }
+        });
+        pas_rb_blue.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                if (mPop.isShowing()) {
+                    mPop.dismiss();
+                }
+                //TODO 设置主题
+                setTheme(R.style.Theme_blue);
+                setColor();
+
+                SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_blue);
+            }
+        });
+        pas_rb_green.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                if (mPop.isShowing()) {
+                    mPop.dismiss();
+                }
+                //TODO 设置主题
+                setTheme(R.style.Theme_green);
+                setColor();
+
+                SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_green);
+            }
+        });
+
+
+    }
+
+    /**
+     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
+     *
+     * @author cg
+     */
+    class PopOnDismissListener implements PopupWindow.OnDismissListener {
+
+        @Override
+        public void onDismiss() {
+            // TODO Auto-generated method stub
+            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+            backgroundAlpha(1f);
+        }
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
+
+    //    当前页面，主题切换后，需要手动进行颜色修改。下面只修改了状态栏和ToolBar的颜色。
+    public void setColor() {
+        ThemeUtils.setToolbarColor(SettingActivity.this, ThemeUtils.getPrimaryColor(SettingActivity.this));
+        ThemeUtils.setWindowStatusBarColor(SettingActivity.this, ThemeUtils.getPrimaryDarkColor(SettingActivity.this));
+
     }
 
     PrgDialog dialog;
@@ -264,7 +411,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
     };
 
-    @OnCheckedChanged({R.id.sa_sw_change_source, R.id.sa_sw_no_image})
+    @OnCheckedChanged({R.id.sa_sw_change_source, R.id.sa_sw_no_image, R.id.sa_sw_cold_reboot})
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
@@ -301,8 +448,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 //通知更新
                 new Handler().postDelayed(() -> EventBus.getDefault().post(new TipsEvent(2)), 2000);
                 break;
+            case R.id.sa_sw_cold_reboot:
+                if (isChecked) {
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_COLD_REBOOT_MODE, true);
+                } else {
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_COLD_REBOOT_MODE, false);
+                }
+                break;
             default:
                 break;
         }
     }
+
 }

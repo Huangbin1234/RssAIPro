@@ -273,15 +273,23 @@ public class UserActivity extends BaseActivity implements IUserView {
     public void setUserInfoResult(ResUser resUser) {
         if (resUser.getRetCode() == 0) {
             this.resUser = resUser;
-            mAmaTvNickName.setText(resUser.getRetObj().getNickName());
-            mAmaTvSignature.setText(resUser.getRetObj().getDescription());
+            if (!TextUtils.isEmpty(resUser.getRetObj().getNickName())) {
+                mAmaTvNickName.setText(resUser.getRetObj().getNickName());
+            }
+            if (!TextUtils.isEmpty(resUser.getRetObj().getDescription())) {
+                mAmaTvSignature.setText(resUser.getRetObj().getDescription());
+            }
             if (resUser.getRetObj().getSex() == -1) {
-                mAmaTvSex.setText("单击设置性别");
+                mAmaTvSex.setText("点击设置性别");
             } else {
                 mAmaTvSex.setText(resUser.getRetObj().getSex() == 1 ? "男" : "女");
             }
-            mAmaTvBirth.setText(resUser.getRetObj().getBirth());
-            mAmaTvEmail.setText(resUser.getRetObj().getEmail());
+            if (!TextUtils.isEmpty(resUser.getRetObj().getBirth())) {
+                mAmaTvBirth.setText(resUser.getRetObj().getBirth());
+            }
+            if (!TextUtils.isEmpty(resUser.getRetObj().getEmail())) {
+                mAmaTvEmail.setText(resUser.getRetObj().getEmail());
+            }
             HttpLoadImg.loadCircleImg(this, ApiRetrofit.BASE_URL + resUser.getRetObj().getAvatar(), mAmaIvUserPhoto);
         } else {
             T.ShowToast(this, resUser.getRetMsg());

@@ -139,6 +139,9 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
             Intent intent = new Intent(SourceCardActivity.this, QrCodeActivity.class);
             intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
             intent.putExtra(QrCodeActivity.KEY_TITLE, titleValue);
+            intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_ID, subscribeId);
+            intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_IMAGE, imageLogo);
+            intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_DEC, desc);
             intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + linkValue));
             startActivity(intent);
         });

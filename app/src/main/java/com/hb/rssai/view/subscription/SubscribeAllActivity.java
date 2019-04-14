@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -231,6 +230,9 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
                     Intent intent = new Intent(this, QrCodeActivity.class);
                     intent.putExtra(QrCodeActivity.KEY_FROM, QrCodeActivity.FROM_VALUES[0]);
                     intent.putExtra(QrCodeActivity.KEY_TITLE, mClickBean.getName());
+                    intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_ID, mClickBean.getId());
+                    intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_IMAGE, mClickBean.getImg());
+                    intent.putExtra(QrCodeActivity.KEY_SUBSCRIBE_DEC, mClickBean.getAbstractContent());
                     intent.putExtra(QrCodeActivity.KEY_CONTENT, Base64Util.getEncodeStr(Constant.FLAG_RSS_SOURCE + mClickBean.getLink()));
                     startActivity(intent);
                 } else if (list.get(position).get("id").equals(3)) {

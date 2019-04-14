@@ -10,7 +10,7 @@
         android:id="@+id/sys_toolbar"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tool_bar_height"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/color_toolbar_bg">
 
         <TextView
