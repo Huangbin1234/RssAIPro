@@ -1,6 +1,8 @@
 package com.hb.rssai.api;
 
+import com.hb.rssai.bean.ResAdviceList;
 import com.hb.rssai.bean.ResBase;
+import com.hb.rssai.bean.ResMessageList;
 
 import java.util.Map;
 
@@ -17,4 +19,8 @@ public interface AdviceApi {
     @FormUrlEncoded
     @POST("advice/add")
     Observable<ResBase> doAdd(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("advice/list")
+    Observable<ResAdviceList> doList(@FieldMap Map<String, String> params);
 }

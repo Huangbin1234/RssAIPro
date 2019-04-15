@@ -170,6 +170,7 @@
         <item name="colorControlActivated">@color/color_line_blue</item>
     </style>
 
+<!--主题设置-->
 
   <style name="Theme_default"  parent="AppTheme2">
       <item name="colorAccent">@color/color_toolbar_bg</item>
@@ -189,4 +190,19 @@
             <item name="colorPrimaryDark">@color/teal500</item>
             <item name="colorAccent">@color/teal500</item>
     </style>
+
+    <!--设置DialogFragment样式-->
+    <style name="dialog_fragment">
+        <item name="android:windowBackground">@android:drawable/screen_background_light_transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/AnimationDialogFragment</item>
+    </style>
+
+    <!-- dialogfragment出现消失动画 -->
+    <style name="AnimationDialogFragment" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+    </style>
+
 </resources>

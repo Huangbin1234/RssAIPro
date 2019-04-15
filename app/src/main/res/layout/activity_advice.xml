@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              style="@style/title_all"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar"/>
+    <include layout="@layout/include_sub_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,45 +19,109 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
+                android:id="@+id/aa_ll_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:orientation="vertical"
-                app:cardCornerRadius="2dp"
-                app:cardElevation="2dp"
-                app:contentPadding="10dp">
+                android:visibility="gone">
 
-                <EditText
-                    android:theme="@style/EditUnderLineStyle"
-                    android:id="@+id/advice_et_content"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/color_general_white"
-                    android:gravity="left|top"
-                    android:hint="@string/hint_str_aa_advice"
-                    android:maxLength="140"
-                    android:minLines="8"
-                    android:padding="16dp"
-                    android:textSize="@dimen/s16p"/>
-            </android.support.v7.widget.CardView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-            <Button
-                android:id="@+id/advice_btn_save"
+                        <EditText
+                            android:id="@+id/advice_et_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/trans"
+                            android:gravity="left|top"
+                            android:hint="@string/hint_str_aa_advice"
+                            android:maxLength="140"
+                            android:minLines="4"
+                            android:padding="16dp"
+                            android:textSize="@dimen/s16p"
+                            android:theme="@style/EditUnderLineStyle" />
+
+                        <View style="@style/view_line_h" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="45dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <Spinner
+                                android:id="@+id/aa_sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="16dp"></Spinner>
+
+                            <Button
+                                android:id="@+id/advice_btn_save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="45dp"
+                                android:layout_alignParentRight="true"
+                                android:background="@color/trans"
+                                android:text="保存"
+                                android:textColor="@color/orange"
+                                android:visibility="visible" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/btn_selector"
-                android:text="保存"
-                android:textColor="@color/orange"/>
+                android:layout_height="wrap_content">
 
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/aa_srl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/aa_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </android.support.v7.widget.RecyclerView>
+                </android.support.v4.widget.SwipeRefreshLayout>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/aa_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="16dp"
+                    android:src="@mipmap/ic_advice_add"
+                    app:backgroundTint="@color/white"
+                    app:borderWidth="0dp"
+                    app:elevation="6dp"
+                    app:fabSize="normal"
+                    app:layout_anchorGravity="bottom|center"
+                    app:pressedTranslationZ="12dp"
+                    app:rippleColor="#a6a6a6" />
+
+            </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>

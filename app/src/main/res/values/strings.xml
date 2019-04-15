@@ -153,7 +153,7 @@
     <string name="str_sa_cold_reboot">冷启动模式</string>
     <string name="sa_tv_cold_reboot_label">秒级别启动应用</string>
     <string name="str_add_sub_guide">创建专属订阅</string>
-    <string name="str_add_desc">可以订阅百度关键词，可以添加RSS源链接，支持导入OPML文件，更多功能陆续开方中。</string>
+    <string name="str_add_desc">可以订阅百度关键词，可以添加RSS源链接，支持导入OPML文件，更多功能陆续开放中。</string>
     <string name="str_go_add">即刻前往</string>
     <string name="str_scan_share">用Zr扫码获取信息</string>
     <string name="str_sa_theme">设置主题</string>
@@ -162,5 +162,6 @@
     <string name="str_default">默认</string>
     <string name="str_set_theme">设置主题颜色</string>
     <string name="str_set_theme_content">更多主题，不断开放中，请稍后关注。</string>
+    <string name="str_reply">回复：</string>
 
 </resources>

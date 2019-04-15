@@ -1,5 +1,6 @@
 package com.hb.rssai.view.iView;
 
+import com.hb.rssai.bean.ResAdviceList;
 import com.hb.rssai.bean.ResBase;
 
 /**
@@ -15,4 +16,12 @@ public interface IAdviceView {
     String getEtContent();
 
     void setCheckResult(String error);
+
+    void showList(ResAdviceList resAdviceList);
+
+    int getPageNum();
+
+    String getEtTypeName();
+
+    String getEtType();
 }

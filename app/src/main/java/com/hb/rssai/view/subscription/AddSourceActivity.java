@@ -1,8 +1,8 @@
 package com.hb.rssai.view.subscription;
 
-import android.content.Context;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -282,6 +284,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                         if (Constant.ACTION_BD_KEY.equals(rowsBean.getAction())) {
                             //TODO
                             showPop(1, rowsBean.getName());
+//                            dialogShow2();
                         } else if (Constant.ACTION_INPUT_LINK.equals(rowsBean.getAction())) {
                             //TODO
                             showPop(2, rowsBean.getName());
@@ -310,6 +313,29 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * 自定义布局
+     * setView()只会覆盖AlertDialog的Title与Button之间的那部分，而setContentView()则会覆盖全部，
+     * setContentView()必须放在show()的后面
+     */
+    private void dialogShow2() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View v = inflater.inflate(R.layout.pop_add_source, null);
+        //builer.setView(v);//这里如果使用builer.setView(v)，自定义布局只会覆盖title和button之间的那部分
+        final Dialog dialog = builder.create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        window.setBackgroundDrawable(new ColorDrawable(0));
+        window.setContentView(v);//自定义布局应该在这里添加，要在dialog.show()的后面
+        window.setWindowAnimations(R.style.PopupAnimation);//
+        window.setLayout(DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setGravity(Gravity.CENTER);//可以设置显示的位置
+
+
+    }
+
     @Override
     public void showMsg(String s) {
         T.ShowToast(this, s);
@@ -320,26 +346,44 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     public String getUserID() {
         return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
     }
-
-
+//    public void showPop(int i, String title) {
+//        showPopView(i, title);
+//        if (mPop.isShowing()) {
+//            mPop.dismiss();
+//        } else {
+//            mPop.setAnimationStyle(R.style.PopupAnimation);
+//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, 0, 0);
+//            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, 0, 0);
+//            } else {
+//                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
+//            }
+//            mPop.update();
+//        }
+//        backgroundAlpha(0.5f);
+//        mPop.setOnDismissListener(new PopOnDismissListener());
+//
+//    }
     public void showPop(int i, String title) {
         showPopView(i, title);
         if (mPop.isShowing()) {
             mPop.dismiss();
         } else {
-            mPop.setAnimationStyle(R.style.PopupAnimation);
-            if (Build.VERSION.SDK_INT <  Build.VERSION_CODES.N) {
-                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, 0, 0);
-            } else if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O) {
-                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, 0, 0);
-            } else {
-                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
-            }
-            mPop.update();
+            mPop.show();
+            Window window = mPop.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            window.setBackgroundDrawable(new ColorDrawable(0));
+            window.setContentView(popupView);//自定义布局应该在这里添加，要在dialog.show()的后面
+            window.setWindowAnimations(R.style.PopupAnimation);//
+            window.setLayout(DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+            mPop.getWindow().setGravity(Gravity.CENTER);//可以设置显示的位置
         }
         backgroundAlpha(0.5f);
-        mPop.setOnDismissListener(new PopOnDismissListener());
-
+        mPop.setOnDismissListener(dialogInterface -> {
+            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+            backgroundAlpha(1f);
+        });
     }
 
 
@@ -438,7 +482,8 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
     //////////////////////////////////////弹出层//////////////////////////////////////////////////////////////////
     private View popupView;
-    private PopupWindow mPop;// 初始化弹出层
+    //    private PopupWindow mPop;// 初始化弹出层
+    Dialog mPop;
 
     Button pas_btn_sure;
     Button pas_btn_opml;
@@ -455,15 +500,15 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
      *
      * @author cg
      */
-    class PopOnDismissListener implements PopupWindow.OnDismissListener {
-
-        @Override
-        public void onDismiss() {
-            // TODO Auto-generated method stub
-            //Log.v("List_noteTypeActivity:", "我是关闭事件");
-            backgroundAlpha(1f);
-        }
-    }
+//    class PopOnDismissListener implements PopupWindow.OnDismissListener {
+//
+//        @Override
+//        public void onDismiss() {
+//            // TODO Auto-generated method stub
+//            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+//            backgroundAlpha(1f);
+//        }
+//    }
 
     /**
      * 设置添加屏幕的背景透明度
@@ -476,18 +521,25 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         getWindow().setAttributes(lp);
     }
 
+
     private void showPopView(int flag, String title) {
         if (mPop == null) {
-            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+//            popupView = inflater.inflate(R.layout.pop_add_source, null);
+//            mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+//
+//            mPop.setFocusable(true);
+//            ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
+//            mPop.setBackgroundDrawable(cd);
+//            mPop.update();
+//            mPop.setOutsideTouchable(true);
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = LayoutInflater.from(this);
             popupView = inflater.inflate(R.layout.pop_add_source, null);
-            mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            mPop.setFocusable(true);
-            ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
-            mPop.setBackgroundDrawable(cd);
-            mPop.update();
-            mPop.setOutsideTouchable(true);
+            //builer.setView(v);//这里如果使用builer.setView(v)，自定义布局只会覆盖title和button之间的那部分
+            mPop = builder.create();
 
             pas_btn_sure = (Button) popupView.findViewById(R.id.pas_btn_sure);
             pas_tv_title = (TextView) popupView.findViewById(R.id.pas_tv_title);
