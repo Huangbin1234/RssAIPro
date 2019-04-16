@@ -1,5 +1,6 @@
 package com.hb.rssai.view.me;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -33,6 +34,7 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.AdvicePresenter;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.fragment.dialog.CommentDialog;
 import com.hb.rssai.view.iView.IAdviceView;
 
 import java.lang.reflect.Type;
@@ -116,13 +118,16 @@ public class AdviceActivity extends BaseActivity implements IAdviceView, View.On
                 lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
             }
         });
-
+        FragmentManager fragmentManager = getFragmentManager();
+        CommentDialog dialog = new CommentDialog();
+        dialog.setContext(this);
         mAaFab.setOnClickListener(view -> {
-            if (mAaLlInput.getVisibility() == View.VISIBLE) {
-                mAaLlInput.setVisibility(View.GONE);
-            } else {
-                mAaLlInput.setVisibility(View.VISIBLE);
-            }
+            dialog.show(fragmentManager, "commentDialog");
+//            if (mAaLlInput.getVisibility() == View.VISIBLE) {
+//                mAaLlInput.setVisibility(View.GONE);
+//            } else {
+//                mAaLlInput.setVisibility(View.VISIBLE);
+//            }
         });
         List<String> ls = new ArrayList<>();
 //      0未知1新增2调整3报错4兼容5优化6其他

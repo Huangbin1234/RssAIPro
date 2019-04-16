@@ -130,7 +130,7 @@
             </RelativeLayout>
 
             <View style="@style/view_line_h"/>
-
+            <View style="@style/view_line_h" android:layout_marginTop="10dp"/>
             <RelativeLayout
                 android:id="@+id/sa_rl_day_night"
                 style="@style/InfoDetail"
@@ -153,9 +153,7 @@
             <View style="@style/view_line_h"/>
 
 
-            <View
-                style="@style/view_line_h"
-                android:layout_marginTop="10dp"/>
+
 
             <RelativeLayout
                 android:id="@+id/sa_rl_theme"
@@ -166,8 +164,21 @@
                     style="@style/TextLabel"
                     android:text="@string/str_sa_theme"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/str_theme_more"
+                    android:textColor="@color/text_color_abstract"
+                    android:textSize="@dimen/s14p"/>
             </RelativeLayout>
+
             <View style="@style/view_line_h"/>
+            <View
+                style="@style/view_line_h"
+                android:layout_marginTop="10dp"/>
+
             <RelativeLayout
                 android:id="@+id/sa_rl_share"
                 style="@style/InfoDetail"
@@ -177,6 +188,13 @@
                     style="@style/TextLabel"
                     android:text="@string/str_sa_share"/>
 
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_right"/>
             </RelativeLayout>
 
             <View style="@style/view_line_h"/>
@@ -189,6 +207,14 @@
                 <TextView
                     style="@style/TextLabel"
                     android:text="@string/str_sa_advice"/>
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_right"/>
 
             </RelativeLayout>
 
@@ -215,7 +241,6 @@
             <!--android:orientation="vertical">-->
 
             <RelativeLayout
-
                 android:id="@+id/sa_rl_about"
                 style="@style/InfoDetail"
                 android:padding="16dp">
@@ -224,6 +249,13 @@
                     style="@style/TextLabel"
                     android:text="@string/str_sa_about"/>
 
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_right"/>
             </RelativeLayout>
 
             <View style="@style/view_line_h"/>

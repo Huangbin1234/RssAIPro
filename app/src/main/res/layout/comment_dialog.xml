@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/share_content_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="bottom"
+              android:orientation="vertical">
+
+
+    <ScrollView
+        android:id="@+id/sl_comm_bot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/pop_top_round_corner_white"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/comm_sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/trans"
+                android:spinnerMode="dialog"></Spinner>
+
+            <LinearLayout
+                android:id="@+id/ll_comm_bot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/comm_et"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="4"
+                    android:background="@drawable/round_advice"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="left|top"
+                    android:hint="@string/hint_str_aa_advice"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:maxLength="140"
+                    android:padding="5dp"
+                    android:textColor="@color/color_title"
+                    android:textSize="@dimen/s14p"
+                    android:theme="@style/EditUnderLineStyle"/>
+
+                <Button
+                    android:id="@+id/comm_bt"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_advice_send"
+                    android:text="提交"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/s14p"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

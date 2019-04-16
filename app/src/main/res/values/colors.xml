@@ -101,5 +101,6 @@
 
     <color name="teal500">#009688</color>
     <color name="teal700">#00796b</color>
+    <color name="alert_dark">#CE888888</color>
 
 </resources>

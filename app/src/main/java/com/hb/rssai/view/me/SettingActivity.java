@@ -1,20 +1,20 @@
 package com.hb.rssai.view.me;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -23,6 +23,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -44,7 +45,6 @@ import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.util.ThemeUtils;
-import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.widget.PrgDialog;
 import com.hb.update.Config;
 import com.hb.update.UpdateManager;
@@ -165,6 +165,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             EventBus.getDefault().post(new MainEvent(1));
 
         });
+
+        initThemePop();
     }
 
     @Override
@@ -203,30 +205,45 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 checkUpdate();
                 break;
             case R.id.sa_rl_share:
-                try {
-                    String alipayUrl = SharedPreferencesUtil.getString(this, Constant.AlipaysUrl, "");
-                    if (alipayUrl.startsWith("alipays")) {
-                        //利用Intent打开支付宝
-                        Uri uri = Uri.parse(alipayUrl);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(this, ContentActivity.class);
-                        intent.putExtra(ContentActivity.KEY_URL, alipayUrl);
-                        intent.putExtra(ContentActivity.KEY_TITLE, getResources().getString(R.string.str_share_content));
-                        intent.putExtra(ContentActivity.KEY_INFORMATION_ID, "");
-                        startActivity(intent);
-                    }
-                } catch (Exception e) {
-                    //若无法正常跳转，在此进行错误处理
-                    T.ShowToast(this, getResources().getString(R.string.str_no_data));
-                }
+//                try{
+//                    Uri uri = Uri.parse("market://details?id="+getPackageName());
+//                    Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(intent);
+//                }catch(Exception e){
+//                    Toast.makeText(this, "您的手机没有安装Android应用市场", Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//                }
+
+                Uri uri = Uri.parse("https://www.coolapk.com/apk/176794");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+
+//                try {
+//                    String alipayUrl = SharedPreferencesUtil.getString(this, Constant.AlipaysUrl, "");
+//                    if (alipayUrl.startsWith("alipays")) {
+//                        //利用Intent打开支付宝
+//                        Uri uri = Uri.parse(alipayUrl);
+//                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                        startActivity(intent);
+//                    } else {
+//
+//                        Intent intent = new Intent(this, ContentActivity.class);
+//                        intent.putExtra(ContentActivity.KEY_URL, alipayUrl);
+//                        intent.putExtra(ContentActivity.KEY_TITLE, getResources().getString(R.string.str_share_content));
+//                        intent.putExtra(ContentActivity.KEY_INFORMATION_ID, "");
+//                        startActivity(intent);
+//                    }
+//                } catch (Exception e) {
+//                    //若无法正常跳转，在此进行错误处理
+//                    T.ShowToast(this, getResources().getString(R.string.str_no_data));
+//                }
                 break;
             case R.id.sa_rl_theme:
 
-                shopThemePop();
+//                initThemePop();
 
-
+                showThemePop();
                 break;
             default:
                 break;
@@ -234,31 +251,58 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     View popupView;
-    PopupWindow mPop;
+//    PopupWindow mPop;
+    Dialog mPop;
 
+    private void showThemePop(){
+        if (mPop.isShowing()) {
+            mPop.dismiss();
+        } else {
+            mPop.show();
+            Window window = mPop.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            window.setBackgroundDrawable(new ColorDrawable(0));
+            window.setContentView(popupView);//自定义布局应该在这里添加，要在dialog.show()的后面
+            window.setWindowAnimations(R.style.PopupAnimation);//
+            window.setLayout(DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+            mPop.getWindow().setGravity(Gravity.CENTER);//可以设置显示的位置
+        }
+        backgroundAlpha(0.5f);
+        mPop.setOnDismissListener(dialogInterface -> {
+            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+            backgroundAlpha(1f);
+        });
+    }
     /**
      * 弹出主题设置框
      */
-    private void shopThemePop() {
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    private void initThemePop() {
+//        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        popupView = inflater.inflate(R.layout.pop_theme, null);
+//        mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        mPop.setFocusable(true);
+//        ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
+//        mPop.setBackgroundDrawable(cd);
+//        mPop.update();
+//        mPop.setOutsideTouchable(true);
+//        mPop.setAnimationStyle(R.style.PopupAnimation);
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//            mPop.showAtLocation(mSaLl, Gravity.CENTER, 0, 0);
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            mPop.showAtLocation(mSaLl, Gravity.CENTER, 0, 0);
+//        } else {
+//            mPop.showAtLocation(mSaLl, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
+//        }
+//        mPop.update();
+//        backgroundAlpha(0.5f);
+//        mPop.setOnDismissListener(new PopOnDismissListener());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
         popupView = inflater.inflate(R.layout.pop_theme, null);
-        mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mPop.setFocusable(true);
-        ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
-        mPop.setBackgroundDrawable(cd);
-        mPop.update();
-        mPop.setOutsideTouchable(true);
-        mPop.setAnimationStyle(R.style.PopupAnimation);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            mPop.showAtLocation(mSaLl, Gravity.CENTER, 0, 0);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mPop.showAtLocation(mSaLl, Gravity.CENTER, 0, 0);
-        } else {
-            mPop.showAtLocation(mSaLl, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
-        }
-        mPop.update();
-        backgroundAlpha(0.5f);
-        mPop.setOnDismissListener(new PopOnDismissListener());
+        //builer.setView(v);//这里如果使用builer.setView(v)，自定义布局只会覆盖title和button之间的那部分
+        mPop = builder.create();
+
         RadioButton pas_rb_default = popupView.findViewById(R.id.pas_rb_default);
         RadioButton pas_rb_blue = popupView.findViewById(R.id.pas_rb_blue);
         RadioButton pas_rb_green = popupView.findViewById(R.id.pas_rb_green);
@@ -306,7 +350,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_green);
             }
         });
-
 
     }
 
