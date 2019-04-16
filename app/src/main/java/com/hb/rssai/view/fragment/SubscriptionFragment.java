@@ -1,6 +1,9 @@
 package com.hb.rssai.view.fragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,6 +24,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -222,28 +226,23 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
     View popupView;
-    PopupWindow mPop;
+    Dialog mPop;
 
     void initShowPop() {
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = LayoutInflater.from(getContext());
         popupView = inflater.inflate(R.layout.pop_add_subscription, null);
-        mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(getActivity()) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mPop.setFocusable(true);
-        ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
-        mPop.setBackgroundDrawable(cd);
-        mPop.update();
-        mPop.setOutsideTouchable(true);
-        mPop.setAnimationStyle(R.style.PopupAnimation);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            mPop.showAtLocation(mFsLlRoot, Gravity.CENTER, 0, 0);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mPop.showAtLocation(mFsLlRoot, Gravity.CENTER, 0, 0);
-        } else {
-            mPop.showAtLocation(mFsLlRoot, Gravity.CENTER, (DisplayUtil.getMobileWidth(getActivity()) - (DisplayUtil.getMobileWidth(getActivity()) * 8 / 10)) / 2, DisplayUtil.dip2px(getContext(), 90));
-        }
-        mPop.update();
+        mPop = builder.create();
+        mPop.show();
+        Window window = mPop.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        window.setBackgroundDrawable(new ColorDrawable(0));
+        window.setContentView(popupView);//自定义布局应该在这里添加，要在dialog.show()的后面
+        window.setWindowAnimations(R.style.PopupAnimation);//
+        window.setLayout(DisplayUtil.getMobileWidth(getActivity()) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPop.getWindow().setGravity(Gravity.CENTER);//可以设置显示的位置
         backgroundAlpha(0.5f);
-        mPop.setOnDismissListener(new PopOnDismissListener());
+        mPop.setOnDismissListener(dialogInterface -> backgroundAlpha(1f));
         Button pas_btn_sure = popupView.findViewById(R.id.pas_btn_sure);
         ImageView pas_iv_close = popupView.findViewById(R.id.pas_btn_close);
         pas_iv_close.setOnClickListener(arg0 -> {
@@ -260,21 +259,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
         });
 
         SharedPreferencesUtil.setBoolean(getContext(), Constant.KEY_IS_SHOW_POP, true);
-    }
-
-    /**
-     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
-     *
-     * @author cg
-     */
-    class PopOnDismissListener implements PopupWindow.OnDismissListener {
-
-        @Override
-        public void onDismiss() {
-            // TODO Auto-generated method stub
-            //Log.v("List_noteTypeActivity:", "我是关闭事件");
-            backgroundAlpha(1f);
-        }
     }
 
     /**

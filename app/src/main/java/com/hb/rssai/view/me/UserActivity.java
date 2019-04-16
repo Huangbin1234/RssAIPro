@@ -1,7 +1,8 @@
 package com.hb.rssai.view.me;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +24,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -224,18 +226,36 @@ public class UserActivity extends BaseActivity implements IUserView {
             if (mPop.isShowing()) {
                 mPop.dismiss();
             } else {
-                mPop.setAnimationStyle(R.style.PopupAnimation);
-                if (Build.VERSION.SDK_INT < 24) {
-                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, 0, 0);
-                } else if (Build.VERSION.SDK_INT >= 26) {
-                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, 0, 0);
-                } else {
-                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
-                }
-                mPop.update();
+                mPop.show();
+                Window window = mPop.getWindow();
+                window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                window.setBackgroundDrawable(new ColorDrawable(0));
+                window.setContentView(popupView);//自定义布局应该在这里添加，要在dialog.show()的后面
+                window.setWindowAnimations(R.style.PopupAnimation);//
+                window.setLayout(DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+                mPop.getWindow().setGravity(Gravity.CENTER);//可以设置显示的位置
             }
             backgroundAlpha(0.5f);
-            mPop.setOnDismissListener(new PopOnDismissListener());
+            mPop.setOnDismissListener(dialogInterface -> {
+                //Log.v("List_noteTypeActivity:", "我是关闭事件");
+                backgroundAlpha(1f);
+            });
+
+//            if (mPop.isShowing()) {
+//                mPop.dismiss();
+//            } else {
+//                mPop.setAnimationStyle(R.style.PopupAnimation);
+//                if (Build.VERSION.SDK_INT < 24) {
+//                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, 0, 0);
+//                } else if (Build.VERSION.SDK_INT >= 26) {
+//                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, 0, 0);
+//                } else {
+//                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
+//                }
+//                mPop.update();
+//            }
+//            backgroundAlpha(0.5f);
+//            mPop.setOnDismissListener(new PopOnDismissListener());
         });
         //TODO 头像上传
         selectAvatar();
@@ -418,7 +438,8 @@ public class UserActivity extends BaseActivity implements IUserView {
     private Uri imageFileUri;
 
     private View popupView;
-    private PopupWindow mPop;// 初始化弹出层
+    //    private PopupWindow mPop;// 初始化弹出层
+    private Dialog mPop;// 初始化弹出层
 
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
@@ -448,16 +469,21 @@ public class UserActivity extends BaseActivity implements IUserView {
 
     private void selectAvatar() {
         if (mPop == null) {
-            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+//            popupView = inflater.inflate(R.layout.pop_image_up, null);
+//            mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+//
+//            mPop.setFocusable(true);
+//            ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
+//            mPop.setBackgroundDrawable(cd);
+//            mPop.update();
+//            mPop.setOutsideTouchable(true);
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = LayoutInflater.from(this);
             popupView = inflater.inflate(R.layout.pop_image_up, null);
-            mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            mPop.setFocusable(true);
-            ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
-            mPop.setBackgroundDrawable(cd);
-            mPop.update();
-            mPop.setOutsideTouchable(true);
+            mPop = builder.create();
         }
 
         try {
