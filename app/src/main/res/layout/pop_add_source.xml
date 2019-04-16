@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
     android:layout_margin="16dp"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -13,8 +13,8 @@
         android:background="@color/bg"
         android:orientation="vertical"
         app:cardBackgroundColor="@color/bg"
-        app:cardElevation="5dp"
         app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
         app:contentPadding="5dp">
 
         <RelativeLayout
@@ -47,7 +47,6 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:theme="@style/EditUnderLineStyle"
                         android:id="@+id/pas_et_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -57,12 +56,12 @@
                         android:hint="@string/str_pas_name"
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
-                        android:textIsSelectable="true"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
                         android:textColor="@color/color_txt"
                         android:textColorHint="@color/color_txt"
-                        android:textSize="@dimen/s14p" />
+                        android:textSize="@dimen/s14p"
+                        android:theme="@style/EditUnderLineStyle" />
 
                     <ImageView
                         android:id="@+id/its_iv_clear"
@@ -87,7 +86,6 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:theme="@style/EditUnderLineStyle"
                         android:id="@+id/pas_et_link"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -99,11 +97,11 @@
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
-                        android:textIsSelectable="true"
                         android:singleLine="true"
                         android:textColor="@color/color_txt"
                         android:textColorHint="@color/color_txt"
-                        android:textSize="@dimen/s14p" />
+                        android:textSize="@dimen/s14p"
+                        android:theme="@style/EditUnderLineStyle" />
 
                     <ImageView
                         android:id="@+id/pas_iv_scan"

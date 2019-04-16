@@ -1,11 +1,9 @@
 package com.hb.rssai.view.subscription;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,7 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -284,7 +281,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                         if (Constant.ACTION_BD_KEY.equals(rowsBean.getAction())) {
                             //TODO
                             showPop(1, rowsBean.getName());
-//                            dialogShow2();
                         } else if (Constant.ACTION_INPUT_LINK.equals(rowsBean.getAction())) {
                             //TODO
                             showPop(2, rowsBean.getName());
@@ -313,29 +309,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    /**
-     * 自定义布局
-     * setView()只会覆盖AlertDialog的Title与Button之间的那部分，而setContentView()则会覆盖全部，
-     * setContentView()必须放在show()的后面
-     */
-    private void dialogShow2() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View v = inflater.inflate(R.layout.pop_add_source, null);
-        //builer.setView(v);//这里如果使用builer.setView(v)，自定义布局只会覆盖title和button之间的那部分
-        final Dialog dialog = builder.create();
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        window.setBackgroundDrawable(new ColorDrawable(0));
-        window.setContentView(v);//自定义布局应该在这里添加，要在dialog.show()的后面
-        window.setWindowAnimations(R.style.PopupAnimation);//
-        window.setLayout(DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setGravity(Gravity.CENTER);//可以设置显示的位置
-
-
-    }
-
     @Override
     public void showMsg(String s) {
         T.ShowToast(this, s);
@@ -346,7 +319,8 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     public String getUserID() {
         return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
     }
-//    public void showPop(int i, String title) {
+
+    //    public void showPop(int i, String title) {
 //        showPopView(i, title);
 //        if (mPop.isShowing()) {
 //            mPop.dismiss();
