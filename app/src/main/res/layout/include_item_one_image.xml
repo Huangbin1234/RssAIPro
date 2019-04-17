@@ -22,19 +22,18 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:ellipsize="end"
-            android:maxLines="2"
-            android:paddingTop="10dp"
+            android:maxLines="3"
+            android:text="122222222222222222222222222222"
             android:textColor="@color/text_color_title"
             android:textSize="@dimen/s18p" />
 
         <LinearLayout
             android:id="@+id/irl_bottom_a"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/item_na_title"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:visibility="visible">
 
@@ -44,20 +43,23 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:layout_gravity="bottom"
+                android:text="21111111"
                 android:textColor="@color/text_color_abstract"
-                android:textSize="@dimen/s14p" />
+                android:textSize="@dimen/s12p" />
 
             <TextView
                 android:id="@+id/item_na_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="right|bottom"
                 android:layout_marginLeft="10dp"
+                android:text="122222222222"
                 android:layout_toLeftOf="@+id/item_na_type"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/text_color_time"
-                android:textSize="@dimen/s14p" />
+                android:textSize="@dimen/s12p" />
         </LinearLayout>
 
     </RelativeLayout>
@@ -68,7 +70,6 @@
         android:layout_height="80dp"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="10dp"
         android:layout_weight="3"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_place"
