@@ -56,6 +56,7 @@ public class Constant {
     public static final String KEY_MESSAGE_TOTAL_COUNT = "message_total_count";
     public static final String KEY_IS_SHOW_POP = "isShowPop";//是否显示过pop弹窗
     public static final String KEY_THEME = "key_theme";//设置主题保存
+    public static final String KEY_REMARK = "key_ad_remark";//一句话
 
 
     public static String START_TIME = "1990-01-01 00:00:00";

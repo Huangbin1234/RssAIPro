@@ -10,14 +10,14 @@
         android:id="@+id/load_ad_iv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7.5"
+        android:layout_weight="7"
         android:scaleType="centerCrop"
         android:src="@mipmap/g4"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2.5"
+        android:layout_weight="3"
         android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical">
@@ -34,8 +34,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/la_iv"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
             android:text="@string/str_load_txt"
-            android:textColor="@color/color_txt"/>
+            android:textColor="@color/color_title"/>
     </LinearLayout>
 </LinearLayout>

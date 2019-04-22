@@ -222,7 +222,6 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
         mSfSwipe.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-
     }
 
     View popupView;

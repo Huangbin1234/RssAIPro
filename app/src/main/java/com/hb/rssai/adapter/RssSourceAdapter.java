@@ -79,7 +79,8 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
             mContext.startActivity(intent);
         });
         holder.v.setOnLongClickListener(v -> {
-            fragment.onItemLongClicked(rssList.get(position));
+            if (null != rssList && null != rssList.get(position))
+                fragment.onItemLongClicked(rssList.get(position));
             return true;
         });
     }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,7 +56,13 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         coldRebootMode();
+    }
 
+    private void init() {
+        String remark = SharedPreferencesUtil.getString(this, Constant.KEY_REMARK, "");
+        if (!TextUtils.isEmpty(remark)) {
+            mSampleText.setText(remark);
+        }
     }
 
     private void coldRebootMode() {
@@ -67,6 +74,7 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
             setContentView(R.layout.activity_load);
             ButterKnife.bind(this);
             mContext = this;
+            init();
             getAd();
         }
     }
@@ -171,6 +179,12 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
     private void reqResult(ResAdvertisement resAdvertisement) {
         if (resAdvertisement.getRetCode() == 0) {
             HttpLoadImg.loadImg(this, resAdvertisement.getRetObj().getImg(), mLoadAdIv);
+            String remoteRemark = resAdvertisement.getRetObj().getMark();
+            String remark = SharedPreferencesUtil.getString(this, Constant.KEY_REMARK, "");
+            if (!TextUtils.isEmpty(remoteRemark) && !remoteRemark.equals(remark)) {
+                SharedPreferencesUtil.setString(this, Constant.KEY_REMARK, resAdvertisement.getRetObj().getMark());
+            }
+
             if (null != resAdvertisement.getRetObj() && null != resAdvertisement.getRetObj().getLink()) {
 //                if (resAdvertisement.getRetObj().getLink().startsWith("alipays")) {
                 SharedPreferencesUtil.setString(this, Constant.AlipaysUrl, resAdvertisement.getRetObj().getLink());

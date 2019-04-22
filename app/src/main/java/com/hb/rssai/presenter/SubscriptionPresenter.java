@@ -35,8 +35,8 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     private Context mContext;
     private int page = 1;
     private boolean isEnd = false, isLoad = false;
-    private List<ResFindMore.RetObjBean.RowsBean> resFindMores = new ArrayList<>();
-    private List<ResFindMore.RetObjBean.RowsBean> resTopMores = new ArrayList<>();
+    private List<ResFindMore.RetObjBean.RowsBean> userSubscribes = new ArrayList<>();
+    private List<ResFindMore.RetObjBean.RowsBean> officeSuscribes = new ArrayList<>();
 
     private RecyclerView subscribeRecyclerView;
     private RecyclerView topicRecyclerView;
@@ -119,11 +119,11 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
         page = 1;
         isLoad = true;
         isEnd = false;
-//        if (resFindMores != null) {
-//            resFindMores.clear();
+//        if (userSubscribes != null) {
+//            userSubscribes.clear();
 //        }
-//        if (resTopMores != null) {
-//            resTopMores.clear();
+//        if (officeSuscribes != null) {
+//            officeSuscribes.clear();
 //        }
         swipeLayout.setRefreshing(true);
         getUserSubscribeList();
@@ -218,62 +218,75 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     }
 
     private void setUserSubscribeResult(ResFindMore resFindMore) {
-
-        if (resFindMores != null && page == 1) {
-            resFindMores.clear();
+        if (userSubscribes != null && page == 1) {
+            userSubscribes.clear();
         }
-        isLoad = false;
-        swipeLayout.setRefreshing(false);
+        if (null == resFindMore.getRetObj() || resFindMore.getRetObj().getRows() == null || resFindMore.getRetObj().getRows().size() <= 0) {
+            if (null != adapter) {
+                userSubscribes.clear();
+                adapter.notifyDataSetChanged();
+            }
+        }
         //TODO 填充数据
         if (resFindMore.getRetCode() == 0) {
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
-                resFindMores.addAll(resFindMore.getRetObj().getRows());
+                userSubscribes.addAll(resFindMore.getRetObj().getRows());
                 if (adapter == null) {
-                    adapter = new RssSourceAdapter(mContext, resFindMores, mISubscriptionView.getFragment());
+                    adapter = new RssSourceAdapter(mContext, userSubscribes, mISubscriptionView.getFragment());
                     subscribeRecyclerView.setAdapter(adapter);
                 } else {
                     adapter.notifyDataSetChanged();
                 }
             }
-            if (resFindMores.size() == resFindMore.getRetObj().getTotal()) {
+            if (userSubscribes.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
         } else if (resFindMore.getRetCode() == 10013) {
-//            if (resTopMores == null || resTopMores.size() <= 0) {
+//            if (officeSuscribes == null || officeSuscribes.size() <= 0) {
 //                T.ShowToast(mContext, resFindMore.getRetMsg());
 //            }
         } else {
             T.ShowToast(mContext, resFindMore.getRetMsg());
         }
+
+        isLoad = false;
+        swipeLayout.setRefreshing(false);
     }
 
     private void setSubscribeResult(ResFindMore resFindMore) {
-        if (resTopMores != null && page == 1) {
-            resTopMores.clear();
+        if (officeSuscribes != null && page == 1) {
+            officeSuscribes.clear();
         }
-        isLoad = false;
-        swipeLayout.setRefreshing(false);
+
+        if (null == resFindMore.getRetObj() || resFindMore.getRetObj().getRows() == null || resFindMore.getRetObj().getRows().size() <= 0) {
+            if (null != topicAdapter) {
+                officeSuscribes.clear();
+                topicAdapter.notifyDataSetChanged();
+            }
+        }
         //TODO 填充数据
         if (resFindMore.getRetCode() == 0) {
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
-                resTopMores.addAll(resFindMore.getRetObj().getRows());
+                officeSuscribes.addAll(resFindMore.getRetObj().getRows());
                 if (topicAdapter == null) {
-                    topicAdapter = new RssSourceAdapter(mContext, resTopMores, mISubscriptionView.getFragment());
+                    topicAdapter = new RssSourceAdapter(mContext, officeSuscribes, mISubscriptionView.getFragment());
                     topicRecyclerView.setAdapter(topicAdapter);
                 } else {
                     topicAdapter.notifyDataSetChanged();
                 }
             }
-            if (resTopMores.size() == resFindMore.getRetObj().getTotal()) {
+            if (officeSuscribes.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
         } else if (resFindMore.getRetCode() == 10013) {
-//            if (resFindMores == null || resFindMores.size() <= 0) {
+//            if (userSubscribes == null || userSubscribes.size() <= 0) {
 //                T.ShowToast(mContext, resFindMore.getRetMsg());
 //            }
         } else {
             T.ShowToast(mContext, resFindMore.getRetMsg());
         }
+        isLoad = false;
+        swipeLayout.setRefreshing(false);
     }
 
     private void loadError(Throwable throwable) {
