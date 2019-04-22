@@ -292,12 +292,12 @@
         <item name="colorPrimaryDark">@color/brown700</item>
         <item name="colorAccent">@color/brown500</item>
     </style>
-    <style name="NoActionBar.Theme18">
+    <style name="Theme_Theme18">
         <item name="colorPrimary">@color/grey500</item>
         <item name="colorPrimaryDark">@color/grey700</item>
         <item name="colorAccent">@color/grey500</item>
     </style>
-    <style name="NoActionBar.Theme19">
+    <style name="Theme_Theme19">
         <item name="colorPrimary">@color/bluegrey500</item>
         <item name="colorPrimaryDark">@color/bluegrey700</item>
         <item name="colorAccent">@color/bluegrey500</item>

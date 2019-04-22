@@ -29,7 +29,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -251,10 +250,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     View popupView;
-//    PopupWindow mPop;
+    //    PopupWindow mPop;
     Dialog mPop;
 
-    private void showThemePop(){
+    private void showThemePop() {
         if (mPop.isShowing()) {
             mPop.dismiss();
         } else {
@@ -273,6 +272,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             backgroundAlpha(1f);
         });
     }
+
     /**
      * 弹出主题设置框
      */
@@ -303,9 +303,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         //builer.setView(v);//这里如果使用builer.setView(v)，自定义布局只会覆盖title和button之间的那部分
         mPop = builder.create();
 
-        RadioButton pas_rb_default = popupView.findViewById(R.id.pas_rb_default);
-        RadioButton pas_rb_blue = popupView.findViewById(R.id.pas_rb_blue);
-        RadioButton pas_rb_green = popupView.findViewById(R.id.pas_rb_green);
+        View pt_v_red = popupView.findViewById(R.id.pt_v_red);
+        View pt_v_blue = popupView.findViewById(R.id.pt_v_blue);
+        View pt_v_green = popupView.findViewById(R.id.pt_v_green);
+
+       View pt_v_brown  = popupView.findViewById(R.id.pt_v_brown);
+       View pt_v_orange  = popupView.findViewById(R.id.pt_v_orange);
+       View pt_v_light_green = popupView.findViewById(R.id.pt_v_light_green);
+
 
         ImageView pas_iv_close = popupView.findViewById(R.id.pas_iv_close);
 
@@ -314,43 +319,67 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 mPop.dismiss();
             }
         });
-        pas_rb_default.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b) {
-                if (mPop.isShowing()) {
-                    mPop.dismiss();
-                }
-                //TODO 设置主题
-                setTheme(R.style.Theme_default);
-                setColor();
-
-                SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_default);
+        pt_v_red.setOnClickListener(v->{
+            if (mPop.isShowing()) {
+                mPop.dismiss();
             }
+            //TODO 设置主题
+            setTheme(R.style.Theme_default);
+            setColor();
+
+            SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_default);
         });
-        pas_rb_blue.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b) {
-                if (mPop.isShowing()) {
-                    mPop.dismiss();
-                }
-                //TODO 设置主题
-                setTheme(R.style.Theme_blue);
-                setColor();
-
-                SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_blue);
+        pt_v_blue.setOnClickListener(v->{
+            if (mPop.isShowing()) {
+                mPop.dismiss();
             }
+            //TODO 设置主题
+            setTheme(R.style.Theme_blue);
+            setColor();
+
+            SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_blue);
         });
-        pas_rb_green.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b) {
-                if (mPop.isShowing()) {
-                    mPop.dismiss();
-                }
-                //TODO 设置主题
-                setTheme(R.style.Theme_green);
-                setColor();
-
-                SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_green);
+        pt_v_green.setOnClickListener(v->{
+            if (mPop.isShowing()) {
+                mPop.dismiss();
             }
+            //TODO 设置主题
+            setTheme(R.style.Theme_green);
+            setColor();
+
+            SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_green);
         });
 
+        pt_v_brown .setOnClickListener(v->{
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+            //TODO 设置主题
+            setTheme(R.style.Theme_Theme17);
+            setColor();
+
+            SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_Theme17);
+        });
+        pt_v_orange  .setOnClickListener(v->{
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+            //TODO 设置主题
+            setTheme(R.style.Theme_Theme15);
+            setColor();
+
+            SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_Theme15);
+        });
+        pt_v_light_green.setOnClickListener(v->{
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+            //TODO 设置主题
+            setTheme(R.style.Theme_Theme10);
+            setColor();
+
+            SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_Theme10);
+        });
     }
 
     /**

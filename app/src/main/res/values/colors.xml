@@ -97,11 +97,11 @@
     <color name="card_bg">#FFFFFF</color>
 
 
-    <color name="lightblue500">#03a9f4</color>
-    <color name="lightblue700">#0288d1</color>
+    <!--<color name="lightblue500">#03a9f4</color>-->
+    <!--<color name="lightblue700">#0288d1</color>-->
 
-    <color name="teal500">#009688</color>
-    <color name="teal700">#00796b</color>
+    <!--<color name="teal500">#009688</color>-->
+    <!--<color name="teal700">#00796b</color>-->
     <color name="alert_dark">#CE888888</color>
 
 
