@@ -1,5 +1,6 @@
 package com.hb.rssai.view.common;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -135,6 +136,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             mPresenter.updateCount(id);
         }
         mPresenter.getInformation(id);
+    }
+
+    public void setSelfTheme(Activity activity) {
+        setTranslucentStatus2(activity);
     }
 
     @Override

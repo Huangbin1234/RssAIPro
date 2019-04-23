@@ -67,7 +67,7 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
 
     int theme = 0;
 
-    private void setSelfTheme(Activity activity) {
+    public void setSelfTheme(Activity activity) {
         theme = SharedPreferencesUtil.getInt(this, Constant.KEY_THEME, 0);
         if (theme != 0) {
             setTheme(theme);
