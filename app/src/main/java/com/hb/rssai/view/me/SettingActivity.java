@@ -307,9 +307,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         View pt_v_blue = popupView.findViewById(R.id.pt_v_blue);
         View pt_v_green = popupView.findViewById(R.id.pt_v_green);
 
-       View pt_v_brown  = popupView.findViewById(R.id.pt_v_brown);
-       View pt_v_orange  = popupView.findViewById(R.id.pt_v_orange);
-       View pt_v_light_green = popupView.findViewById(R.id.pt_v_light_green);
+        View pt_v_brown = popupView.findViewById(R.id.pt_v_brown);
+        View pt_v_orange = popupView.findViewById(R.id.pt_v_orange);
+        View pt_v_light_green = popupView.findViewById(R.id.pt_v_light_green);
 
 
         ImageView pas_iv_close = popupView.findViewById(R.id.pas_iv_close);
@@ -319,7 +319,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 mPop.dismiss();
             }
         });
-        pt_v_red.setOnClickListener(v->{
+        pt_v_red.setOnClickListener(v -> {
             if (mPop.isShowing()) {
                 mPop.dismiss();
             }
@@ -329,7 +329,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_default);
         });
-        pt_v_blue.setOnClickListener(v->{
+        pt_v_blue.setOnClickListener(v -> {
             if (mPop.isShowing()) {
                 mPop.dismiss();
             }
@@ -339,7 +339,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_blue);
         });
-        pt_v_green.setOnClickListener(v->{
+        pt_v_green.setOnClickListener(v -> {
             if (mPop.isShowing()) {
                 mPop.dismiss();
             }
@@ -350,7 +350,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_green);
         });
 
-        pt_v_brown .setOnClickListener(v->{
+        pt_v_brown.setOnClickListener(v -> {
             if (mPop.isShowing()) {
                 mPop.dismiss();
             }
@@ -360,7 +360,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_Theme17);
         });
-        pt_v_orange  .setOnClickListener(v->{
+        pt_v_orange.setOnClickListener(v -> {
             if (mPop.isShowing()) {
                 mPop.dismiss();
             }
@@ -370,7 +370,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_Theme15);
         });
-        pt_v_light_green.setOnClickListener(v->{
+        pt_v_light_green.setOnClickListener(v -> {
             if (mPop.isShowing()) {
                 mPop.dismiss();
             }
@@ -531,5 +531,4 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
         }
     }
-
 }

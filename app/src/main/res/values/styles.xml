@@ -108,6 +108,7 @@
     <style name="backWhite" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorControlNormal">@android:color/black</item>
     </style>
+
     <style name="EditUnderLineStyle" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorControlNormal">@color/bg</item>
         <item name="colorControlActivated">#ff239ff2</item>
@@ -171,10 +172,11 @@
     </style>
 
 
-
     <!--设置DialogFragment样式-->
     <style name="dialog_fragment">
-        <item name="android:windowBackground">@android:drawable/screen_background_light_transparent</item>
+        <item name="android:windowBackground">
+            @android:drawable/screen_background_light_transparent
+        </item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@style/AnimationDialogFragment</item>
@@ -187,18 +189,19 @@
     </style>
     <!--主题设置-->
 
-    <style name="Theme_default"  parent="AppTheme2">
+    <style name="Theme_default" parent="AppTheme2">
         <item name="colorAccent">@color/color_toolbar_bg</item>
         <item name="colorPrimary">@color/color_toolbar_bg</item>
         <item name="colorPrimaryDark">@color/color_toolbar_bg</item>
     </style>
 
-    <style name="Theme_blue" >
+    <style name="Theme_blue">
         <item name="colorPrimary">@color/lightblue500</item>
         <!--<item name="colorPrimaryDark">@color/lightblue700</item>-->
         <item name="colorPrimaryDark">@color/lightblue500</item>
         <item name="colorAccent">@color/lightblue500</item>
     </style>
+
     <style name="Theme_green">
         <item name="colorPrimary">@color/teal500</item>
         <!--<item name="colorPrimaryDark">@color/teal700</item>-->
@@ -217,86 +220,103 @@
         <item name="colorPrimaryDark">@color/pink700</item>
         <item name="colorAccent">@color/pink500</item>
     </style>
+
     <style name="Theme_Theme3">
         <item name="colorPrimary">@color/purple500</item>
         <item name="colorPrimaryDark">@color/purple700</item>
         <item name="colorAccent">@color/purple500</item>
     </style>
+
     <style name="Theme_Theme4">
         <item name="colorPrimary">@color/deeppurple500</item>
         <item name="colorPrimaryDark">@color/deeppurple700</item>
         <item name="colorAccent">@color/deeppurple500</item>
     </style>
+
     <style name="Theme_Theme5">
         <item name="colorPrimary">@color/indigo500</item>
         <item name="colorPrimaryDark">@color/indigo700</item>
         <item name="colorAccent">@color/indigo500</item>
     </style>
+
     <style name="Theme_Theme6">
         <item name="colorPrimary">@color/blue500</item>
         <item name="colorPrimaryDark">@color/blue700</item>
         <item name="colorAccent">@color/blue500</item>
     </style>
+
     <style name="Theme_Theme7">
         <item name="colorPrimary">@color/lightblue500</item>
         <item name="colorPrimaryDark">@color/lightblue700</item>
         <item name="colorAccent">@color/lightblue500</item>
     </style>
+
     <style name="Theme_Theme8">
         <item name="colorPrimary">@color/cyan500</item>
         <item name="colorPrimaryDark">@color/cyan700</item>
         <item name="colorAccent">@color/cyan500</item>
     </style>
+
     <style name="Theme_Theme9">
         <item name="colorPrimary">@color/teal500</item>
         <item name="colorPrimaryDark">@color/teal700</item>
         <item name="colorAccent">@color/teal500</item>
     </style>
+
     <style name="Theme_Theme10">
         <item name="colorPrimary">@color/green500</item>
         <item name="colorPrimaryDark">@color/green700</item>
         <item name="colorAccent">@color/green500</item>
     </style>
+
     <style name="Theme_Theme11">
         <item name="colorPrimary">@color/lightgreen500</item>
         <item name="colorPrimaryDark">@color/lightgreen700</item>
         <item name="colorAccent">@color/lightgreen500</item>
     </style>
+
     <style name="Theme_Theme12">
         <item name="colorPrimary">@color/lime500</item>
         <item name="colorPrimaryDark">@color/lime700</item>
         <item name="colorAccent">@color/lime500</item>
     </style>
+
     <style name="Theme_Theme13">
         <item name="colorPrimary">@color/yellow500</item>
         <item name="colorPrimaryDark">@color/yellow700</item>
         <item name="colorAccent">@color/yellow500</item>
     </style>
+
     <style name="Theme_Theme14">
         <item name="colorPrimary">@color/amber500</item>
         <item name="colorPrimaryDark">@color/amber700</item>
         <item name="colorAccent">@color/amber500</item>
     </style>
+
     <style name="Theme_Theme15">
         <item name="colorPrimary">@color/orange500</item>
         <item name="colorPrimaryDark">@color/orange700</item>
         <item name="colorAccent">@color/orange500</item>
     </style>
+
     <style name="Theme_Theme16">
         <item name="colorPrimary">@color/deeporange500</item>
         <item name="colorPrimaryDark">@color/deeporange700</item>
         <item name="colorAccent">@color/deeporange500</item>
     </style>
+
     <style name="Theme_Theme17">
         <item name="colorPrimary">@color/brown500</item>
         <item name="colorPrimaryDark">@color/brown700</item>
         <item name="colorAccent">@color/brown500</item>
     </style>
+
     <style name="Theme_Theme18">
         <item name="colorPrimary">@color/grey500</item>
         <item name="colorPrimaryDark">@color/grey700</item>
         <item name="colorAccent">@color/grey500</item>
     </style>
+
     <style name="Theme_Theme19">
         <item name="colorPrimary">@color/bluegrey500</item>
         <item name="colorPrimaryDark">@color/bluegrey700</item>
