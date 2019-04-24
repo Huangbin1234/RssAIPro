@@ -10,8 +10,9 @@ import android.text.TextUtils;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.bumptech.glide.BitmapRequestBuilder;
+//import com.bumptech.glide.BitmapRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.FutureTarget;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResInformation;
@@ -143,10 +144,9 @@ public class WdRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
         }
         int width = 200;
         int height = 200;
-        BitmapRequestBuilder builder =
+        RequestBuilder builder =
                 Glide.with(context)
                         .load(pathName)
-                        .asBitmap()
                         .centerCrop();
         FutureTarget futureTarget = builder.into(width, height);
         try {

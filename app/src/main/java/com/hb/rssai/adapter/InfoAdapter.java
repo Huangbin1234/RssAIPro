@@ -22,6 +22,7 @@ import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
 
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -108,12 +109,14 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((OneImageViewHolder) holder).item_na_title.setText(title);
             ((OneImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
             ((OneImageViewHolder) holder).item_na_time.setText(time);
-            if(isNoImageMode){
+            if (isNoImageMode) {
                 ((OneImageViewHolder) holder).item_na_img.setVisibility(View.GONE);
-            }else{
+            } else {
                 ((OneImageViewHolder) holder).item_na_img.setVisibility(View.VISIBLE);
                 images = TextUtils.isEmpty(rowsBean.getImageUrls()) ? null : rowsBean.getImageUrls().split(",http");
-                HttpLoadImg.loadImg(mContext, images[0], ((OneImageViewHolder) holder).item_na_img);
+                String url = URLDecoder.decode(images[0]);
+                //TODO 过滤网址
+                HttpLoadImg.loadRoundImg(mContext, filterImage(url), ((OneImageViewHolder) holder).item_na_img);
             }
             ((OneImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         } else if (holder instanceof ThreeImageViewHolder) {
@@ -121,16 +124,25 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((ThreeImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
             ((ThreeImageViewHolder) holder).item_na_time.setText(time);
 
-            if(isNoImageMode){
+            if (isNoImageMode) {
                 ((ThreeImageViewHolder) holder).item_na_image_group.setVisibility(View.GONE);
-            }else{
+            } else {
                 ((ThreeImageViewHolder) holder).item_na_image_group.setVisibility(View.VISIBLE);
                 images = TextUtils.isEmpty(rowsBean.getImageUrls()) ? null : rowsBean.getImageUrls().split(",http");
-                HttpLoadImg.loadImg(mContext, images[0], ((ThreeImageViewHolder) holder).item_na_image_a);
-                HttpLoadImg.loadImg(mContext, "http" + images[1], ((ThreeImageViewHolder) holder).item_na_image_b);
-                HttpLoadImg.loadImg(mContext, "http" + images[2], ((ThreeImageViewHolder) holder).item_na_image_c);
+                HttpLoadImg.loadRoundImg(mContext, images[0], ((ThreeImageViewHolder) holder).item_na_image_a);
+                HttpLoadImg.loadRoundImg(mContext, "http" + images[1], ((ThreeImageViewHolder) holder).item_na_image_b);
+                HttpLoadImg.loadRoundImg(mContext, "http" + images[2], ((ThreeImageViewHolder) holder).item_na_image_c);
             }
             ((ThreeImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
+        }
+    }
+
+    private String filterImage(String url) {
+        if (-1 != url.indexOf("image_uri")) {
+            String temp = url.substring(url.indexOf("image_uri") + 10);
+            return temp.substring(0, temp.indexOf("&#38"));
+        } else {
+            return url;
         }
     }
 

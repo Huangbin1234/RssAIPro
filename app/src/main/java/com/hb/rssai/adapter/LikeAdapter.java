@@ -13,6 +13,7 @@ import com.hb.rssai.R;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.util.HttpLoadImg;
 
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -62,9 +63,22 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
         holder.ifm_tv_whereFrom.setText(resList.get(position).getWhereFrom());
         holder.ifm_tv_title.setText(resList.get(position).getTitle());
         if (!TextUtils.isEmpty(resList.get(position).getImageUrls())) {
-            HttpLoadImg.loadImg(mContext, resList.get(position).getImageUrls().split(",")[0], holder.ifm_iv_img);
+            String url = URLDecoder.decode(resList.get(position).getImageUrls().split(",http")[0]);
+            HttpLoadImg.loadRoundImg(mContext, filterImage(url), holder.ifm_iv_img);
+            holder.ifm_iv_img.setVisibility(View.VISIBLE);
+        } else {
+            holder.ifm_iv_img.setVisibility(View.GONE);
         }
         holder.v.setOnClickListener(v -> onItemClickedListener.onItemClicked(resList.get(position)));
+    }
+
+    private String filterImage(String url) {
+        if (-1 != url.indexOf("image_uri")) {
+            String temp = url.substring(url.indexOf("image_uri") + 10);
+            return temp.substring(0, temp.indexOf("&#38"));
+        } else {
+            return url;
+        }
     }
 
     @Override

@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.SourceListCardAdapter;
 import com.hb.rssai.base.BaseActivity;
@@ -200,7 +200,8 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
             isCheck = bundle.getBoolean(KEY_IS_CHECK, false);
         }
         HttpLoadImg.loadImg(this, imageLogo, mSlaIvLogo);
-        Glide.with(this).load(imageLogo).bitmapTransform(new BlurTransformation(this, 20, 2), new CenterCrop(this)).into(mSlaIvToBg);
+//        Glide.with(this).load(imageLogo).bitmapTransform(new BlurTransformation(this, 20, 2), new CenterCrop(this)).into(mSlaIvToBg);
+        Glide.with(this).load(imageLogo).apply(new RequestOptions().centerCrop()).transform(new BlurTransformation(100, 2)).into(mSlaIvToBg);
 
         mSysTvTitle.setText(titleValue);
         mSlaTvDesc.setText(desc);

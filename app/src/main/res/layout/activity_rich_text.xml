@@ -95,7 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="2dp"
                         android:text="@string/str_rta_view_res_article"
                         android:textColor="@color/color_line_blue"
                         android:textSize="@dimen/s14p"/>
@@ -103,7 +103,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="16dp">

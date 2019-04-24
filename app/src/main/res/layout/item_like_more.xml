@@ -36,6 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_below="@id/ifm_tv_title"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="#9c9c9c"
@@ -46,7 +47,10 @@
             android:id="@+id/ifm_iv_img"
             android:layout_width="80dp"
             android:layout_height="60dp"
-            android:src="@mipmap/ic_place"/>
+            android:visibility="gone"
+            android:scaleType="fitCenter"
+            android:background="@drawable/round_register"
+            />
 
     </LinearLayout>
 

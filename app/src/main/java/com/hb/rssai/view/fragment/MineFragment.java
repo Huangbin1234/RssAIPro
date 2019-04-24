@@ -15,7 +15,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.app.ProjectApplication;
@@ -323,7 +326,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             }
             HttpLoadImg.loadCircleWithBorderImg(getContext(), ApiRetrofit.BASE_URL + user.getRetObj().getAvatar(), mFmIvAva);
             //毛玻璃效果 与 状态栏不沉浸
-            Glide.with(getContext()).load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar()).bitmapTransform(new BlurTransformation(getContext(), 20, 2), new CenterCrop(getContext())).into(mMfIvToBg);
+//            Glide.with(getContext()).load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar()).bitmapTransform(new BlurTransformation(getContext(), 20, 2), new CenterCrop(getContext())).into(mMfIvToBg);
+            Glide.with(getContext())
+                    .load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar())
+                    .apply(new RequestOptions())
+                    .transform(new BlurTransformation(100, 2))
+                    .into(mMfIvToBg);
+
         } else {
             T.ShowToast(getContext(), Constant.MSG_NETWORK_ERROR);
         }

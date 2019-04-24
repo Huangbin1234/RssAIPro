@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_na_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/item_na_layout"
     android:layout_marginBottom="1px"
     android:background="@drawable/ll_selector"
+    android:orientation="horizontal"
     android:padding="16dp"
     android:visibility="visible">
 
@@ -23,7 +23,6 @@
             android:layout_alignParentTop="true"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="122222222222222222222222222222"
             android:textColor="@color/text_color_title"
             android:textSize="@dimen/s18p" />
 
@@ -41,10 +40,9 @@
                 android:id="@+id/item_na_where_from"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:layout_gravity="bottom"
-                android:text="21111111"
                 android:textColor="@color/text_color_abstract"
                 android:textSize="@dimen/s12p" />
 
@@ -54,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
                 android:layout_marginLeft="10dp"
-                android:text="122222222222"
                 android:layout_toLeftOf="@+id/item_na_type"
                 android:ellipsize="end"
                 android:singleLine="true"
@@ -71,7 +68,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="16dp"
         android:layout_weight="3"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_place"
+        android:scaleType="fitCenter"
+        android:background="@drawable/round_register"
         android:visibility="visible" />
 </LinearLayout>

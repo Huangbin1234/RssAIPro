@@ -285,3 +285,18 @@
 -keep class com.android.dingtalk.share.ddsharemodule.** { *; }
 -keepattributes Signature
 #=========umeng混淆 end==========#
+
+#========================Glide 相关混淆
+-dontwarn jp.wasabeef.glide.transformations.**
+
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+ -dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
+#end ==========================================Glide

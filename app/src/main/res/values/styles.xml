@@ -266,6 +266,7 @@
     <style name="Theme_Theme10">
         <item name="colorPrimary">@color/green500</item>
         <item name="colorPrimaryDark">@color/green700</item>
+        <!--<item name="colorPrimaryDark">@color/green500</item>-->
         <item name="colorAccent">@color/green500</item>
     </style>
 
@@ -296,6 +297,7 @@
     <style name="Theme_Theme15">
         <item name="colorPrimary">@color/orange500</item>
         <item name="colorPrimaryDark">@color/orange700</item>
+        <!--<item name="colorPrimaryDark">@color/orange500</item>-->
         <item name="colorAccent">@color/orange500</item>
     </style>
 
@@ -308,6 +310,7 @@
     <style name="Theme_Theme17">
         <item name="colorPrimary">@color/brown500</item>
         <item name="colorPrimaryDark">@color/brown700</item>
+        <!--<item name="colorPrimaryDark">@color/brown500</item>-->
         <item name="colorAccent">@color/brown500</item>
     </style>
 

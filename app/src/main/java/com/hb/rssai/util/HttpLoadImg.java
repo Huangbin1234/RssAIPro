@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.hb.rssai.R;
 
 import java.io.File;
@@ -37,7 +40,7 @@ public class HttpLoadImg {
      * @param imageView
      */
     public static void loadImg(Context context, String url, ImageView imageView) {
-        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
 
     /**
@@ -65,53 +68,60 @@ public class HttpLoadImg {
      * 下载图片转圆形
      */
     public static void loadCircleImg(Context context, String url, ImageView imageView) {
-        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new CircleCrop()).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
+
     /**
      * 下载图片转圆形
      */
     public static void loadCircleImg(Context context, Integer resId, ImageView imageView) {
-        Glide.with(context).load(resId).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(resId).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new CircleCrop()).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
-    /**ic_error.png
+
+    /**
+     * ic_error.png
      * 下载图片转圆形带边框2dp
      */
     public static void loadCircleWithBorderImg(Context context, String url, ImageView imageView) {
-        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+//        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+
+        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleTransformWithBorder(context, 2, context.getResources().getColor(R.color.white))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
     /**ic_error.png
      * 下载图片转圆形带边框2dp
      */
-    public static void loadCircleWithBorderImg(Context context, Integer resId, ImageView imageView) {
-        Glide.with(context).load(resId).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
-    }
+//    public static void loadCircleWithBorderImg(Context context, Integer resId, ImageView imageView) {
+//        Glide.with(context).load(resId).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+//    }
     /**
      * 下载图片转圆形带边框2dp
      */
-    public static void loadCircleWithBorderImg(Context context, Uri url, ImageView imageView) {
-        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
-    }
+//    public static void loadCircleWithBorderImg(Context context, Uri url, ImageView imageView) {
+//        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+//    }
 
     /**
      * 下载图片转圆角
      */
     public static void loadRoundImg(Context context, String url, ImageView imageView) {
-        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new CenterCrop(context),new GlideRoundTransform(context, 5)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+//        Glide.with(context).load(url).thumbnail(0.1f).apply(new RequestOptions().centerCrop()).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new RoundedCorners(10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(url).thumbnail(0.1f).apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
 
     }
+
     /**
      * 下载图片转圆角
      */
     public static void loadRoundImg(Context context, Integer url, ImageView imageView) {
-        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideRoundTransform(context, 10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new RoundedCorners(10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
 
     }
+
     /**
      * 下载图片转圆角
      */
     public static void loadVideoImg(Context context, String url, ImageView imageView) {
         Glide.with(context).load(Uri.fromFile(new File(url))).placeholder(R.mipmap.ic_launcher).into(imageView);
-
     }
 
 }

@@ -34,8 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_weight="1"
-            android:background="@color/gray_light"
-            android:scaleType="centerCrop" />
+            android:background="@drawable/round_register"
+            android:scaleType="fitCenter" />
 
         <View
             android:layout_width="8dp"
@@ -46,8 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_weight="1"
-            android:background="@color/gray_light"
-            android:scaleType="centerCrop" />
+            android:background="@drawable/round_register"
+            android:scaleType="fitCenter" />
 
         <View
             android:layout_width="8dp"
@@ -58,8 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_weight="1"
-            android:background="@color/gray_light"
-            android:scaleType="centerCrop" />
+            android:background="@drawable/round_register"
+            android:scaleType="fitCenter" />
     </LinearLayout>
 
 

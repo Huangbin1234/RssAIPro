@@ -1,5 +1,6 @@
 package com.hb.rssai.view.me;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -28,9 +29,6 @@ import com.hb.rssai.util.SearchTextWatcher;
 import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.view.iView.ISearchView;
 import com.hb.rssai.view.widget.MyDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -80,6 +78,11 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
 
     public interface SearchListener {
         void search(String val);
+    }
+
+    @Override
+    public void setSelfTheme(Activity activity) {
+        setTranslucentStatus2(activity);
     }
 
     @Override
