@@ -1,18 +1,9 @@
 package com.hb.rssai.presenter;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.LinearLayout;
 
-import com.hb.rssai.adapter.InfoAdapter;
-import com.hb.rssai.bean.Information;
 import com.hb.rssai.bean.ResDataGroup;
-import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
-import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.IInformationView;
 import com.hb.rssai.view.iView.ITabView;
@@ -20,7 +11,6 @@ import com.hb.rssai.view.iView.ITabView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -47,12 +37,13 @@ public class TabPresenter extends BasePresenter<IInformationView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resDataGroup -> {
+                    iTabView.cacheDataGroup(resDataGroup);
                     setDataGroupResult(resDataGroup);
                 }, this::loadError);
     }
 
 
-    private void setDataGroupResult(ResDataGroup resDataGroup) {
+    public void setDataGroupResult(ResDataGroup resDataGroup) {
         if (resDataGroup != null && resDataGroup.getRetCode() == 0) {
             if (mRowsBeanList.size() > 0) {
                 mRowsBeanList.clear();
@@ -60,6 +51,7 @@ public class TabPresenter extends BasePresenter<IInformationView> {
             if (mMeRowsBeanList.size() > 0) {
                 mMeRowsBeanList.clear();
             }
+
             for (ResDataGroup.RetObjBean.RowsBean bean : resDataGroup.getRetObj().getRows()) {
                 if (bean.getGroupType() == 0) {
                     mRowsBeanList.add(bean);

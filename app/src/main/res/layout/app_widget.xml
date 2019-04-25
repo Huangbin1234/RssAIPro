@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#6e181717"
+
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
-
+    <!--android:background="#6e181717"-->
     <!-- Widget并不支持所有的布局和控件，而仅仅只是支持Android布局和控件的一个子集。
        (01) App Widget支持的布局：
        　　FrameLayout
@@ -29,12 +29,12 @@
         android:id="@+id/aw_rl_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#70121111"
+        android:background="@drawable/round_widget"
         android:orientation="horizontal"
-        android:paddingBottom="5dp"
         android:paddingLeft="10dp"
+        android:paddingTop="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="5dp">
+        android:paddingBottom="10dp">
 
         <ImageView
             android:id="@+id/widget_iv_logo"
@@ -42,7 +42,7 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/load_logo"/>
 
         <TextView
             android:id="@+id/widget_txt"
@@ -67,6 +67,7 @@
     </RelativeLayout>
 
     <ListView
+        android:background="#6e181717"
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

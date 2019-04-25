@@ -57,6 +57,8 @@ public class Constant {
     public static final String KEY_IS_SHOW_POP = "isShowPop";//是否显示过pop弹窗
     public static final String KEY_THEME = "key_theme";//设置主题保存
     public static final String KEY_REMARK = "key_ad_remark";//一句话
+    public static final String KEY_DATA_GROUP = "key_data_group";//本地缓存分类
+    public static final String KEY_DATA_GROUP_TIME = "key_data_group_time";//本地缓存分类时间 ms
 
 
     public static String START_TIME = "1990-01-01 00:00:00";

@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.TabPresenter;
+import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.iView.ITabView;
 import com.hb.rssai.view.widget.TipTextView;
@@ -31,6 +33,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -103,7 +106,12 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
                 mFtTvTips.showTips();
             });
         } else if (event.getMessage() == 2) {
-            ((TabPresenter) mPresenter).getDataGroupList();
+            ResDataGroup resDataGroup = getCacheDataGroup();
+            if (null == resDataGroup) {
+                ((TabPresenter) mPresenter).getDataGroupList();
+            } else {
+                ((TabPresenter) mPresenter).setDataGroupResult(resDataGroup);
+            }
         }
     }
 
@@ -118,7 +126,12 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
             return;
         }
         //loadData(DF);
-        ((TabPresenter) mPresenter).getDataGroupList();
+        ResDataGroup resDataGroup = getCacheDataGroup();
+        if (null == resDataGroup) {
+            ((TabPresenter) mPresenter).getDataGroupList();
+        } else {
+            ((TabPresenter) mPresenter).setDataGroupResult(resDataGroup);
+        }
         isPrepared = false;
         System.out.println("====lazyLoad====");
     }
@@ -220,6 +233,35 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         myPagerAdapter = new MyPagerAdapter(getFragmentManager(), datas, fragments);
         mFtViewPager.setAdapter(myPagerAdapter);
         mSysTabLayout.setupWithViewPager(mFtViewPager);
+    }
+
+    @Override
+    public void cacheDataGroup(ResDataGroup resDataGroup) {
+        if (null == resDataGroup || resDataGroup.getRetCode() != 0) {
+            return;
+        }
+        String str_data_group = GsonUtil.toJson(resDataGroup);
+        SharedPreferencesUtil.setString(getContext(), Constant.KEY_DATA_GROUP, str_data_group);
+        SharedPreferencesUtil.setLong(getContext(), Constant.KEY_DATA_GROUP_TIME, new Date().getTime());
+    }
+
+    /**
+     * 获取缓存数据源
+     *
+     * @return
+     */
+    private ResDataGroup getCacheDataGroup() {
+        String str_data_group = SharedPreferencesUtil.getString(getContext(), Constant.KEY_DATA_GROUP, "");
+        if (TextUtils.isEmpty(str_data_group)) {
+            return null;
+        }
+        long cacheTime = SharedPreferencesUtil.getLong(getContext(), Constant.KEY_DATA_GROUP_TIME, 0);
+        long nowTime = new Date().getTime();
+        if (nowTime - cacheTime > 7 * 24 * 60 * 60 * 1000) {
+            return null;
+        } else {
+            return GsonUtil.getGsonUtil().getBean(str_data_group, ResDataGroup.class);
+        }
     }
 
     public interface OnFragmentInteractionListener {

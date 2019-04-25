@@ -196,7 +196,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
 
     private void setListResult(ResInformation resInformation) {
         //清除数据缓存
-        System.out.println("列表信息：===========>"+infoList);
+//        System.out.println("列表信息：===========>"+infoList);
         if (infoList != null && page == 1) {
             infoList.clear();
         }

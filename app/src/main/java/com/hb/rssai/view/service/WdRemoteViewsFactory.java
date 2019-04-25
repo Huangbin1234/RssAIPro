@@ -5,15 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-//import com.bumptech.glide.BitmapRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestOptions;
 import com.hb.rssai.R;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
@@ -27,12 +29,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.hb.rssai.presenter.BasePresenter.informationApi;
+
+//import com.bumptech.glide.BitmapRequestBuilder;
 
 /**
  * Created by LIUYONGKUI726 on 2017-07-10.
@@ -96,26 +99,28 @@ public class WdRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
      */
     @Override
     public RemoteViews getViewAt(int position) {
-        if (position < 0 || position >= listData.size())
+        if (position < 0 || position >= listData.size()) {
             return null;
+        }
         // 创建在当前索引位置要显示的View
         final RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.list_item);
         // 设置要显示的内容
         // 设置 第position位的“视图”的数据
         if (listData.get(position) != null && listData.size() > 0) {
-            String[] images = TextUtils.isEmpty(listData.get(position).getImageUrls()) ? null : listData.get(position).getImageUrls().split(",");
-            if (images != null && images.length > 0) {
+            String imageUrls = listData.get(position).getImageUrls();
+            String[] images = TextUtils.isEmpty(imageUrls) ? null : imageUrls.split(",");
+            if (null != images && images.length > 0) {
                 if (images.length >= 1) {
                     loadImageForListItem(mContext, images[0], rv);
-                    System.out.println(position + " _" + images[0]);
                 }
-            }else{
+            } else {
                 loadImageForListItem(mContext, null, rv);
             }
         } else {
             loadImageForListItem(mContext, null, rv);
         }
         rv.setTextViewText(R.id.itemText, listData.get(position).getTitle());
+        rv.setTextViewText(R.id.widget_item_where_from, listData.get(position).getWhereFrom());
         try {
             rv.setTextViewText(R.id.widget_item_time, DateUtil.showDate(sdf.parse(listData.get(position).getPubTime()), "yyyy-MM-dd HH:mm:ss"));
         } catch (ParseException e) {
@@ -137,21 +142,16 @@ public class WdRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
     }
 
     private void loadImageForListItem(Context context, String pathName, RemoteViews remoteViews) {
-        if(TextUtils.isEmpty(pathName)){
+        if (TextUtils.isEmpty(pathName)) {
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_no_image);
             remoteViews.setImageViewBitmap(R.id.itemImage, bitmap);
             return;
         }
-        int width = 200;
-        int height = 200;
-        RequestBuilder builder =
-                Glide.with(context)
-                        .load(pathName)
-                        .centerCrop();
-        FutureTarget futureTarget = builder.into(width, height);
+        RequestBuilder builder =  Glide.with(context) .load(pathName) .apply(new RequestOptions().transform(new RoundedCorners(10)).centerCrop());
+        FutureTarget futureTarget = builder.submit(200, 200);
         try {
-            remoteViews.setImageViewBitmap(R.id.itemImage, (Bitmap) futureTarget.get());
-        } catch (InterruptedException | ExecutionException e) {
+            remoteViews.setImageViewBitmap(R.id.itemImage, ((BitmapDrawable) futureTarget.get()).getBitmap());
+        } catch (Exception e) {
             e.printStackTrace();
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_no_image);
             remoteViews.setImageViewBitmap(R.id.itemImage, bitmap);
