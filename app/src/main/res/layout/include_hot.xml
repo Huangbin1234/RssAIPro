@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/color_general_white"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_general_white"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -29,11 +29,12 @@
                 <!--android:src="@mipmap/ic_vline" />-->
                 <ImageView
                     android:id="@+id/ih_iv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
+                    android:scaleType="centerInside"
                     android:src="@mipmap/ic_recommend"></ImageView>
 
                 <TextView
@@ -41,10 +42,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/ih_iv"
+                    android:layout_toRightOf="@+id/ih_iv"
                     android:text="@string/ff_find_hot_label"
-                    android:textColor="@color/color_big_label"
-                    android:textSize="@dimen/s18p"/>
+                    android:textColor="@color/color_txt"
+                    android:textSize="@dimen/s16p" />
                 <!--android:layout_marginLeft="10dp"-->
             </RelativeLayout>
 
@@ -52,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/color_general_line"
-                android:visibility="visible"/>
+                android:visibility="visible" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,15 +71,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/str_ff_tv_more"
-                android:textColor="@color/bg_top"
-                android:textSize="@dimen/s12p"/>
+                android:textColor="@color/color_time"
+                android:textSize="@dimen/s12p" />
 
             <ImageView
                 android:id="@+id/ff_topic_iv_all"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:src="@mipmap/ic_right_all"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -88,35 +89,37 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:descendantFocusability="blocksDescendants">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ff_hot_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/color_general_white"
-            android:paddingLeft="11dp"
-            android:paddingRight="11dp"/>
+
+            android:background="@color/color_general_white" />
     </RelativeLayout>
+
     <View
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
         android:background="@color/color_general_line"
         android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/ll_recommend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@color/color_general_white"
-        android:padding="6dp"
         android:gravity="center"
         android:orientation="horizontal"
+        android:padding="6dp"
         android:visibility="gone">
         <!--android:background="@drawable/chang_bg_selector"-->
         <!--android:background="@drawable/bg_link"-->
@@ -128,7 +131,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/str_ff_tv_change"
             android:textColor="@color/orange"
-            android:textSize="@dimen/s14p"/>
+            android:textSize="@dimen/s14p" />
         <!--color_big_label-->
         <ImageView
             android:layout_width="20dp"
@@ -138,6 +141,6 @@
             android:layout_gravity="center_vertical"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_randon"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

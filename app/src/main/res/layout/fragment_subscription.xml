@@ -70,8 +70,8 @@
 
                                     <ImageView
                                         android:id="@+id/iv_web_server"
-                                        android:layout_width="25dp"
-                                        android:layout_height="25dp"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
                                         android:layout_alignParentLeft="true"
                                         android:layout_centerVertical="true"
                                         android:layout_marginRight="10dp"
@@ -79,15 +79,14 @@
                                         android:src="@mipmap/ic_web_server" />
 
                                     <TextView
-
                                         android:id="@+id/tv_sub_label_topic"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@id/iv_web_server"
                                         android:text="@string/sub_label_topic"
-                                        android:textColor="@color/color_big_label"
-                                        android:textSize="@dimen/s18p" />
+                                        android:textColor="@color/color_txt"
+                                        android:textSize="@dimen/s16p" />
 
 
                                     <View
@@ -114,7 +113,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/str_sub_tv_all"
-                                        android:textColor="@color/bg_top"
+                                        android:textColor="@color/color_time"
                                         android:textSize="@dimen/s12p" />
                                     <!--android:layout_marginRight="5dp"-->
                                     <ImageView
@@ -185,8 +184,8 @@
 
                                     <ImageView
                                         android:id="@+id/iv_vip"
-                                        android:layout_width="25dp"
-                                        android:layout_height="25dp"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
                                         android:layout_alignParentLeft="true"
                                         android:layout_centerVertical="true"
                                         android:layout_marginRight="10dp"
@@ -200,8 +199,8 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@id/iv_vip"
                                         android:text="@string/sub_label"
-                                        android:textColor="@color/color_big_label"
-                                        android:textSize="@dimen/s18p" />
+                                        android:textColor="@color/color_txt"
+                                        android:textSize="@dimen/s16p" />
 
 
                                     <View
@@ -229,7 +228,7 @@
                                         android:layout_height="wrap_content"
 
                                         android:text="@string/str_sub_tv_all"
-                                        android:textColor="@color/bg_top"
+                                        android:textColor="@color/color_time"
                                         android:textSize="@dimen/s12p" />
                                     <!--android:layout_marginRight="5dp"-->
                                     <ImageView

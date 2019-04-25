@@ -8,8 +8,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/sys_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        >
+        android:layout_height="?attr/actionBarSize">
         <!--?attr/actionBarSize-->
         <TextView
             android:id="@+id/sys_tv_title"
@@ -39,5 +38,17 @@
             android:scaleType="centerInside"
             android:src="@mipmap/ic_qrcode_menu"
             android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/sys_iv_search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="16dp"
+            android:padding="2dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_search"
+            android:visibility="visible" />
+        <!--android:src="@mipmap/ic_qrcode_menu"-->
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

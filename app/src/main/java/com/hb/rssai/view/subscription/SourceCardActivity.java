@@ -185,6 +185,7 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
         if (infoListCard != null) {
             infoListCard.clear();
         }
+        mSlaSwipeLayout.setRefreshing(true);
         ((SourceListPresenter) mPresenter).getListCardById();
     }
 
@@ -258,8 +259,7 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
     public void setListCardResult(ResCardSubscribe resCardSubscribe) {
         //TODO 填充数据
         mSlaLl.setVisibility(View.GONE);
-        isLoad = false;
-        mSlaSwipeLayout.setRefreshing(false);
+
         //TODO 填充数据
         if (resCardSubscribe.getRetCode() == 0) {
             if (resCardSubscribe.getRetObj().getRows() != null && resCardSubscribe.getRetObj().getRows().size() > 0) {
@@ -282,6 +282,8 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
         } else {
             T.ShowToast(this, resCardSubscribe.getRetMsg());
         }
+        isLoad = false;
+        mSlaSwipeLayout.setRefreshing(false);
     }
 
     /**

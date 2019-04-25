@@ -326,4 +326,10 @@
         <item name="colorAccent">@color/bluegrey500</item>
     </style>
 
+    <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">true</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

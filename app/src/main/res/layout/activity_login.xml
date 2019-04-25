@@ -47,7 +47,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
                     android:background="@drawable/input_style"
-
                     android:drawablePadding="10dp"
                     android:hint="@string/str_la_hint_uname"
                     android:maxLength="16"

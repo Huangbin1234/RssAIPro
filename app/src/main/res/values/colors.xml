@@ -379,4 +379,5 @@
     <color name="bluegrey700">#455a64</color>
     <color name="bluegrey800">#37474f</color>
     <color name="bluegrey900">#263238</color>
+    <color name="color_title_bar">#F8F8F8</color>
 </resources>

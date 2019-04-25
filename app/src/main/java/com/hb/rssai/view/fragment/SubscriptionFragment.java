@@ -3,9 +3,7 @@ package com.hb.rssai.view.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -29,7 +27,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -50,6 +47,7 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISubscriptionView;
+import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.subscription.AddSourceActivity;
 import com.hb.rssai.view.subscription.SourceCardActivity;
 import com.hb.rssai.view.subscription.SubscribeAllActivity;
@@ -311,7 +309,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     }
 
 
-    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan, R.id.sub_ll_all, R.id.sub_ll_all_topic})
+    @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan, R.id.sys_iv_search, R.id.sub_ll_all, R.id.sub_ll_all_topic})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -320,6 +318,9 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 break;
             case R.id.sys_iv_scan:
                 startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUEST_CODE);
+                break;
+            case R.id.sys_iv_search:
+                startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
             case R.id.sub_ll_all:
                 Bundle bundle = new Bundle();

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/color_general_white"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_general_white"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -27,24 +27,27 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/ic_vline"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
+
                 <ImageView
                     android:id="@+id/ih_iv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
+                    android:scaleType="centerInside"
                     android:src="@mipmap/ic_find_more"></ImageView>
+
                 <TextView
-                    android:layout_toRightOf="@id/ih_iv"
                     android:id="@+id/ff_find_tv_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/ih_iv"
                     android:text="@string/ff_find_more_label"
-                    android:textColor="@color/color_big_label"
-                    android:textSize="@dimen/s18p"/>
+                    android:textColor="@color/color_txt"
+                    android:textSize="@dimen/s16p" />
                 <!--android:layout_marginLeft="10dp"-->
 
             </RelativeLayout>
@@ -53,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/color_general_line"
-                android:visibility="visible"/>
+                android:visibility="visible" />
         </LinearLayout>
     </FrameLayout>
 
@@ -65,17 +68,17 @@
         <include
             android:id="@+id/include_load_fail"
             layout="@layout/layout_wrap_load_fail"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <include
             android:id="@+id/include_no_data"
             layout="@layout/layout_wrap_no_data"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ff_find_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_general_white"/>
+            android:background="@color/color_general_white" />
     </LinearLayout>
 </LinearLayout>

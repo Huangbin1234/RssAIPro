@@ -18,6 +18,7 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
@@ -116,7 +117,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 images = TextUtils.isEmpty(rowsBean.getImageUrls()) ? null : rowsBean.getImageUrls().split(",http");
                 String url = URLDecoder.decode(images[0]);
                 //TODO 过滤网址
-                HttpLoadImg.loadRoundImg(mContext, filterImage(url), ((OneImageViewHolder) holder).item_na_img);
+                HttpLoadImg.loadRoundImg(mContext, StringUtil.filterImage(url), ((OneImageViewHolder) holder).item_na_img);
             }
             ((OneImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         } else if (holder instanceof ThreeImageViewHolder) {
@@ -137,14 +138,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private String filterImage(String url) {
-        if (-1 != url.indexOf("image_uri")) {
-            String temp = url.substring(url.indexOf("image_uri") + 10);
-            return temp.substring(0, temp.indexOf("&#38"));
-        } else {
-            return url;
-        }
-    }
+
 
     private void click(int position) {
         if (rssList.size() > 0) {

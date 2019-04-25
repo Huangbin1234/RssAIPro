@@ -27,7 +27,7 @@
     <color name="colorNavItemSelected">#35464e</color>
     <color name="colorNavItemUnselected">#8799a5</color>
     <!--toolbar背景色-->
-    <color name="color_toolbar_bg">#212a2f</color>
+    <color name="color_toolbar_bg">#35464e</color>
     <!--页面背景色-->
     <color name="bg">#35464e</color>
     <!--行选中效果-->
@@ -71,4 +71,6 @@
     <color name="color_tips">#dbcfd8dc</color>
 
     <color name="card_bg">#212a2f</color>
+
+    <color name="color_title_bar">#212a2f</color>
 </resources>

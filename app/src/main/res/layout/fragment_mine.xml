@@ -85,7 +85,7 @@
                                     android:maxLines="1"
                                     android:text="@string/str_mf_no_login"
                                     android:textColor="@color/white"
-                                    android:textSize="@dimen/s16p" />
+                                    android:textSize="@dimen/s18p" />
 
                                 <TextView
                                     android:id="@+id/fm_tv_signature"
@@ -336,7 +336,7 @@
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="16dp"
                             android:layout_toRightOf="@id/fm_iv_msg"
                             android:text="@string/str_mf_message_center"
                             android:textColor="@color/text_color_title"
@@ -378,7 +378,7 @@
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="16dp"
                             android:layout_toRightOf="@id/fm_iv_collection"
                             android:text="@string/str_mf_collection"
                             android:textColor="@color/text_color_title"
@@ -411,7 +411,7 @@
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="16dp"
                             android:layout_toRightOf="@id/fm_iv_search"
                             android:text="@string/str_mf_search"
                             android:textColor="@color/text_color_title"
@@ -448,7 +448,7 @@
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="16dp"
                             android:layout_toRightOf="@id/fm_iv_scan"
                             android:text="@string/str_mf_scan"
                             android:textColor="@color/text_color_title"
@@ -489,7 +489,7 @@
                     <TextView
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="16dp"
                         android:layout_toRightOf="@id/fm_iv_setting"
                         android:text="@string/str_mf_setting"
                         android:textColor="@color/text_color_title"

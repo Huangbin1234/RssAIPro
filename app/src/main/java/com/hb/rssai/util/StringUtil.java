@@ -38,4 +38,12 @@ public class StringUtil {
             return number.matches(num);
         }
     }
+    public static String filterImage(String url) {
+        if (-1 != url.indexOf("image_uri")) {
+            String temp = url.substring(url.indexOf("image_uri") + 10);
+            return temp.substring(0, temp.indexOf("&#38"));
+        } else {
+            return url;
+        }
+    }
 }
