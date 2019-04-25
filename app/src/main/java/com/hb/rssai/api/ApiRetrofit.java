@@ -39,7 +39,7 @@ public class ApiRetrofit {
     private ThemeApi themeApiService;
     private AdvertisementApi advertisementApiService;
 
-//    public static final String URL = "http://118.24.53.146:8088/";
+
     public static final String URL = "http://192.168.16.226:8088/";
     public static final String PROJECT_NAME = "zr/";
     public static final String BASE_URL = URL + PROJECT_NAME;//线上服务器
