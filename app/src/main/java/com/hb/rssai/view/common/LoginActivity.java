@@ -1,6 +1,8 @@
 package com.hb.rssai.view.common;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -27,10 +30,14 @@ import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.LoginPresenter;
+import com.hb.rssai.util.HttpLoadImg;
+import com.hb.rssai.util.ImageUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.ByteArrayOutputStream;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -63,6 +70,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
     TextView mLaTvUserNameLabel;
     @BindView(R.id.la_tv_password_label)
     TextView mLaTvPasswordLabel;
+    @BindView(R.id.la_iv_ava)
+    ImageView mLaIvAva;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +102,14 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
             Drawable draPsd = getResources().getDrawable(R.drawable.selector_ic_lock);
             draPsd.setBounds(0, 0, draPsd.getMinimumWidth(), draPsd.getMinimumHeight());
             mLaEtPassword.setCompoundDrawables(draPsd, null, null, null);
+        }
+
+        byte[] bytes = ImageUtil.getLocalAvatar();
+        if (null != bytes) {
+            mLaIvAva.setVisibility(View.VISIBLE);
+            HttpLoadImg.loadImgNoAnimate(this, bytes, mLaIvAva);
+        } else {
+            mLaIvAva.setVisibility(View.GONE);
         }
     }
 

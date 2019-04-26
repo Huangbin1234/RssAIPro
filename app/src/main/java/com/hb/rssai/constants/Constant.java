@@ -59,6 +59,7 @@ public class Constant {
     public static final String KEY_REMARK = "key_ad_remark";//一句话
     public static final String KEY_DATA_GROUP = "key_data_group";//本地缓存分类
     public static final String KEY_DATA_GROUP_TIME = "key_data_group_time";//本地缓存分类时间 ms
+    public static final String KEY_CACHE_AVATAR = "key_avatar";//头像
 
 
     public static String START_TIME = "1990-01-01 00:00:00";
@@ -70,5 +71,9 @@ public class Constant {
 
     public static SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_LONG_PATTERN);
     public static String AlipaysUrl="alipay_url";
+
+    //头像
+    public static final String AVATAR_SAVE_DIR = "/GeneralUpdateLib/";
+    public static final String AVATAR_SAVE_NAME = "zr_avatar_img.png";
 
 }

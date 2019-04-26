@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/title_all"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar"/>
+    <include layout="@layout/include_sub_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                     <TextView
                         android:id="@+id/sa_tv_change_source"
                         style="@style/TextLabel"
-                        android:text="@string/str_sa_change_source"/>
+                        android:text="@string/str_sa_change_source" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/sa_tv_change_source_label"
                         android:textColor="@color/text_color_abstract"
-                        android:textSize="@dimen/s12p"/>
+                        android:textSize="@dimen/s12p" />
                 </RelativeLayout>
 
                 <Switch
@@ -51,11 +51,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_opr_image"
@@ -70,7 +70,7 @@
                     <TextView
                         android:id="@+id/sa_tv_opr_image"
                         style="@style/TextLabel"
-                        android:text="@string/str_sa_opr_image"/>
+                        android:text="@string/str_sa_opr_image" />
 
                     <TextView
 
@@ -80,7 +80,7 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/sa_tv_opr_image_label"
                         android:textColor="@color/text_color_abstract"
-                        android:textSize="@dimen/s12p"/>
+                        android:textSize="@dimen/s12p" />
                 </RelativeLayout>
 
                 <Switch
@@ -88,10 +88,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_cold_reboot"
@@ -106,7 +106,7 @@
                     <TextView
                         android:id="@+id/sa_tv_cold_reboot"
                         style="@style/TextLabel"
-                        android:text="@string/str_sa_cold_reboot"/>
+                        android:text="@string/str_sa_cold_reboot" />
 
                     <TextView
 
@@ -116,7 +116,7 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/sa_tv_cold_reboot_label"
                         android:textColor="@color/text_color_abstract"
-                        android:textSize="@dimen/s12p"/>
+                        android:textSize="@dimen/s12p" />
                 </RelativeLayout>
 
 
@@ -125,12 +125,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
-            <View style="@style/view_line_h" android:layout_marginTop="10dp"/>
+            <View style="@style/view_line_h" />
+
+            <View
+                style="@style/view_line_h"
+                android:layout_marginTop="10dp" />
+
             <RelativeLayout
                 android:id="@+id/sa_rl_day_night"
                 style="@style/InfoDetail"
@@ -139,20 +143,18 @@
                 <TextView
                     style="@style/TextLabel"
                     android:layout_centerVertical="true"
-                    android:text="@string/str_sa_day_night"/>
+                    android:text="@string/str_sa_day_night" />
 
                 <Switch
                     android:id="@+id/sa_sw_day_night"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
-
-
+            <View style="@style/view_line_h" />
 
 
             <RelativeLayout
@@ -162,7 +164,7 @@
 
                 <TextView
                     style="@style/TextLabel"
-                    android:text="@string/str_sa_theme"/>
+                    android:text="@string/str_sa_theme" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -171,13 +173,14 @@
                     android:layout_centerVertical="true"
                     android:text="@string/str_theme_more"
                     android:textColor="@color/text_color_abstract"
-                    android:textSize="@dimen/s14p"/>
+                    android:textSize="@dimen/s12p" />
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
+
             <View
                 style="@style/view_line_h"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_share"
@@ -186,7 +189,7 @@
 
                 <TextView
                     style="@style/TextLabel"
-                    android:text="@string/str_sa_share"/>
+                    android:text="@string/str_sa_share" />
 
                 <ImageView
                     android:layout_width="10dp"
@@ -194,10 +197,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_right"/>
+                    android:src="@mipmap/ic_right" />
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_advice"
@@ -206,7 +209,7 @@
 
                 <TextView
                     style="@style/TextLabel"
-                    android:text="@string/str_sa_advice"/>
+                    android:text="@string/str_sa_advice" />
 
                 <ImageView
                     android:layout_width="10dp"
@@ -214,12 +217,12 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_right"/>
+                    android:src="@mipmap/ic_right" />
 
             </RelativeLayout>
 
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
 
             <!--<View  android:layout_marginTop="10dp" style="@style/view_line_h" />-->
@@ -247,7 +250,7 @@
 
                 <TextView
                     style="@style/TextLabel"
-                    android:text="@string/str_sa_about"/>
+                    android:text="@string/str_sa_about" />
 
                 <ImageView
                     android:layout_width="10dp"
@@ -255,24 +258,23 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_right"/>
+                    android:src="@mipmap/ic_right" />
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <View
                 style="@style/view_line_h"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
             <RelativeLayout
-
                 android:id="@+id/sa_rl_update"
                 style="@style/InfoDetail"
                 android:padding="16dp">
 
                 <TextView
                     style="@style/TextLabel"
-                    android:text="@string/str_sa_update"/>
+                    android:text="@string/str_sa_update" />
 
                 <TextView
                     android:id="@+id/sa_tv_ver"
@@ -281,7 +283,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:textColor="@color/text_color_abstract"
-                    android:textSize="@dimen/s14p"/>
+                    android:textSize="@dimen/s12p" />
 
                 <TextView
                     android:id="@+id/sa_tv_ver_label"
@@ -294,15 +296,15 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="6sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp" />
         </LinearLayout>
 
     </ScrollView>

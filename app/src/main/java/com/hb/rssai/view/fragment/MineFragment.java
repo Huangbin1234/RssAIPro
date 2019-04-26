@@ -2,6 +2,8 @@ package com.hb.rssai.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,9 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
 import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
@@ -37,9 +38,11 @@ import com.hb.rssai.presenter.MinePresenter;
 import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DataCleanManager;
 import com.hb.rssai.util.HttpLoadImg;
+import com.hb.rssai.util.ImageUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.util.ThemeUtils;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.common.RichTextActivity;
@@ -149,6 +152,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void setAppTitle() {
+        mMfIvToBg.setBackgroundColor(ThemeUtils.getPrimaryColor(getContext()));
     }
 
     @Override
@@ -175,6 +179,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             } else {
                 mIrsTvMsgCount.setVisibility(View.GONE);
             }
+        } else if (event.getMessage() == 3) {
+            //设置顶部背景颜色
+            mMfIvToBg.setBackgroundColor(ThemeUtils.getPrimaryColor(getContext()));
         }
     }
 
@@ -324,19 +331,56 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             } else {
                 mFmTvSignature.setVisibility(View.GONE);
             }
-            HttpLoadImg.loadCircleWithBorderImg(getContext(), ApiRetrofit.BASE_URL + user.getRetObj().getAvatar(), mFmIvAva);
-            //毛玻璃效果 与 状态栏不沉浸
-//            Glide.with(getContext()).load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar()).bitmapTransform(new BlurTransformation(getContext(), 20, 2), new CenterCrop(getContext())).into(mMfIvToBg);
-            Glide.with(getContext())
-                    .load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar())
-                    .apply(new RequestOptions())
-                    .transform(new BlurTransformation(100, 2))
-                    .into(mMfIvToBg);
 
+            byte[] bytes = ImageUtil.getLocalAvatar();
+            if (null != bytes) {
+                HttpLoadImg.loadCircleWithBorderImg(getContext(), bytes, mFmIvAva);
+                //毛玻璃效果 与 状态栏不沉浸
+                Glide.with(getContext())
+                        .load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar())
+                        .apply(new RequestOptions())
+                        .transform(new BlurTransformation(100, 2))
+                        .into(mMfIvToBg);
+            } else {
+                HttpLoadImg.loadCircleWithBorderImg(getContext(), ApiRetrofit.BASE_URL + user.getRetObj().getAvatar(), mFmIvAva);
+                //毛玻璃效果 与 状态栏不沉浸
+                Glide.with(getContext())
+                        .load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar())
+                        .apply(new RequestOptions())
+                        .transform(new BlurTransformation(100, 2))
+                        .into(mMfIvToBg);
+            }
+            saveAvatar(user.getRetObj().getAvatar());
+        }
+    }
+
+    /**
+     * Glide 加载图片保存到本地
+     * <p>
+     * imgUrl 图片地址
+     * imgName 图片名称
+     */
+    private void saveAvatar(String avatar) {
+        if (!TextUtils.isEmpty(avatar)) {
+            String cacheAvatar = SharedPreferencesUtil.getString(getContext(), Constant.KEY_CACHE_AVATAR, "");
+            if (!avatar.equals(cacheAvatar)) {
+                getActivity().runOnUiThread(() -> {
+                    try {
+                        RequestBuilder builder = Glide.with(getContext()).load(ApiRetrofit.BASE_URL + avatar);
+                        FutureTarget futureTarget = builder.submit(200, 200);
+                        Bitmap bitmap = ((BitmapDrawable) futureTarget.get()).getBitmap();
+                        ImageUtil.saveBitmap(bitmap);
+                        SharedPreferencesUtil.setString(getContext(), Constant.KEY_CACHE_AVATAR, avatar);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
         } else {
             T.ShowToast(getContext(), Constant.MSG_NETWORK_ERROR);
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

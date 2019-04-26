@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -21,6 +22,20 @@ import java.io.File;
  * Created by hb on 2016-05-14.
  */
 public class HttpLoadImg {
+
+    /**
+     * 兼容 CircleImageView有冲突  去掉動畫 dontAnimate
+     */
+    public static void loadImgNoAnimate(Activity activity, byte[] bitmap, ImageView imageView) {
+//        Glide.with(activity).load(bitmap).apply(new RequestOptions().transform(new CircleCrop()).centerCrop()).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).diskCacheStrategy(DiskCacheStrategy.ALL).
+//                priority(Priority.LOW).
+//                fallback(R.mipmap.ic_error).
+//                dontAnimate().
+//                into(imageView);
+
+        Glide.with(activity).load(bitmap).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(imageView);
+    }
+
     /**
      * TODO: 加载图片,
      *
@@ -90,9 +105,9 @@ public class HttpLoadImg {
     /**ic_error.png
      * 下载图片转圆形带边框2dp
      */
-//    public static void loadCircleWithBorderImg(Context context, Integer resId, ImageView imageView) {
-//        Glide.with(context).load(resId).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
-//    }
+    public static void loadCircleWithBorderImg(Context context, byte[] bitmap, ImageView imageView) {
+        Glide.with(context).load(bitmap).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleTransformWithBorder(context, 2, context.getResources().getColor(R.color.white))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+    }
     /**
      * 下载图片转圆形带边框2dp
      */

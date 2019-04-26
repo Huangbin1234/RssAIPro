@@ -1,11 +1,11 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
-        <item name="colorPrimary">@color/color_toolbar_bg</item>
-        <item name="colorPrimaryDark">@color/bg_theme</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="actionMenuTextColor">@color/white</item>
-    </style>
+    <!--<style name="AppTheme" parent="Theme.AppCompat.DayNight">-->
+    <!--<item name="colorPrimary">@color/color_toolbar_bg</item>-->
+    <!--<item name="colorPrimaryDark">@color/bg_theme</item>-->
+    <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--<item name="actionMenuTextColor">@color/white</item>-->
+    <!--</style>-->
 
     <style name="ClubToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="contentInsetStart">0dp</item><!-- 设置该属性解决空白部分-->
@@ -116,29 +116,19 @@
     <!--TODO 下面为夜间模式切换相关-->
     <style name="AppTheme2" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
         <item name="colorPrimaryDark">@color/bg_theme</item>
-        <!--<item name="colorAccent">@color/colorAccent</item>-->
-        <!--&lt;!&ndash;customize your theme here&ndash;&gt;-->
-        <!--<item name="windowNoTitle">true</item>-->
-        <!--<item name="windowActionBar">false</item>-->
-        <!--<item name="colorControlNormal">@color/white</item>-->
+        <item name="colorAccent">@color/color_toolbar_bg</item>
+
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/color_toolbar_bg</item>
         <!--<item name="colorControlActivated">#05896f</item>-->
-        <!--<item name="toolbarStyle">@style/ClubToolbar</item>-->
-        <!--<item name="android:listDivider">@drawable/divider</item>-->
-        <!--<item name="toolbarNavigationButtonStyle">@style/myToolbarNavigationButtonStyle</item>-->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="colorControlNormal">@color/white</item>
-        <!--<item name="colorControlNormal">@color/text_color_abstract</item>-->
-        <item name="colorControlActivated">#05896f</item>
         <item name="toolbarStyle">@style/ClubToolbar</item>
-        <item name="colorAccent">@color/color_toolbar_bg</item>
         <item name="android:listDivider">@drawable/divider</item>
         <item name="toolbarNavigationButtonStyle">@style/myToolbarNavigationButtonStyle</item>
-
     </style>
-    <!--<item name="android:windowTranslucentStatus">true</item>-->
+
     <style name="WindowAnimationFadeInOut">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>
@@ -193,6 +183,7 @@
         <item name="colorAccent">@color/color_toolbar_bg</item>
         <item name="colorPrimary">@color/color_toolbar_bg</item>
         <item name="colorPrimaryDark">@color/color_toolbar_bg</item>
+        <item name="colorControlActivated">@color/color_toolbar_bg</item>
     </style>
 
     <style name="Theme_blue">
@@ -200,6 +191,7 @@
         <!--<item name="colorPrimaryDark">@color/lightblue700</item>-->
         <item name="colorPrimaryDark">@color/lightblue500</item>
         <item name="colorAccent">@color/lightblue500</item>
+        <item name="colorControlActivated">@color/lightblue500</item>
     </style>
 
     <style name="Theme_green">
@@ -207,12 +199,14 @@
         <!--<item name="colorPrimaryDark">@color/teal700</item>-->
         <item name="colorPrimaryDark">@color/teal500</item>
         <item name="colorAccent">@color/teal500</item>
+        <item name="colorControlActivated">@color/teal500</item>
     </style>
 
     <style name="Theme_Theme1">
         <item name="colorPrimary">@color/red500</item>
         <item name="colorPrimaryDark">@color/red700</item>
         <item name="colorAccent">@color/red500</item>
+
     </style>
 
     <style name="Theme_Theme2">
@@ -261,13 +255,15 @@
         <item name="colorPrimary">@color/teal500</item>
         <item name="colorPrimaryDark">@color/teal700</item>
         <item name="colorAccent">@color/teal500</item>
+
     </style>
 
     <style name="Theme_Theme10">
         <item name="colorPrimary">@color/green500</item>
-        <item name="colorPrimaryDark">@color/green700</item>
+        <item name="colorPrimaryDark">@color/green500</item>
         <!--<item name="colorPrimaryDark">@color/green500</item>-->
         <item name="colorAccent">@color/green500</item>
+        <item name="colorControlActivated">@color/green500</item>
     </style>
 
     <style name="Theme_Theme11">
@@ -296,9 +292,10 @@
 
     <style name="Theme_Theme15">
         <item name="colorPrimary">@color/orange500</item>
-        <item name="colorPrimaryDark">@color/orange700</item>
+        <item name="colorPrimaryDark">@color/orange500</item>
         <!--<item name="colorPrimaryDark">@color/orange500</item>-->
         <item name="colorAccent">@color/orange500</item>
+        <item name="colorControlActivated">@color/orange500</item>
     </style>
 
     <style name="Theme_Theme16">
@@ -309,9 +306,10 @@
 
     <style name="Theme_Theme17">
         <item name="colorPrimary">@color/brown500</item>
-        <item name="colorPrimaryDark">@color/brown700</item>
+        <item name="colorPrimaryDark">@color/brown500</item>
         <!--<item name="colorPrimaryDark">@color/brown500</item>-->
         <item name="colorAccent">@color/brown500</item>
+        <item name="colorControlActivated">@color/brown500</item>
     </style>
 
     <style name="Theme_Theme18">

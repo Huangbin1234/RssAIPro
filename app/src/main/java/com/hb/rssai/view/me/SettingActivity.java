@@ -38,6 +38,7 @@ import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.MainEvent;
+import com.hb.rssai.event.MineEvent;
 import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.util.DisplayUtil;
@@ -116,6 +117,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
+
+
         int dateFrom = SharedPreferencesUtil.getInt(this, Constant.KEY_DATA_FROM, 0);
         if (dateFrom == 0) {
             mSaSwChangeSource.setChecked(false);
@@ -413,6 +416,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         ThemeUtils.setToolbarColor(SettingActivity.this, ThemeUtils.getPrimaryColor(SettingActivity.this));
         ThemeUtils.setWindowStatusBarColor(SettingActivity.this, ThemeUtils.getPrimaryDarkColor(SettingActivity.this));
 
+        getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
+        recreate();
+
+        EventBus.getDefault().post(new MineEvent(3));
     }
 
     PrgDialog dialog;

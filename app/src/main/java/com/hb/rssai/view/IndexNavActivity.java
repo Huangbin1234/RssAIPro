@@ -3,6 +3,7 @@ package com.hb.rssai.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,11 +26,12 @@ import com.hb.rssai.runtimePermissions.PermissionsChecker;
 import com.hb.rssai.util.BottomNavigationViewHelper;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.util.ThemeUtils;
 import com.hb.rssai.view.fragment.FindFragment;
-import com.hb.rssai.view.fragment.HomeFragment;
 import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.rssai.view.fragment.TabFragment;
+import com.hb.rssai.view.me.SettingActivity;
 import com.hb.update.UpdateManager;
 import com.jaeger.library.StatusBarUtil;
 import com.zzhoujay.richtext.RichText;
@@ -114,7 +116,7 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
         if (savedInstanceState != null) {//恢复现场
             int id = savedInstanceState.getInt("positionId");
             FragmentManager fm = getSupportFragmentManager();
-            tabFragment = (TabFragment) fm.getFragment(savedInstanceState, HomeFragment.class.getSimpleName());
+            tabFragment = (TabFragment) fm.getFragment(savedInstanceState, TabFragment.class.getSimpleName());
             subscriptionFragment = (SubscriptionFragment) fm.getFragment(savedInstanceState, SubscriptionFragment.class.getSimpleName());
             findFragment = (FindFragment) fm.getFragment(savedInstanceState, FindFragment.class.getSimpleName());
             mineFragment = (MineFragment) fm.getFragment(savedInstanceState, MineFragment.class.getSimpleName());
@@ -257,7 +259,7 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
 
         FragmentManager fm = getSupportFragmentManager();
         if (tabFragment.isAdded()) {
-            fm.putFragment(outState, HomeFragment.class.getSimpleName(), tabFragment);
+            fm.putFragment(outState, TabFragment.class.getSimpleName(), tabFragment);
         }
         if (subscriptionFragment.isAdded()) {
             fm.putFragment(outState, SubscriptionFragment.class.getSimpleName(), subscriptionFragment);

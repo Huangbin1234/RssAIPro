@@ -22,7 +22,13 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.Log;
 
+import com.hb.rssai.constants.Constant;
+import com.hb.util.SdUtils;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ImageUtil {
@@ -269,4 +275,102 @@ public class ImageUtil {
         Log.d("textAsBitmap", String.format("1:%d %d", layout.getWidth(), layout.getHeight()));
         return bitmap;
     }
+
+    /**
+     * 获取缩放后的本地图片
+     *
+     * @param filePath 文件路径
+     * @param width    宽
+     * @param height   高
+     * @return
+     */
+    public static Bitmap readBitmapFromFileDescriptor(String filePath, int width, int height) {
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFileDescriptor(fis.getFD(), null, options);
+            float srcWidth = options.outWidth;
+            float srcHeight = options.outHeight;
+            int inSampleSize = 1;
+
+            if (srcHeight > height || srcWidth > width) {
+                if (srcWidth > srcHeight) {
+                    inSampleSize = Math.round(srcHeight / height);
+                } else {
+                    inSampleSize = Math.round(srcWidth / width);
+                }
+            }
+
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = inSampleSize;
+
+            return BitmapFactory.decodeFileDescriptor(fis.getFD(), null, options);
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+    /**
+     * 获取头像存储地址
+     */
+    public static String getAvatarPath() {
+        String availableSdPath = SdUtils.isAllSdEnough(50);
+        String SAVE_DIR = Constant.AVATAR_SAVE_DIR;//保存文件夹名称
+        String SAVE_DIR_NAME = Constant.AVATAR_SAVE_NAME;//保存文件名称
+        return availableSdPath + SAVE_DIR + SAVE_DIR_NAME;
+    }
+
+    public static byte[] getLocalAvatar() {
+        try {
+            Bitmap bitmap = ImageUtil.readBitmapFromFileDescriptor(ImageUtil.getAvatarPath(), 200, 200);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] bytes = baos.toByteArray();
+            baos.close();
+            baos.flush();
+            return bytes;//返回一个bitmap对象
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 保存bitmap到本地
+     *
+     * @param context
+     * @param mBitmap
+     * @return
+     */
+    public static final String TAG = "GifHeaderParser";
+    public static void saveBitmap(Bitmap mBitmap) {
+        boolean isSuc;
+        try {
+            String availableSdPath = SdUtils.isAllSdEnough(50);
+            if (null != availableSdPath) {
+                File file = new File(availableSdPath + Constant.AVATAR_SAVE_DIR);
+                String apkFilePath;
+                File apkFile = null;
+                if (!file.exists()) {
+                    isSuc = file.mkdirs();
+                    if (isSuc) {
+                        apkFilePath = availableSdPath + Constant.AVATAR_SAVE_DIR + Constant.AVATAR_SAVE_NAME;
+                        apkFile = new File(apkFilePath);
+                    } else {
+                        Log.d(TAG, "文件夹" + availableSdPath + Constant.AVATAR_SAVE_DIR + "创建失败");
+                    }
+                } else {
+                    apkFilePath = availableSdPath + Constant.AVATAR_SAVE_DIR + Constant.AVATAR_SAVE_NAME;
+                    apkFile = new File(apkFilePath);
+                }
+                FileOutputStream fos = new FileOutputStream(apkFile);
+                mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
