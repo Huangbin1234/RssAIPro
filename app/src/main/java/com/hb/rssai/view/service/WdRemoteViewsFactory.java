@@ -150,7 +150,13 @@ public class WdRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
         RequestBuilder builder =  Glide.with(context) .load(pathName) .apply(new RequestOptions().transform(new RoundedCorners(10)).centerCrop());
         FutureTarget futureTarget = builder.submit(200, 200);
         try {
-            remoteViews.setImageViewBitmap(R.id.itemImage, ((BitmapDrawable) futureTarget.get()).getBitmap());
+            if( futureTarget.get() instanceof Bitmap){
+                Bitmap bitmap = (Bitmap) futureTarget.get();
+                remoteViews.setImageViewBitmap(R.id.itemImage, bitmap);
+            }else if(futureTarget.get() instanceof BitmapDrawable){
+                Bitmap bitmap = ((BitmapDrawable) futureTarget.get()).getBitmap();
+                remoteViews.setImageViewBitmap(R.id.itemImage, bitmap);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_no_image);

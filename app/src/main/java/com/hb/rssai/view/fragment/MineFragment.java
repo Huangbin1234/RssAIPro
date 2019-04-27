@@ -368,8 +368,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     try {
                         RequestBuilder builder = Glide.with(getContext()).load(ApiRetrofit.BASE_URL + avatar);
                         FutureTarget futureTarget = builder.submit(200, 200);
-                        Bitmap bitmap = ((BitmapDrawable) futureTarget.get()).getBitmap();
-                        ImageUtil.saveBitmap(bitmap);
+                        if( futureTarget.get() instanceof Bitmap){
+                            Bitmap bitmap = (Bitmap) futureTarget.get();
+                            ImageUtil.saveBitmap(bitmap);
+                        }else if(futureTarget.get() instanceof BitmapDrawable){
+                            Bitmap bitmap = ((BitmapDrawable) futureTarget.get()).getBitmap();
+                            ImageUtil.saveBitmap(bitmap);
+                        }
                         SharedPreferencesUtil.setString(getContext(), Constant.KEY_CACHE_AVATAR, avatar);
                     } catch (Exception e) {
                         e.printStackTrace();
