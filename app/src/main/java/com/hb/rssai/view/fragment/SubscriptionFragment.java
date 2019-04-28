@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.DialogAdapter;
 import com.hb.rssai.adapter.RssSourceAdapter;
+import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseFragment;
 import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.bean.RssSource;
@@ -45,6 +46,7 @@ import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.common.ContentActivity;
+import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISubscriptionView;
 import com.hb.rssai.view.me.SearchActivity;
@@ -312,6 +314,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @OnClick({R.id.sys_iv_add, R.id.sys_iv_scan, R.id.sys_iv_search, R.id.sub_ll_all, R.id.sub_ll_all_topic})
     @Override
     public void onClick(View v) {
+        String token = SharedPreferencesUtil.getString(getContext(), Constant.TOKEN, "");
         switch (v.getId()) {
             case R.id.sys_iv_add:
                 startActivity(new Intent(getContext(), AddSourceActivity.class));
@@ -323,14 +326,28 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
             case R.id.sub_ll_all:
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(SubscribeAllActivity.KEY_IS_TAG, true);
-                startActivity(new Intent(getContext(), SubscribeAllActivity.class).putExtras(bundle));
+                if (TextUtils.isEmpty(token)) {
+                    //跳转到登录
+                    Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    ProjectApplication.mContext.startActivity(intent);
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(SubscribeAllActivity.KEY_IS_TAG, true);
+                    startActivity(new Intent(getContext(), SubscribeAllActivity.class).putExtras(bundle));
+                }
                 break;
             case R.id.sub_ll_all_topic:
-                Bundle bundle2 = new Bundle();
-                bundle2.putBoolean(SubscribeAllActivity.KEY_IS_TAG, false);
-                startActivity(new Intent(getContext(), SubscribeAllActivity.class).putExtras(bundle2));
+                if (TextUtils.isEmpty(token)) {
+                    //跳转到登录
+                    Intent intent = new Intent(ProjectApplication.mContext, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    ProjectApplication.mContext.startActivity(intent);
+                } else {
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putBoolean(SubscribeAllActivity.KEY_IS_TAG, false);
+                    startActivity(new Intent(getContext(), SubscribeAllActivity.class).putExtras(bundle2));
+                }
                 break;
         }
     }

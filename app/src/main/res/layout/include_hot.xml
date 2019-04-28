@@ -17,8 +17,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
@@ -44,7 +44,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/ih_iv"
                     android:text="@string/ff_find_hot_label"
-                    android:textColor="@color/color_txt"
+                    android:textColor="@color/color_title"
                     android:textSize="@dimen/s16p" />
                 <!--android:layout_marginLeft="10dp"-->
             </RelativeLayout>
@@ -72,14 +72,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/str_ff_tv_more"
                 android:textColor="@color/color_time"
-                android:textSize="@dimen/s12p" />
+                android:textSize="@dimen/s12p"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/ff_topic_iv_all"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:src="@mipmap/ic_right_all"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -90,8 +91,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:descendantFocusability="blocksDescendants">
 
         <android.support.v7.widget.RecyclerView
@@ -106,8 +107,8 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp"
         android:background="@color/color_general_line"
         android:visibility="gone" />
 

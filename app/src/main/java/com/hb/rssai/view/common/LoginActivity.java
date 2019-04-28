@@ -104,7 +104,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
             mLaEtPassword.setCompoundDrawables(draPsd, null, null, null);
         }
 
-        byte[] bytes = ImageUtil.getLocalAvatar();
+        byte[] bytes = ImageUtil.getLocalAvatar(SharedPreferencesUtil.getString(this, Constant.KEY_CACHE_AVATAR_NAME, ""));
         if (null != bytes) {
             mLaIvAva.setVisibility(View.VISIBLE);
             HttpLoadImg.loadImgNoAnimate(this, bytes, mLaIvAva);

@@ -39,6 +39,7 @@ import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.iView.IFindView;
 import com.hb.rssai.view.me.SearchActivity;
+import com.hb.rssai.view.subscription.AddSourceActivity;
 import com.hb.rssai.view.subscription.SourceCardActivity;
 import com.hb.rssai.view.subscription.tab.TabResourceActivity;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
@@ -94,6 +95,8 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
     LinearLayout include_load_fail;
     @BindView(R.id.llf_btn_re_try)
     Button mLlfBtnReTry;
+    @BindView(R.id.sys_iv_add)
+    ImageView mSysIvAdd;
 
     private OnFragmentInteractionListener mListener;
     private LinearLayoutManager mFindMoreLinearManager;
@@ -298,10 +301,13 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.sub_ll_all, R.id.sys_iv_search, R.id.llf_btn_re_try, R.id.ll_recommend})
+    @OnClick({R.id.sys_iv_add, R.id.sub_ll_all, R.id.sys_iv_search, R.id.llf_btn_re_try, R.id.ll_recommend})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.sys_iv_add:
+                startActivity(new Intent(getContext(), AddSourceActivity.class));
+                break;
             case R.id.sub_ll_all:
                 startActivity(new Intent(getContext(), TabResourceActivity.class));
                 break;

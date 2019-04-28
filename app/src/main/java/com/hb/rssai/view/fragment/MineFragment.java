@@ -61,6 +61,8 @@ import com.zbar.lib.CaptureActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -331,26 +333,46 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             } else {
                 mFmTvSignature.setVisibility(View.GONE);
             }
+            String avatar = user.getRetObj().getAvatar();
+            if (TextUtils.isEmpty(avatar)) {
+                return;
+            }
+            //保存头像
+            saveAvatar(avatar);
+            //显示头像
+            showAvatar(avatar);
+        }
+    }
 
-            byte[] bytes = ImageUtil.getLocalAvatar();
+    private void showAvatar(String avatar) {
+        String cacheAvatar = SharedPreferencesUtil.getString(getContext(), Constant.KEY_CACHE_AVATAR, "");
+        if (!avatar.equals(cacheAvatar)) {
+            HttpLoadImg.loadCircleWithBorderImg(getContext(), ApiRetrofit.BASE_URL + avatar, mFmIvAva);
+            //毛玻璃效果 与 状态栏不沉浸
+            Glide.with(getContext())
+                    .load(ApiRetrofit.BASE_URL + avatar)
+                    .apply(new RequestOptions())
+                    .transform(new BlurTransformation(100, 2))
+                    .into(mMfIvToBg);
+        } else {
+            byte[] bytes = ImageUtil.getLocalAvatar(SharedPreferencesUtil.getString(getContext(), Constant.KEY_CACHE_AVATAR_NAME, ""));
             if (null != bytes) {
                 HttpLoadImg.loadCircleWithBorderImg(getContext(), bytes, mFmIvAva);
                 //毛玻璃效果 与 状态栏不沉浸
                 Glide.with(getContext())
-                        .load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar())
+                        .load(bytes)
                         .apply(new RequestOptions())
                         .transform(new BlurTransformation(100, 2))
                         .into(mMfIvToBg);
             } else {
-                HttpLoadImg.loadCircleWithBorderImg(getContext(), ApiRetrofit.BASE_URL + user.getRetObj().getAvatar(), mFmIvAva);
+                HttpLoadImg.loadCircleWithBorderImg(getContext(), ApiRetrofit.BASE_URL + avatar, mFmIvAva);
                 //毛玻璃效果 与 状态栏不沉浸
                 Glide.with(getContext())
-                        .load(ApiRetrofit.BASE_URL + user.getRetObj().getAvatar())
+                        .load(ApiRetrofit.BASE_URL + avatar)
                         .apply(new RequestOptions())
                         .transform(new BlurTransformation(100, 2))
                         .into(mMfIvToBg);
             }
-            saveAvatar(user.getRetObj().getAvatar());
         }
     }
 
@@ -362,27 +384,28 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
      */
     private void saveAvatar(String avatar) {
         if (!TextUtils.isEmpty(avatar)) {
+            byte[] bytes = ImageUtil.getLocalAvatar(SharedPreferencesUtil.getString(getContext(), Constant.KEY_CACHE_AVATAR_NAME, ""));
             String cacheAvatar = SharedPreferencesUtil.getString(getContext(), Constant.KEY_CACHE_AVATAR, "");
-            if (!avatar.equals(cacheAvatar)) {
-                getActivity().runOnUiThread(() -> {
+            if (!avatar.equals(cacheAvatar) || null == bytes) {
+                new Thread(() -> {
                     try {
                         RequestBuilder builder = Glide.with(getContext()).load(ApiRetrofit.BASE_URL + avatar);
                         FutureTarget futureTarget = builder.submit(200, 200);
-                        if( futureTarget.get() instanceof Bitmap){
+                        String t = "" + new Date().getTime();
+                        if (futureTarget.get() instanceof Bitmap) {
                             Bitmap bitmap = (Bitmap) futureTarget.get();
-                            ImageUtil.saveBitmap(bitmap);
-                        }else if(futureTarget.get() instanceof BitmapDrawable){
+                            ImageUtil.saveBitmap(bitmap, t);
+                        } else if (futureTarget.get() instanceof BitmapDrawable) {
                             Bitmap bitmap = ((BitmapDrawable) futureTarget.get()).getBitmap();
-                            ImageUtil.saveBitmap(bitmap);
+                            ImageUtil.saveBitmap(bitmap, t);
                         }
                         SharedPreferencesUtil.setString(getContext(), Constant.KEY_CACHE_AVATAR, avatar);
+                        SharedPreferencesUtil.setString(getContext(), Constant.KEY_CACHE_AVATAR_NAME, t);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                });
+                }).start();
             }
-        } else {
-            T.ShowToast(getContext(), Constant.MSG_NETWORK_ERROR);
         }
     }
 

@@ -85,7 +85,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@id/iv_web_server"
                                         android:text="@string/sub_label_topic"
-                                        android:textColor="@color/color_txt"
+                                        android:textColor="@color/color_title"
                                         android:textSize="@dimen/s16p" />
 
 
@@ -114,6 +114,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/str_sub_tv_all"
                                         android:textColor="@color/color_time"
+                                        android:visibility="gone"
                                         android:textSize="@dimen/s12p" />
                                     <!--android:layout_marginRight="5dp"-->
                                     <ImageView
@@ -121,7 +122,7 @@
                                         android:layout_width="10dp"
                                         android:layout_height="10dp"
                                         android:src="@mipmap/ic_right_all"
-                                        android:visibility="gone" />
+                                        android:visibility="visible" />
                                 </LinearLayout>
                             </FrameLayout>
 
@@ -199,7 +200,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@id/iv_vip"
                                         android:text="@string/sub_label"
-                                        android:textColor="@color/color_txt"
+                                        android:textColor="@color/color_title"
                                         android:textSize="@dimen/s16p" />
 
 
@@ -226,8 +227,8 @@
                                         android:id="@+id/tv_sub_right_all"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-
                                         android:text="@string/str_sub_tv_all"
+                                        android:visibility="gone"
                                         android:textColor="@color/color_time"
                                         android:textSize="@dimen/s12p" />
                                     <!--android:layout_marginRight="5dp"-->
@@ -236,7 +237,7 @@
                                         android:layout_width="10dp"
                                         android:layout_height="10dp"
                                         android:src="@mipmap/ic_right_all"
-                                        android:visibility="gone" />
+                                        android:visibility="visible" />
                                 </LinearLayout>
                             </FrameLayout>
 

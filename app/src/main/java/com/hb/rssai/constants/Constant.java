@@ -1,6 +1,7 @@
 package com.hb.rssai.constants;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2017/4/25.
@@ -60,6 +61,7 @@ public class Constant {
     public static final String KEY_DATA_GROUP = "key_data_group";//本地缓存分类
     public static final String KEY_DATA_GROUP_TIME = "key_data_group_time";//本地缓存分类时间 ms
     public static final String KEY_CACHE_AVATAR = "key_avatar";//头像
+    public static final String KEY_CACHE_AVATAR_NAME = "key_avatar_name";//头像名
 
 
     public static String START_TIME = "1990-01-01 00:00:00";
@@ -74,6 +76,6 @@ public class Constant {
 
     //头像
     public static final String AVATAR_SAVE_DIR = "/GeneralUpdateLib/";
-    public static final String AVATAR_SAVE_NAME = "zr_avatar_img.png";
+//    public static final String AVATAR_SAVE_NAME = "zr_avatar_img.png";
 
 }

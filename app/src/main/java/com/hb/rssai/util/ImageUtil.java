@@ -20,6 +20,7 @@ import android.provider.MediaStore.MediaColumns;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.hb.rssai.constants.Constant;
@@ -117,12 +118,12 @@ public class ImageUtil {
      */
     public static String getPath(Uri uri, Activity act) {
         /*
-		 * String[] projection = { MediaStore.Images.Media.DATA }; Cursor cursor
-		 * = getContentResolver().query(uri, projection, null, null, null); int
-		 * column_index = cursor
-		 * .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		 * cursor.moveToFirst(); return cursor.getString(column_index);
-		 */
+         * String[] projection = { MediaStore.Images.Media.DATA }; Cursor cursor
+         * = getContentResolver().query(uri, projection, null, null, null); int
+         * column_index = cursor
+         * .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+         * cursor.moveToFirst(); return cursor.getString(column_index);
+         */
         // 由于原先的方式不支持系统4.4.4版本
         return getImageAbsolutePath(act, uri);
     }
@@ -265,8 +266,8 @@ public class ImageUtil {
         // textPaint.setARGB(0x31, 0x31, 0x31, 0);
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(textSize);
-        StaticLayout layout = new StaticLayout(text, textPaint, 100,Layout.Alignment.ALIGN_NORMAL, 1.3f, 0.0f, true);
-        Bitmap bitmap = Bitmap.createBitmap(layout.getWidth() + 20,layout.getHeight() + 20, Bitmap.Config.ARGB_8888);
+        StaticLayout layout = new StaticLayout(text, textPaint, 100, Layout.Alignment.ALIGN_NORMAL, 1.3f, 0.0f, true);
+        Bitmap bitmap = Bitmap.createBitmap(layout.getWidth() + 20, layout.getHeight() + 20, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.translate(10, 10);
         canvas.drawColor(Color.YELLOW);
@@ -310,19 +311,23 @@ public class ImageUtil {
         }
         return null;
     }
+
     /**
      * 获取头像存储地址
      */
-    public static String getAvatarPath() {
+    public static String getAvatarPath(String avatarName) {
         String availableSdPath = SdUtils.isAllSdEnough(50);
         String SAVE_DIR = Constant.AVATAR_SAVE_DIR;//保存文件夹名称
-        String SAVE_DIR_NAME = Constant.AVATAR_SAVE_NAME;//保存文件名称
+        String SAVE_DIR_NAME = avatarName;//保存文件名称
         return availableSdPath + SAVE_DIR + SAVE_DIR_NAME;
     }
 
-    public static byte[] getLocalAvatar() {
+    public static byte[] getLocalAvatar(String avatarName) {
+        if (TextUtils.isEmpty(avatarName)) {
+            return null;
+        }
         try {
-            Bitmap bitmap = ImageUtil.readBitmapFromFileDescriptor(ImageUtil.getAvatarPath(), 200, 200);
+            Bitmap bitmap = ImageUtil.readBitmapFromFileDescriptor(ImageUtil.getAvatarPath(avatarName + ".jpg"), 200, 200);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] bytes = baos.toByteArray();
@@ -343,7 +348,8 @@ public class ImageUtil {
      * @return
      */
     public static final String TAG = "GifHeaderParser";
-    public static void saveBitmap(Bitmap mBitmap) {
+
+    public static void saveBitmap(Bitmap mBitmap, String avatarName) {
         boolean isSuc;
         try {
             String availableSdPath = SdUtils.isAllSdEnough(50);
@@ -354,23 +360,55 @@ public class ImageUtil {
                 if (!file.exists()) {
                     isSuc = file.mkdirs();
                     if (isSuc) {
-                        apkFilePath = availableSdPath + Constant.AVATAR_SAVE_DIR + Constant.AVATAR_SAVE_NAME;
+                        apkFilePath = availableSdPath + Constant.AVATAR_SAVE_DIR + avatarName + ".jpg";
                         apkFile = new File(apkFilePath);
                     } else {
                         Log.d(TAG, "文件夹" + availableSdPath + Constant.AVATAR_SAVE_DIR + "创建失败");
                     }
                 } else {
-                    apkFilePath = availableSdPath + Constant.AVATAR_SAVE_DIR + Constant.AVATAR_SAVE_NAME;
+                    delAllFile(availableSdPath + Constant.AVATAR_SAVE_DIR);
+                    apkFilePath = availableSdPath + Constant.AVATAR_SAVE_DIR + avatarName + ".jpg";
                     apkFile = new File(apkFilePath);
                 }
                 FileOutputStream fos = new FileOutputStream(apkFile);
                 mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                 fos.flush();
                 fos.close();
+                Log.d(TAG, "图片保存成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d(TAG, e.getMessage());
         }
     }
 
+    /**
+     * 删除指定文件夹下所有文件
+     *
+     * @param path 文件夹完整绝对路径
+     * @return
+     */
+    public static boolean delAllFile(String path) {
+        boolean flag = false;
+        File file = new File(path);
+        if (!file.exists()) {
+            return flag;
+        }
+        if (!file.isDirectory()) {
+            return flag;
+        }
+        String[] tempList = file.list();
+        File temp = null;
+        for (int i = 0; i < tempList.length; i++) {
+            if (path.endsWith(File.separator)) {
+                temp = new File(path + tempList[i]);
+            } else {
+                temp = new File(path + File.separator + tempList[i]);
+            }
+            if (temp.isFile()) {
+                temp.delete();
+            }
+        }
+        return flag;
+    }
 }
