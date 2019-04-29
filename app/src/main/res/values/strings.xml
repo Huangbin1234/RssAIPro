@@ -54,7 +54,7 @@
     <string name="str_sub_title">我的订阅</string>
     <string name="str_sub_tv_all">更多</string>
     <string name="str_sa_advice">反馈意见</string>
-    <string name="str_asa_btn_opml">导入OPML文件</string>
+    <string name="str_asa_btn_opml">加载OPML链接</string>
     <string name="str_main_find">发现</string>
     <string name="ff_find_more_label">精选</string>
     <string name="ff_find_topic_label">专题推荐</string>
@@ -167,5 +167,6 @@
     <string name="str_orange">橙色</string>
     <string name="str_yellow">黄色</string>
     <string name="str_black">黑色</string>
+    <string name="str_asa_btn_opml_file">选择OPML文件</string>
 
 </resources>

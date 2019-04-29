@@ -320,25 +320,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         return SharedPreferencesUtil.getString(this, Constant.USER_ID, "");
     }
 
-    //    public void showPop(int i, String title) {
-//        showPopView(i, title);
-//        if (mPop.isShowing()) {
-//            mPop.dismiss();
-//        } else {
-//            mPop.setAnimationStyle(R.style.PopupAnimation);
-//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-//                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, 0, 0);
-//            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, 0, 0);
-//            } else {
-//                mPop.showAtLocation(mActivityAddSource, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
-//            }
-//            mPop.update();
-//        }
-//        backgroundAlpha(0.5f);
-//        mPop.setOnDismissListener(new PopOnDismissListener());
-//
-//    }
     public void showPop(int i, String title) {
         showPopView(i, title);
         if (mPop.isShowing()) {
@@ -355,11 +336,30 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         }
         backgroundAlpha(0.5f);
         mPop.setOnDismissListener(dialogInterface -> {
-            //Log.v("List_noteTypeActivity:", "我是关闭事件");
             backgroundAlpha(1f);
         });
     }
 
+//    public  void openAndroidFile(String filepath){
+//        Intent intent = new Intent("android.intent.action.VIEW");
+//        intent.addCategory("android.intent.category.DEFAULT");
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        Uri uri;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            //data是file类型,忘了复制过来
+//            uri = FileProvider.getUriForFile(this, getPackageName()+".fileprovider", data);
+//        } else {
+//            uri=Uri.fromFile(data);
+//        }
+//        //pdf文件要被读取所以加入读取权限
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        intent.setDataAndType(uri, "text/plain");
+//        try {
+//            startActivity(intent);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void setPresenter(AddSourcesContract.Presenter presenter) {
@@ -461,6 +461,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
     Button pas_btn_sure;
     Button pas_btn_opml;
+    Button pas_btn_opml_file;
     EditText pas_et_link;
     EditText pas_et_name;
     ImageView pas_btn_close;
@@ -468,21 +469,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     LinearLayout pas_ll_link;
     LinearLayout pas_ll_name;
     ImageView pas_iv_scan;
-
-    /**
-     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
-     *
-     * @author cg
-     */
-//    class PopOnDismissListener implements PopupWindow.OnDismissListener {
-//
-//        @Override
-//        public void onDismiss() {
-//            // TODO Auto-generated method stub
-//            //Log.v("List_noteTypeActivity:", "我是关闭事件");
-//            backgroundAlpha(1f);
-//        }
-//    }
 
     /**
      * 设置添加屏幕的背景透明度
@@ -498,16 +484,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
     private void showPopView(int flag, String title) {
         if (mPop == null) {
-//            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//            popupView = inflater.inflate(R.layout.pop_add_source, null);
-//            mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
-//
-//            mPop.setFocusable(true);
-//            ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
-//            mPop.setBackgroundDrawable(cd);
-//            mPop.update();
-//            mPop.setOutsideTouchable(true);
+
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -519,6 +496,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             pas_tv_title = (TextView) popupView.findViewById(R.id.pas_tv_title);
             pas_btn_opml = (Button) popupView.findViewById(R.id.pas_btn_opml);
             pas_et_link = (EditText) popupView.findViewById(R.id.pas_et_link);
+            pas_btn_opml_file = (Button) popupView.findViewById(R.id.pas_btn_opml_file);
             pas_et_name = (EditText) popupView.findViewById(R.id.pas_et_name);
             pas_btn_close = (ImageView) popupView.findViewById(R.id.pas_btn_close);
 
@@ -531,19 +509,26 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         pas_tv_title.setText(title);
         if (flag == 1) {
             pas_btn_opml.setVisibility(View.GONE);
+//            pas_btn_opml_file.setVisibility(View.GONE);
             pas_btn_sure.setVisibility(View.VISIBLE);
             pas_ll_link.setVisibility(View.GONE);
+            pas_et_name.setHint("如Rss、人物名等");
             pas_ll_name.setVisibility(View.VISIBLE);
+
         } else if (flag == 2) {
             pas_btn_opml.setVisibility(View.GONE);
+//            pas_btn_opml_file.setVisibility(View.GONE);
             pas_btn_sure.setVisibility(View.VISIBLE);
+            pas_et_link.setHint("输入源链接");
             pas_ll_link.setVisibility(View.VISIBLE);
             pas_ll_name.setVisibility(View.VISIBLE);
         } else if (flag == 3) {
             pas_btn_opml.setVisibility(View.VISIBLE);
+            pas_et_link.setHint("例如http://xxx.com/opml.xml");
             pas_btn_sure.setVisibility(View.GONE);
             pas_ll_name.setVisibility(View.GONE);
             pas_ll_link.setVisibility(View.VISIBLE);
+//            pas_btn_opml_file.setVisibility(View.VISIBLE);
         }
         pas_btn_close.setOnClickListener(arg0 -> {
             if (mPop.isShowing()) {
@@ -554,15 +539,23 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
         });
         pas_btn_opml.setOnClickListener(v -> {
-            T.ShowToast(this, "功能优化中暂不开放");
-            return;
-//            String link2 = pas_et_link.getText().toString().trim();
-//            if (TextUtils.isEmpty(link2)) {
-//                T.ShowToast(this, "请输入opml链接地址");
-//                return;
-//            }
-//            opmlTask = new OpmlTask();
-//            opmlTask.execute(link2);
+//            T.ShowToast(this, "功能优化中暂不开放");
+//            return;
+            //TODO 选择opml文件
+            String link2 = pas_et_link.getText().toString().trim();
+            if (TextUtils.isEmpty(link2)) {
+                T.ShowToast(this, "请输入opml链接地址");
+                return;
+            }
+            opmlTask = new OpmlTask();
+            opmlTask.execute(link2);
+        });
+        pas_btn_opml_file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO 打开OPML文件并读取
+
+            }
         });
         pas_btn_sure.setOnClickListener(arg0 -> {
 

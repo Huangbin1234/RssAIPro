@@ -57,7 +57,7 @@
                             android:layout_height="wrap_content"
                             android:text="全选/反选"
                             android:textColor="@color/color_txt"
-                            android:textSize="@dimen/s18p" />
+                            android:textSize="@dimen/s16p" />
 
                         <CheckBox
                             android:id="@+id/oa_chk_all"
