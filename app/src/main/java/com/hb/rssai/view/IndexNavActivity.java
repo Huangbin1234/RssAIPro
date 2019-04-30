@@ -3,7 +3,6 @@ package com.hb.rssai.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,12 +25,10 @@ import com.hb.rssai.runtimePermissions.PermissionsChecker;
 import com.hb.rssai.util.BottomNavigationViewHelper;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.util.ThemeUtils;
 import com.hb.rssai.view.fragment.FindFragment;
 import com.hb.rssai.view.fragment.MineFragment;
 import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.rssai.view.fragment.TabFragment;
-import com.hb.rssai.view.me.SettingActivity;
 import com.hb.update.UpdateManager;
 import com.jaeger.library.StatusBarUtil;
 import com.zzhoujay.richtext.RichText;
@@ -72,6 +69,9 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
     static final String[] PERMISSIONS = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+    // 所需的全部权限
+    static final String[] PERMISSIONS_CAMERA = new String[]{
             Manifest.permission.CAMERA
     };
 
@@ -153,6 +153,7 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
             }
         }
     }
+
 
     @Override
     protected int providerContentViewId() {
@@ -275,17 +276,51 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
     @Override
     protected void onResume() {
         super.onResume();
+        loadPermissions();
+//        if (reqPer == 2) {
+//            loadCameraPermissions();
+//        }
+    }
+
+    /**
+     * 存储权限
+     */
+    private void loadPermissions() {
         // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
                 startPermissionsActivity();
             }
         }
+    }
 
+    /**
+     * 相机权限
+     */
+    public void loadCameraPermissions() {
+        // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (mPermissionsChecker.lacksPermissions(PERMISSIONS_CAMERA)) {
+                startCameraPermissionsActivity();
+            }
+        }
+    }
+
+    public boolean isCameraPermissions() {
+        // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return mPermissionsChecker.lacksPermissions(PERMISSIONS_CAMERA);
+        } else {
+            return true;
+        }
     }
 
     private void startPermissionsActivity() {
         PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+    }
+
+    private void startCameraPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS_CAMERA);
     }
 
     @Override

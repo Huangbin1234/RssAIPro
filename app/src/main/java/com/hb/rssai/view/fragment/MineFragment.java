@@ -43,6 +43,7 @@ import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.util.ThemeUtils;
+import com.hb.rssai.view.IndexNavActivity;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.common.RichTextActivity;
@@ -253,7 +254,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
             case R.id.fm_ll_scan:
-                startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUEST_CODE);
+//                EventBus.getDefault().post(new MainEvent(2));
+                if (!((IndexNavActivity) getActivity()).isCameraPermissions()) {
+                    startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUEST_CODE);
+                } else {
+                    ((IndexNavActivity) getActivity()).loadCameraPermissions();
+                }
                 break;
             case R.id.fm_ll_avatar:
                 toLogin(FLAG_USER_ACTIVITY);
