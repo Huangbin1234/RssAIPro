@@ -48,7 +48,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ONE_IMAGE = 2;
     private static final int TYPE_THREE_IMAGE = 3;
     private String title;
-    private String time;
+
     private ResInformation.RetObjBean.RowsBean rowsBean;
 
     public InfoAdapter(Context mContext, List<ResInformation.RetObjBean.RowsBean> rssList) {
@@ -64,7 +64,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (TextUtils.isEmpty(rssList.get(position).getImageUrls())) {
+        if (null == rssList || null == rssList.get(position) || TextUtils.isEmpty(rssList.get(position).getImageUrls())) {
             return TYPE_NO_IMAGE;
         }
         String[] images = rssList.get(position).getImageUrls().split(",http");
@@ -93,7 +93,11 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        String time = "";
         rowsBean = rssList.get(position);
+        if(null==rowsBean){
+            return;
+        }
         title = rowsBean.getTitle() != null ? rowsBean.getTitle() : "";
         try {
             time = DateUtil.showDate(sdf.parse(rowsBean.getPubTime()), longDatePat);
@@ -137,7 +141,6 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((ThreeImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         }
     }
-
 
 
     private void click(int position) {

@@ -86,6 +86,18 @@ public class TabDataFragment extends BaseFragment implements ITabDataView {
                 R.color.refresh_progress_2, R.color.refresh_progress_3);
         mFtdSwipeLayout.setProgressViewOffset(true, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+
+        mLlfBtnReTry.setOnClickListener(v -> {
+            DF = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_DATA_FROM, 0);
+            if (DF == 0) {
+                isUser = false;
+                ((TabDataPresenter) mPresenter).getList();
+            } else if (DF == 1) {
+                isUser = true;
+                dataType = 10;
+                ((TabDataPresenter) mPresenter).getUserList();
+            }
+        });
     }
 
     public OnBackTopListener getOnBackTopListener() {
