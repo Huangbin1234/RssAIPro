@@ -520,6 +520,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 //            pas_btn_opml_file.setVisibility(View.GONE);
             pas_btn_sure.setVisibility(View.VISIBLE);
             pas_et_link.setHint("输入源链接");
+            pas_et_name.setHint("输入源名称");
             pas_ll_link.setVisibility(View.VISIBLE);
             pas_ll_name.setVisibility(View.VISIBLE);
         } else if (flag == 3) {

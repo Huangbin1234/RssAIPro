@@ -311,7 +311,7 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return mPermissionsChecker.lacksPermissions(PERMISSIONS_CAMERA);
         } else {
-            return true;
+            return false;
         }
     }
 
