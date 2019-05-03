@@ -1,9 +1,11 @@
 package com.hb.rssai.view.subscription;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -35,6 +37,8 @@ import com.hb.rssai.contract.AddSourcesContract;
 import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.presenter.AddRssPresenter;
 import com.hb.rssai.presenter.BasePresenter;
+import com.hb.rssai.runtimePermissions.PermissionsActivity;
+import com.hb.rssai.runtimePermissions.PermissionsChecker;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -113,10 +117,17 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     String rssLink = "";
 
     AddSourcesContract.Presenter mPresenter;
+    private PermissionsChecker mPermissionsChecker;
+
+    // 所需的全部权限
+    static final String[] PERMISSIONS_CAMERA = new String[]{
+            Manifest.permission.CAMERA
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPermissionsChecker = new PermissionsChecker(this);
         mPresenter.getList(page);
     }
 
@@ -229,7 +240,12 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 mPresenter.addRss(rssLink, rssTitle, getUserID());
                 break;
             case R.id.asa_iv_scan:
-                startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
+//                startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
+                if (!isCameraPermissions()) {
+                    startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
+                } else {
+                    loadCameraPermissions();
+                }
                 break;
             case R.id.asa_btn_opml:
                 String link2 = mAsaEtUrl.getText().toString().trim();
@@ -537,7 +553,12 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             }
         });
         pas_iv_scan.setOnClickListener(v -> {
-            startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
+            if (!isCameraPermissions()) {
+                startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
+            } else {
+                loadCameraPermissions();
+            }
+//            startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
         });
         pas_btn_opml.setOnClickListener(v -> {
 //            T.ShowToast(this, "功能优化中暂不开放");
@@ -607,5 +628,30 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 opmlTask.execute(link2);
             }
         });
+    }
+
+    /**
+     * 相机权限
+     */
+    public void loadCameraPermissions() {
+        // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (mPermissionsChecker.lacksPermissions(PERMISSIONS_CAMERA)) {
+                startCameraPermissionsActivity();
+            }
+        }
+    }
+
+    public boolean isCameraPermissions() {
+        // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return mPermissionsChecker.lacksPermissions(PERMISSIONS_CAMERA);
+        } else {
+            return false;
+        }
+    }
+    private final int REQUEST_CODE = 1;
+    private void startCameraPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS_CAMERA);
     }
 }

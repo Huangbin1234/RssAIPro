@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -100,7 +99,7 @@ public class HttpLoadImg {
     public static void loadCircleWithBorderImg(Context context, String url, ImageView imageView) {
 //        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleWithBorderTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
 
-        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleTransformWithBorder(context, 2, context.getResources().getColor(R.color.white))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleTransformWithBorder(context, 1, context.getResources().getColor(R.color.white))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
     /**ic_error.png
      * 下载图片转圆形带边框2dp

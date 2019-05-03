@@ -48,7 +48,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
             android:background="@drawable/ll_selector"
-            android:elevation="4dp"
+            android:elevation="2dp"
             android:orientation="vertical"
             app:cardElevation="2dp">
 
