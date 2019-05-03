@@ -40,6 +40,9 @@ public class ProjectApplication extends MultiDexApplication{
         sApplication = this;
         // TODO: 初始化数据库
         LiteOrmDBUtil.createDb(this);
+
+//        RichText.initCacheDir(this);
+//        RichText.debugMode = false;
     }
 
     public static ProjectApplication getApplication() {

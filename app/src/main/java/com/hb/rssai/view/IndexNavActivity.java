@@ -31,7 +31,6 @@ import com.hb.rssai.view.fragment.SubscriptionFragment;
 import com.hb.rssai.view.fragment.TabFragment;
 import com.hb.update.UpdateManager;
 import com.jaeger.library.StatusBarUtil;
-import com.zzhoujay.richtext.RichText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -229,7 +228,7 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
                     firstTime = secondTime;
                     return true;
                 } else {
-                    RichText.recycle();
+//                    RichText.recycle();
                     finish();
                     System.exit(0);
                 }

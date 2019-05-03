@@ -44,6 +44,7 @@ public class HtmlImageGetter implements Html.ImageGetter {
         d.addLevel(0, 0, empty);
         d.setBounds(0, 0, DisplayUtil.getMobileWidth(mAct), empty.getIntrinsicHeight());
         new LoadImage().execute(source, d);
+
         return d;
     }
 

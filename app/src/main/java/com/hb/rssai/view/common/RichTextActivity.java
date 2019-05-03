@@ -55,7 +55,7 @@ import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.Log;
 import com.umeng.socialize.utils.ShareBoardlistener;
-import com.zzhoujay.richtext.RichText;
+//import com.zzhoujay.richtext.RichText;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -186,6 +186,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             spanned = Html.fromHtml(abstractContent, htmlImageGetter, null); // or for older api
         }
         mRtaTvContent.setText(spanned);
+
+//        RichText.from(abstractContent).autoFix(false).showBorder(true).autoPlay(true).into(mRtaTvContent);
 
         mRtaTvView.setOnClickListener(v -> {
             Intent intent = new Intent(RichTextActivity.this, ContentActivity.class);//创建Intent对象
@@ -397,7 +399,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RichText.recycle();
+//        RichText.recycle();
     }
 
 
