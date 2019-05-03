@@ -243,7 +243,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                             UMWeb web = new UMWeb(url);
                             web.setTitle(title);
                             web.setDescription(abstractContent);
-                            web.setThumb(new UMImage(RichTextActivity.this, R.mipmap.ic_launcher));
+                            web.setThumb(new UMImage(RichTextActivity.this, R.mipmap.load_logo));
                             new ShareAction(RichTextActivity.this).withMedia(web)
                                     .setPlatform(share_media)
                                     .setCallback(mShareListener)
