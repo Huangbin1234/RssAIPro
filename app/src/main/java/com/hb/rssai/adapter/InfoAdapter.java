@@ -95,7 +95,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         String time = "";
         rowsBean = rssList.get(position);
-        if(null==rowsBean){
+        if (null == rowsBean) {
             return;
         }
         title = rowsBean.getTitle() != null ? rowsBean.getTitle() : "";
@@ -147,7 +147,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (rssList.size() > 0) {
             ResInformation.RetObjBean.RowsBean rowsBean = rssList.get(position);
             String data = rowsBean.getLink();//获取编辑框里面的文本内容
-            if (!TextUtils.isEmpty(data)) {
+            if (!TextUtils.isEmpty(data) || !TextUtils.isEmpty(rowsBean.getAbstractContent())) {
                 Intent intent = new Intent(mContext, RichTextActivity.class);//创建Intent对象
                 intent.putExtra(ContentActivity.KEY_TITLE, rowsBean.getTitle());
                 intent.putExtra(ContentActivity.KEY_URL, rowsBean.getLink());

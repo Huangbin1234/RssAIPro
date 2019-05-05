@@ -163,6 +163,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     protected void initView() {
         mRtaTvTitle.setText(title.trim());
 
+        if (TextUtils.isEmpty(url)) {
+            mRtaTvView.setVisibility(View.GONE);
+        }
+
         String eId = SharedPreferencesUtil.getString(this, id, "");
         if (null != GsonUtil.getGsonUtil().getBean(eId, Evaluate.class)) {
             evaluate = GsonUtil.getGsonUtil().getBean(eId, Evaluate.class);
@@ -187,15 +191,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         }
         mRtaTvContent.setText(spanned);
 
-//        RichText.from(abstractContent).autoFix(false).showBorder(true).autoPlay(true).into(mRtaTvContent);
 
-        mRtaTvView.setOnClickListener(v -> {
-            Intent intent = new Intent(RichTextActivity.this, ContentActivity.class);//创建Intent对象
-            intent.putExtra(ContentActivity.KEY_TITLE, title);
-            intent.putExtra(ContentActivity.KEY_URL, url);
-            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, id);
-            startActivity(intent);
-        });
         linearLayoutManager = new LinearLayoutManager(this);
         mRtaRecyclerView.setLayoutManager(linearLayoutManager);
         mRtaRecyclerView.setNestedScrollingEnabled(false);
@@ -563,12 +559,19 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     }
 
 
-    @OnClick({R.id.rta_ll_good, R.id.rta_ll_not_good})
+    @OnClick({R.id.rta_ll_good, R.id.rta_ll_not_good, R.id.rta_tv_view})
     @Override
     public void onClick(View v) {
         String eStr = SharedPreferencesUtil.getString(this, id, "");
         Evaluate eva = GsonUtil.getGsonUtil().getBean(eStr, Evaluate.class);
         switch (v.getId()) {
+            case R.id.rta_tv_view:
+                Intent intent = new Intent(RichTextActivity.this, ContentActivity.class);//创建Intent对象
+                intent.putExtra(ContentActivity.KEY_TITLE, title);
+                intent.putExtra(ContentActivity.KEY_URL, url);
+                intent.putExtra(ContentActivity.KEY_INFORMATION_ID, id);
+                startActivity(intent);
+                break;
             case R.id.rta_ll_good:
                 evaluateType = "1";
                 if (null != eva && "1".equals(eva.getClickNotGood())) {
