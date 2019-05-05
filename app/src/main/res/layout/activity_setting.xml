@@ -140,11 +140,26 @@
                 style="@style/InfoDetail"
                 android:padding="16dp">
 
-                <TextView
-                    style="@style/TextLabel"
-                    android:layout_centerVertical="true"
-                    android:text="@string/str_sa_day_night" />
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/sa_tv_day_night"
+                        style="@style/TextLabel"
+                        android:text="@string/str_sa_day_night" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/sa_tv_day_night"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/sa_tv_day_night_label"
+                        android:textColor="@color/text_color_abstract"
+                        android:textSize="@dimen/s12p" />
+                </RelativeLayout>
                 <Switch
                     android:id="@+id/sa_sw_day_night"
                     android:layout_width="wrap_content"
@@ -161,19 +176,46 @@
                 android:id="@+id/sa_rl_theme"
                 style="@style/InfoDetail"
                 android:padding="16dp">
-
-                <TextView
-                    style="@style/TextLabel"
-                    android:text="@string/str_sa_theme" />
-
-                <TextView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/sa_tv_theme"
+                        style="@style/TextLabel"
+                        android:text="@string/str_sa_theme" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/sa_tv_theme"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/str_theme_more"
+                        android:textColor="@color/text_color_abstract"
+                        android:textSize="@dimen/s12p" />
+
+
+                </RelativeLayout>
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="@string/str_theme_more"
-                    android:textColor="@color/text_color_abstract"
-                    android:textSize="@dimen/s12p" />
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_right" />
+                <!--<TextView-->
+                    <!--style="@style/TextLabel"-->
+                    <!--android:text="@string/str_sa_theme" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:text="@string/str_theme_more"-->
+                    <!--android:textColor="@color/text_color_abstract"-->
+                    <!--android:textSize="@dimen/s12p" />-->
             </RelativeLayout>
 
             <View style="@style/view_line_h" />
@@ -304,7 +346,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="16dp" />
         </LinearLayout>
 
     </ScrollView>

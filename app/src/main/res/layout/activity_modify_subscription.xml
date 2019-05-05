@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llRootView"
-    style="@style/title_all"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:id="@+id/llRootView"
+              style="@style/title_all"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar" />
+    <include layout="@layout/include_sub_toolbar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,6 +20,7 @@
             android:background="@color/bg"
             android:orientation="vertical">
 
+
             <LinearLayout
                 style="@style/InfoDetail"
                 android:gravity="center_vertical">
@@ -30,7 +31,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:text="@string/str_sub_name"
-                    android:textColor="@color/color_title" />
+                    />
 
 
                 <EditText
@@ -49,7 +50,7 @@
                     android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
                     android:textSize="@dimen/s16p"
-                    android:theme="@style/EditUnderLineStyle" />
+                    android:theme="@style/EditUnderLineStyle"/>
 
 
             </LinearLayout>
@@ -57,36 +58,45 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line" />
+                android:background="@color/color_general_line"/>
 
             <RelativeLayout
                 style="@style/InfoDetail"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
                 android:paddingTop="5dp"
+                android:paddingRight="16dp"
                 android:paddingBottom="5dp">
 
                 <TextView
                     style="@style/TextLabel"
                     android:layout_centerVertical="true"
                     android:text="@string/str_sub_type"
-                    android:textColor="@color/color_title" />
+                    />
 
+
+                <ImageView
+                    android:id="@+id/msa_iv_data_type"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_right"/>
 
                 <Spinner
                     android:id="@+id/msa_sp_data_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:spinnerMode="dialog" />
-
-
+                    android:layout_toLeftOf="@+id/msa_iv_data_type"
+                    android:background="@color/trans"
+                    android:spinnerMode="dialog"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line" />
+                android:background="@color/color_general_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
@@ -97,7 +107,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:text="@string/str_sub_link"
-                    android:textColor="@color/color_title" />
+                    />
 
                 <EditText
                     android:id="@+id/msa_et_url"
@@ -114,7 +124,7 @@
                     android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
                     android:textSize="@dimen/s16p"
-                    android:theme="@style/EditUnderLineStyle" />
+                    android:theme="@style/EditUnderLineStyle"/>
 
 
             </LinearLayout>
@@ -122,7 +132,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line" />
+                android:background="@color/color_general_line"/>
 
             <LinearLayout
                 style="@style/InfoDetail"
@@ -134,7 +144,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:text="@string/str_sub_img"
-                    android:textColor="@color/color_title" />
+                    />
 
                 <EditText
                     android:id="@+id/msa_et_img_url"
@@ -151,7 +161,7 @@
                     android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
                     android:textSize="@dimen/s16p"
-                    android:theme="@style/EditUnderLineStyle" />
+                    android:theme="@style/EditUnderLineStyle"/>
 
 
             </LinearLayout>
@@ -159,7 +169,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line" />
+                android:background="@color/color_general_line"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -173,8 +183,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:text="@string/str_is_top"
-                    android:textColor="@color/color_title"
-                    android:textSize="@dimen/s16p" />
+                    android:textColor="@color/color_txt"
+                    android:textSize="@dimen/s16p"/>
 
 
                 <EditText
@@ -194,36 +204,64 @@
                     android:textColor="@color/text_color_new"
                     android:textColorHint="#BBBBBB"
                     android:textSize="@dimen/s16p"
-                    android:theme="@style/EditUnderLineStyle" />
+                    android:theme="@style/EditUnderLineStyle"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_general_line" />
+                android:background="@color/color_general_line"/>
+
+
+            <LinearLayout
+                style="@style/InfoDetail"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+
+                <EditText
+                    android:id="@+id/msa_et_abstract"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="8"
+                    android:background="@drawable/input_style"
+                    android:drawablePadding="10dp"
+                    android:gravity="left|top"
+                    android:hint="@string/str_rss_abstract"
+                    android:padding="16dp"
+                    android:textColor="@color/text_color_new"
+                    android:textColorHint="#BBBBBB"
+                    android:textSize="@dimen/s16p"
+                    android:theme="@style/EditUnderLineStyle"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginTop="10dp"
                 android:background="@color/color_general_white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="16dp">
+                android:paddingLeft="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="16dp"
                     android:text="@string/str_is_recommend"
-                    android:textColor="@color/color_title"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"/>
 
                 <RadioGroup
                     android:id="@+id/msa_rg_is_recommend"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp">
 
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/msa_rb_is_recommend_yes"
@@ -233,7 +271,7 @@
                         android:text="@string/str_yes"
                         android:textColor="@color/text_color_new"
                         android:textSize="@dimen/s16p"
-                        android:theme="@style/EditUnderLineStyle" />
+                        android:theme="@style/EditUnderLineStyle"/>
 
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/msa_rb_is_recommend_no"
@@ -244,43 +282,10 @@
                         android:text="@string/str_no"
                         android:textColor="@color/text_color_new"
                         android:textSize="@dimen/s16p"
-                        android:theme="@style/EditUnderLineStyle" />
+                        android:theme="@style/EditUnderLineStyle"/>
                 </RadioGroup>
 
             </LinearLayout>
-
-
-            <LinearLayout
-                style="@style/InfoDetail"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    style="@style/TextLabel"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:text="@string/str_sub_abstract"
-                    android:textColor="@color/color_title" />
-
-                <EditText
-                    android:id="@+id/msa_et_abstract"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_weight="8"
-                    android:background="@drawable/input_style"
-                    android:drawablePadding="10dp"
-                    android:gravity="right|center_vertical"
-                    android:hint="@string/str_rss_abstract"
-                    android:lines="2"
-                    android:padding="16dp"
-                    android:textColor="@color/text_color_new"
-                    android:textColorHint="#BBBBBB"
-                    android:textSize="@dimen/s16p"
-                    android:theme="@style/EditUnderLineStyle" />
-
-            </LinearLayout>
-
 
             <Button
                 android:id="@+id/msa_btn_sure"
@@ -293,7 +298,7 @@
                 android:background="@drawable/btn_selector"
                 android:text="@string/str_modify"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/s16p" />
+                android:textSize="@dimen/s16p"/>
 
 
         </LinearLayout>

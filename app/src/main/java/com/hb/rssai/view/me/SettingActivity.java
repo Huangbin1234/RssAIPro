@@ -162,10 +162,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 SharedPreferencesUtil.setBoolean(SettingActivity.this, Constant.KEY_SYS_NIGHT_MODE, true);
             }
             getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
-            recreate();
+//            recreate();
             //此种方式通知首页更新主题
             EventBus.getDefault().post(new MainEvent(1));
 
+            //TODO 设置主题
+            setTheme(R.style.Theme_default);
+            setColor();
+
+            SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_default);
         });
 
         initThemePop();

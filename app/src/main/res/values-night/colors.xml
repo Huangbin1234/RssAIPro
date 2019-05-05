@@ -15,45 +15,50 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#35464e</color>
-    <color name="colorPrimaryDark">#212a2f</color>
-    <color name="colorAccent">#35464e</color>
+    <color name="colorPrimary">#202020</color>
+    <color name="colorPrimaryDark">#303030</color>
+    <color name="colorAccent">#202020</color>
+
+    <!--<color name="colorPrimary">#202020</color>-->
+    <!--<color name="colorPrimaryDark">#303030</color>-->
+    <!--<color name="colorAccent">#202020</color>-->
 
     <color name="colorPrimaryText">#e4e4e4</color>
     <color name="colorSecondaryText">#b5b5b5</color>
 
-    <color name="colorBaseBackground">#212a2f</color>
+    <color name="colorBaseBackground">#303030</color>
 
-    <color name="colorNavItemSelected">#35464e</color>
+    <color name="colorNavItemSelected">#202020</color>
     <color name="colorNavItemUnselected">#8799a5</color>
+
     <!--toolbar背景色-->
-    <color name="color_toolbar_bg">#35464e</color>
+    <color name="color_toolbar_bg">#202020</color>
     <!--页面背景色-->
-    <color name="bg">#35464e</color>
+    <color name="bg">#202020</color>
     <!--行选中效果-->
-    <color name="color_ll_press">#35464e</color>
-    <color name="color_ll_normal">#212a2f</color>
+    <color name="color_ll_press">#202020</color>
+    <color name="color_ll_normal">#303030</color>
     <!--首页底部菜单背景-->
-    <color name="main_bottom_bg">#212a2f</color>
+    <color name="main_bottom_bg">#303030</color>
     <!--我的统计数据背景-->
-    <color name="color_general_white">#212a2f</color>
+    <color name="color_general_white">#303030</color>
     <!--主页大标签-->
     <color name="color_big_label">#FFFFFF</color>
     <!--内容页toolbar背景-->
-    <color name="rich_toolbar_bg">#212a2f</color>
+    <color name="rich_toolbar_bg">#303030</color>
     <!--分隔线颜色-->
-    <color name="color_general_line">#35464e</color>
+    <color name="color_general_line">#202020</color>
     <!--文章标题颜色-->
     <color name="color_article">#9C9C9C</color>
     <!--登录注册选中效果-->
-    <color name="color_exit_normal">#212a2f</color>
-    <color name="color_exit_focus">#35464e</color>
+    <color name="color_exit_normal">#303030</color>
+    <color name="color_exit_focus">#202020</color>
     <!--文字颜色-->
     <color name="color_txt">#9C9C9C</color>
     <!--注册连接文字颜色-->
     <color name="color_reg_label">#ea8010</color>
     <!--图片背景填充-->
-    <color name="color_iv_bg">#212a2f</color>
+    <color name="color_iv_bg">#303030</color>
 
     <!--列表文字标题颜色-->
     <color name="color_list_txt">#9C9C9C</color>
@@ -62,15 +67,19 @@
 
     <color name="text_color_title">#EEEEEE</color>
 
-    <color name="modify_psd_color">#212a2f</color>
+    <color name="modify_psd_color">#303030</color>
     <!--更换头像-->
-    <color name="color_pop_media_label">#212a2f</color>
-    <color name="color_pop_media_bg">#35464e</color>
+    <color name="color_pop_media_label">#303030</color>
+    <color name="color_pop_media_bg">#202020</color>
     <color name="pop_media_color_general_line">#9C9C9C</color>
 
     <color name="color_tips">#dbcfd8dc</color>
 
-    <color name="card_bg">#212a2f</color>
+    <color name="card_bg">#303030</color>
 
-    <color name="color_title_bar">#212a2f</color>
+    <color name="color_title_bar">#303030</color>
+
+    <color name="text_color_abstract">#757575</color>
+    <color name="gray_light">#202020</color>
+    <color name="color_title">#EEEEEE</color>
 </resources>
