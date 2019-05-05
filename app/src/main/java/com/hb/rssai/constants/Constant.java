@@ -62,6 +62,7 @@ public class Constant {
     public static final String KEY_DATA_GROUP_TIME = "key_data_group_time";//本地缓存分类时间 ms
     public static final String KEY_CACHE_AVATAR = "key_avatar";//头像
     public static final String KEY_CACHE_AVATAR_NAME = "key_avatar_name";//头像名
+    public static final String KEY_JAMES = "james";
 
 
     public static String START_TIME = "1990-01-01 00:00:00";

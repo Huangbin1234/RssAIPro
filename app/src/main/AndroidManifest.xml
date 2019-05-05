@@ -9,15 +9,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <!--<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>-->
-    <!--android8.0版本更新跳转安装页面 -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/> -->
+    <!-- android8.0版本更新跳转安装页面 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
 
     <application
         android:name=".app.ProjectApplication"
@@ -27,7 +24,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme2">
-
+        <activity
+            android:name=".view.subscription.ModifySubscriptionActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:configChanges="keyboardHidden|orientation"></activity>
         <!-- 声明widget对应的AppWidgetProvider -->
         <receiver android:name=".view.service.WidgetProvider">
             <intent-filter>
@@ -41,9 +41,7 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget" />
-        </receiver>
-
-        <!-- 发送 通知桌面部件更新 -->
+        </receiver> <!-- 发送 通知桌面部件更新 -->
         <service
             android:name=".view.service.ListWidgetService"
             android:exported="false"
@@ -51,8 +49,7 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APP_WIDGET_SERVICE" />
             </intent-filter>
-        </service>
-        <!-- 解决7.0安装apk失败问题 -->
+        </service> <!-- 解决7.0安装apk失败问题 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -75,7 +72,6 @@
             <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
             <!-- </intent-filter> -->
         </activity>
-
         <activity android:name=".view.subscription.AddSourceActivity" />
         <activity android:name=".view.subscription.SourceCardActivity" />
         <activity android:name=".view.common.ContentActivity" />
@@ -101,9 +97,7 @@
         <activity android:name=".view.subscription.tab.TabResourceActivity" />
         <activity android:name=".view.me.SearchActivity" />
         <activity android:name=".view.me.UserActivity" />
-        <activity android:name=".view.me.EditSignatureActivity" />
-
-        <!-- 设置社会化分享 开始 -->
+        <activity android:name=".view.me.EditSignatureActivity" /> <!-- 设置社会化分享 开始 -->
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -137,15 +131,13 @@
             android:name="com.umeng.qq.tencent.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- wechat callback -->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- wechat callback -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- 设置社会化分享 结束 -->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- 设置社会化分享 结束 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="561cae6ae0f55abd990035bf" />
@@ -170,8 +162,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.common.ForgetActivity"></activity>
-        <activity android:name=".view.common.ModifyPasswordActivity"></activity>
+        <activity android:name=".view.common.ForgetActivity" />
+        <activity android:name=".view.common.ModifyPasswordActivity" />
     </application>
 
 </manifest>

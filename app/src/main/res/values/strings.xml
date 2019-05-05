@@ -168,5 +168,23 @@
     <string name="str_yellow">黄色</string>
     <string name="str_black">黑色</string>
     <string name="str_asa_btn_opml_file">选择OPML文件</string>
+    <string name="str_modify_subscribe_title">编辑源</string>
+    <string name="str_modify">编辑</string>
+    <string name="str_sub_name">名称</string>
+    <string name="str_sub_name_click">点击设置</string>
+    <string name="str_sub_abstract">摘要</string>
+    <string name="str_sub_abstract_click">点击设置</string>
+    <string name="str_sub_link">链接</string>
+    <string name="str_sub_img">图片</string>
+    <string name="str_sub_type">类型</string>
+    <string name="str_is_top">排序</string>
+    <string name="str_yes">是</string>
+    <string name="str_no">否</string>
+    <string name="str_is_recommend">推荐</string>
+    <string name="str_input">输入RSS源名称</string>
+    <string name="str_input_url">输入图片链接地址</string>
+    <string name="str_input_rss_url">输入RSS源链接地址</string>
+    <string name="str_rss_abstract">一段话描述此源信息</string>
+    <string name="str_input_sort">输入排序值</string>
 
 </resources>

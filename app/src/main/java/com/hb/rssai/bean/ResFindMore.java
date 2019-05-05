@@ -108,6 +108,7 @@ public class ResFindMore {
             private String usId;//用户订阅关系ID
             private int findCount;//发现新资讯数
 
+
             public boolean isIsRecommend() {
                 return isRecommend;
             }

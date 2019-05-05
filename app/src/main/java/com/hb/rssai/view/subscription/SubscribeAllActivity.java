@@ -97,13 +97,50 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
      *
      * @return
      */
-    private List<HashMap<String, Object>> initDialogData() {
+//    private List<HashMap<String, Object>> initDialogData() {
+//        List<HashMap<String, Object>> list = new ArrayList<>();
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("name", "置顶");
+//        map.put("id", 1);
+//        map.put("url", R.mipmap.ic_top);
+//        list.add(map);
+//        HashMap<String, Object> map2 = new HashMap<>();
+//        map2.put("name", "分享");
+//        map2.put("id", 2);
+//        map2.put("url", R.mipmap.ic_share);
+//        list.add(map2);
+//
+//        HashMap<String, Object> map3 = new HashMap<>();
+//        map3.put("name", "删除");
+//        map3.put("id", 3);
+//        map3.put("url", R.mipmap.ic_delete);
+//        list.add(map3);
+//        return list;
+//    }
+    private List<HashMap<String, Object>> initDialogData(boolean isTag) {
         List<HashMap<String, Object>> list = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", "置顶");
         map.put("id", 1);
         map.put("url", R.mipmap.ic_top);
         list.add(map);
+        if (isTag == true) {//如果是用户添加的则显示编辑
+            HashMap<String, Object> map1 = new HashMap<>();
+            map1.put("name", "编辑");
+            map1.put("id", 4);
+            map1.put("url", R.mipmap.ic_modify);
+            list.add(map1);
+        } else {
+            String userName = SharedPreferencesUtil.getString(this, Constant.SP_LOGIN_USER_NAME, "");
+            if (Constant.KEY_JAMES.equals(userName)) {
+                HashMap<String, Object> map1 = new HashMap<>();
+                map1.put("name", "编辑");
+                map1.put("id", 4);
+                map1.put("url", R.mipmap.ic_modify);
+                list.add(map1);
+            }
+        }
+
         HashMap<String, Object> map2 = new HashMap<>();
         map2.put("name", "分享");
         map2.put("id", 2);
@@ -210,16 +247,20 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
     DialogAdapter dialogAdapter;
     MaterialDialog materialDialog;
     ResFindMore.RetObjBean.RowsBean mClickBean;
-
-    private void openMenu(ResFindMore.RetObjBean.RowsBean bean) {
+    List<HashMap<String, Object>> list = new ArrayList<>();
+    private void openMenu(ResFindMore.RetObjBean.RowsBean bean,boolean isTag) {
         mClickBean = bean;
+        if (list.size() > 0) {
+            list.clear();
+        }
+        list.addAll(initDialogData(isTag));
         if (materialDialog == null) {
             materialDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.view_dialog, null);
             FullListView listView = (FullListView) view.findViewById(R.id.dialog_listView);
 
-            List<HashMap<String, Object>> list = initDialogData();
+
             listView.setOnItemClickListener((parent, view1, position, id) -> {
                 if (list.get(position).get("id").equals(1)) {
                     //TODO 置顶
@@ -238,6 +279,18 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
                 } else if (list.get(position).get("id").equals(3)) {
                     materialDialog.dismiss();
                     ((SubListPresenter) mPresenter).delSubscription();
+                }else if (list.get(position).get("id").equals(4)) {
+                    materialDialog.dismiss();
+                    Intent intent = new Intent(this, ModifySubscriptionActivity.class);
+                    intent.putExtra(ModifySubscriptionActivity.KEY_ID, mClickBean.getId());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_NAME, mClickBean.getName());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_IMG, mClickBean.getImg());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_ABS_CONTENT, mClickBean.getAbstractContent());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_LINK, mClickBean.getLink());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_SORT, mClickBean.getSort());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_IS_RECOMMEND, mClickBean.isIsRecommend());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_IS_TAG, mClickBean.isIsTag());
+                    startActivity(intent);
                 }
             });
             if (dialogAdapter == null) {
@@ -331,7 +384,7 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
                     mSubListAdapter = new SubListAdapter(this, resLists, this);
                     mSubRecyclerView.setAdapter(mSubListAdapter);
                     mSubListAdapter.setOnItemLongClickedListener(rssSource -> {
-                        openMenu(rssSource);
+                        openMenu(rssSource,rssSource.isIsTag());
                     });
                 } else {
                     mSubListAdapter.notifyDataSetChanged();

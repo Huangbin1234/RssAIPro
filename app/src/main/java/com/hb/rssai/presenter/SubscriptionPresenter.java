@@ -173,6 +173,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
                 }, this::loadError);
     }
 
+
     private void setDelResult(ResBase resBase) {
         mISubscriptionView.update();
         T.ShowToast(mContext, resBase.getRetMsg());
@@ -181,7 +182,8 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
     private Map<String, String> getUpdateParams() {
         Map<String, String> map = new HashMap<>();
         String usId = mISubscriptionView.getUsId();
-        String jsonParams = "{\"usId\":\"" + usId + "\"}";
+        String subscribeId = mISubscriptionView.getSubscribeId();
+        String jsonParams = "{\"usId\":\"" + usId + "\",\"subscribeId\":\"" + subscribeId + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
         System.out.println(map);
         return map;

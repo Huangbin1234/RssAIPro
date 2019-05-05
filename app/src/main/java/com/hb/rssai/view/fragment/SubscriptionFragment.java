@@ -51,6 +51,7 @@ import com.hb.rssai.view.common.QrCodeActivity;
 import com.hb.rssai.view.iView.ISubscriptionView;
 import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.subscription.AddSourceActivity;
+import com.hb.rssai.view.subscription.ModifySubscriptionActivity;
 import com.hb.rssai.view.subscription.SourceCardActivity;
 import com.hb.rssai.view.subscription.SubscribeAllActivity;
 import com.hb.rssai.view.widget.FullListView;
@@ -356,7 +357,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rowsBean) {
         this.rowsBean = rowsBean;
-        openMenu();
+        openMenu(rowsBean.isIsTag());
     }
 
     /**
@@ -364,13 +365,30 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
      *
      * @return
      */
-    private List<HashMap<String, Object>> initDialogData() {
+    private List<HashMap<String, Object>> initDialogData(boolean isTag) {
         List<HashMap<String, Object>> list = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", "置顶");
         map.put("id", 1);
         map.put("url", R.mipmap.ic_top);
         list.add(map);
+        if (isTag == true) {//如果是用户添加的则显示编辑
+            HashMap<String, Object> map1 = new HashMap<>();
+            map1.put("name", "编辑");
+            map1.put("id", 4);
+            map1.put("url", R.mipmap.ic_modify);
+            list.add(map1);
+        } else {
+            String userName = SharedPreferencesUtil.getString(getContext(), Constant.SP_LOGIN_USER_NAME, "");
+            if (Constant.KEY_JAMES.equals(userName)) {
+                HashMap<String, Object> map1 = new HashMap<>();
+                map1.put("name", "编辑");
+                map1.put("id", 4);
+                map1.put("url", R.mipmap.ic_modify);
+                list.add(map1);
+            }
+        }
+
         HashMap<String, Object> map2 = new HashMap<>();
         map2.put("name", "分享");
         map2.put("id", 2);
@@ -391,15 +409,19 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
      * @return
      */
 
+    List<HashMap<String, Object>> list = new ArrayList<>();
 
-    private void openMenu() {
+    private void openMenu(boolean isTag) {
+        if (list.size() > 0) {
+            list.clear();
+        }
+        list.addAll(initDialogData(isTag));
         if (materialDialog == null) {
             materialDialog = new MaterialDialog(getContext());
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View view = inflater.inflate(R.layout.view_dialog, null);
             FullListView listView = view.findViewById(R.id.dialog_listView);
 
-            List<HashMap<String, Object>> list = initDialogData();
             listView.setOnItemClickListener((parent, view1, position, id) -> {
                 if (list.get(position).get("id").equals(1)) {
                     //TODO 置顶
@@ -418,6 +440,18 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 } else if (list.get(position).get("id").equals(3)) {
                     materialDialog.dismiss();
                     ((SubscriptionPresenter) mPresenter).delSubscription();
+                } else if (list.get(position).get("id").equals(4)) {
+                    materialDialog.dismiss();
+                    Intent intent = new Intent(getContext(), ModifySubscriptionActivity.class);
+                    intent.putExtra(ModifySubscriptionActivity.KEY_ID, rowsBean.getId());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_NAME, rowsBean.getName());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_IMG, rowsBean.getImg());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_ABS_CONTENT, rowsBean.getAbstractContent());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_LINK, rowsBean.getLink());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_SORT, rowsBean.getSort());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_IS_RECOMMEND, rowsBean.isIsRecommend());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_IS_TAG, rowsBean.isIsTag());
+                    startActivity(intent);
                 }
             });
             if (dialogAdapter == null) {
@@ -429,6 +463,9 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                 materialDialog.dismiss();
             }).show();
         } else {
+            if (dialogAdapter != null) {
+                dialogAdapter.notifyDataSetChanged();
+            }
             materialDialog.show();
         }
     }

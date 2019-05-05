@@ -24,30 +24,6 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
     public T mPresenter;
 
-    //初始化控件信息
-    protected abstract void initView();
-
-    //设置布局
-    protected abstract int providerContentViewId();
-
-    //设置标题
-    protected abstract void setAppTitle();
-
-    //创建Presenter
-    protected abstract T createPresenter();
-
-    //参数接收
-    protected void initIntent() {
-    }
-
-    //下拉刷新
-    protected void onRefresh() {
-    }
-
-    //上拉加载更多
-    protected void loadMore() {
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +40,33 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
             mPresenter.attachView((V) this);
         }
     }
+
+
+
+    //设置布局
+    protected abstract int providerContentViewId();
+
+    //设置标题
+    protected abstract void setAppTitle();
+
+    //创建Presenter
+    protected abstract T createPresenter();
+
+    //参数接收
+    protected void initIntent() {
+    }
+
+    //初始化控件信息
+    protected abstract void initView();
+
+    //下拉刷新
+    protected void onRefresh() {
+    }
+
+    //上拉加载更多
+    protected void loadMore() {
+    }
+
 
     int theme = 0;
 
