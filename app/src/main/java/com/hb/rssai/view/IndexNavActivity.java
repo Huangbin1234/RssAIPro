@@ -40,20 +40,15 @@ import butterknife.BindView;
 public class IndexNavActivity extends BaseActivity implements TabFragment.OnFragmentInteractionListener, SubscriptionFragment.OnFragmentInteractionListener, MineFragment.OnFragmentInteractionListener, FindFragment.OnFragmentInteractionListener {
 
 
-    @BindView(R.id.ma_frame_layout)
-    FrameLayout mMaFrameLayout;
+
     @BindView(R.id.navigation)
     BottomNavigationView mNavigation;
-    @BindView(R.id.container)
-    LinearLayout mContainer;
-
 
     private Context mContext;
 
     private PermissionsChecker mPermissionsChecker;
     private Bundle savedInstanceState;
 
-    //    private HomeFragment homeFragment;
     private TabFragment tabFragment;
     private SubscriptionFragment subscriptionFragment;
     private MineFragment mineFragment;
@@ -153,7 +148,6 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
         }
     }
 
-
     @Override
     protected int providerContentViewId() {
         return R.layout.activity_index_nav;
@@ -228,7 +222,6 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
                     firstTime = secondTime;
                     return true;
                 } else {
-//                    RichText.recycle();
                     finish();
                     System.exit(0);
                 }
@@ -276,9 +269,6 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
     protected void onResume() {
         super.onResume();
         loadPermissions();
-//        if (reqPer == 2) {
-//            loadCameraPermissions();
-//        }
     }
 
     /**

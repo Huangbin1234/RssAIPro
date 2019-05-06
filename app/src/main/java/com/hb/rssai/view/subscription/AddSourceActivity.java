@@ -240,7 +240,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 mPresenter.addRss(rssLink, rssTitle, getUserID());
                 break;
             case R.id.asa_iv_scan:
-//                startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
                 if (!isCameraPermissions()) {
                     startActivityForResult(new Intent(this, CaptureActivity.class), REQUESTCODE);
                 } else {

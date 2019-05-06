@@ -141,7 +141,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         ((MinePresenter) mPresenter).getUser();
         ((MinePresenter) mPresenter).getMessages();
         isPrepared = false;
-        System.out.println("====lazyLoad====");
     }
 
     public MineFragment() {
@@ -254,7 +253,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 getActivity().startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
             case R.id.fm_ll_scan:
-//                EventBus.getDefault().post(new MainEvent(2));
                 if (!((IndexNavActivity) getActivity()).isCameraPermissions()) {
                     startActivityForResult(new Intent(getContext(), CaptureActivity.class), REQUEST_CODE);
                 } else {

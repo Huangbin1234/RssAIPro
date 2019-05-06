@@ -133,7 +133,6 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
             ((TabPresenter) mPresenter).setDataGroupResult(resDataGroup);
         }
         isPrepared = false;
-        System.out.println("====lazyLoad====");
     }
 
     @Override

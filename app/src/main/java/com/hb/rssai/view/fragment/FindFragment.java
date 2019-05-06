@@ -125,7 +125,6 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
         ((FindPresenter) mPresenter).recommendList();
         ((FindPresenter) mPresenter).findMoreList();
         isPrepared = false;
-        System.out.println("====lazyLoad====");
     }
 
     public FindFragment() {
