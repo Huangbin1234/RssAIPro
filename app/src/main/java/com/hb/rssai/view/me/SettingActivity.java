@@ -32,6 +32,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
@@ -212,19 +213,19 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 checkUpdate();
                 break;
             case R.id.sa_rl_share:
-//                try{
-//                    Uri uri = Uri.parse("market://details?id="+getPackageName());
-//                    Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
-//                }catch(Exception e){
-//                    Toast.makeText(this, "您的手机没有安装Android应用市场", Toast.LENGTH_SHORT).show();
-//                    e.printStackTrace();
-//                }
+                try{
+                    Uri uri = Uri.parse("market://details?id="+getPackageName());
+                    Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }catch(Exception e){
+                    Toast.makeText(this, "您的手机没有安装Android应用市场", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
 
-                Uri uri = Uri.parse("https://www.coolapk.com/apk/176794");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+//                Uri uri = Uri.parse("https://www.coolapk.com/apk/176794");
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent);
 
 //                try {
 //                    String alipayUrl = SharedPreferencesUtil.getString(this, Constant.AlipaysUrl, "");

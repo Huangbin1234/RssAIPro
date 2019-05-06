@@ -518,7 +518,7 @@
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_user_sacn"/>
+                            android:src="@mipmap/ic_user_scan"/>
 
                         <TextView
                             style="@style/TextLabel"

@@ -35,7 +35,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_recommend"></ImageView>
+                    android:src="@mipmap/ic_recommend1"></ImageView>
 
                 <TextView
                     android:id="@+id/ff_find_hot_label"
@@ -80,6 +80,7 @@
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:src="@mipmap/ic_right_all"
+                android:scaleType="centerInside"
                 android:visibility="visible" />
 
         </LinearLayout>

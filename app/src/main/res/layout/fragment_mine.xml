@@ -56,10 +56,10 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:gravity="center_vertical"
-                            android:paddingBottom="16dp"
                             android:paddingLeft="16dp"
+                            android:paddingTop="16dp"
                             android:paddingRight="16dp"
-                            android:paddingTop="16dp">
+                            android:paddingBottom="16dp">
 
 
                             <ImageView
@@ -116,8 +116,8 @@
                         android:layout_alignBottom="@id/fm_ll_avatar"
                         android:background="@color/color_general_white"
                         android:orientation="horizontal"
-                        android:paddingBottom="16dp"
-                        android:paddingTop="16dp">
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp">
 
 
                         <LinearLayout
@@ -139,14 +139,14 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_total_record"></ImageView>
+                                    android:src="@mipmap/ic_total_record1"></ImageView>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_record"
-                                    android:textColor="@color/text_color_title"
+                                    android:textColor="#757575"
                                     android:textSize="@dimen/s14p" />
 
                                 <TextView
@@ -187,14 +187,14 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_total_subscribe"></ImageView>
+                                    android:src="@mipmap/ic_total_subscribe1"></ImageView>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_subscribe"
-                                    android:textColor="@color/text_color_title"
+                                    android:textColor="#757575"
                                     android:textSize="@dimen/s14p" />
 
                                 <TextView
@@ -235,14 +235,14 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_total_offline"></ImageView>
+                                    android:src="@mipmap/ic_total_offline1"></ImageView>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_offline"
-                                    android:textColor="@color/text_color_title"
+                                    android:textColor="#757575"
                                     android:textSize="@dimen/s14p" />
 
                                 <TextView
@@ -284,16 +284,16 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_total_clear"></ImageView>
+                                    android:src="@mipmap/ic_total_clear1"></ImageView>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_clear"
-                                    android:textColor="@color/text_color_title"
+                                    android:textColor="#757575"
                                     android:textSize="@dimen/s14p" />
-
+                                <!--android:textColor="@color/text_color_abstract"-->
                                 <TextView
                                     android:id="@+id/mf_tv_read_clear"
                                     android:layout_width="wrap_content"
@@ -330,8 +330,8 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
-                            android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_user_msg" />
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_user_msg1" />
 
                         <TextView
                             style="@style/TextLabel"
@@ -339,7 +339,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_toRightOf="@id/fm_iv_msg"
                             android:text="@string/str_mf_message_center"
-                            android:textColor="@color/text_color_title"
+                            android:textColor="@color/color_title"
                             android:textSize="@dimen/s16p" />
 
                         <TextView
@@ -359,8 +359,8 @@
 
                     <View
                         style="@style/view_line_h"
-                        android:layout_marginLeft="56dp" />
-
+                        />
+                    <!--android:layout_marginLeft="56dp"-->
 
                     <RelativeLayout
                         android:id="@+id/fm_ll_collection"
@@ -372,8 +372,8 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
-                            android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_user_collection" />
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_user_collection1" />
 
                         <TextView
                             style="@style/TextLabel"
@@ -381,7 +381,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_toRightOf="@id/fm_iv_collection"
                             android:text="@string/str_mf_collection"
-                            android:textColor="@color/text_color_title"
+                            android:textColor="@color/color_title"
                             android:textSize="@dimen/s16p" />
 
                     </RelativeLayout>
@@ -405,8 +405,8 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
-                            android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_user_search" />
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_user_search1" />
 
                         <TextView
                             style="@style/TextLabel"
@@ -414,7 +414,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_toRightOf="@id/fm_iv_search"
                             android:text="@string/str_mf_search"
-                            android:textColor="@color/text_color_title"
+                            android:textColor="@color/color_title"
                             android:textSize="@dimen/s16p" />
 
                         <TextView
@@ -430,8 +430,8 @@
                     <View
                         style="@style/view_line_h"
 
-                        android:layout_marginLeft="56dp" />
-
+                       />
+                    <!--android:layout_marginLeft="56dp"-->
                     <RelativeLayout
                         android:id="@+id/fm_ll_scan"
                         style="@style/InfoDetail"
@@ -442,8 +442,8 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
-                            android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_user_sacn" />
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_user_scan1" />
 
                         <TextView
                             style="@style/TextLabel"
@@ -451,7 +451,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_toRightOf="@id/fm_iv_scan"
                             android:text="@string/str_mf_scan"
-                            android:textColor="@color/text_color_title"
+                            android:textColor="@color/color_title"
                             android:textSize="@dimen/s16p" />
 
                         <TextView
@@ -483,8 +483,8 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_centerVertical="true"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_user_setting" />
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/ic_user_setting1" />
 
                     <TextView
                         style="@style/TextLabel"
@@ -492,7 +492,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_toRightOf="@id/fm_iv_setting"
                         android:text="@string/str_mf_setting"
-                        android:textColor="@color/text_color_title"
+                        android:textColor="@color/color_title"
                         android:textSize="@dimen/s16p" />
 
                 </RelativeLayout>

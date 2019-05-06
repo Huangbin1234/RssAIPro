@@ -114,10 +114,10 @@
     <string name="str_re_try">重试</string>
     <string name="str_record_title">阅读记录</string>
     <string name="str_guide_label">立即进入</string>
-    <string name="str_mine_record">阅读记录</string>
-    <string name="str_mine_subscribe">订阅主题</string>
-    <string name="str_mine_offline">离线阅读</string>
-    <string name="str_mine_clear">清理缓存</string>
+    <string name="str_mine_record">记录</string>
+    <string name="str_mine_subscribe">订阅</string>
+    <string name="str_mine_offline">离线</string>
+    <string name="str_mine_clear">清理</string>
     <string name="sa_tv_change_source_label">首页只显示已订阅的主题资讯</string>
     <string name="sa_tv_opr_image_label">应用于资讯列表</string>
     <string name="sub_menu_search">搜索</string>

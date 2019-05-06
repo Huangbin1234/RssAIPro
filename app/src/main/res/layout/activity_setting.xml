@@ -160,6 +160,7 @@
                         android:textColor="@color/text_color_abstract"
                         android:textSize="@dimen/s12p" />
                 </RelativeLayout>
+
                 <Switch
                     android:id="@+id/sa_sw_day_night"
                     android:layout_width="wrap_content"
@@ -176,6 +177,7 @@
                 android:id="@+id/sa_rl_theme"
                 style="@style/InfoDetail"
                 android:padding="16dp">
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,25 +199,26 @@
 
 
                 </RelativeLayout>
+
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_right" />
+                    android:src="@mipmap/ic_right_all" />
                 <!--<TextView-->
-                    <!--style="@style/TextLabel"-->
-                    <!--android:text="@string/str_sa_theme" />-->
+                <!--style="@style/TextLabel"-->
+                <!--android:text="@string/str_sa_theme" />-->
 
                 <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:text="@string/str_theme_more"-->
-                    <!--android:textColor="@color/text_color_abstract"-->
-                    <!--android:textSize="@dimen/s12p" />-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:text="@string/str_theme_more"-->
+                <!--android:textColor="@color/text_color_abstract"-->
+                <!--android:textSize="@dimen/s12p" />-->
             </RelativeLayout>
 
             <View style="@style/view_line_h" />
@@ -239,7 +242,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_right" />
+                    android:src="@mipmap/ic_right_all" />
             </RelativeLayout>
 
             <View style="@style/view_line_h" />
@@ -259,7 +262,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_right" />
+                    android:src="@mipmap/ic_right_all" />
 
             </RelativeLayout>
 
@@ -300,7 +303,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_right" />
+                    android:src="@mipmap/ic_right_all" />
             </RelativeLayout>
 
             <View style="@style/view_line_h" />
