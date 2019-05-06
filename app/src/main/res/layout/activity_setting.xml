@@ -131,9 +131,7 @@
 
             <View style="@style/view_line_h" />
 
-            <View
-                style="@style/view_line_h"
-                android:layout_marginTop="10dp" />
+
 
             <RelativeLayout
                 android:id="@+id/sa_rl_day_night"
@@ -171,7 +169,9 @@
             </RelativeLayout>
 
             <View style="@style/view_line_h" />
-
+            <View
+                style="@style/view_line_h"
+                android:layout_marginTop="10dp" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_theme"
@@ -189,6 +189,7 @@
                         android:text="@string/str_sa_theme" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/sa_tv_theme"
@@ -223,9 +224,7 @@
 
             <View style="@style/view_line_h" />
 
-            <View
-                style="@style/view_line_h"
-                android:layout_marginTop="10dp" />
+
 
             <RelativeLayout
                 android:id="@+id/sa_rl_share"

@@ -186,6 +186,6 @@
     <string name="str_input_rss_url">输入RSS源链接地址</string>
     <string name="str_rss_abstract">一段话描述此源信息</string>
     <string name="str_input_sort">输入排序值</string>
-    <string name="sa_tv_day_night_label">开启后主题会切换为默认</string>
+    <string name="sa_tv_day_night_label">开启后主题置为默认</string>
 
 </resources>
