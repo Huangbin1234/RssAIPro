@@ -49,7 +49,7 @@
     <!--分隔线颜色-->
     <color name="color_general_line">#202020</color>
     <!--文章标题颜色-->
-    <color name="color_article">#9C9C9C</color>
+    <color name="color_article">#EEEEEE</color>
     <!--登录注册选中效果-->
     <color name="color_exit_normal">#303030</color>
     <color name="color_exit_focus">#202020</color>
@@ -61,7 +61,7 @@
     <color name="color_iv_bg">#303030</color>
 
     <!--列表文字标题颜色-->
-    <color name="color_list_txt">#9C9C9C</color>
+    <color name="color_list_txt">#EEEEEE</color>
     <!--tablayout文字颜色-->
     <color name="color_tab_layout">#ea8010</color>
 

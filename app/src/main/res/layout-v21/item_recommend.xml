@@ -60,8 +60,9 @@
             android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:lines="1"
-            android:textColor="@color/color_txt"
-            android:textSize="@dimen/s12p"/>
 
+            android:textColor="@color/color_txt"
+            android:textSize="@dimen/s14p"/>
+        <!--android:textColor="@color/color_txt"-->
     </LinearLayout>
 </LinearLayout>
