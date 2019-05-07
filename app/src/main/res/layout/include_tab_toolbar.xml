@@ -39,6 +39,7 @@
         app:tabGravity="center"
         app:tabTextAppearance="@style/MyCustomTextAppearance"
         app:tabMode="scrollable"
+        app:tabIndicatorColor="@color/white"
         app:tabTextColor="@color/color_tab_no_focus"
         app:tabSelectedTextColor="@color/white" />
 

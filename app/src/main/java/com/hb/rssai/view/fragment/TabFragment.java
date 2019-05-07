@@ -1,6 +1,7 @@
 package com.hb.rssai.view.fragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -231,7 +232,39 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         mFtViewPager.setOffscreenPageLimit(0);
         myPagerAdapter = new MyPagerAdapter(getFragmentManager(), datas, fragments);
         mFtViewPager.setAdapter(myPagerAdapter);
+
+        mSysTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                View view = tab.getCustomView();
+                if (null == view) {
+                    tab.setCustomView(R.layout.custom_tab_layout_text);
+                }
+                TextView textView = tab.getCustomView().findViewById(android.R.id.text1);
+                textView.setTextColor(mSysTabLayout.getTabTextColors());
+                textView.setTypeface(Typeface.DEFAULT_BOLD);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                View view = tab.getCustomView();
+                if (null == view) {
+                    tab.setCustomView(R.layout.custom_tab_layout_text);
+                }
+                TextView textView = tab.getCustomView().findViewById(android.R.id.text1);
+                textView.setTypeface(Typeface.DEFAULT);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         mSysTabLayout.setupWithViewPager(mFtViewPager);
+
+
+
     }
 
     @Override

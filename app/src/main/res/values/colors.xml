@@ -87,7 +87,8 @@
     <!--<color name="text_color_title">#555555</color>-->
     <color name="text_color_abstract">#999999</color>
     <color name="text_color_time">#B2B2B2</color>
-    <color name="color_tab_no_focus">#edbab7</color>
+    <!--<color name="color_tab_no_focus">#edbab7</color>-->
+    <color name="color_tab_no_focus">#E2DDDDDD</color>
 
     <color name="modify_psd_color">#B2B2B2</color>
     <color name="color_pop_media_label">#D9DCE0</color>
