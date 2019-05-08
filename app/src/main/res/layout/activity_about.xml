@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/app_name"
-                        android:textColor="@color/color_big_label"
+                        android:textColor="@color/color_title"
                         android:textIsSelectable="true"
                         android:textSize="@dimen/s14p"/>
 
@@ -55,14 +55,13 @@
                         android:layout_height="wrap_content"
                         android:text="."
                         android:textSize="@dimen/s14p"
-                        android:textColor="@color/color_big_label"/>
+                        android:textColor="@color/color_title"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/str_zh_app_name"
-                        android:textColor="@color/color_big_label"
-
+                        android:textColor="@color/color_title"
                         android:textIsSelectable="true"
                         android:textSize="@dimen/s14p"/>
                 </LinearLayout>
@@ -107,7 +106,7 @@
                 android:layout_centerVertical="true"
                 android:drawablePadding="10dp"
                 android:text="QQ交流群"
-                android:textColor="@color/color_big_label"
+                android:textColor="@color/color_title"
                 android:textSize="@dimen/s16p"/>
 
             <TextView
@@ -173,7 +172,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="联系邮箱："
-
                 android:textColor="@color/color_time"
                 android:textSize="@dimen/s10p"/>
 

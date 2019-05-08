@@ -42,7 +42,7 @@
                 android:layout_alignBottom="@id/irl_iv_top"
                 android:background="@color/bg_top"
                 android:padding="10dp"
-                android:textColor="@color/white"
+                android:textColor="@color/color_card_list_img_title"
                 android:textSize="@dimen/s16p" />
         </RelativeLayout>
 

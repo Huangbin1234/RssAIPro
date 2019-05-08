@@ -3,9 +3,9 @@
     android:id="@+id/hf_ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_toolbar_bg"
-    android:orientation="vertical">
 
+    android:orientation="vertical">
+    <!--android:background="@color/color_toolbar_bg"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

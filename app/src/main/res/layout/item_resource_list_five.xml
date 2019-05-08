@@ -1,17 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:id="@+id/item_na_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
         android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/ll_selector"
         android:elevation="4dp"
         android:orientation="vertical"
@@ -37,7 +37,7 @@
                     android:layout_height="160dp"
                     android:backgroundTintMode="src_in"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_place" />
+                    android:src="@mipmap/ic_place"/>
 
                 <TextView
                     android:id="@+id/irl_tv_top"
@@ -46,8 +46,8 @@
                     android:layout_alignBottom="@id/irl_iv_top"
                     android:background="@color/bg_top"
                     android:padding="10dp"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/s16p" />
+                    android:textColor="@color/color_card_list_img_title"
+                    android:textSize="@dimen/s16p"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -69,7 +69,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_place" />
+                        android:src="@mipmap/ic_place"/>
 
                     <TextView
                         android:id="@+id/irl_tv_top1"
@@ -79,15 +79,15 @@
                         android:layout_marginLeft="10dp"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:textColor="@color/color_big_label"
-                        android:textSize="@dimen/s16p" />
+                        android:textColor="@color/color_card_list_title"
+                        android:textSize="@dimen/s16p"/>
                 </LinearLayout>
 
                 <View
                     android:id="@+id/irl_view_line_2"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/color_general_line" />
+                    android:background="@color/color_general_line"/>
 
                 <LinearLayout
                     android:id="@+id/irl_top_ll2"
@@ -103,7 +103,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_place" />
+                        android:src="@mipmap/ic_place"/>
 
                     <TextView
                         android:id="@+id/irl_tv_top2"
@@ -113,8 +113,8 @@
                         android:layout_marginLeft="10dp"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:textColor="@color/color_big_label"
-                        android:textSize="@dimen/s16p" />
+                        android:textColor="@color/color_card_list_title"
+                        android:textSize="@dimen/s16p"/>
                 </LinearLayout>
 
                 <View
@@ -122,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
 
-                    android:background="@color/color_general_line" />
+                    android:background="@color/color_general_line"/>
 
                 <LinearLayout
                     android:id="@+id/irl_top_ll3"
@@ -138,7 +138,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_place" />
+                        android:src="@mipmap/ic_place"/>
 
                     <TextView
                         android:id="@+id/irl_tv_top3"
@@ -148,15 +148,15 @@
                         android:layout_marginLeft="10dp"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:textColor="@color/color_big_label"
-                        android:textSize="@dimen/s16p" />
+                        android:textColor="@color/color_card_list_title"
+                        android:textSize="@dimen/s16p"/>
                 </LinearLayout>
 
                 <View
                     android:id="@+id/irl_view_line_4"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/color_general_line" />
+                    android:background="@color/color_general_line"/>
 
                 <LinearLayout
                     android:id="@+id/irl_top_ll4"
@@ -172,7 +172,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_place" />
+                        android:src="@mipmap/ic_place"/>
 
                     <TextView
                         android:id="@+id/irl_tv_top4"
@@ -182,8 +182,8 @@
                         android:layout_marginLeft="10dp"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:textColor="@color/color_big_label"
-                        android:textSize="@dimen/s16p" />
+                        android:textColor="@color/color_card_list_title"
+                        android:textSize="@dimen/s16p"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -195,5 +195,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="@color/color_general_line"
-        android:textSize="@dimen/s14p" />
+        android:textSize="@dimen/s14p"/>
 </LinearLayout>

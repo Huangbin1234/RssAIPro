@@ -65,7 +65,7 @@
     <!--tablayout文字颜色-->
     <color name="color_tab_layout">#ea8010</color>
 
-    <color name="text_color_title">#EEEEEE</color>
+
 
     <color name="modify_psd_color">#303030</color>
     <!--更换头像-->
@@ -81,5 +81,14 @@
 
     <color name="text_color_abstract">#757575</color>
     <color name="gray_light">#202020</color>
-    <color name="color_title">#EEEEEE</color>
+    <color name="color_title">#9C9C9C</color>
+
+    <color name="text_color_title">#9C9C9C</color>
+
+    <color name="color_mine_menu">#757575</color>
+
+    <color name="color_mine_sign">#9C9C9C</color>
+
+    <color name="color_card_list_title">#EEEEEE</color>
+    <color name="color_card_list_img_title">#EEEEEE</color>
 </resources>

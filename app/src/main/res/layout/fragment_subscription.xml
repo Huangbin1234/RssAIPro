@@ -4,10 +4,10 @@
     android:id="@+id/fs_ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_toolbar_bg"
+
     android:orientation="vertical"
     tools:ignore="UselessParent">
-
+    <!--android:background="@color/color_toolbar_bg"-->
     <include layout="@layout/include_sub_add_toolbar" />
 
     <LinearLayout
@@ -85,7 +85,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@id/iv_web_server"
                                         android:text="@string/sub_label_topic"
-                                        android:textColor="@color/color_title"
+                                        android:textColor="@color/color_mine_menu"
                                         android:textSize="@dimen/s16p" />
 
 
@@ -201,7 +201,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@id/iv_vip"
                                         android:text="@string/sub_label"
-                                        android:textColor="@color/color_title"
+                                        android:textColor="@color/color_mine_menu"
                                         android:textSize="@dimen/s16p" />
 
 

@@ -36,6 +36,7 @@ import com.hb.rssai.presenter.FindPresenter;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.util.ThemeUtils;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.iView.IFindView;
 import com.hb.rssai.view.me.SearchActivity;
@@ -120,6 +121,13 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
     protected void lazyLoad() {
         if (!isVisible || !isPrepared) {
             return;
+        }
+        //解决状态栏闪烁问题
+        int theme = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_THEME, 0);
+        if (theme != 0) {
+            mFfLlRoot.setBackgroundColor(ThemeUtils.getPrimaryDarkColor(getActivity()));
+        } else {
+            mFfLlRoot.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
         }
         mFfSwipeLayout.setRefreshing(true);
         ((FindPresenter) mPresenter).recommendList();

@@ -27,6 +27,7 @@ import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.TabPresenter;
 import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.ThemeUtils;
 import com.hb.rssai.view.iView.ITabView;
 import com.hb.rssai.view.widget.TipTextView;
 
@@ -125,6 +126,13 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
     protected void lazyLoad() {
         if (!isVisible || !isPrepared) {
             return;
+        }
+        //解决状态栏闪烁问题
+        int theme = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_THEME, 0);
+        if (theme != 0) {
+            mHfLlRoot.setBackgroundColor(ThemeUtils.getPrimaryDarkColor(getActivity()));
+        } else {
+            mHfLlRoot.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
         }
         //loadData(DF);
         ResDataGroup resDataGroup = getCacheDataGroup();
@@ -262,7 +270,6 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
         });
 
         mSysTabLayout.setupWithViewPager(mFtViewPager);
-
 
 
     }

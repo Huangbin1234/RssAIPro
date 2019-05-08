@@ -146,7 +146,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_record"
-                                    android:textColor="@color/color_title"
+                                    android:textColor="@color/color_mine_menu"
                                     android:textSize="@dimen/s14p"/>
                                 <!--android:textColor="#757575"-->
                                 <TextView
@@ -194,7 +194,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_subscribe"
-                                    android:textColor="@color/color_title"
+                                    android:textColor="@color/color_mine_menu"
                                     android:textSize="@dimen/s14p"/>
 
                                 <TextView
@@ -242,7 +242,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_offline"
-                                    android:textColor="@color/color_title"
+                                    android:textColor="@color/color_mine_menu"
                                     android:textSize="@dimen/s14p"/>
 
                                 <TextView
@@ -291,7 +291,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
                                     android:text="@string/str_mine_clear"
-                                    android:textColor="@color/color_title"
+                                    android:textColor="@color/color_mine_menu"
                                     android:textSize="@dimen/s14p"/>
                                 <!--android:textColor="@color/text_color_abstract"-->
                                 <TextView

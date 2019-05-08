@@ -11,8 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.KeyEvent;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.hb.rssai.R;
 import com.hb.rssai.app.ProjectApplication;
@@ -185,17 +183,17 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
         // 设置按钮 图片为普通颜色
         switch (id) {
             case R.id.navigation_home:
-                setTranslucentStatus(this);
+//                setTranslucentStatus(this);
                 mTransaction.show(tabFragment);
                 tabFragment.setUserVisibleHint(true);
                 break;
             case R.id.navigation_find:
-                setTranslucentStatus(this);
+//                setTranslucentStatus(this);
                 mTransaction.show(findFragment);
                 findFragment.setUserVisibleHint(true);
                 break;
             case R.id.navigation_subscribe:
-                setTranslucentStatus(this);
+//                setTranslucentStatus(this);
                 mTransaction.show(subscriptionFragment);
                 subscriptionFragment.setUserVisibleHint(true);
                 break;

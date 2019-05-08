@@ -45,6 +45,7 @@ import com.hb.rssai.util.Base64Util;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.ThemeUtils;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.common.QrCodeActivity;
@@ -131,6 +132,13 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
     protected void lazyLoad() {
         if (!isVisible || !isPrepared) {
             return;
+        }
+        //解决状态栏闪烁问题
+        int theme = SharedPreferencesUtil.getInt(getContext(), Constant.KEY_THEME, 0);
+        if (theme != 0) {
+            mFsLlRoot.setBackgroundColor(ThemeUtils.getPrimaryDarkColor(getActivity()));
+        } else {
+            mFsLlRoot.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
         }
         ((SubscriptionPresenter) mPresenter).refreshList();
         isPrepared = false;
