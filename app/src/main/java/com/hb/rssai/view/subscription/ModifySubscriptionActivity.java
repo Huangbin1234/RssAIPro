@@ -235,7 +235,7 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
             T.ShowToast(this, "请输入RSS源名称");
             return;
         }
-        if (TextUtils.isEmpty(link) || !imgUrl.startsWith("http")) {
+        if (TextUtils.isEmpty(link) || !link.startsWith("http")) {
             T.ShowToast(this, "请输入正确的源链接地址");
             return;
         }
