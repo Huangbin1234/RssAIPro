@@ -194,6 +194,10 @@
 -dontwarn okio.**
 #=====OkHttp3 E=====##
 
+#=====Rome S=====##
+-keep class com.rometools.** { *;}
+#=====Rome E=====##
+
 #=========umeng混淆 start==========#
 -dontshrink
 -dontoptimize
