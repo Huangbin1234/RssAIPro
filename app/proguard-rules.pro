@@ -146,6 +146,7 @@
 
 # Application classes that will be serialized/deserialized over Gson
 -keep class com.hb.rssai.bean.** { *; }
+-keep class com.rss.bean.** { *; }
 
 # Prevent proguard from stripping interface information from TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
