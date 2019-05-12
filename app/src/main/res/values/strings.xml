@@ -187,5 +187,9 @@
     <string name="str_rss_abstract">一段话描述此源信息</string>
     <string name="str_input_sort">输入排序值</string>
     <string name="sa_tv_day_night_label">开启后主题置为默认</string>
+    <string name="str_offline_list_title">源数据</string>
+    <string name="str_sa_offline">脱机模式</string>
+    <string name="sa_tv_offline_label">源采集工作在本地完成</string>
+    <string name="str_offline_notice">脱机模式下无法使用此功能</string>
 
 </resources>

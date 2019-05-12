@@ -110,6 +110,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     RelativeLayout mSaRlColdReboot;
     @BindView(R.id.sa_rl_theme)
     RelativeLayout mSaRlTheme;
+    @BindView(R.id.sa_tv_offline)
+    TextView mSaTvOffline;
+    @BindView(R.id.sa_sw_offline)
+    Switch mSaSwOffline;
+    @BindView(R.id.sa_rl_offline)
+    RelativeLayout mSaRlOffline;
+    @BindView(R.id.sa_tv_day_night)
+    TextView mSaTvDayNight;
+    @BindView(R.id.sa_tv_theme)
+    TextView mSaTvTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +142,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else {
             mSaSwNoImage.setChecked(false);
         }
+        boolean isOffline = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_OFFLINE_MODE, false);
+        if (isOffline) {
+            mSaSwOffline.setChecked(true);
+        } else {
+            mSaSwOffline.setChecked(false);
+        }
+
         boolean isNight = SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false);
         if (isNight) {
             mSaSwDayNight.setChecked(true);
@@ -213,12 +230,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 checkUpdate();
                 break;
             case R.id.sa_rl_share:
-                try{
-                    Uri uri = Uri.parse("market://details?id="+getPackageName());
-                    Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                try {
+                    Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }catch(Exception e){
+                } catch (Exception e) {
                     Toast.makeText(this, "您的手机没有安装Android应用市场", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
@@ -248,7 +265,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 //                }
                 break;
             case R.id.sa_rl_theme:
-
 //                initThemePop();
 
                 showThemePop();
@@ -496,7 +512,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
     };
 
-    @OnCheckedChanged({R.id.sa_sw_change_source, R.id.sa_sw_no_image, R.id.sa_sw_cold_reboot})
+    @OnCheckedChanged({R.id.sa_sw_change_source, R.id.sa_sw_no_image, R.id.sa_sw_cold_reboot, R.id.sa_sw_offline})
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
@@ -538,6 +554,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_COLD_REBOOT_MODE, true);
                 } else {
                     SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_COLD_REBOOT_MODE, false);
+                }
+                break;
+            case R.id.sa_sw_offline:
+                if (isChecked) {
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_OFFLINE_MODE, true);
+                } else {
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_OFFLINE_MODE, false);
                 }
                 break;
             default:

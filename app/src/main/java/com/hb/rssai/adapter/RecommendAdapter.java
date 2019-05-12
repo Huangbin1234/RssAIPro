@@ -15,6 +15,7 @@ import com.hb.rssai.bean.ResFindMore;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.view.subscription.OfflineListActivity;
 import com.hb.rssai.view.subscription.SourceCardActivity;
 
 import java.util.List;
@@ -69,14 +70,22 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
         }
         holder.ir_iv_add.setOnClickListener(v -> onAddClickedListener.onAdd(rssList.get(position), v));
         holder.v.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, SourceCardActivity.class);
-            intent.putExtra(SourceCardActivity.KEY_LINK, rssList.get(position).getLink());
-            intent.putExtra(SourceCardActivity.KEY_TITLE, rssList.get(position).getName());
-            intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
-            intent.putExtra(SourceCardActivity.KEY_IMAGE, rssList.get(position).getImg());
-            intent.putExtra(SourceCardActivity.KEY_DESC, rssList.get(position).getAbstractContent());
-            intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rssList.get(position).isCheck());
-            mContext.startActivity(intent);
+            boolean isOffline = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_OFFLINE_MODE, false);
+            if (isOffline) {
+                Intent intent = new Intent(mContext, OfflineListActivity.class);
+                intent.putExtra(OfflineListActivity.KEY_LINK, rssList.get(position).getLink());
+                intent.putExtra(OfflineListActivity.KEY_NAME, rssList.get(position).getName());
+                mContext.startActivity(intent);
+            } else {
+                Intent intent = new Intent(mContext, SourceCardActivity.class);
+                intent.putExtra(SourceCardActivity.KEY_LINK, rssList.get(position).getLink());
+                intent.putExtra(SourceCardActivity.KEY_TITLE, rssList.get(position).getName());
+                intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
+                intent.putExtra(SourceCardActivity.KEY_IMAGE, rssList.get(position).getImg());
+                intent.putExtra(SourceCardActivity.KEY_DESC, rssList.get(position).getAbstractContent());
+                intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rssList.get(position).isCheck());
+                mContext.startActivity(intent);
+            }
         });
     }
 

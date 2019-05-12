@@ -369,9 +369,6 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
         if (resLists != null && pageNum == 1) {
             resLists.clear();
         }
-        isLoad = false;
-        mSubSwipeLayout.setRefreshing(false);
-        mSubLl.setVisibility(View.GONE);
         //TODO 填充数据
         if (resFindMore.getRetCode() == 0) {
             includeNoData.setVisibility(View.GONE);
@@ -403,6 +400,9 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
             mSubRecyclerView.setVisibility(View.GONE);
             T.ShowToast(this, resFindMore.getRetMsg());
         }
+        isLoad = false;
+        mSubSwipeLayout.setRefreshing(false);
+        mSubLl.setVisibility(View.GONE);
     }
 
     @Override

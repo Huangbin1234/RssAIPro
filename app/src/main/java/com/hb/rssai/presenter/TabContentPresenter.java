@@ -20,6 +20,7 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.iView.ITabContentView;
+import com.hb.rssai.view.subscription.OfflineListActivity;
 import com.hb.rssai.view.subscription.SourceCardActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -108,14 +109,22 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
                 if (findMoreAdapter == null) {
                     findMoreAdapter = new FindMoreAdapter(mContext, resFindMores);
                     findMoreAdapter.setOnItemClickedListener(rowsBean1 -> {
-                        Intent intent = new Intent(mContext, SourceCardActivity.class);
-                        intent.putExtra(SourceCardActivity.KEY_LINK, rowsBean1.getLink());
-                        intent.putExtra(SourceCardActivity.KEY_TITLE, rowsBean1.getName());
-                        intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
-                        intent.putExtra(SourceCardActivity.KEY_IMAGE, rowsBean1.getImg());
-                        intent.putExtra(SourceCardActivity.KEY_DESC, rowsBean1.getAbstractContent());
-                        intent.putExtra(SourceCardActivity.KEY_IS_CHECK,  rowsBean1.isCheck());
-                        mContext.startActivity(intent);
+                        boolean isOffline = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_OFFLINE_MODE, false);
+                        if (isOffline) {
+                            Intent intent = new Intent(mContext, OfflineListActivity.class);
+                            intent.putExtra(OfflineListActivity.KEY_LINK, rowsBean1.getLink());
+                            intent.putExtra(OfflineListActivity.KEY_NAME, rowsBean1.getName());
+                            mContext.startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(mContext, SourceCardActivity.class);
+                            intent.putExtra(SourceCardActivity.KEY_LINK, rowsBean1.getLink());
+                            intent.putExtra(SourceCardActivity.KEY_TITLE, rowsBean1.getName());
+                            intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
+                            intent.putExtra(SourceCardActivity.KEY_IMAGE, rowsBean1.getImg());
+                            intent.putExtra(SourceCardActivity.KEY_DESC, rowsBean1.getAbstractContent());
+                            intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rowsBean1.isCheck());
+                            mContext.startActivity(intent);
+                        }
                     });
                     findMoreAdapter.setOnAddClickedListener((bean, v) -> {
                         rowsBean = bean;

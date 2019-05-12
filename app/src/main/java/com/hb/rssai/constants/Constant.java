@@ -1,7 +1,6 @@
 package com.hb.rssai.constants;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2017/4/25.
@@ -44,7 +43,7 @@ public class Constant {
 
     public static final String KEY_SYS_NIGHT_MODE = "sys_night_mode";
     public static final String KEY_SYS_NIGHT_MODE_TIME = "sys_night_mode_time";
-
+    public static final String KEY_IS_OFFLINE_MODE = "key_is_offline_mode";//脱机模式
 
     public static final String LAST_UPDATE_TIME = "last_update_time";
     public static final String TIPS_IMAGE_SELECTOR = "选择封面图片";
@@ -63,6 +62,7 @@ public class Constant {
     public static final String KEY_CACHE_AVATAR = "key_avatar";//头像
     public static final String KEY_CACHE_AVATAR_NAME = "key_avatar_name";//头像名
     public static final String KEY_JAMES = "james";
+
 
 
     public static String START_TIME = "1990-01-01 00:00:00";

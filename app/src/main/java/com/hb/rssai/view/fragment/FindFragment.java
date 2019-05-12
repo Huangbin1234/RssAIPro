@@ -41,6 +41,7 @@ import com.hb.rssai.view.common.LoginActivity;
 import com.hb.rssai.view.iView.IFindView;
 import com.hb.rssai.view.me.SearchActivity;
 import com.hb.rssai.view.subscription.AddSourceActivity;
+import com.hb.rssai.view.subscription.OfflineListActivity;
 import com.hb.rssai.view.subscription.SourceCardActivity;
 import com.hb.rssai.view.subscription.tab.TabResourceActivity;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
@@ -351,15 +352,22 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
                 if (findMoreAdapter == null) {
                     findMoreAdapter = new FindMoreAdapter(getContext(), resFindMores);
                     findMoreAdapter.setOnItemClickedListener(rowsBean1 -> {
-
-                        Intent intent = new Intent(getContext(), SourceCardActivity.class);
-                        intent.putExtra(SourceCardActivity.KEY_LINK, rowsBean1.getLink());
-                        intent.putExtra(SourceCardActivity.KEY_TITLE, rowsBean1.getName());
-                        intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
-                        intent.putExtra(SourceCardActivity.KEY_IMAGE, rowsBean1.getImg());
-                        intent.putExtra(SourceCardActivity.KEY_DESC, rowsBean1.getAbstractContent());
-                        intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rowsBean1.isCheck());
-                        getContext().startActivity(intent);
+                        boolean isOffline = SharedPreferencesUtil.getBoolean(getContext(), Constant.KEY_IS_OFFLINE_MODE, false);
+                        if (isOffline) {
+                            Intent intent = new Intent(getContext(), OfflineListActivity.class);
+                            intent.putExtra(OfflineListActivity.KEY_LINK, rowsBean1.getLink());
+                            intent.putExtra(OfflineListActivity.KEY_NAME, rowsBean1.getName());
+                            getContext().startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(getContext(), SourceCardActivity.class);
+                            intent.putExtra(SourceCardActivity.KEY_LINK, rowsBean1.getLink());
+                            intent.putExtra(SourceCardActivity.KEY_TITLE, rowsBean1.getName());
+                            intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
+                            intent.putExtra(SourceCardActivity.KEY_IMAGE, rowsBean1.getImg());
+                            intent.putExtra(SourceCardActivity.KEY_DESC, rowsBean1.getAbstractContent());
+                            intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rowsBean1.isCheck());
+                            getContext().startActivity(intent);
+                        }
                     });
                     findMoreAdapter.setOnAddClickedListener((bean, v) -> {
                         rowsBean = bean;

@@ -3,10 +3,8 @@ package com.hb.rssai.util;
 import android.app.Activity;
 
 import com.hb.rssai.bean.RssSource;
-import com.rss.bean.RSSItemBean;
 import com.rss.bean.Website;
 import com.rss.util.Dom4jUtil;
-import com.rss.util.FeedReader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,23 +70,23 @@ public class RssDataSourceUtil {
      *
      * @param website
      */
-    public static List<RSSItemBean> getRssData(Website website, int count) {
-        if (!website.getOpen().equals("true")) {
-            return null;
-        }
-        List<RSSItemBean> rssList = new ArrayList<>();
-        try {
-            List<RSSItemBean> rssTempList = new FeedReader().getContent(website).getRSSItemBeen();                   //获取有内容的 rssItemBean
-            if (rssTempList != null) {
-                if (rssTempList.size() > count && count != -1) {
-                    rssList.addAll(rssTempList.subList(0, 4));
-                } else {
-                    rssList.addAll(rssTempList);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return rssList;
-    }
+//    public static List<RSSItemBean> getRssData(Website website, int count) {
+//        if (!website.getOpen().equals("true")) {
+//            return null;
+//        }
+//        List<RSSItemBean> rssList = new ArrayList<>();
+//        try {
+//            List<RSSItemBean> rssTempList = new FeedReader().getContent(website).getRSSItemBeen();                   //获取有内容的 rssItemBean
+//            if (rssTempList != null) {
+//                if (rssTempList.size() > count && count != -1) {
+//                    rssList.addAll(rssTempList.subList(0, 4));
+//                } else {
+//                    rssList.addAll(rssTempList);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return rssList;
+//    }
 }

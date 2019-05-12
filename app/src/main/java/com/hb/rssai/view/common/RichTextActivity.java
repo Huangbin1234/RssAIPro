@@ -55,7 +55,6 @@ import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.Log;
 import com.umeng.socialize.utils.ShareBoardlistener;
-//import com.zzhoujay.richtext.RichText;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -68,6 +67,8 @@ import butterknife.OnClick;
 import retrofit2.adapter.rxjava.HttpException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
+//import com.zzhoujay.richtext.RichText;
 
 public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener, RichTextContract.View {
 
@@ -127,10 +128,12 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     private Evaluate evaluate = new Evaluate();
 
     RichTextContract.Presenter mPresenter;
+    boolean isFirst = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isFirst = true;
         mPresenter.getLikeByTitle(title);
         if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.TOKEN, ""))) {
             mPresenter.updateCount(id);
@@ -536,7 +539,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 }
             }
         } else {
-            T.ShowToast(this, resInfo.getRetMsg());
+
+            if (!isFirst) {
+                boolean isOffline = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_OFFLINE_MODE, false);
+                if (isOffline) {
+                    T.ShowToast(this, getResources().getString(R.string.str_offline_notice));
+                } else {
+                    T.ShowToast(this, resInfo.getRetMsg());
+                }
+            }
+            isFirst = false;
         }
         mRtaLlGood.setEnabled(true);
         mRtaLlNotGood.setEnabled(true);

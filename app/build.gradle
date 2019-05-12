@@ -127,6 +127,5 @@ dependencies {
     dependencies { implementation 'com.android.support:multidex:1.0.1' }
     implementation "com.google.guava:guava:$rootProject.guavaVersion"
 //    implementation 'com.zzhoujay.richtext:richtext:latest-version'
-
-
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
 }
