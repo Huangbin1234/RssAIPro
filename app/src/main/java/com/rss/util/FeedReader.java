@@ -12,7 +12,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,13 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
+
+//import com.rometools.rome.feed.synd.SyndEntry;
+//import com.rometools.rome.feed.synd.SyndFeed;
+//import com.rometools.rome.io.SyndFeedInput;
+//import com.rometools.rome.io.XmlReader;
 
 
 /**
@@ -39,12 +48,20 @@ public class FeedReader {
             XmlReader xmlReader = null;
             xmlReader.setDefaultEncoding("UTF-8");
             //设置超时
+
             OkHttpClient httpClient = new OkHttpClient();
             httpClient.setConnectTimeout(30 * 000, TimeUnit.MILLISECONDS);
             Request request = new Request.Builder().url(feedUrl).build();
             response = httpClient.newCall(request).execute();
-            xmlReader = new XmlReader(response.body().byteStream());
+            //inputStream 转string 过滤特殊字符
+            if (url.equals("https://www.leiphone.com/feed/")) {
+                InputStream inputStream = streamToString(response.body().byteStream());
+                xmlReader = new XmlReader(inputStream);
+            } else {
+                xmlReader = new XmlReader(response.body().byteStream());
+            }
             SyndFeed feed = input.build(xmlReader);   //SyndFeed是rss和atom实现类SyndFeedImpl的接口
+
             List<SyndEntry> entries = feed.getEntries();
             RSSItemBean item = null;
             RssChannel rssChannel = new RssChannel();
@@ -103,6 +120,22 @@ public class FeedReader {
             }
         }
         return null;
+    }
+
+    private InputStream streamToString(InputStream inputStream) throws IOException {
+        StringBuffer out = new StringBuffer();
+        byte[] b = new byte[4096];
+        for (int n; (n = inputStream.read(b)) != -1; ) {
+            out.append(new String(b, 0, n));
+        }
+
+        String res = filter(out.toString());
+        return new ByteArrayInputStream(res.getBytes());
+    }
+
+    public String filter(String s) {
+//        return s.replaceAll("[\\x00-\\x08\\x0b-\\x0c\\x0e-\\x1f]", "");
+        return s.replaceAll("[\\x00-\\x08\\x0b-\\x0c\\x0e-\\x1f]", "");
     }
 
     private String formatStr(String s) {

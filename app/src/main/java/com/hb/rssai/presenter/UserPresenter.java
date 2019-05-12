@@ -42,8 +42,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
     private MultipartBody.Builder getBuilder() {
         String filePath = iUserView.getFilePath();
         File file = new File(filePath);//filePath 图片地址
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM);//表单类型
+        MultipartBody.Builder builder = new MultipartBody.Builder() .setType(MultipartBody.FORM);//表单类型
         RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         builder.addFormDataPart("file", file.getName(), imageBody);//file 后台接收图片流的参数名
         return builder;

@@ -196,6 +196,9 @@
 
 #=====Rome S=====##
 -keep class com.rometools.** { *;}
+#-keep class java.lang.annotation.Annotation {*;}
+-keep class org.hamcrest.beans.** {*;}
+-dontwarn org.hamcrest.beans.**
 #=====Rome E=====##
 
 #=========umeng混淆 start==========#
