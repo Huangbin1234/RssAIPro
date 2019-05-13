@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -196,11 +197,12 @@ public class FeedReader {
 
     List<Information> infoList;
 
-    public List<Information> getInfoList(String link) {
+    public List<Information> getInfoList(String link,String subscribeId) {
         infoList = new ArrayList<>();
         RssChannel rssChannel = new FeedReader().getContent(link);
         if (null != rssChannel && null != rssChannel.getRSSItemBeen() && rssChannel.getRSSItemBeen().size() > 0) {
             int size = rssChannel.getRSSItemBeen().size();
+            Date date=new Date();
             for (int i = 0; i < size; i++) {
                 RSSItemBean rs = rssChannel.getRSSItemBeen().get(i);
 
@@ -215,10 +217,12 @@ public class FeedReader {
                 information.setImageUrls(listToString(rs.getImages()));//TODO 数据获取
                 information.setLink(rs.getLink());
                 information.setPubTime(rs.getPubDate() != null ? Constant.sdf.format(rs.getPubDate()) : "");
+                information.setOprTime(Constant.sdf.format(date));
                 information.setTitle(rs.getTitle().trim());
                 information.setWhereFrom(rs.getType());
                 information.setClickGood(0);
                 information.setClickNotGood(0);
+                information.setSubscribeId(subscribeId);
 
                 infoList.add(information);
             }

@@ -103,6 +103,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
                 Intent intent = new Intent(mContext, OfflineListActivity.class);
                 intent.putExtra(OfflineListActivity.KEY_LINK, rssList.get(position).getLink());
                 intent.putExtra(OfflineListActivity.KEY_NAME, rssList.get(position).getName());
+                intent.putExtra(OfflineListActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
                 mContext.startActivity(intent);
             } else {
                 Intent intent = new Intent(mContext, SourceCardActivity.class);

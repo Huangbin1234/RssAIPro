@@ -5,7 +5,9 @@ import android.content.Context;
 import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
+import com.litesuits.orm.db.model.ColumnsValue;
 import com.litesuits.orm.db.model.ConflictAlgorithm;
+import com.rss.bean.Information;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class LiteOrmDBUtil {
     public static void createDb(Context context) {
         DB_NAME = "sql_rss_ai.db";
         liteOrm = LiteOrm.newSingleInstance(context, DB_NAME);
-        liteOrm.setDebugged(true);
+        liteOrm.setDebugged(false);
     }
 
     public static LiteOrm getLiteOrm() {
@@ -117,6 +119,17 @@ public class LiteOrmDBUtil {
      */
     public static <T> void update(T t) {
         liteOrm.update(t, ConflictAlgorithm.Replace);
+    }
+
+    /**
+     * 更新所有 某字段等于 Vlaue的值
+     *
+     * @param cla
+     * @param field
+     * @param value
+     */
+    public static <T> void updateWhere(Class<T> cla, String field, String[] value,String setFiled,String[] setValue) {
+        liteOrm.update(WhereBuilder.create(cla).where(field + "=?", value),new ColumnsValue(new String[]{setFiled}, setValue), ConflictAlgorithm.Fail);
     }
 
     public static <T> void updateALL(List<T> list) {

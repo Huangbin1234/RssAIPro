@@ -33,6 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class OfflineListActivity extends BaseActivity<OfflineListContract.View, OfflineListPresenter> implements OfflineListContract.View {
     public static final String KEY_LINK = "key_link";
     public static final String KEY_NAME = "key_name";
+    public static final String KEY_SUBSCRIBE_ID = "key_subscribe_id";
     OfflineListContract.Presenter mPresenter;
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -60,6 +61,7 @@ public class OfflineListActivity extends BaseActivity<OfflineListContract.View, 
     private String name;
     private OfflineListAdapter adapter;
     private List<Information> infoList = new ArrayList<>();
+    private String subscribeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class OfflineListActivity extends BaseActivity<OfflineListContract.View, 
     private void loadData() {
         if (!TextUtils.isEmpty(link)) {
             mOalSwipeLayout.setRefreshing(true);
-            mPresenter.getList(link);
+            mPresenter.getList(link,subscribeId);
         }
     }
 
@@ -80,6 +82,7 @@ public class OfflineListActivity extends BaseActivity<OfflineListContract.View, 
         Bundle bundle = getIntent().getExtras();
         if (null != bundle) {
             link = bundle.getString(KEY_LINK, "");
+            subscribeId = bundle.getString(KEY_SUBSCRIBE_ID, "");
             name = bundle.getString(KEY_NAME, "");
             if (!TextUtils.isEmpty(name)) {
                 mSysTvTitle.setText(name);

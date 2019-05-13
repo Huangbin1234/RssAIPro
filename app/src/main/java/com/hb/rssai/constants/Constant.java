@@ -63,6 +63,7 @@ public class Constant {
     public static final String KEY_CACHE_AVATAR_NAME = "key_avatar_name";//头像名
     public static final String KEY_JAMES = "james";
 
+    public static final long DEFAULT_COLLECTION_TIME =60 * 1000 ;//
 
 
     public static String START_TIME = "1990-01-01 00:00:00";

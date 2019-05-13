@@ -46,4 +46,14 @@ public class StringUtil {
             return url;
         }
     }
+
+    /**
+     * [0,1)
+     * @param low
+     * @param high
+     * @return
+     */
+    public static int randomNumber (int low, int high) {
+        return (int) (Math.random() * (high - low + 1) + low);
+    }
 }

@@ -1,6 +1,7 @@
 package com.hb.rssai.bean;
 
 
+import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.Table;
 
 /**
@@ -19,11 +20,17 @@ public class Information {
     private String author;//作者
     private String whereFrom;//来自
     private String pubTime;//发布时间
+
+    @Column(COL_OPR_TIME)
     private String oprTime;//操作时间
+
     private int dataType;//数据类型
     private boolean deleteFlag;//删除标记
     private long clickGood;//点赞数
     private long clickNotGood;//点贬数
+    private String subscribeId;//订阅ID
+
+    public static final String COL_OPR_TIME = "oprTime";
 
     public String getId() {
         return id;
@@ -143,5 +150,13 @@ public class Information {
 
     public void setClickNotGood(long clickNotGood) {
         this.clickNotGood = clickNotGood;
+    }
+
+    public String getSubscribeId() {
+        return subscribeId;
+    }
+
+    public void setSubscribeId(String subscribeId) {
+        this.subscribeId = subscribeId;
     }
 }

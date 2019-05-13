@@ -357,6 +357,7 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
                             Intent intent = new Intent(getContext(), OfflineListActivity.class);
                             intent.putExtra(OfflineListActivity.KEY_LINK, rowsBean1.getLink());
                             intent.putExtra(OfflineListActivity.KEY_NAME, rowsBean1.getName());
+                            intent.putExtra(OfflineListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
                             getContext().startActivity(intent);
                         } else {
                             Intent intent = new Intent(getContext(), SourceCardActivity.class);
