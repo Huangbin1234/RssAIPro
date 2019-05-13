@@ -248,7 +248,8 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
     MaterialDialog materialDialog;
     ResFindMore.RetObjBean.RowsBean mClickBean;
     List<HashMap<String, Object>> list = new ArrayList<>();
-    private void openMenu(ResFindMore.RetObjBean.RowsBean bean,boolean isTag) {
+
+    private void openMenu(ResFindMore.RetObjBean.RowsBean bean, boolean isTag) {
         mClickBean = bean;
         if (list.size() > 0) {
             list.clear();
@@ -279,7 +280,7 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
                 } else if (list.get(position).get("id").equals(3)) {
                     materialDialog.dismiss();
                     ((SubListPresenter) mPresenter).delSubscription();
-                }else if (list.get(position).get("id").equals(4)) {
+                } else if (list.get(position).get("id").equals(4)) {
                     materialDialog.dismiss();
                     Intent intent = new Intent(this, ModifySubscriptionActivity.class);
                     intent.putExtra(ModifySubscriptionActivity.KEY_ID, mClickBean.getId());
@@ -381,7 +382,7 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
                     mSubListAdapter = new SubListAdapter(this, resLists, this);
                     mSubRecyclerView.setAdapter(mSubListAdapter);
                     mSubListAdapter.setOnItemLongClickedListener(rssSource -> {
-                        openMenu(rssSource,rssSource.isIsTag());
+                        openMenu(rssSource, rssSource.isIsTag());
                     });
                 } else {
                     mSubListAdapter.notifyDataSetChanged();
@@ -390,7 +391,7 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
             if (resLists.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
-        } else if (resFindMore.getRetCode() == 10013) {//暂无数据
+        } else if (resLists.size() <= 0 && resFindMore.getRetCode() == 10013) {//暂无数据
             includeNoData.setVisibility(View.VISIBLE);
             includeLoadFail.setVisibility(View.GONE);
             mSubRecyclerView.setVisibility(View.GONE);
