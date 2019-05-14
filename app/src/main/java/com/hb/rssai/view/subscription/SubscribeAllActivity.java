@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.DialogAdapter;
@@ -260,7 +261,6 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.view_dialog, null);
             FullListView listView = (FullListView) view.findViewById(R.id.dialog_listView);
-
 
             listView.setOnItemClickListener((parent, view1, position, id) -> {
                 if (list.get(position).get("id").equals(1)) {
