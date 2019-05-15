@@ -171,18 +171,37 @@ public class FeedReader {
             while (m.find()) {
                 groupStr = m.group(1);
                 if (null != groupStr && !"".equals(groupStr)) {
-                    if ("http".equals(groupStr.substring(0, 4))) {//只提取http开头的图片地址
+                    if ("http".equals(groupStr.substring(0, 4)) && !"http://simg.sinajs.cn/blog7style/images/special/1265.gif".equals(groupStr)) {//只提取http开头的图片地址
                         if (list.size() >= 3) {
                             break;
                         }
                         list.add(groupStr);
+                    } else if (!"http".equals(groupStr.substring(0, 4)) && (
+                            groupStr.endsWith(".jpg")
+                                    || groupStr.endsWith(".JPEG")
+                                    || groupStr.endsWith(".JPG")
+                                    || groupStr.endsWith(".png")
+                                    || groupStr.endsWith(".PNG")
+                                    || groupStr.endsWith(".GIF")
+                                    || groupStr.endsWith(".gif")
+                                    || groupStr.endsWith(".BMP")
+                                    || groupStr.endsWith(".bmp")
+                                    || groupStr.endsWith(".BMP")
+                                    || groupStr.endsWith(".bmp"))) {
+                        if (list.size() >= 3) {
+                            break;
+                        }
+                        if (groupStr.startsWith("//")) {
+                            list.add("http:" + groupStr);
+                        } else {
+                            list.add("http://" + groupStr);
+                        }
                     }
                 }
             }
         }
         return list;
     }
-
     /**
      * 从html 中获取 新闻正文
      *
