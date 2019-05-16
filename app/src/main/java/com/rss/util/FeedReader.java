@@ -51,7 +51,7 @@ public class FeedReader {
             //设置超时
 
             OkHttpClient httpClient = new OkHttpClient();
-            httpClient.setConnectTimeout(30 * 000, TimeUnit.MILLISECONDS);
+            httpClient.setConnectTimeout(30 * 1000, TimeUnit.MILLISECONDS);
             Request request = new Request.Builder().url(feedUrl).build();
             response = httpClient.newCall(request).execute();
             //inputStream 转string 过滤特殊字符

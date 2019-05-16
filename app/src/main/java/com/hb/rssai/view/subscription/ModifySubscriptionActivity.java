@@ -82,7 +82,7 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
 
     DataTypeAdapter dataTypeAdapter;
 
-    int dataType = 10;
+    int dataType = 7;
     String v_id;
     String v_name;
     String v_img;
@@ -251,19 +251,20 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
             T.ShowToast(this, "请输入摘要");
             return;
         }
-        SubParams subscription = new SubParams();
-        subscription.setId(v_id);
-        subscription.setName(name);
-        subscription.setAbstractContent(abstractContent);
-        subscription.setLink(link);
-        subscription.setImg(imgUrl);
-        subscription.setTag(v_is_tag);
-        subscription.setRecommend(isRecommend);
+        SubParams subParams = new SubParams();
+        subParams.setId(v_id);
+        subParams.setName(name);
+        subParams.setAbstractContent(abstractContent);
+        subParams.setLink(link);
+        subParams.setImg(imgUrl);
+        subParams.setDataType(dataType);
+        subParams.setTag(v_is_tag);
+        subParams.setRecommend(isRecommend);
 
-        subscription.setSort(sort);
+        subParams.setSort(sort);
 
         Map<String, Object> map = new HashMap<>();
-        String jsonParams = GsonUtil.toJson(subscription);
+        String jsonParams = GsonUtil.toJson(subParams);
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);
 
         mPresenter.modifySubscription(map);
