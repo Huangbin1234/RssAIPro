@@ -107,6 +107,7 @@ public class ResFindMore {
             private long sort;
             private String usId;//用户订阅关系ID
             private int findCount;//发现新资讯数
+            private int dataType;
 
 
             public boolean isIsRecommend() {
@@ -235,6 +236,14 @@ public class ResFindMore {
 
             public void setLastTime(String lastTime) {
                 this.lastTime = lastTime;
+            }
+
+            public int getDataType() {
+                return dataType;
+            }
+
+            public void setDataType(int dataType) {
+                this.dataType = dataType;
             }
         }
     }

@@ -291,6 +291,7 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
                     intent.putExtra(ModifySubscriptionActivity.KEY_SORT, mClickBean.getSort());
                     intent.putExtra(ModifySubscriptionActivity.KEY_IS_RECOMMEND, mClickBean.isIsRecommend());
                     intent.putExtra(ModifySubscriptionActivity.KEY_IS_TAG, mClickBean.isIsTag());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_DATA_TYPE, mClickBean.getDataType());
                     startActivity(intent);
                 }
             });

@@ -13,7 +13,7 @@ public class SubParams {
     private boolean isRecommend;
     private String sort;
     private boolean isTag;
-    private int dataType;
+    private String dataType;
 
     public String getId() {
         return id;
@@ -80,11 +80,12 @@ public class SubParams {
         this.sort = sort;
     }
 
-    public int getDataType() {
+
+    public String getDataType() {
         return dataType;
     }
 
-    public void setDataType(int dataType) {
+    public void setDataType(String dataType) {
         this.dataType = dataType;
     }
 }

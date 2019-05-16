@@ -47,6 +47,7 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
     public static final String KEY_SORT = "key_sort";
     public static final String KEY_IS_RECOMMEND = "key_is_recommend";
     public static final String KEY_IS_TAG = "key_is_tag";
+    public static final String KEY_DATA_TYPE = "key_data_type";
     ModifySubscriptionContract.Presenter mPresenter;
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -91,6 +92,7 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
     long v_sort;
     boolean v_is_recommend;
     boolean v_is_tag;
+    private int v_data_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,9 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
             v_sort = bundle.getLong(KEY_SORT);
             v_is_recommend = bundle.getBoolean(KEY_IS_RECOMMEND);
             v_is_tag = bundle.getBoolean(KEY_IS_TAG);
+            v_data_type = bundle.getInt(KEY_DATA_TYPE);
+
+            dataType = v_data_type;
         }
     }
 
@@ -121,7 +126,6 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
 
     @Override
     protected void initView() {
-
         mMsaSpDataType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -204,6 +208,23 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
                 mMsaSpDataType.setAdapter(dataTypeAdapter);
             }
             dataTypeAdapter.notifyDataSetChanged();
+            //  设置选中
+            selectSp(v_data_type);
+        }
+    }
+
+    private void selectSp(int dt) {
+        try {
+            int k = mMsaSpDataType.getAdapter().getCount();
+            for (int i = 0; i < k; i++) {
+                ResDataGroup.RetObjBean.RowsBean rb = (ResDataGroup.RetObjBean.RowsBean) mMsaSpDataType.getItemAtPosition(i);
+                if (dt == (rb.getVal())) {
+                    mMsaSpDataType.setSelection(i, true);
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -257,7 +278,8 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
         subParams.setAbstractContent(abstractContent);
         subParams.setLink(link);
         subParams.setImg(imgUrl);
-        subParams.setDataType(dataType);
+        String dt = "" + dataType;
+        subParams.setDataType(dt);
         subParams.setTag(v_is_tag);
         subParams.setRecommend(isRecommend);
 

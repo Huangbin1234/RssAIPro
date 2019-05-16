@@ -458,6 +458,7 @@ public class SubscriptionFragment extends BaseFragment implements View.OnClickLi
                     intent.putExtra(ModifySubscriptionActivity.KEY_SORT, rowsBean.getSort());
                     intent.putExtra(ModifySubscriptionActivity.KEY_IS_RECOMMEND, rowsBean.isIsRecommend());
                     intent.putExtra(ModifySubscriptionActivity.KEY_IS_TAG, rowsBean.isIsTag());
+                    intent.putExtra(ModifySubscriptionActivity.KEY_DATA_TYPE, rowsBean.getDataType());
                     startActivity(intent);
                 }
             });
