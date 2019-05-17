@@ -12,10 +12,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
-//        ndk {
-//            //设置支持的SO库架构
-//            abiFilters 'armeabi', 'armeabi-v7a'//,  'arm64-v8a', 'x86', 'armeabi-v7a', 'x86_64'
-//        }
         packagingOptions {
             exclude "lib/arm64-v8a/libzbar.so"
             exclude('META-INF/LICENSE.txt')
@@ -86,9 +82,7 @@ dependencies {
     })
     implementation files('libs/lite-orm-1.9.1.jar')
     //rome解析相关
-//    implementation files('libs/dom4j-2.0.1.jar')
-//    implementation files('libs/slf4j-api-1.7.25.jar')
-//    implementation 'org.jdom:jdom2:2.0.6'
+
     implementation 'com.rometools:rome:1.12.0'
     implementation 'com.rometools:rome-opml:1.12.0'
 
