@@ -449,7 +449,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return readXML.readRss(xmlReader);
+            return readXML.readOpml(xmlReader);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

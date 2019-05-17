@@ -71,7 +71,6 @@ public class GuideActivity extends FragmentActivity {
         @Override
         public void onPageScrollStateChanged(int arg0) {
             // TODO Auto-generated method stub
-
         }
     };
 

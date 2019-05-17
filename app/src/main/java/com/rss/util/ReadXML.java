@@ -9,10 +9,7 @@ import com.rometools.opml.feed.opml.Outline;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.WireFeedInput;
 
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.io.Writer;
 import java.util.List;
 
 
@@ -22,7 +19,6 @@ import java.util.List;
  * @author Longxuan
  */
 public class ReadXML {
-
 
     private static class LazyHolder {
         private static final ReadXML INSTANCE = new ReadXML();
@@ -38,7 +34,7 @@ public class ReadXML {
     /**
      * 读取ompl文件
      */
-    public List<Outline> readRss(Reader reader) {
+    public List<Outline> readOpml(Reader reader) {
         WireFeedInput input = new WireFeedInput();
         Opml feed = null;
         try {
@@ -46,6 +42,6 @@ public class ReadXML {
         } catch (FeedException e) {
             e.printStackTrace();
         }
-        return (List<Outline>) feed.getOutlines();
+        return feed.getOutlines();
     }
 }
