@@ -1,8 +1,6 @@
 package com.hb.rssai.view.common;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,8 +34,6 @@ import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.ByteArrayOutputStream;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -161,12 +157,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
                     laChkTvPsdControl.setChecked(false);
                     //否则隐藏密码
                     mLaEtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-//                    mLaEtPassword.setCompoundDrawables(getResources().getDrawable(R.drawable.selector_ic_lock), null, null, null);
                 } else {
                     laChkTvPsdControl.setChecked(true);
                     //如果选中，显示密码
                     mLaEtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-//                    mLaEtPassword.setCompoundDrawables(getResources().getDrawable(R.drawable.selector_ic_lock), null, null, null);
                 }
                 break;
         }
