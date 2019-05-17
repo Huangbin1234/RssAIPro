@@ -28,7 +28,6 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -65,51 +64,30 @@ import static com.hb.update.UpdateManager.SAVE_VER_UPDATEURL;
 import static com.hb.update.UpdateManager.SAVE_VER_VERNAME;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
-
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
     @BindView(R.id.sys_toolbar)
     Toolbar mSysToolbar;
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
-    @BindView(R.id.sa_rl_day_night)
-    RelativeLayout mSaRlDayNight;
-    @BindView(R.id.sa_rl_opr_image)
-    RelativeLayout mSaRlOprImage;
-    @BindView(R.id.sa_rl_share)
-    RelativeLayout mSaRlShare;
-    @BindView(R.id.sa_rl_update)
-    RelativeLayout mSaRlUpdate;
-    @BindView(R.id.sa_rl_about)
-    RelativeLayout mSaRlAbout;
-    @BindView(R.id.sa_ll)
-    LinearLayout mSaLl;
-    @BindView(R.id.sa_sw_day_night)
-    Switch mSaSwDayNight;
-    @BindView(R.id.sa_sw_no_image)
-    Switch mSaSwNoImage;
+    @BindView(R.id.sa_tv_change_source)
+    TextView mSaTvChangeSource;
     @BindView(R.id.sa_sw_change_source)
     Switch mSaSwChangeSource;
     @BindView(R.id.sa_rl_change_source)
     RelativeLayout mSaRlChangeSource;
-    @BindView(R.id.sa_rl_advice)
-    RelativeLayout mSaRlAdvice;
-    @BindView(R.id.sa_tv_ver)
-    TextView mSaTvVer;
-    @BindView(R.id.sa_tv_ver_label)
-    TextView mSaTvVerLabel;
-    @BindView(R.id.sa_tv_change_source)
-    TextView mSaTvChangeSource;
     @BindView(R.id.sa_tv_opr_image)
     TextView mSaTvOprImage;
+    @BindView(R.id.sa_sw_no_image)
+    Switch mSaSwNoImage;
+    @BindView(R.id.sa_rl_opr_image)
+    RelativeLayout mSaRlOprImage;
     @BindView(R.id.sa_tv_cold_reboot)
     TextView mSaTvColdReboot;
     @BindView(R.id.sa_sw_cold_reboot)
     Switch mSaSwColdReboot;
     @BindView(R.id.sa_rl_cold_reboot)
     RelativeLayout mSaRlColdReboot;
-    @BindView(R.id.sa_rl_theme)
-    RelativeLayout mSaRlTheme;
     @BindView(R.id.sa_tv_offline)
     TextView mSaTvOffline;
     @BindView(R.id.sa_sw_offline)
@@ -118,8 +96,22 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     RelativeLayout mSaRlOffline;
     @BindView(R.id.sa_tv_day_night)
     TextView mSaTvDayNight;
+    @BindView(R.id.sa_sw_day_night)
+    Switch mSaSwDayNight;
+    @BindView(R.id.sa_rl_day_night)
+    RelativeLayout mSaRlDayNight;
     @BindView(R.id.sa_tv_theme)
     TextView mSaTvTheme;
+    @BindView(R.id.sa_rl_theme)
+    RelativeLayout mSaRlTheme;
+    @BindView(R.id.sa_rl_share)
+    RelativeLayout mSaRlShare;
+    @BindView(R.id.sa_rl_advice)
+    RelativeLayout mSaRlAdvice;
+    @BindView(R.id.sa_rl_about)
+    RelativeLayout mSaRlAbout;
+    @BindView(R.id.sa_ll)
+    LinearLayout mSaLl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,8 +120,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-
-
         int dateFrom = SharedPreferencesUtil.getInt(this, Constant.KEY_DATA_FROM, 0);
         if (dateFrom == 0) {
             mSaSwChangeSource.setChecked(false);
@@ -162,14 +152,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             mSaSwColdReboot.setChecked(false);
         }
 
-        mSaTvVer.setText("V " + Config.getVerName(this));
-        //进入对应的页面判断标记是否有更新在进行调用此方法
-        if (SharedPreferencesUtil.getBoolean(SettingActivity.this, Constant.SAVE_IS_UPDATE, false)) {
-            //添加红点
-            mSaTvVerLabel.setVisibility(View.VISIBLE);
-        } else {
-            mSaTvVerLabel.setVisibility(View.GONE);
-        }
         mSaSwDayNight.setOnClickListener(v -> {
             SharedPreferencesUtil.setLong(SettingActivity.this, Constant.KEY_SYS_NIGHT_MODE_TIME, new Date().getTime());
             if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
@@ -190,7 +172,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             SharedPreferencesUtil.setInt(this, Constant.KEY_THEME, R.style.Theme_default);
         });
-
         initThemePop();
     }
 
@@ -216,7 +197,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         return null;
     }
 
-    @OnClick({R.id.sa_rl_about, R.id.sa_rl_advice, R.id.sa_rl_update, R.id.sa_rl_share, R.id.sa_rl_theme})
+    @OnClick({R.id.sa_rl_about, R.id.sa_rl_advice, R.id.sa_rl_share, R.id.sa_rl_theme})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -225,9 +206,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.sa_rl_advice:
                 startActivity(new Intent(this, AdviceActivity.class));
-                break;
-            case R.id.sa_rl_update:
-                checkUpdate();
                 break;
             case R.id.sa_rl_share:
                 try {
@@ -239,34 +217,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     Toast.makeText(this, "您的手机没有安装Android应用市场", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
-
-//                Uri uri = Uri.parse("https://www.coolapk.com/apk/176794");
-//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                startActivity(intent);
-
-//                try {
-//                    String alipayUrl = SharedPreferencesUtil.getString(this, Constant.AlipaysUrl, "");
-//                    if (alipayUrl.startsWith("alipays")) {
-//                        //利用Intent打开支付宝
-//                        Uri uri = Uri.parse(alipayUrl);
-//                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                        startActivity(intent);
-//                    } else {
-//
-//                        Intent intent = new Intent(this, ContentActivity.class);
-//                        intent.putExtra(ContentActivity.KEY_URL, alipayUrl);
-//                        intent.putExtra(ContentActivity.KEY_TITLE, getResources().getString(R.string.str_share_content));
-//                        intent.putExtra(ContentActivity.KEY_INFORMATION_ID, "");
-//                        startActivity(intent);
-//                    }
-//                } catch (Exception e) {
-//                    //若无法正常跳转，在此进行错误处理
-//                    T.ShowToast(this, getResources().getString(R.string.str_no_data));
-//                }
                 break;
             case R.id.sa_rl_theme:
-//                initThemePop();
-
                 showThemePop();
                 break;
             default:
@@ -302,30 +254,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
      * 弹出主题设置框
      */
     private void initThemePop() {
-//        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        popupView = inflater.inflate(R.layout.pop_theme, null);
-//        mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        mPop.setFocusable(true);
-//        ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
-//        mPop.setBackgroundDrawable(cd);
-//        mPop.update();
-//        mPop.setOutsideTouchable(true);
-//        mPop.setAnimationStyle(R.style.PopupAnimation);
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-//            mPop.showAtLocation(mSaLl, Gravity.CENTER, 0, 0);
-//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            mPop.showAtLocation(mSaLl, Gravity.CENTER, 0, 0);
-//        } else {
-//            mPop.showAtLocation(mSaLl, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
-//        }
-//        mPop.update();
-//        backgroundAlpha(0.5f);
-//        mPop.setOnDismissListener(new PopOnDismissListener());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(this);
         popupView = inflater.inflate(R.layout.pop_theme, null);
-        //builer.setView(v);//这里如果使用builer.setView(v)，自定义布局只会覆盖title和button之间的那部分
         mPop = builder.create();
 
         View pt_v_red = popupView.findViewById(R.id.pt_v_red);
@@ -408,21 +340,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     /**
-     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
-     *
-     * @author cg
-     */
-    class PopOnDismissListener implements PopupWindow.OnDismissListener {
-
-        @Override
-        public void onDismiss() {
-            // TODO Auto-generated method stub
-            //Log.v("List_noteTypeActivity:", "我是关闭事件");
-            backgroundAlpha(1f);
-        }
-    }
-
-    /**
      * 设置添加屏幕的背景透明度
      *
      * @param bgAlpha
@@ -443,74 +360,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         EventBus.getDefault().post(new MineEvent(3));
     }
-
-    PrgDialog dialog;
-
-    public void checkUpdate() {
-        ConnectivityManager cwjManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = cwjManager.getActiveNetworkInfo();
-        if (info != null && info.isAvailable()) {
-            dialog = new PrgDialog(this, true);
-            CheckVerRunnable checkRunnable = new CheckVerRunnable();
-            Thread checkThread = new Thread(checkRunnable);
-            checkThread.start();
-        } else {
-            T.ShowToast(this, Constant.FAILED_NETWORK);
-        }
-    }
-
-    /**
-     * request server checkvercode.json file.
-     */
-    class CheckVerRunnable implements Runnable {
-        @Override
-        public void run() {
-            // replace your .json file url.
-            boolean isUpdate = UpdateManager.getUpdateInfo(SettingActivity.this, ApiRetrofit.JSON_URL);
-            if (isUpdate) {
-                updateHandler.sendEmptyMessage(1);
-            } else {
-                updateHandler.sendEmptyMessage(0);
-            }
-        }
-    }
-
-    /**
-     * handler rec.
-     */
-    @SuppressLint("HandlerLeak")
-    Handler updateHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            dialog.closeDialog();
-            switch (msg.what) {
-                case 0:
-                    // To do something.
-                    com.hb.util.SharedPreferencesUtil.setBoolean(SettingActivity.this, SAVE_ISUPDATE, false);//置为更新标记false
-                    T.ShowToast(SettingActivity.this, "当前已是最新版本");
-                    Log.d("GeneralUpdateLib", "There's no new version here.");
-                    break;
-                case 1:
-                    // Find new version.
-                    com.hb.util.SharedPreferencesUtil.setString(SettingActivity.this, SAVE_VER_UPDATEURL, UpdateManager.getVerUpdateURL());
-                    com.hb.util.SharedPreferencesUtil.setString(SettingActivity.this, SAVE_VER_VERNAME, UpdateManager.getVerVerName());
-                    com.hb.util.SharedPreferencesUtil.setString(SettingActivity.this, SAVE_VER_CODE, UpdateManager.getVerVerCode());
-                    com.hb.util.SharedPreferencesUtil.setString(SettingActivity.this, SAVE_VER_CONTENT, UpdateManager.getVerContent());
-
-                    com.hb.util.SharedPreferencesUtil.setBoolean(SettingActivity.this, SAVE_ISUPDATE, true);//置为更新标记true
-                    //进入对应的页面判断标记是否有更新在进行调用此方法
-                    if (SharedPreferencesUtil.getBoolean(SettingActivity.this, Constant.SAVE_IS_UPDATE, false)) {
-                        UpdateManager.update(SettingActivity.this);
-                    }
-                    break;
-                default:
-                    break;
-            }
-            //弹出更新对话框
-        }
-    };
 
     @OnCheckedChanged({R.id.sa_sw_change_source, R.id.sa_sw_no_image, R.id.sa_sw_cold_reboot, R.id.sa_sw_offline})
     @Override

@@ -183,7 +183,6 @@ public class UserActivity extends BaseActivity implements IUserView {
                 .setCyclic(false, false, false)
                 .build();
         mGenderPicker.setPicker(genderList);
-
         //时间选择器
         Calendar selectedDate = Calendar.getInstance();
         Calendar startDate = Calendar.getInstance();
@@ -237,25 +236,8 @@ public class UserActivity extends BaseActivity implements IUserView {
             }
             backgroundAlpha(0.5f);
             mPop.setOnDismissListener(dialogInterface -> {
-                //Log.v("List_noteTypeActivity:", "我是关闭事件");
                 backgroundAlpha(1f);
             });
-
-//            if (mPop.isShowing()) {
-//                mPop.dismiss();
-//            } else {
-//                mPop.setAnimationStyle(R.style.PopupAnimation);
-//                if (Build.VERSION.SDK_INT < 24) {
-//                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, 0, 0);
-//                } else if (Build.VERSION.SDK_INT >= 26) {
-//                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, 0, 0);
-//                } else {
-//                    mPop.showAtLocation(mLlRootView, Gravity.CENTER, (DisplayUtil.getMobileWidth(this) - (DisplayUtil.getMobileWidth(this) * 8 / 10)) / 2, DisplayUtil.dip2px(this, 90));
-//                }
-//                mPop.update();
-//            }
-//            backgroundAlpha(0.5f);
-//            mPop.setOnDismissListener(new PopOnDismissListener());
         });
         //TODO 头像上传
         selectAvatar();
@@ -385,7 +367,7 @@ public class UserActivity extends BaseActivity implements IUserView {
             materialDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.dialog_et_view, null);
-            etNickName = (EditText) view.findViewById(R.id.dev_et);
+            etNickName = view.findViewById(R.id.dev_et);
             ResUser.RetObjBean retObjBean = resUser.getRetObj();
             if (retObjBean != null && retObjBean.getNickName() != null) {
                 etNickName.setText(retObjBean.getNickName());
@@ -412,7 +394,7 @@ public class UserActivity extends BaseActivity implements IUserView {
             materialEmailDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.dialog_et_email_view, null);
-            etMail = (EditText) view.findViewById(R.id.dev_et);
+            etMail = view.findViewById(R.id.dev_et);
             ResUser.RetObjBean retObjBean = resUser.getRetObj();
             if (retObjBean != null && retObjBean.getEmail() != null) {
                 etMail.setText(retObjBean.getEmail());
@@ -438,23 +420,7 @@ public class UserActivity extends BaseActivity implements IUserView {
     private Uri imageFileUri;
 
     private View popupView;
-    //    private PopupWindow mPop;// 初始化弹出层
     private Dialog mPop;// 初始化弹出层
-
-    /**
-     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
-     *
-     * @author cg
-     */
-    class PopOnDismissListener implements PopupWindow.OnDismissListener {
-
-        @Override
-        public void onDismiss() {
-            // TODO Auto-generated method stub
-            //Log.v("List_noteTypeActivity:", "我是关闭事件");
-            backgroundAlpha(1f);
-        }
-    }
 
     /**
      * 设置添加屏幕的背景透明度
@@ -469,23 +435,11 @@ public class UserActivity extends BaseActivity implements IUserView {
 
     private void selectAvatar() {
         if (mPop == null) {
-//            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//            popupView = inflater.inflate(R.layout.pop_image_up, null);
-//            mPop = new PopupWindow(popupView, DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
-//
-//            mPop.setFocusable(true);
-//            ColorDrawable cd = new ColorDrawable(Color.TRANSPARENT);
-//            mPop.setBackgroundDrawable(cd);
-//            mPop.update();
-//            mPop.setOutsideTouchable(true);
-
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             popupView = inflater.inflate(R.layout.pop_image_up, null);
             mPop = builder.create();
         }
-
         try {
             File file = new File(Environment.getExternalStorageDirectory().getCanonicalPath() + "/myImage");
             if (!file.exists()) {

@@ -118,7 +118,7 @@
     <string name="str_mine_subscribe">订阅</string>
     <string name="str_mine_offline">离线</string>
     <string name="str_mine_clear">清理</string>
-    <string name="sa_tv_change_source_label">首页只显示已订阅的主题资讯</string>
+    <string name="sa_tv_change_source_label">首页只显示已订阅的资讯</string>
     <string name="sa_tv_opr_image_label">应用于资讯列表</string>
     <string name="sub_menu_search">搜索</string>
     <string name="str_btn_sure">确定</string>
@@ -189,7 +189,7 @@
     <string name="sa_tv_day_night_label">开启后主题置为默认</string>
     <string name="str_offline_list_title">源数据</string>
     <string name="str_sa_offline">脱机模式</string>
-    <string name="sa_tv_offline_label">源采集工作在本地完成</string>
+    <string name="sa_tv_offline_label">源采集在本地完成</string>
     <string name="str_offline_notice">脱机模式下无法使用此功能</string>
 
 </resources>
