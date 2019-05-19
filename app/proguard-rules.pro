@@ -308,3 +308,7 @@
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
  -dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
 #end ==========================================Glide
+#=====jsoup=====
+-dontwarn org.jsoup.**
+-keep class org.jsoup.**{*;}
+#=====jsoup=====
