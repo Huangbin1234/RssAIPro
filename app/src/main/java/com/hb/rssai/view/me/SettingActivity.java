@@ -358,7 +358,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         EventBus.getDefault().post(new MineEvent(3));
     }
 
-    @OnCheckedChanged({R.id.sa_sw_change_source, R.id.sa_sw_no_image, R.id.sa_sw_cold_reboot, R.id.sa_sw_offline})
+    @OnCheckedChanged({R.id.sa_sw_change_source, R.id.sa_sw_no_image, R.id.sa_sw_cold_reboot, R.id.sa_sw_offline,R.id.sa_sw_old_rec})
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
