@@ -64,6 +64,7 @@ public class Constant {
     public static final String KEY_JAMES = "james";
 
     public static final long DEFAULT_COLLECTION_TIME =60 * 1000 ;//
+    public static final String KEY_IS_OLD_REC_MODE = "key_is_old_rec_mode";
 
 
     public static String START_TIME = "1990-01-01 00:00:00";

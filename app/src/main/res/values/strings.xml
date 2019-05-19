@@ -191,5 +191,8 @@
     <string name="str_sa_offline">脱机模式</string>
     <string name="sa_tv_offline_label">源采集在本地完成</string>
     <string name="str_offline_notice">脱机模式下无法使用此功能</string>
+    <string name="str_sf_old_rec">旧版本解析</string>
+    <string name="str_sa_old_rec">旧版本全文</string>
+    <string name="sa_tv_old_rec_label">阅读资讯内容采用老版本解析</string>
 
 </resources>

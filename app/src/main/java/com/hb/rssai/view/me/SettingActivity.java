@@ -1,24 +1,18 @@
 package com.hb.rssai.view.me;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hb.rssai.R;
-import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.MainEvent;
@@ -45,9 +38,6 @@ import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.util.ThemeUtils;
-import com.hb.rssai.view.widget.PrgDialog;
-import com.hb.update.Config;
-import com.hb.update.UpdateManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -56,12 +46,6 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-
-import static com.hb.generalupdate.TestTwoActivity.SAVE_ISUPDATE;
-import static com.hb.update.UpdateManager.SAVE_VER_CODE;
-import static com.hb.update.UpdateManager.SAVE_VER_CONTENT;
-import static com.hb.update.UpdateManager.SAVE_VER_UPDATEURL;
-import static com.hb.update.UpdateManager.SAVE_VER_VERNAME;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     @BindView(R.id.sys_tv_title)
@@ -112,6 +96,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     RelativeLayout mSaRlAbout;
     @BindView(R.id.sa_ll)
     LinearLayout mSaLl;
+    @BindView(R.id.sa_tv_old_rec)
+    TextView mSaTvOldRec;
+    @BindView(R.id.sa_sw_old_rec)
+    Switch mSaSwOldRec;
+    @BindView(R.id.sa_rl_old_rec)
+    RelativeLayout mSaRlOldRec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +140,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             mSaSwColdReboot.setChecked(true);
         } else {
             mSaSwColdReboot.setChecked(false);
+        }
+
+        boolean isOldRec = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_OLD_REC_MODE, false);
+        if (isOldRec) {
+            mSaSwOldRec.setChecked(true);
+        } else {
+            mSaSwOldRec.setChecked(false);
         }
 
         mSaSwDayNight.setOnClickListener(v -> {
@@ -410,6 +407,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_OFFLINE_MODE, true);
                 } else {
                     SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_OFFLINE_MODE, false);
+                }
+                break;
+            case R.id.sa_sw_old_rec:
+                if (isChecked) {
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_OLD_REC_MODE, true);
+                } else {
+                    SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_OLD_REC_MODE, false);
                 }
                 break;
             default:

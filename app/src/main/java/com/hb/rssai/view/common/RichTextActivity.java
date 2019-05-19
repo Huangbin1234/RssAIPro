@@ -253,8 +253,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mRtaTvNotGood.setText("" + clickNotGood);
         mRtaTvGood.setText("" + clickGood);
 
-
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        boolean isOldRec = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_OLD_REC_MODE, false);
+        if (isOldRec) {
             mRtaTvContent.setVisibility(View.VISIBLE);
             mWebView.setVisibility(View.GONE);
             loadTextView();
@@ -263,6 +263,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             mRtaTvContent.setVisibility(View.GONE);
             mWebView.setVisibility(View.VISIBLE);
         }
+
 
         linearLayoutManager = new LinearLayoutManager(this);
         mRtaRecyclerView.setLayoutManager(linearLayoutManager);
@@ -540,6 +541,12 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_NONE);
                 mShareAction.open(config);
                 break;
+//            case R.id.toolbar_old_rec:
+//                mRtaTvContent.setVisibility(View.VISIBLE);
+//                mWebView.setVisibility(View.GONE);
+//                loadTextView();
+//                T.ShowToast(this, "已切换到老版本解析");
+//                break;
         }
         return false;
     }

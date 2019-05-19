@@ -7,6 +7,12 @@
         android:orderInCategory="67"
         android:title="@string/str_sf_new_collection"
         app:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@+id/toolbar_old_rec"-->
+        <!--android:icon="@mipmap/ic_old_rec"-->
+        <!--android:orderInCategory="67"-->
+        <!--android:title="@string/str_sf_old_rec"-->
+        <!--app:showAsAction="always" />-->
     <item
         android:id="@+id/toolbar_add_share"
         android:icon="@mipmap/ic_share_menu"
