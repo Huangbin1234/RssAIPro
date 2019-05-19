@@ -11,7 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.hb.rssai.R;
 import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.constants.Constant;
@@ -45,7 +47,17 @@ public class Fragment3 extends Fragment {
     private void initView() {
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.fragment_background);
         gf_iv = (ImageView) view.findViewById(R.id.gf_iv);
-        Glide.with(getContext()).load(ApiRetrofit.BASE + "app_update/pic/g3.jpg").thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).diskCacheStrategy(DiskCacheStrategy.NONE).into(gf_iv);
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_place)
+                .error(R.mipmap.ic_error)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+
+        Glide.with(getContext()).load(ApiRetrofit.BASE + "app_update/pic/g3.jpg").thumbnail(0.1f).apply(options).into(gf_iv);
+
+//        Glide.with(getContext()).load(ApiRetrofit.BASE + "app_update/pic/g3.jpg").thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).diskCacheStrategy(DiskCacheStrategy.NONE).into(gf_iv);
         mTextView = (TextView) view.findViewById(R.id.fragment_text);
         mTextView.setVisibility(View.VISIBLE);
         mTextView.setOnClickListener(v -> {

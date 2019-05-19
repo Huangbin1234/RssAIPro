@@ -3,6 +3,7 @@ package com.hb.rssai.view.common;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -16,6 +17,9 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -37,8 +41,10 @@ import com.hb.rssai.contract.RichTextContract;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.RichTextPresenter;
 import com.hb.rssai.util.DateUtil;
+import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.HtmlImageGetter;
+import com.hb.rssai.util.HtmlImageGetterNew;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StatusBarUtil;
@@ -55,6 +61,11 @@ import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.Log;
 import com.umeng.socialize.utils.ShareBoardlistener;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -80,6 +91,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     AppBarLayout mAppBarLayout;
     @BindView(R.id.ca_load_progress)
     ProgressBar mCaLoadProgress;
+    @BindView(R.id.webView)
+    WebView mWebView;
     @BindView(R.id.rta_tv_content)
     TextView mRtaTvContent;
     @BindView(R.id.activity_add_source)
@@ -112,6 +125,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     private LinearLayoutManager linearLayoutManager;
 
     private String abstractContent = "";
+    private String abstractContentFormat = "";
     private String pubDate = "";
     private String title = "";
     private String whereFrom = "";
@@ -141,6 +155,22 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mPresenter.getInformation(id);
     }
 
+    @Override
+    protected void setAppTitle() {
+        mSysToolbar.setTitle("");
+        setSupportActionBar(mSysToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(false);//设置ActionBar一个返回箭头，主界面没有，次级界面有
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        mSysToolbar.setNavigationIcon(R.mipmap.ic_back);
+        mSysToolbar.setNavigationOnClickListener(v -> finish());
+        mSysToolbar.setOnMenuItemClickListener(this);
+        //修改状态栏文字图标为深色
+        StatusBarUtil.StatusBarLightMode(this);
+    }
+
     public void setSelfTheme(Activity activity) {
         setTranslucentStatus2(activity);
     }
@@ -158,9 +188,47 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
             clickGood = bundle.getLong("clickGood");
             clickNotGood = bundle.getLong("clickNotGood");
+
+            try {
+                abstractContentFormat = getNewContent(abstractContent);
+            } catch (Exception e) {
+                e.printStackTrace();
+                abstractContentFormat = abstractContent;
+            }
         }
     }
 
+    private void initWebView() {
+        WebSettings settings = mWebView.getSettings();
+        //自适应屏幕
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        //扩大比例的缩放
+        settings.setJavaScriptEnabled(true);
+        int size = DisplayUtil.dip2px(this, 16);
+        settings.setDefaultFontSize(size);
+        settings.setMinimumFontSize(14);//设置 WebView 支持的最小字体大小，默认为 8
+//        settings.setTextZoom(300); // 通过百分比来设置文字的大小，默认值是100
+
+//        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+//        settings.setDatabaseEnabled(true);
+//        settings.setDomStorageEnabled(true);
+//        settings.setAppCacheEnabled(true);
+
+        boolean isNight = SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false);
+        if (isNight) {
+            mWebView.setBackgroundColor(0); // 设置背景色   xml 一定要设置background 否则此处会报空指针
+            mWebView.getBackground().setAlpha(0); // 设置填充透明度 范围：0-255
+            mWebView.setWebViewClient(new WebViewClient() {
+                public void onPageFinished(WebView view, String url) {
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#9C9C9C\");"
+                    );
+                }
+            });
+        }
+        mWebView.loadDataWithBaseURL(null, abstractContentFormat, "text/html", "utf-8", null);
+    }
 
     @Override
     protected void initView() {
@@ -185,15 +253,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mRtaTvNotGood.setText("" + clickNotGood);
         mRtaTvGood.setText("" + clickGood);
 
-        HtmlImageGetter htmlImageGetter = new HtmlImageGetter(this, this, mRtaTvContent);
-        Spanned spanned;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            spanned = Html.fromHtml(abstractContent, Html.FROM_HTML_MODE_LEGACY, htmlImageGetter, null);
-        } else {
-            spanned = Html.fromHtml(abstractContent, htmlImageGetter, null); // or for older api
-        }
-        mRtaTvContent.setText(spanned);
 
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            mRtaTvContent.setVisibility(View.VISIBLE);
+            mWebView.setVisibility(View.GONE);
+            loadTextView();
+        } else {
+            initWebView();
+            mRtaTvContent.setVisibility(View.GONE);
+            mWebView.setVisibility(View.VISIBLE);
+        }
 
         linearLayoutManager = new LinearLayoutManager(this);
         mRtaRecyclerView.setLayoutManager(linearLayoutManager);
@@ -217,6 +286,107 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             }
         }
         initShare();
+    }
+
+    /**
+     * 将html文本内容中包含img标签的图片，宽度变为屏幕宽度，高度根据宽度比例自适应
+     **/
+    public String getNewContent(String htmlText) {
+        try {
+            Document doc = Jsoup.parse(htmlText);
+            Elements elements = doc.getElementsByTag("img");
+            for (Element element : elements) {
+                element.attr("width", "100%")
+                        .attr("height", "auto")
+                        .attr("data-w", "100%")
+                        .attr("data-h", "auto")
+                        .attr("style", cssStr(element.attr("style"), "width", "100%"))
+                        .attr("style", cssStr(element.attr("style"), "height", "auto"));
+            }
+            Elements elements2 = doc.getElementsByTag("span");
+            for (Element element : elements2) {
+                element.attr("style", cssStr(element.attr("style"), "font-size", "" + DisplayUtil.dip2px(this, 16)));
+            }
+
+            return doc.toString();
+        } catch (Exception e) {
+            return htmlText;
+        }
+    }
+
+    /**
+     * 替换style 中的宽度高度属性
+     *
+     * @param sourceStr
+     * @param key
+     * @param value
+     * @return
+     */
+    private String cssStr(String sourceStr, String key, String value) {
+        if (!sourceStr.contains(key)) {
+            return sourceStr;
+        }
+        String s1 = sourceStr.substring(0, sourceStr.indexOf(key));
+        String s2 = sourceStr.substring(sourceStr.indexOf(key));
+        String s3 = s2.substring(s2.indexOf(";"));
+
+        return s1 + "" + key + ":" + value + s3;
+    }
+
+    /**
+     * TextView 加载
+     */
+    @Deprecated
+    private void loadTextView() {
+//        mRtaTvContent.setRichText(abstractContent);
+        HtmlImageGetter htmlImageGetter = new HtmlImageGetter(this, this, mRtaTvContent);
+        Spanned spanned;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            spanned = Html.fromHtml(abstractContent, Html.FROM_HTML_MODE_LEGACY, htmlImageGetter, null);
+        } else {
+            spanned = Html.fromHtml(abstractContent, htmlImageGetter, null); // or for older api
+        }
+        mRtaTvContent.setText(spanned);
+//        mRtaTvContent.setMovementMethod(LinkMovementMethod.getInstance());
+//        CharSequence text = mRtaTvContent.getText();
+//        if (text instanceof Spannable) {
+//            int end = text.length();
+//            Spannable sp = (Spannable) mRtaTvContent.getText();
+//            URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
+//            ImageSpan[] imgs = sp.getSpans(0, end, ImageSpan.class);
+//            StyleSpan[] styleSpens = sp.getSpans(0, end, StyleSpan.class);
+//            ForegroundColorSpan[] colorSpans = sp.getSpans(0, end, ForegroundColorSpan.class);
+//            SpannableStringBuilder style = new SpannableStringBuilder(text);
+//            style.clearSpans();
+//            for (URLSpan url : urls) {
+//                style.setSpan(url, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#FF12ADFA"));
+//                style.setSpan(colorSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
+//            for (ImageSpan url : imgs) {
+//                HtmlImageGetterNew imageGetter = new HtmlImageGetterNew(RichTextActivity.this, RichTextActivity.this, mRtaTvContent);
+//
+////                ImageSpan span = new ImageSpan(htmlImageGetter.getDrawable(url.getSource()));
+//                ImageSpan span = new ImageSpan(imageGetter.getDrawable(url.getSource()));
+//                Drawable drawable = span.getDrawable();
+//                if (drawable != null) {
+//                    drawable.setCallback(htmlImageGetter);
+//                }
+//                style.setSpan(span, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
+//            for (StyleSpan styleSpan : styleSpens) {
+//                style.setSpan(styleSpan, sp.getSpanStart(styleSpan), sp.getSpanEnd(styleSpan), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
+//            for (ForegroundColorSpan colorSpan : colorSpans) {
+//                style.setSpan(colorSpan, sp.getSpanStart(colorSpan), sp.getSpanEnd(colorSpan), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
+//            mRtaTvContent.setText(style);
+//        }
+    }
+
+    public Drawable getUrlDrawable(String source, TextView mTextView) {
+        HtmlImageGetterNew imageGetter = new HtmlImageGetterNew(RichTextActivity.this, RichTextActivity.this, mTextView);
+        return imageGetter.getDrawable(source);
     }
 
     private UMShareListener mShareListener;
@@ -332,22 +502,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     }
 
     @Override
-    protected void setAppTitle() {
-        mSysToolbar.setTitle("");
-        setSupportActionBar(mSysToolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(false);//设置ActionBar一个返回箭头，主界面没有，次级界面有
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-        mSysToolbar.setNavigationIcon(R.mipmap.ic_back);
-        mSysToolbar.setNavigationOnClickListener(v -> finish());
-        mSysToolbar.setOnMenuItemClickListener(this);
-        //修改状态栏文字图标为深色
-        StatusBarUtil.StatusBarLightMode(this);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.content_menu, menu);
         MenuItem item = menu.findItem(R.id.toolbar_add_collection);
@@ -399,6 +553,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     protected void onDestroy() {
         super.onDestroy();
 //        RichText.recycle();
+        mWebView.stopLoading();
+        mWebView.destroy();
     }
 
 
