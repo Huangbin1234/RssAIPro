@@ -66,9 +66,9 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initView() {
         mAaTvQq.setOnClickListener(v -> StringUtils.joinQQGroup(AboutActivity.this, "VyA7mXrlsAOQGFbuqX_0CL35MbSEPX3u"));
-        mAaTvVer.setText("当前版本：V " + Config.getVerName(this));
+        mAaTvVer.setText("阅读原味资讯");
 
-        mAaTvVerRight.setText("V " + Config.getVerName(this));
+        mAaTvVerRight.setText("v" + Config.getVerName(this));
         //进入对应的页面判断标记是否有更新在进行调用此方法
         if (SharedPreferencesUtil.getBoolean(this, Constant.SAVE_IS_UPDATE, false)) {
             //添加红点

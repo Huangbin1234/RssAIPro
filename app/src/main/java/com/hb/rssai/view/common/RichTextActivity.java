@@ -122,6 +122,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     @BindView(R.id.ff_find_hot_label)
     TextView mFfFindHotLabel;
 
+
     private LinearLayoutManager linearLayoutManager;
 
     private String abstractContent = "";
@@ -206,15 +207,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         //扩大比例的缩放
         settings.setJavaScriptEnabled(true);
-        int size = DisplayUtil.dip2px(this, 16);
+        int size = DisplayUtil.dip2px(this, 17);
         settings.setDefaultFontSize(size);
         settings.setMinimumFontSize(14);//设置 WebView 支持的最小字体大小，默认为 8
 //        settings.setTextZoom(300); // 通过百分比来设置文字的大小，默认值是100
-
-//        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-//        settings.setDatabaseEnabled(true);
-//        settings.setDomStorageEnabled(true);
-//        settings.setAppCacheEnabled(true);
 
         boolean isNight = SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false);
         if (isNight) {
@@ -226,6 +222,13 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     );
                 }
             });
+        } else {
+            mWebView.setWebViewClient(new WebViewClient() {
+                public void onPageFinished(WebView view, String url) {
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#555555\");"
+                    );
+                }
+            });
         }
         mWebView.loadDataWithBaseURL(null, abstractContentFormat, "text/html", "utf-8", null);
     }
@@ -233,7 +236,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     @Override
     protected void initView() {
         mRtaTvTitle.setText(title.trim());
-
         if (TextUtils.isEmpty(url)) {
             mRtaTvView.setVisibility(View.GONE);
         }
@@ -302,15 +304,18 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                         .attr("data-w", "100%")
                         .attr("data-h", "auto")
                         .attr("style", cssStr(element.attr("style"), "width", "100%"))
-                        .attr("style", cssStr(element.attr("style"), "height", "auto"));
+                        .attr("style", cssStr(element.attr("style"), "height", "auto"))
+                        .attr("style", cssStr(element.attr("style"), "max-width", "100%"));
             }
             Elements elements2 = doc.getElementsByTag("span");
             for (Element element : elements2) {
                 element.attr("style", cssStr(element.attr("style"), "font-size", "" + DisplayUtil.dip2px(this, 16)));
+                element.attr("style", cssStr(element.attr("style"), "color", "#555555"));
             }
 
             return doc.toString();
         } catch (Exception e) {
+            e.printStackTrace();
             return htmlText;
         }
     }
@@ -329,8 +334,12 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         }
         String s1 = sourceStr.substring(0, sourceStr.indexOf(key));
         String s2 = sourceStr.substring(sourceStr.indexOf(key));
-        String s3 = s2.substring(s2.indexOf(";"));
-
+        String s3 = "";
+        if (-1 == s2.indexOf(";")) {
+            s3 = s2.substring(s2.length());
+        } else {
+            s3 = s2.substring(s2.indexOf(";"));
+        }
         return s1 + "" + key + ":" + value + s3;
     }
 

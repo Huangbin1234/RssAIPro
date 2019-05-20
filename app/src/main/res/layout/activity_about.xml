@@ -66,6 +66,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/aa_tv_ver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -104,7 +105,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textColor="@color/text_color_abstract"
-                android:textSize="@dimen/s12p" />
+                android:textSize="@dimen/s16p" />
 
             <TextView
                 android:id="@+id/aa_tv_ver_label"
