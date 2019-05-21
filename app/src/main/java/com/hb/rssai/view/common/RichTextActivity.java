@@ -296,6 +296,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
      **/
     public String getNewContent(String htmlText) {
         try {
+            htmlText = htmlText.replace("<figure", "</figure");
             Document doc = Jsoup.parse(htmlText);
             Elements elements = doc.getElementsByTag("img");
             for (Element element : elements) {
@@ -312,7 +313,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 element.attr("style", cssStr(element.attr("style"), "font-size", "" + DisplayUtil.dip2px(this, 16)));
                 element.attr("style", cssStr(element.attr("style"), "color", "#555555"));
             }
-
+            Elements elements3 = doc.getElementsByTag("a");
+            for (Element element : elements3) {
+                element.attr("style", "color:#9c9c9c;word-wrap:break-word;");
+            }
             return doc.toString();
         } catch (Exception e) {
             e.printStackTrace();
