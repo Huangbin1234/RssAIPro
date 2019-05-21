@@ -297,6 +297,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     public String getNewContent(String htmlText) {
         try {
             htmlText = htmlText.replace("<figure", "</figure");
+            htmlText = htmlText.replace("&nbsp;", "\t");
+            htmlText = htmlText.replace("&#160;", "\t");
             Document doc = Jsoup.parse(htmlText);
             Elements elements = doc.getElementsByTag("img");
             for (Element element : elements) {
