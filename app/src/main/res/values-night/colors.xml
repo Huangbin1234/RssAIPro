@@ -61,7 +61,7 @@
     <color name="color_iv_bg">#303030</color>
 
     <!--列表文字标题颜色-->
-    <color name="color_list_txt">#EEEEEE</color>
+    <color name="color_list_txt">#9C9C9C</color>
     <!--tablayout文字颜色-->
     <color name="color_tab_layout">#ea8010</color>
 

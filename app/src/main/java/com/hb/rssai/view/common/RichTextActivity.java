@@ -207,7 +207,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         //扩大比例的缩放
         settings.setJavaScriptEnabled(true);
-        int size = DisplayUtil.dip2px(this, 17);
+        int size = DisplayUtil.dip2px(this, 16);
         settings.setDefaultFontSize(size);
         settings.setMinimumFontSize(14);//设置 WebView 支持的最小字体大小，默认为 8
 //        settings.setTextZoom(300); // 通过百分比来设置文字的大小，默认值是100
@@ -226,7 +226,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         } else {
             mWebView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
-                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#555555\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#4a4b4d\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
                 }
@@ -329,7 +329,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             }
             Elements elements2 = doc.getElementsByTag("span");
             for (Element element : elements2) {
-                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 17) + "px"));
+                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 16) + "px"));
                 element.attr("style", cssStr(element.attr("style"), "color", "#555555"));
                 element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
             }
@@ -345,7 +345,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             }
             Elements elements5 = doc.getElementsByTag("div");
             for (Element element : elements5) {
-                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 17) + "px"));
+                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 16) + "px"));
                 element.attr("style", cssStr(element.attr("style"), "line-height", "normal"));
             }
             Elements elements6 = doc.getElementsByTag("p");
