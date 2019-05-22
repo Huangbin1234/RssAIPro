@@ -116,6 +116,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="2dp"
                         android:text="@string/str_rta_view_res_article"
+                        android:visibility="gone"
                         android:textColor="@color/color_line_blue"
                         android:textSize="@dimen/s14p"/>
 

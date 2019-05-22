@@ -301,6 +301,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             htmlText = htmlText.replace("<figure", "</figure");
             htmlText = htmlText.replace("&nbsp;", "\t");
             htmlText = htmlText.replace("&#160;", "\t");
+            htmlText = htmlText.replace("阅读原文", "\t");
             Document doc = Jsoup.parse(htmlText);
             Elements elements = doc.getElementsByTag("img");
             for (Element element : elements) {
@@ -328,24 +329,30 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             }
             Elements elements2 = doc.getElementsByTag("span");
             for (Element element : elements2) {
-                element.attr("style", cssStr(element.attr("style"), "font-size", "" + DisplayUtil.dip2px(this, 16)));
+                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 17) + "px"));
                 element.attr("style", cssStr(element.attr("style"), "color", "#555555"));
                 element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
             }
+
             Elements elements3 = doc.getElementsByTag("a");
             for (Element element : elements3) {
                 element.attr("style", "color:#9c9c9c;word-wrap:break-word;");
             }
             Elements elements4 = doc.getElementsByTag("iframe");
             for (Element element : elements4) {
-//                <iframe height="100%" width="100%" src="http://player.youku.com/embed/XNzA5MTg2NjM2" frameborder="0" allowfullscreen=""></iframe>
                 element.attr("width", "100%")
-                        .attr("height", "100%")
-                        .attr("allowfullscreen", "true")
-                        .attr("webkitallowfullscreen", "true")
-                        .attr("mozallowfullscreen", "true")
-                ;
+                        .attr("height", "600px");
             }
+            Elements elements5 = doc.getElementsByTag("div");
+            for (Element element : elements5) {
+                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 17) + "px"));
+                element.attr("style", cssStr(element.attr("style"), "line-height", "normal"));
+            }
+            Elements elements6 = doc.getElementsByTag("p");
+            for (Element element : elements6) {
+                element.attr("style", cssStr(element.attr("style"), "line-height", "normal"));
+            }
+
             return doc.toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -441,12 +448,19 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mShareAction = new ShareAction(RichTextActivity.this)
                 .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
                 .addButton("umeng_sharebutton_copyurl", "umeng_sharebutton_copyurl", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+                .addButton("umeng_view_content", "umeng_view_content", "umeng_view_content", "umeng_view_content")
                 .setShareboardclickCallback(new ShareBoardlistener() {
                     @Override
                     public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                         if (snsPlatform.mShowWord.equals("umeng_sharebutton_copyurl")) {
                             StringUtil.copy(url, RichTextActivity.this);
                             Toast.makeText(RichTextActivity.this, "复制链接成功", Toast.LENGTH_LONG).show();
+                        } else if (snsPlatform.mShowWord.equals("umeng_view_content")) {
+                            Intent intent = new Intent(RichTextActivity.this, ContentActivity.class);//创建Intent对象
+                            intent.putExtra(ContentActivity.KEY_TITLE, title);
+                            intent.putExtra(ContentActivity.KEY_URL, url);
+                            intent.putExtra(ContentActivity.KEY_INFORMATION_ID, id);
+                            startActivity(intent);
                         } else if (share_media == SHARE_MEDIA.SMS) {
                             new ShareAction(RichTextActivity.this).withText("来自ZR分享面板")
                                     .setPlatform(share_media)
@@ -534,7 +548,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-
             Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }

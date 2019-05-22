@@ -29,7 +29,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textColor="@color/color_list_txt"
-                android:textSize="@dimen/s16p"/>
+                android:textSize="17sp"/>
 
             <TextView
                 android:id="@+id/ifm_tv_whereFrom"
