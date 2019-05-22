@@ -218,15 +218,17 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             mWebView.getBackground().setAlpha(0); // 设置填充透明度 范围：0-255
             mWebView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
-                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#9C9C9C\");"
-                    );
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#9C9C9C\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
                 }
             });
         } else {
             mWebView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
-                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#555555\");"
-                    );
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#555555\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
                 }
             });
         }
@@ -306,6 +308,20 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                         .attr("height", "auto")
                         .attr("data-w", "100%")
                         .attr("data-h", "auto")
+                        .attr("data-width", "100%")
+                        .attr("data-height", "auto")
+                        .attr("data-rawwidth", "100%")
+                        .attr("data-rawheight", "auto")
+                        .attr("style", cssStr(element.attr("style"), "width", "100%"))
+                        .attr("style", cssStr(element.attr("style"), "height", "auto"))
+                        .attr("style", cssStr(element.attr("style"), "max-width", "100%"));
+            }
+            Elements elements1 = doc.getElementsByTag("table");
+            for (Element element : elements1) {
+                element.attr("width", "100%")
+                        .attr("height", "auto")
+                        .attr("data-w", "100%")
+                        .attr("data-h", "auto")
                         .attr("style", cssStr(element.attr("style"), "width", "100%"))
                         .attr("style", cssStr(element.attr("style"), "height", "auto"))
                         .attr("style", cssStr(element.attr("style"), "max-width", "100%"));
@@ -314,10 +330,21 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             for (Element element : elements2) {
                 element.attr("style", cssStr(element.attr("style"), "font-size", "" + DisplayUtil.dip2px(this, 16)));
                 element.attr("style", cssStr(element.attr("style"), "color", "#555555"));
+                element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
             }
             Elements elements3 = doc.getElementsByTag("a");
             for (Element element : elements3) {
                 element.attr("style", "color:#9c9c9c;word-wrap:break-word;");
+            }
+            Elements elements4 = doc.getElementsByTag("iframe");
+            for (Element element : elements4) {
+//                <iframe height="100%" width="100%" src="http://player.youku.com/embed/XNzA5MTg2NjM2" frameborder="0" allowfullscreen=""></iframe>
+                element.attr("width", "100%")
+                        .attr("height", "100%")
+                        .attr("allowfullscreen", "true")
+                        .attr("webkitallowfullscreen", "true")
+                        .attr("mozallowfullscreen", "true")
+                ;
             }
             return doc.toString();
         } catch (Exception e) {
@@ -556,12 +583,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_NONE);
                 mShareAction.open(config);
                 break;
-//            case R.id.toolbar_old_rec:
-//                mRtaTvContent.setVisibility(View.VISIBLE);
-//                mWebView.setVisibility(View.GONE);
-//                loadTextView();
-//                T.ShowToast(this, "已切换到老版本解析");
-//                break;
         }
         return false;
     }
