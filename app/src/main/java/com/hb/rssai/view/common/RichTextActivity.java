@@ -308,6 +308,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             htmlText = htmlText.replace("</pre>", "");
             htmlText = htmlText.replace("<code>", "");
             htmlText = htmlText.replace("</code>", "");
+            htmlText = htmlText.replace("//files.", "http://files.");
+            htmlText = htmlText.replace("//player.", "http://player.");
             Document doc = Jsoup.parse(htmlText);
             Elements elements = doc.getElementsByTag("img");
             for (Element element : elements) {
