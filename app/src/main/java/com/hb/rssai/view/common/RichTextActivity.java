@@ -304,12 +304,13 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             htmlText = htmlText.replace("&nbsp;", "\t");
             htmlText = htmlText.replace("&#160;", "\t");
             htmlText = htmlText.replace("阅读原文", "\t");
-            htmlText = htmlText.replace("<pre>", "");
+            htmlText = htmlText.replace("<pre", "");
             htmlText = htmlText.replace("</pre>", "");
-            htmlText = htmlText.replace("<code>", "");
-            htmlText = htmlText.replace("</code>", "");
+            htmlText = htmlText.replace("<code", "<span");
+            htmlText = htmlText.replace("</code>", "</span>");
             htmlText = htmlText.replace("//files.", "http://files.");
             htmlText = htmlText.replace("//player.", "http://player.");
+            htmlText = htmlText.replace("———", "");
             Document doc = Jsoup.parse(htmlText);
             Elements elements = doc.getElementsByTag("img");
             for (Element element : elements) {
@@ -341,9 +342,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 element.attr("style", cssStr(element.attr("style"), "color", "#555555"));
                 element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
             }
-
-
-
             Elements elements3 = doc.getElementsByTag("a");
             for (Element element : elements3) {
                 element.attr("style", "color:#9c9c9c;word-wrap:break-word;");
