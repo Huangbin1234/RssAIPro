@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -147,9 +148,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 允许使用transitions
         super.onCreate(savedInstanceState);
         isFirst = true;
-        mPresenter.getLikeByTitle(title);
+//        mPresenter.getLikeByTitle(title);
         if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.TOKEN, ""))) {
             mPresenter.updateCount(id);
         }

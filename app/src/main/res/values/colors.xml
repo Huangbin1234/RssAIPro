@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--<color name="colorPrimary">#2196F3</color>-->
     <color name="colorPrimary">#E75356</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -31,7 +32,7 @@
     <color name="main_bottom_txt_press">#e45050</color>
     <color name="view_line">#05896f</color>
 
-    <color name="bg">#F7F7F7</color>
+    <color name="bg">#EAEEEF</color>
     <!--<color name="bg">#F6F6F6</color>-->
 
     <color name="color_ll_press">#DDDDDD</color>
@@ -55,6 +56,7 @@
     <color name="color_title">#4D4D4D</color>
     <color name="color_time">#CCCCCC</color>
     <!--按钮颜色-->
+    <!--<color name="color_btn_logout">#FF9966</color>-->
     <color name="color_toolbar_bg">#E75356</color>
 
     <color name="color_exit_normal">#ffffff</color>
@@ -71,19 +73,21 @@
     <color name="text_color_new">#5C5C5C</color>
     <color name="color_general_white">#FFFFFF</color>
     <color name="rich_toolbar_bg">#FFFFFF</color>
-    <color name="color_article">#000000</color>
+    <color name="color_article">#333333</color>
     <color name="color_reg">#DDDDDD</color>
 
+    <!--<color name="color_reg_label">#303F9F</color>-->
     <color name="color_reg_label">#2196F3</color>
     <color name="color_iv_bg">#F7F7F7</color>
     <color name="color_list_txt">#4a4b4d</color>
     <color name="color_tab_layout">#E75356</color>
     <color name="color_mine_txt">#8a8a8a</color>
 
-    <color name="text_color_title">#333333</color>
+    <color name="text_color_title">#191919</color>
+    <!--<color name="text_color_title">#555555</color>-->
     <color name="text_color_abstract">#999999</color>
-
     <color name="text_color_time">#B2B2B2</color>
+    <!--<color name="color_tab_no_focus">#edbab7</color>-->
     <color name="color_tab_no_focus">#E2DDDDDD</color>
 
     <color name="modify_psd_color">#B2B2B2</color>
@@ -93,7 +97,14 @@
     <color name="color_tips">#53dff2b9</color>
     <color name="card_bg">#FFFFFF</color>
 
+
+    <!--<color name="lightblue500">#03a9f4</color>-->
+    <!--<color name="lightblue700">#0288d1</color>-->
+
+    <!--<color name="teal500">#009688</color>-->
+    <!--<color name="teal700">#00796b</color>-->
     <color name="alert_dark">#CE888888</color>
+
 
     <!--设置主题颜色-->
     <color name="red50">#fde0dc</color>
