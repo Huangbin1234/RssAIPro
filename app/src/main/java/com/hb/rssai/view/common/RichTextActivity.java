@@ -223,6 +223,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#9C9C9C\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"text-align\", \"justify\");");
+
                 }
             });
         } else {
@@ -231,6 +233,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#555555\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"text-align\", \"justify\");");
+
                 }
             });
         }
@@ -308,8 +312,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             htmlText = htmlText.replace("</pre>", "");
             htmlText = htmlText.replace("<code", "<span");
             htmlText = htmlText.replace("</code>", "</span>");
-            htmlText = htmlText.replace("//files.", "http://files.");
-            htmlText = htmlText.replace("//player.", "http://player.");
+            htmlText = htmlText.replace("\"//files.", "\"http://files.");
+            htmlText = htmlText.replace("\"//player.", "\"http://player.");
             htmlText = htmlText.replace("———", "");
             Document doc = Jsoup.parse(htmlText);
             Elements elements = doc.getElementsByTag("img");
@@ -341,6 +345,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 16) + "px"));
                 element.attr("style", cssStr(element.attr("style"), "color", "#555555"));
                 element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
+                element.attr("style", cssStr(element.attr("style"), "text-indent", "2em"));
             }
             Elements elements3 = doc.getElementsByTag("a");
             for (Element element : elements3) {
@@ -359,7 +364,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             Elements elements6 = doc.getElementsByTag("p");
             for (Element element : elements6) {
                 element.attr("style", cssStr(element.attr("style"), "line-height", "normal"));
+//                element.attr("style", cssStr(element.attr("style"), "text-indent", "2em"));
             }
+            Elements elements7 = doc.getElementsByTag("font");
+            for (Element element : elements7) {
+                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 16) + "px"));
+                element.attr("style", cssStr(element.attr("style"), "color", "#555555"));
+                element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
+                element.attr("style", cssStr(element.attr("style"), "text-indent", "2em"));
+            }
+
 
             return doc.toString();
         } catch (Exception e) {
