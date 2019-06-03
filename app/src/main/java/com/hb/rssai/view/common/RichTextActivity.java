@@ -17,7 +17,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -46,6 +45,7 @@ import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.HtmlImageGetter;
 import com.hb.rssai.util.HtmlImageGetterNew;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StatusBarUtil;
@@ -122,6 +122,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     LinearLayout mRtaLlNotGood;
     @BindView(R.id.ff_find_hot_label)
     TextView mFfFindHotLabel;
+    @BindView(R.id.item_iv_logo)
+    ImageView mItemIvLogo;
 
 
     private LinearLayoutManager linearLayoutManager;
@@ -136,6 +138,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     private String evaluateType = "";
     private long clickGood;
     private long clickNotGood;
+    private String subscribeImg;
 
     private ResCollectionBean.RetObjBean mRetObjBean;
 
@@ -151,7 +154,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         // 允许使用transitions
         super.onCreate(savedInstanceState);
         isFirst = true;
-//        mPresenter.getLikeByTitle(title);
+        mPresenter.getLikeByTitle(title);
         if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(this, Constant.TOKEN, ""))) {
             mPresenter.updateCount(id);
         }
@@ -192,6 +195,9 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             clickGood = bundle.getLong("clickGood");
             clickNotGood = bundle.getLong("clickNotGood");
 
+            if (bundle.containsKey("subscribeImg")) {
+                subscribeImg = bundle.getString("subscribeImg", "");
+            }
             try {
                 abstractContentFormat = getNewContent(abstractContent);
             } catch (Exception e) {
@@ -246,6 +252,13 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mRtaTvTitle.setText(title.trim());
         if (TextUtils.isEmpty(url)) {
             mRtaTvView.setVisibility(View.GONE);
+        }
+
+        if (TextUtils.isEmpty(subscribeImg)) {
+            mItemIvLogo.setVisibility(View.GONE);
+        } else {
+            mItemIvLogo.setVisibility(View.VISIBLE);
+            HttpLoadImg.loadCircleImg(this, subscribeImg, mItemIvLogo);
         }
 
         String eId = SharedPreferencesUtil.getString(this, id, "");

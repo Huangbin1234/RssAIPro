@@ -1,6 +1,7 @@
 package com.hb.rssai.app;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -9,6 +10,8 @@ import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by Administrator on 2017/4/24.
@@ -40,11 +43,24 @@ public class ProjectApplication extends MultiDexApplication{
         sApplication = this;
         // TODO: 初始化数据库
         LiteOrmDBUtil.createDb(this);
-
+        initFont();
 //        RichText.initCacheDir(this);
 //        RichText.debugMode = false;
     }
+    Typeface typeface;
+    private void initFont() {
+        typeface = Typeface.createFromAsset(getAssets(), "fonts/msyh.ttf");
+        try {
+            Field field = Typeface.class.getDeclaredField("SERIF");
+            field.setAccessible(true);
+            field.set(null, typeface);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
+    }
     public static ProjectApplication getApplication() {
         return sApplication;
     }

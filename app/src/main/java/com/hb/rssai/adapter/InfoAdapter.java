@@ -109,6 +109,13 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((NoImageViewHolder) holder).item_na_time.setText(time);
             ((NoImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
 
+            if (TextUtils.isEmpty(rowsBean.getSubscribeImg())) {
+                ((NoImageViewHolder) holder).item_iv_logo.setVisibility(View.GONE);
+            } else {
+                ((NoImageViewHolder) holder).item_iv_logo.setVisibility(View.VISIBLE);
+                HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((NoImageViewHolder) holder).item_iv_logo);
+            }
+
             ((NoImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         } else if (holder instanceof OneImageViewHolder) {
             ((OneImageViewHolder) holder).item_na_title.setText(title);
@@ -122,6 +129,12 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String url = URLDecoder.decode(images[0]);
                 //TODO 过滤网址
                 HttpLoadImg.loadRoundImg(mContext, StringUtil.filterImage(url), ((OneImageViewHolder) holder).item_na_img);
+            }
+            if (TextUtils.isEmpty(rowsBean.getSubscribeImg())) {
+                ((OneImageViewHolder) holder).item_iv_logo.setVisibility(View.GONE);
+            } else {
+                ((OneImageViewHolder) holder).item_iv_logo.setVisibility(View.VISIBLE);
+                HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((OneImageViewHolder) holder).item_iv_logo);
             }
             ((OneImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         } else if (holder instanceof ThreeImageViewHolder) {
@@ -138,6 +151,13 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 HttpLoadImg.loadRoundImg(mContext, "http" + images[1], ((ThreeImageViewHolder) holder).item_na_image_b);
                 HttpLoadImg.loadRoundImg(mContext, "http" + images[2], ((ThreeImageViewHolder) holder).item_na_image_c);
             }
+            if (TextUtils.isEmpty(rowsBean.getSubscribeImg())) {
+                ((ThreeImageViewHolder) holder).item_iv_logo.setVisibility(View.GONE);
+            } else {
+                ((ThreeImageViewHolder) holder).item_iv_logo.setVisibility(View.VISIBLE);
+                HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((ThreeImageViewHolder) holder).item_iv_logo);
+            }
+
             ((ThreeImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         }
     }
@@ -158,6 +178,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 intent.putExtra("clickGood", rowsBean.getClickGood());
                 intent.putExtra("clickNotGood", rowsBean.getClickNotGood());
                 intent.putExtra("id", rowsBean.getId());
+                intent.putExtra("subscribeImg", rowsBean.getSubscribeImg());
                 mContext.startActivity(intent);//将Intent传递给Activity
             } else {
                 T.ShowToast(mContext, "链接错误，无法跳转！");
@@ -177,12 +198,14 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView item_na_where_from;
         TextView item_na_time;
         RelativeLayout item_na_layout;
+        ImageView item_iv_logo;
 
         public NoImageViewHolder(View itemView) {
             super(itemView);
             item_na_title = itemView.findViewById(R.id.item_na_title);
             item_na_where_from = itemView.findViewById(R.id.item_na_where_from);
             item_na_time = itemView.findViewById(R.id.item_na_time);
+            item_iv_logo = itemView.findViewById(R.id.item_iv_logo);
 
             item_na_layout = itemView.findViewById(R.id.item_na_layout);
         }
@@ -193,6 +216,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView item_na_title;
         TextView item_na_time;
         TextView item_na_where_from;
+        ImageView item_iv_logo;
 
         LinearLayout item_na_layout;
 
@@ -202,6 +226,8 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             item_na_time = itemView.findViewById(R.id.item_na_time);
             item_na_where_from = itemView.findViewById(R.id.item_na_where_from);
             item_na_img = itemView.findViewById(R.id.item_na_img);
+
+            item_iv_logo = itemView.findViewById(R.id.item_iv_logo);
 
             item_na_layout = itemView.findViewById(R.id.item_na_layout);
         }
@@ -214,6 +240,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageView item_na_image_a;
         ImageView item_na_image_b;
         ImageView item_na_image_c;
+        ImageView item_iv_logo;
 
         LinearLayout item_na_layout;
         LinearLayout item_na_image_group;
@@ -226,6 +253,8 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             item_na_image_a = itemView.findViewById(R.id.item_na_image_a);
             item_na_image_b = itemView.findViewById(R.id.item_na_image_b);
             item_na_image_c = itemView.findViewById(R.id.item_na_image_c);
+
+            item_iv_logo = itemView.findViewById(R.id.item_iv_logo);
 
             item_na_layout = itemView.findViewById(R.id.item_na_layout);
             item_na_image_group = itemView.findViewById(R.id.item_na_image_group);

@@ -99,6 +99,7 @@ public class ResInformation {
             private String oprTime;
             private long clickGood;
             private long clickNotGood;
+            private String subscribeImg;
 
             public String getAuthor() {
                 return author;
@@ -218,6 +219,14 @@ public class ResInformation {
 
             public void setClickGood(long clickGood) {
                 this.clickGood = clickGood;
+            }
+
+            public String getSubscribeImg() {
+                return subscribeImg;
+            }
+
+            public void setSubscribeImg(String subscribeImg) {
+                this.subscribeImg = subscribeImg;
             }
         }
     }
