@@ -43,24 +43,24 @@ public class ProjectApplication extends MultiDexApplication{
         sApplication = this;
         // TODO: 初始化数据库
         LiteOrmDBUtil.createDb(this);
-        initFont();
+//        initFont();
 //        RichText.initCacheDir(this);
 //        RichText.debugMode = false;
     }
-    Typeface typeface;
-    private void initFont() {
-        typeface = Typeface.createFromAsset(getAssets(), "fonts/msyh.ttf");
-        try {
-            Field field = Typeface.class.getDeclaredField("SERIF");
-            field.setAccessible(true);
-            field.set(null, typeface);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    Typeface typeface;
+//    private void initFont() {
+//        typeface = Typeface.createFromAsset(getAssets(), "fonts/msyh.ttf");
+//        try {
+//            Field field = Typeface.class.getDeclaredField("SERIF");
+//            field.setAccessible(true);
+//            field.set(null, typeface);
+//        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
     public static ProjectApplication getApplication() {
         return sApplication;
     }
