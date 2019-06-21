@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,13 +22,13 @@
 
         <ImageView
             android:id="@+id/sys_iv_add"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="16dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/icon_add_sub" />
-
+            app:srcCompat="@drawable/ic_add_black_24dp" />
+        <!--android:src="@mipmap/icon_add_sub"-->
         <ImageView
             android:id="@+id/sys_iv_scan"
             android:layout_width="20dp"
@@ -41,14 +42,14 @@
 
         <ImageView
             android:id="@+id/sys_iv_search"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="16dp"
-            android:padding="2dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_search"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_search_white_24dp" />
+        <!--android:src="@mipmap/ic_search"-->
         <!--android:src="@mipmap/ic_qrcode_menu"-->
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              style="@style/title_all_content"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/title_all_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!--<include layout="@layout/include_toolbar_search" />-->
     <!--<?xml version="1.0" encoding="utf-8"?>-->
@@ -45,11 +45,10 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_weight="8"
-                        android:theme="@style/EditUnderLineStyle"
                         android:background="@drawable/shape_ll_corner"
                         android:hint="@string/search_title"
                         android:imeOptions="actionSearch"
@@ -58,7 +57,8 @@
                         android:singleLine="true"
                         android:textColor="@color/color_txt"
                         android:textColorHint="@color/color_txt"
-                        android:textSize="@dimen/s14p"/>
+                        android:textSize="@dimen/s14p"
+                        android:theme="@style/EditUnderLineStyle" />
 
                     <ImageView
                         android:id="@+id/its_iv_clear"
@@ -68,7 +68,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:src="@mipmap/ic_del"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/its_btn_search"
@@ -77,17 +77,18 @@
                         android:background="@null"
                         android:text="@string/str_aa_btn_search"
                         android:textSize="@dimen/s14p"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/its_iv_search"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:paddingRight="16dp"
                         android:scaleType="centerInside"
-                        android:src="@mipmap/ic_search_b"
-                        android:visibility="visible"/>
+                        android:visibility="visible"
+                        app:srcCompat="@drawable/ic_search_black_24dp" />
+                    <!--android:src="@mipmap/ic_search_b"-->
                 </LinearLayout>
 
             </RelativeLayout>
@@ -97,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/color_general_line"
-            android:visibility="gone"/>
+            android:visibility="gone" />
         <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
@@ -123,7 +124,7 @@
                 app:tabIndicatorColor="@color/color_tab_layout"
                 app:tabSelectedTextColor="@color/color_tab_layout"
                 app:tabTextAppearance="@style/TextAppearance.Design.Tab.Custom"
-                app:tabTextColor="@color/color_txt"/>
+                app:tabTextColor="@color/color_txt" />
 
 
         </LinearLayout>
@@ -140,7 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/color_general_white"
-            android:isScrollContainer="true"/>
+            android:isScrollContainer="true" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -148,6 +149,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_general_white"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </LinearLayout>

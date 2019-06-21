@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg">
@@ -100,11 +101,12 @@
 
                             <ImageView
                                 android:id="@+id/fm_iv_modify_ava"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:scaleType="centerInside"
-                                android:src="@mipmap/ic_modify_avtar" />
+                                app:srcCompat="@drawable/ic_edit_black_24dp" />
+                            <!--android:src="@mipmap/ic_modify_avtar"-->
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -136,11 +138,11 @@
                                 android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_total_record1"></ImageView>
-
+                                    app:srcCompat="@drawable/ic_description_black_24dp"></ImageView>
+                                <!--android:src="@mipmap/ic_total_record1"-->
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -184,11 +186,11 @@
                                 android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_total_subscribe1"></ImageView>
-
+                                    app:srcCompat="@drawable/ic_bookmark_black_24dp"></ImageView>
+                                <!--android:src="@mipmap/ic_total_subscribe1"-->
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -232,11 +234,11 @@
                                 android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_total_offline1"></ImageView>
-
+                                    app:srcCompat="@drawable/ic_cloud_download_black_24dp"></ImageView>
+                                <!--android:src="@mipmap/ic_total_offline1"-->
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -281,11 +283,11 @@
                                 android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/ic_total_clear1"></ImageView>
-
+                                    app:srcCompat="@drawable/ic_delete_black_24dp"></ImageView>
+                                <!--android:src="@mipmap/ic_total_clear1"-->
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -327,12 +329,12 @@
 
                         <ImageView
                             android:id="@+id/fm_iv_msg"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:scaleType="centerInside"
-                            android:src="@mipmap/ic_user_msg1" />
-
+                            app:srcCompat="@drawable/ic_notifications_none_black_24dp" />
+                        <!--android:src="@mipmap/ic_user_msg1"-->
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
@@ -369,12 +371,12 @@
 
                         <ImageView
                             android:id="@+id/fm_iv_collection"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:scaleType="centerInside"
-                            android:src="@mipmap/ic_user_collection1" />
-
+                            app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+                        <!--android:src="@mipmap/ic_user_collection1"-->
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
@@ -404,12 +406,12 @@
 
                         <ImageView
                             android:id="@+id/fm_iv_search"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:scaleType="centerInside"
-                            android:src="@mipmap/ic_user_search1" />
-
+                            app:srcCompat="@drawable/ic_search_black_24dp" />
+                        <!--android:src="@mipmap/ic_user_search1"-->
                         <TextView
                             style="@style/TextLabel"
                             android:layout_centerVertical="true"
@@ -440,11 +442,12 @@
 
                         <ImageView
                             android:id="@+id/fm_iv_scan"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:scaleType="centerInside"
-                            android:src="@mipmap/ic_user_scan1" />
+                            app:srcCompat="@drawable/ic_crop_free_black_24dp" />
+                        <!--android:src="@mipmap/ic_user_scan1"-->
 
                         <TextView
                             style="@style/TextLabel"
@@ -481,12 +484,12 @@
 
                     <ImageView
                         android:id="@+id/fm_iv_setting"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:scaleType="centerInside"
-                        android:src="@mipmap/ic_user_setting1" />
-
+                        app:srcCompat="@drawable/ic_settings_black_24dp" />
+                    <!--android:src="@mipmap/ic_user_setting1"-->
                     <TextView
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"

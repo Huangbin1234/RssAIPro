@@ -85,7 +85,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_list_more" />
+                app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+            <!--android:src="@mipmap/ic_list_more"-->
+
         </LinearLayout>
 
     </LinearLayout>
@@ -94,8 +96,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="11dp"
         android:gravity="center"
         android:orientation="vertical">
