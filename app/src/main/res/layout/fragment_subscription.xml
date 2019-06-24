@@ -1,5 +1,6 @@
 <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fs_ll_root"
     android:layout_width="match_parent"
@@ -76,7 +77,9 @@
                                         android:layout_centerVertical="true"
                                         android:layout_marginRight="10dp"
                                         android:scaleType="centerInside"
-                                        android:src="@mipmap/ic_web_server1" />
+                                        app:srcCompat="@drawable/ic_local_library_black_24dp" />
+
+                                    <!--android:src="@mipmap/ic_web_server1"-->
 
                                     <TextView
                                         android:id="@+id/tv_sub_label_topic"
@@ -119,11 +122,13 @@
                                     <!--android:layout_marginRight="5dp"-->
                                     <ImageView
                                         android:id="@+id/sf_iv_all_topic"
-                                        android:layout_width="10dp"
-                                        android:layout_height="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:scaleType="centerInside"
-                                        android:src="@mipmap/ic_right_all"
+
+                                        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
                                         android:visibility="visible" />
+                                    <!--android:src="@mipmap/ic_right_all"-->
                                 </LinearLayout>
                             </FrameLayout>
 
@@ -186,14 +191,14 @@
 
                                     <ImageView
                                         android:id="@+id/iv_vip"
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_alignParentLeft="true"
                                         android:layout_centerVertical="true"
                                         android:layout_marginRight="10dp"
                                         android:scaleType="centerInside"
-                                        android:src="@mipmap/ic_vip1" />
-
+                                        app:srcCompat="@drawable/ic_rss_feed_black_24dp" />
+                                    <!--android:src="@mipmap/ic_vip1"-->
                                     <TextView
                                         android:id="@+id/tv_sub_label"
                                         android:layout_width="wrap_content"
@@ -235,11 +240,12 @@
                                     <!--android:layout_marginRight="5dp"-->
                                     <ImageView
                                         android:id="@+id/sf_iv_all"
-                                        android:layout_width="10dp"
-                                        android:layout_height="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
                                         android:scaleType="centerInside"
-                                        android:src="@mipmap/ic_right_all"
                                         android:visibility="visible" />
+                                    <!--android:src="@mipmap/ic_right_all"-->
                                 </LinearLayout>
                             </FrameLayout>
 

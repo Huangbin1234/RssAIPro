@@ -19,15 +19,9 @@
     <color name="colorPrimaryDark">#303030</color>
     <color name="colorAccent">#202020</color>
 
-    <!--<color name="colorPrimary">#202020</color>-->
-    <!--<color name="colorPrimaryDark">#303030</color>-->
-    <!--<color name="colorAccent">#202020</color>-->
-
     <color name="colorPrimaryText">#e4e4e4</color>
     <color name="colorSecondaryText">#b5b5b5</color>
-
     <color name="colorBaseBackground">#303030</color>
-
     <color name="colorNavItemSelected">#202020</color>
     <color name="colorNavItemUnselected">#8799a5</color>
 

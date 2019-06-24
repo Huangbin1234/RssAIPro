@@ -45,6 +45,7 @@ import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.HtmlImageGetter;
 import com.hb.rssai.util.HtmlImageGetterNew;
+import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StatusBarUtil;
@@ -121,6 +122,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     LinearLayout mRtaLlNotGood;
     @BindView(R.id.ff_find_hot_label)
     TextView mFfFindHotLabel;
+    @BindView(R.id.item_iv_logo)
+    ImageView mItemIvLogo;
 
 
     private LinearLayoutManager linearLayoutManager;
@@ -135,6 +138,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     private String evaluateType = "";
     private long clickGood;
     private long clickNotGood;
+    private String subscribeImg;
 
     private ResCollectionBean.RetObjBean mRetObjBean;
 
@@ -147,6 +151,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 允许使用transitions
         super.onCreate(savedInstanceState);
         isFirst = true;
         mPresenter.getLikeByTitle(title);
@@ -190,6 +195,9 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             clickGood = bundle.getLong("clickGood");
             clickNotGood = bundle.getLong("clickNotGood");
 
+            if (bundle.containsKey("subscribeImg")) {
+                subscribeImg = bundle.getString("subscribeImg", "");
+            }
             try {
                 abstractContentFormat = getNewContent(abstractContent);
             } catch (Exception e) {
@@ -207,7 +215,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         //扩大比例的缩放
         settings.setJavaScriptEnabled(true);
-        int size = DisplayUtil.dip2px(this, 16);
+        int size = DisplayUtil.dip2px(this, 17);
         settings.setDefaultFontSize(size);
         settings.setMinimumFontSize(14);//设置 WebView 支持的最小字体大小，默认为 8
 //        settings.setTextZoom(300); // 通过百分比来设置文字的大小，默认值是100
@@ -221,14 +229,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#9C9C9C\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"text-align\", \"justify\");");
                 }
             });
         } else {
             mWebView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
-                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#4a4b4d\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#4D4D4D\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
+                    mWebView.loadUrl("javascript:document.body.style.setProperty(\"text-align\", \"justify\");");
                 }
             });
         }
@@ -240,6 +250,13 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mRtaTvTitle.setText(title.trim());
         if (TextUtils.isEmpty(url)) {
             mRtaTvView.setVisibility(View.GONE);
+        }
+
+        if (TextUtils.isEmpty(subscribeImg)) {
+            mItemIvLogo.setVisibility(View.GONE);
+        } else {
+            mItemIvLogo.setVisibility(View.VISIBLE);
+            HttpLoadImg.loadCircleImg(this, subscribeImg, mItemIvLogo);
         }
 
         String eId = SharedPreferencesUtil.getString(this, id, "");
@@ -302,6 +319,13 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             htmlText = htmlText.replace("&nbsp;", "\t");
             htmlText = htmlText.replace("&#160;", "\t");
             htmlText = htmlText.replace("阅读原文", "\t");
+            htmlText = htmlText.replace("<pre", "");
+            htmlText = htmlText.replace("</pre>", "");
+            htmlText = htmlText.replace("<code", "<span");
+            htmlText = htmlText.replace("</code>", "</span>");
+            htmlText = htmlText.replace("\"//files.", "\"http://files.");
+            htmlText = htmlText.replace("\"//player.", "\"http://player.");
+            htmlText = htmlText.replace("———", "");
             Document doc = Jsoup.parse(htmlText);
             Elements elements = doc.getElementsByTag("img");
             for (Element element : elements) {
@@ -329,11 +353,11 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             }
             Elements elements2 = doc.getElementsByTag("span");
             for (Element element : elements2) {
-                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 16) + "px"));
-                element.attr("style", cssStr(element.attr("style"), "color", "#555555"));
+                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 17) + "px"));
+                element.attr("style", cssStr(element.attr("style"), "color", "#4D4D4D"));
                 element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
+                element.attr("style", cssStr(element.attr("style"), "text-indent", "2em"));
             }
-
             Elements elements3 = doc.getElementsByTag("a");
             for (Element element : elements3) {
                 element.attr("style", "color:#9c9c9c;word-wrap:break-word;");
@@ -345,13 +369,22 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             }
             Elements elements5 = doc.getElementsByTag("div");
             for (Element element : elements5) {
-                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 16) + "px"));
+                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 17) + "px"));
                 element.attr("style", cssStr(element.attr("style"), "line-height", "normal"));
             }
             Elements elements6 = doc.getElementsByTag("p");
             for (Element element : elements6) {
                 element.attr("style", cssStr(element.attr("style"), "line-height", "normal"));
+//                element.attr("style", cssStr(element.attr("style"), "text-indent", "2em"));
             }
+            Elements elements7 = doc.getElementsByTag("font");
+            for (Element element : elements7) {
+                element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 17) + "px"));
+                element.attr("style", cssStr(element.attr("style"), "color", "#4D4D4D"));
+                element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
+                element.attr("style", cssStr(element.attr("style"), "text-indent", "2em"));
+            }
+
 
             return doc.toString();
         } catch (Exception e) {

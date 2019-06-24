@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/activity_add_source"
-              style="@style/title_all_content"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:id="@+id/activity_add_source"
+    style="@style/title_all_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_content_toolbar"/>
+    <include layout="@layout/include_content_toolbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:padding="10dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                         android:layout_marginTop="16dp"
                         android:textColor="@color/color_article"
                         android:textIsSelectable="true"
-                        android:textSize="22sp"/>
+                        android:textSize="22sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -52,12 +52,20 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
+                        <ImageView
+                            android:id="@+id/item_iv_logo"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginRight="10dp"
+                            android:src="@mipmap/icon_default_avar"
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/rta_tv_whereFrom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#9C9C9C"
-                            android:textSize="@dimen/s14p"/>
+                            android:textSize="@dimen/s14p" />
 
                         <TextView
                             android:id="@+id/rta_tv_date"
@@ -65,7 +73,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:textColor="#9C9C9C"
-                            android:textSize="@dimen/s14p"/>
+                            android:textSize="@dimen/s14p" />
 
                     </LinearLayout>
 
@@ -80,7 +88,7 @@
                         android:textColorLink="@color/color_txt"
                         android:textIsSelectable="true"
                         android:textSize="18sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
                     <!--<com.hb.rssai.view.widget.RichText-->
                     <!--android:id="@+id/rta_tv_content"-->
                     <!--android:layout_width="wrap_content"-->
@@ -118,7 +126,7 @@
                         android:text="@string/str_rta_view_res_article"
                         android:textColor="@color/color_line_blue"
                         android:textSize="@dimen/s14p"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -137,13 +145,13 @@
                                 android:id="@+id/rta_iv_good"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@mipmap/ic_good"/>
+                                android:src="@mipmap/ic_good" />
 
                             <TextView
                                 android:id="@+id/rta_tv_good"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"/>
+                                android:layout_marginLeft="5dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -157,13 +165,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="32dp"
-                                android:src="@mipmap/ic_not_good"/>
+                                android:src="@mipmap/ic_not_good" />
 
                             <TextView
                                 android:id="@+id/rta_tv_not_good"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"/>
+                                android:layout_marginLeft="5dp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -178,20 +186,20 @@
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
                     android:paddingRight="16dp"
-                    android:paddingBottom="10dp">
+                    android:paddingBottom="10dp"
+                    android:visibility="visible">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="16dp"
                         android:layout_centerVertical="true"
                         android:src="@mipmap/ic_vline"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <View
                         android:layout_width="20dp"
                         android:layout_height="1px"
-                        android:background="@color/color_general_line"
-                        />
+                        android:background="@color/color_general_line" />
 
                     <TextView
                         android:id="@+id/ff_find_hot_label"
@@ -203,19 +211,20 @@
                         android:layout_marginRight="10dp"
                         android:text="@string/ff_find_like_label"
                         android:textColor="#9c9c9c"
-                        android:textSize="@dimen/s14p"/>
+                        android:textSize="@dimen/s14p" />
 
                     <View
                         android:layout_width="20dp"
                         android:layout_height="1px"
-                        android:background="@color/color_general_line"/>
+                        android:background="@color/color_general_line" />
 
                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/color_general_white">
+                    android:background="@color/color_general_white"
+                    android:visibility="visible">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rta_recycler_view"

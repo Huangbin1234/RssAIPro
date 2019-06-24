@@ -30,11 +30,19 @@
             android:id="@+id/irl_bottom_a"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
             android:layout_below="@id/item_na_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/item_iv_logo"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/icon_default_avar" />
 
             <TextView
                 android:id="@+id/item_na_where_from"
@@ -68,7 +76,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="16dp"
         android:layout_weight="3"
-        android:scaleType="fitCenter"
         android:background="@drawable/round_register"
+        android:scaleType="fitCenter"
         android:visibility="visible" />
 </LinearLayout>

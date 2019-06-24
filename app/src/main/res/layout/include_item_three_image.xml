@@ -67,11 +67,19 @@
         android:id="@+id/irl_bottom_b"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/item_iv_logo"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:scaleType="centerInside"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/icon_default_avar" />
 
         <TextView
             android:id="@+id/item_na_where_from"
