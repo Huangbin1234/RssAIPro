@@ -132,8 +132,9 @@
                     android:layout_gravity="center"
                     android:maxLength="10"
                     android:singleLine="true"
+                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/sys_iv_share"

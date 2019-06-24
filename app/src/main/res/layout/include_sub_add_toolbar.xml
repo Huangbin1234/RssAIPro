@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/app_bar_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="4dp">
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            android:id="@+id/app_bar_layout"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:elevation="4dp">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/sys_toolbar"
@@ -18,7 +18,8 @@
             android:layout_marginLeft="16dp"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/s18p" />
+            android:textSize="@dimen/s18p"
+            android:textStyle="bold"/>
 
         <ImageView
             android:id="@+id/sys_iv_add"
@@ -27,7 +28,7 @@
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="16dp"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_add_black_24dp" />
+            app:srcCompat="@drawable/ic_add_black_24dp"/>
         <!--android:src="@mipmap/icon_add_sub"-->
         <ImageView
             android:id="@+id/sys_iv_scan"
@@ -38,7 +39,7 @@
             android:padding="2dp"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_qrcode_menu"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/sys_iv_search"
@@ -48,7 +49,7 @@
             android:layout_marginRight="16dp"
             android:scaleType="centerInside"
             android:visibility="visible"
-            app:srcCompat="@drawable/ic_search_white_24dp" />
+            app:srcCompat="@drawable/ic_search_white_24dp"/>
         <!--android:src="@mipmap/ic_search"-->
         <!--android:src="@mipmap/ic_qrcode_menu"-->
     </android.support.v7.widget.Toolbar>

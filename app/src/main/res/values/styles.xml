@@ -327,7 +327,7 @@
     <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">true</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
 </resources>

@@ -84,6 +84,7 @@
                                     style="@style/TextLabel"
                                     android:ellipsize="end"
                                     android:maxLines="1"
+                                    android:textStyle="bold"
                                     android:text="@string/str_mf_no_login"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/s18p" />

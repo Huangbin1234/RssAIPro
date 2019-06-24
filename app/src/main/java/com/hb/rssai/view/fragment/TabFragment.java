@@ -251,6 +251,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
                 TextView textView = tab.getCustomView().findViewById(android.R.id.text1);
                 textView.setTextColor(mSysTabLayout.getTabTextColors());
                 textView.setTypeface(Typeface.DEFAULT_BOLD);
+                textView.setTextSize(18);
             }
 
             @Override
@@ -261,6 +262,7 @@ public class TabFragment extends BaseFragment implements TabLayout.OnTabSelected
                 }
                 TextView textView = tab.getCustomView().findViewById(android.R.id.text1);
                 textView.setTypeface(Typeface.DEFAULT);
+                textView.setTextSize(15);
             }
 
             @Override
