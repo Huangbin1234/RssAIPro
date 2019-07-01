@@ -2,18 +2,33 @@ package com.hb.rssai.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.Looper;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.ImageViewState;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.hb.rssai.R;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -101,7 +116,9 @@ public class HttpLoadImg {
 
         Glide.with(context).load(url).thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new GlideCircleTransformWithBorder(context, 1, context.getResources().getColor(R.color.white))).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
-    /**ic_error.png
+
+    /**
+     * ic_error.png
      * 下载图片转圆形带边框2dp
      */
     public static void loadCircleWithBorderImg(Context context, byte[] bitmap, ImageView imageView) {
@@ -138,4 +155,64 @@ public class HttpLoadImg {
         Glide.with(context).load(Uri.fromFile(new File(url))).placeholder(R.mipmap.ic_launcher).into(imageView);
     }
 
+    /**
+     * 自动缩放加载图片
+     */
+    public static void autoImage(Context context, final String imageUrl, final SubsamplingScaleImageView scaleImageView) {
+        //使用Glide下载图片,保存到本地
+        scaleImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM);
+        scaleImageView.setMinScale(0.0F);
+        scaleImageView.setMaxScale(3.0F);//必须设置
+        final File downDir = Environment.getExternalStorageDirectory();
+        new Thread(() -> {
+            Looper.prepare();//增加部分
+            try {
+
+                RequestBuilder builder = Glide.with(context).load(imageUrl);
+                FutureTarget futureTarget = builder.submit();
+//                String t = "" + new Date().getTime(); //200, 200
+                Bitmap bitmap = null;
+                if (futureTarget.get() instanceof Bitmap) {
+                    bitmap = (Bitmap) futureTarget.get();
+                } else if (futureTarget.get() instanceof BitmapDrawable) {
+                    bitmap = ((BitmapDrawable) futureTarget.get()).getBitmap();
+                }else{
+                    return;
+                }
+                FileOutputStream fout = null;
+                try {
+                    File fileDir = new File(downDir + "/zr/download/");
+                    if (!fileDir.exists()) {
+                        fileDir.mkdirs();
+                    }
+                    File file = new File(downDir, "/zr/download/" + imageUrl.substring(imageUrl.lastIndexOf("/") + 1) );
+                    if (!file.exists()) {
+                        try {
+                            file.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //保存图片
+                    fout = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
+                    // 将保存的地址给SubsamplingScaleImageView,这里注意设置ImageViewState
+                    scaleImageView.setImage(ImageSource.uri(file.getAbsolutePath()), new ImageViewState(0.5F, new PointF(0, 0), 0));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (fout != null) fout.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            Looper.loop();//增加部分
+        }).start();
+    }
 }

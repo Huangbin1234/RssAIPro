@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -79,6 +80,7 @@ import butterknife.OnClick;
 import retrofit2.adapter.rxjava.HttpException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.rss.util.StringUtil.getAllRegexImages;
 
 //import com.zzhoujay.richtext.RichText;
 
@@ -219,7 +221,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         settings.setDefaultFontSize(size);
         settings.setMinimumFontSize(14);//设置 WebView 支持的最小字体大小，默认为 8
 //        settings.setTextZoom(300); // 通过百分比来设置文字的大小，默认值是100
-
+        mWebView.addJavascriptInterface(new JsToJava(), "imageListener");
         boolean isNight = SharedPreferencesUtil.getBoolean(this, Constant.KEY_SYS_NIGHT_MODE, false);
         if (isNight) {
             mWebView.setBackgroundColor(0); // 设置背景色   xml 一定要设置background 否则此处会报空指针
@@ -230,6 +232,19 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"text-align\", \"justify\");");
+                    mWebView.loadUrl("img{ pointer-events: none; }");//去掉图片跳转
+                    // web 页面加载完成，添加监听图片的点击 js 函数
+                    // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+                    mWebView.loadUrl("javascript:(function(){" +
+                            "var objs = document.getElementsByTagName(\"img\"); " +
+                            "for(var i=0;i<objs.length;i++)  " +
+                            "{"
+                            + "    objs[i].onclick=function()  " +
+                            "    {  "
+                            + "        window.imageListener.startShowImageActivity(this.src);  " +
+                            "    }  " +
+                            "}" +
+                            "})()");
                 }
             });
         } else {
@@ -239,10 +254,51 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"text-align\", \"justify\");");
+                    mWebView.loadUrl("img{ pointer-events: none; }");//去掉图片跳转
+
+                    // web 页面加载完成，添加监听图片的点击 js 函数
+                    // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+                    mWebView.loadUrl("javascript:(function(){" +
+                            "var objs = document.getElementsByTagName(\"img\"); " +
+                            "for(var i=0;i<objs.length;i++)  " +
+                            "{"
+                            + "    objs[i].onclick=function()  " +
+                            "    {  "
+                            + "        window.imageListener.startShowImageActivity(this.src);  " +
+                            "    }  " +
+                            "}" +
+                            "})()");
                 }
             });
         }
         mWebView.loadDataWithBaseURL(null, abstractContentFormat, "text/html", "utf-8", null);
+    }
+
+
+    /**
+     * 点击图片启动新的 ShowImageFromWebActivity，并传入点击图片对应的 url 和页面所有图片
+     * 对应的 url
+     *
+     * @param url 点击图片对应的 url
+     */
+    List<String> arrayList = new ArrayList<>();
+
+    /**
+     * js方法回调
+     */
+    private class JsToJava {
+        @JavascriptInterface
+        public void startShowImageActivity(String url) {
+            Intent intent = new Intent(RichTextActivity.this, ImageShowActivity.class);
+            for (int i = 0; i < arrayList.size(); i++) {
+                if (url.equals(arrayList.get(i))) {
+                    intent.putExtra(ImageShowActivity.KEY_IMAGE_POS, i);
+                    break;
+                }
+            }
+            intent.putStringArrayListExtra(ImageShowActivity.KEY_IMAGE_BEAN, (ArrayList<String>) arrayList);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -315,6 +371,11 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
      **/
     public String getNewContent(String htmlText) {
         try {
+            if (null != arrayList && arrayList.size() > 0) {
+                arrayList.clear();
+            }
+            arrayList.addAll(getAllRegexImages(htmlText));
+
             htmlText = htmlText.replace("<figure", "</figure");
             htmlText = htmlText.replace("&nbsp;", "\t");
             htmlText = htmlText.replace("&#160;", "\t");
@@ -329,6 +390,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             Document doc = Jsoup.parse(htmlText);
             Elements elements = doc.getElementsByTag("img");
             for (Element element : elements) {
+
+
                 element.attr("width", "100%")
                         .attr("height", "auto")
                         .attr("data-w", "100%")

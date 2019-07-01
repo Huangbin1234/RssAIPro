@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              style="@style/title_all"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/title_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_sub_toolbar"/>
+    <include layout="@layout/include_sub_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,9 +23,7 @@
             android:orientation="vertical">
 
 
-            <View
-                style="@style/view_line_h"
-                android:layout_marginTop="10dp"/>
+            <!--<View style="@style/view_line_h" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,7 +44,7 @@
                         <TextView
                             android:id="@+id/sa_tv_change_source"
                             style="@style/TextLabel"
-                            android:text="@string/str_sa_change_source"/>
+                            android:text="@string/str_sa_change_source" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -55,7 +53,7 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_change_source_label"
                             android:textColor="@color/text_color_abstract"
-                            android:textSize="@dimen/s12p"/>
+                            android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
                     <Switch
@@ -63,14 +61,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
                 <View
                     style="@style/view_line_h"
-                    android:layout_marginLeft="16dp"
-                    />
+                    android:layout_marginLeft="16dp" />
 
                 <RelativeLayout
                     android:id="@+id/sa_rl_opr_image"
@@ -85,7 +82,7 @@
                         <TextView
                             android:id="@+id/sa_tv_opr_image"
                             style="@style/TextLabel"
-                            android:text="@string/str_sa_opr_image"/>
+                            android:text="@string/str_sa_opr_image" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -94,7 +91,7 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_opr_image_label"
                             android:textColor="@color/text_color_abstract"
-                            android:textSize="@dimen/s12p"/>
+                            android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
                     <Switch
@@ -102,13 +99,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true" />
                 </RelativeLayout>
 
                 <View
                     style="@style/view_line_h"
-                    android:layout_marginLeft="16dp"
-                    />
+                    android:layout_marginLeft="16dp" />
 
 
                 <RelativeLayout
@@ -124,7 +120,7 @@
                         <TextView
                             android:id="@+id/sa_tv_cold_reboot"
                             style="@style/TextLabel"
-                            android:text="@string/str_sa_cold_reboot"/>
+                            android:text="@string/str_sa_cold_reboot" />
 
                         <TextView
 
@@ -134,7 +130,7 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_cold_reboot_label"
                             android:textColor="@color/text_color_abstract"
-                            android:textSize="@dimen/s12p"/>
+                            android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
 
@@ -143,16 +139,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
-                <View style="@style/view_line_h"/>
+                <View style="@style/view_line_h" />
             </LinearLayout>
 
             <View
                 style="@style/view_line_h"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -174,7 +170,7 @@
                         <TextView
                             android:id="@+id/sa_tv_old_rec"
                             style="@style/TextLabel"
-                            android:text="@string/str_sa_old_rec"/>
+                            android:text="@string/str_sa_old_rec" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -183,7 +179,7 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_old_rec_label"
                             android:textColor="@color/text_color_abstract"
-                            android:textSize="@dimen/s12p"/>
+                            android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
 
@@ -192,14 +188,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
                 <View
                     style="@style/view_line_h"
-                    android:layout_marginLeft="16dp"
-                    />
+                    android:layout_marginLeft="16dp" />
 
                 <RelativeLayout
                     android:id="@+id/sa_rl_offline"
@@ -214,7 +209,7 @@
                         <TextView
                             android:id="@+id/sa_tv_offline"
                             style="@style/TextLabel"
-                            android:text="@string/str_sa_offline"/>
+                            android:text="@string/str_sa_offline" />
 
                         <TextView
 
@@ -224,7 +219,7 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_offline_label"
                             android:textColor="@color/text_color_abstract"
-                            android:textSize="@dimen/s12p"/>
+                            android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
 
@@ -233,16 +228,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
-                <View style="@style/view_line_h"/>
+                <View style="@style/view_line_h" />
             </LinearLayout>
 
             <View
                 style="@style/view_line_h"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
             <RelativeLayout
                 android:id="@+id/sa_rl_day_night"
@@ -258,7 +253,7 @@
                     <TextView
                         android:id="@+id/sa_tv_day_night"
                         style="@style/TextLabel"
-                        android:text="@string/str_sa_day_night"/>
+                        android:text="@string/str_sa_day_night" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -267,7 +262,7 @@
                         android:layout_marginTop="2dp"
                         android:text="@string/sa_tv_day_night_label"
                         android:textColor="@color/text_color_abstract"
-                        android:textSize="@dimen/s12p"/>
+                        android:textSize="@dimen/s12p" />
                 </RelativeLayout>
 
                 <Switch
@@ -275,15 +270,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 
-            <View style="@style/view_line_h"/>
+            <View style="@style/view_line_h" />
 
             <View
                 style="@style/view_line_h"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -304,7 +299,7 @@
                         <TextView
                             android:id="@+id/sa_tv_theme"
                             style="@style/TextLabel"
-                            android:text="@string/str_sa_theme"/>
+                            android:text="@string/str_sa_theme" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -314,7 +309,7 @@
                             android:text="@string/str_theme_more"
                             android:textColor="@color/text_color_abstract"
                             android:textSize="@dimen/s12p"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
 
                     </RelativeLayout>
@@ -325,7 +320,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:scaleType="centerInside"
-                        app:srcCompat="@drawable/ic_chevron_right_black_24dp"/>
+                        app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
                     <!--android:src="@mipmap/ic_right_all"-->
                     <!--<TextView-->
                     <!--style="@style/TextLabel"-->
@@ -343,7 +338,7 @@
 
                 <View
                     style="@style/view_line_h"
-                    android:layout_marginLeft="16dp"/>
+                    android:layout_marginLeft="16dp" />
 
                 <RelativeLayout
                     android:id="@+id/sa_rl_share"
@@ -352,7 +347,7 @@
 
                     <TextView
                         style="@style/TextLabel"
-                        android:text="@string/str_sa_share"/>
+                        android:text="@string/str_sa_share" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -360,18 +355,16 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:scaleType="centerInside"
-                        app:srcCompat="@drawable/ic_chevron_right_black_24dp"/>
+                        app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
                     <!--android:src="@mipmap/ic_right_all"-->
                 </RelativeLayout>
 
-                <View
-                    style="@style/view_line_h"
-                    />
+                <View style="@style/view_line_h" />
             </LinearLayout>
 
             <View
                 style="@style/view_line_h"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -386,7 +379,7 @@
 
                     <TextView
                         style="@style/TextLabel"
-                        android:text="@string/str_sa_advice"/>
+                        android:text="@string/str_sa_advice" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -394,14 +387,13 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:scaleType="centerInside"
-                        app:srcCompat="@drawable/ic_chevron_right_black_24dp"/>
+                        app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
                     <!--android:src="@mipmap/ic_right_all"-->
                 </RelativeLayout>
 
                 <View
                     style="@style/view_line_h"
-                    android:layout_marginLeft="16dp"
-                    />
+                    android:layout_marginLeft="16dp" />
 
                 <RelativeLayout
                     android:id="@+id/sa_rl_about"
@@ -410,7 +402,7 @@
 
                     <TextView
                         style="@style/TextLabel"
-                        android:text="@string/str_sa_about"/>
+                        android:text="@string/str_sa_about" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -418,16 +410,16 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:scaleType="centerInside"
-                        app:srcCompat="@drawable/ic_chevron_right_black_24dp"/>
+                        app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
                     <!--android:src="@mipmap/ic_right_all"-->
                 </RelativeLayout>
 
-                <View style="@style/view_line_h"/>
+                <View style="@style/view_line_h" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="16dp"/>
+                android:layout_height="16dp" />
         </LinearLayout>
 
     </ScrollView>

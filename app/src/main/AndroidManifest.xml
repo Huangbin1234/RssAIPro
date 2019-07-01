@@ -156,6 +156,7 @@
         </activity>
         <activity android:name=".view.common.ForgetActivity" />
         <activity android:name=".view.common.ModifyPasswordActivity" />
+        <activity android:name=".view.common.ImageShowActivity" />
     </application>
 
 </manifest>

@@ -389,4 +389,5 @@
     <color name="color_card_list_title">#212121</color>
     <color name="color_card_list_img_title">#FFFFFF</color>
 
+    <color name="black_half">#b5000000</color>
 </resources>
