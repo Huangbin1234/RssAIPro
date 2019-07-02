@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_add_sub"
+        android:shortcutDisabledMessage="@string/str_disable_add_source"
+        android:shortcutId="addRss"
+        android:shortcutLongLabel="@string/str_long_add_source"
+        android:shortcutShortLabel="@string/str_short_add_source">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.hb.rssai.view.subscription.AddSourceActivity"
+            android:targetPackage="com.hb.rssai" />
+        <!-- 如果你的快捷方式与多个意图相关联，请将它们添加到这里，列表中的最后一个意图决定了用户最先看到的内容。
+         如果你的快捷方式与多个意图相关联，系统将在资源文件中启动与该快捷方式的最后一个意图相对应的活动，
+         并在后方堆栈中执行其他活动 。在这种情况下，当用户选择快捷方式然后按下后退键时，您的应用程序将启
+         动与资源文件中列出的快捷方式的倒数第二个意向对应的活动。这种行为模式会一直重复按下后退按钮，直
+         到用户清除快捷方式创建的后台堆栈。当用户下一次按下后退按钮时，系统将其导航回启动器。-->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <!--指定更多的快捷键-->
+</shortcuts>

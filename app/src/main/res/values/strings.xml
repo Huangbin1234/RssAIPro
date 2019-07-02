@@ -196,4 +196,10 @@
     <string name="str_sa_old_rec">旧版本全文</string>
     <string name="sa_tv_old_rec_label">阅读资讯内容采用老版本解析</string>
 
+    <string name="str_disable_add_source">禁止添加源</string>
+    <string name="str_short_add_source">添加RSS源</string>
+    <string name="str_long_add_source">添加RSS源链接</string>
+
+
+
 </resources>
