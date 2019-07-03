@@ -49,9 +49,9 @@ public class ImageShowActivity extends BaseActivity {
     protected void initView() {
         mViewPager.setOffscreenPageLimit(0);
 
-        pagerAdapter = new ImagePagerAdapter(this, list, pos);
+        pagerAdapter = new ImagePagerAdapter(this, list);
         mViewPager.setAdapter(pagerAdapter);
-//        pagerAdapter.notifyDataSetChanged();
+        pagerAdapter.notifyDataSetChanged();
 
         mViewPager.setCurrentItem(pos);
 
@@ -65,6 +65,7 @@ public class ImageShowActivity extends BaseActivity {
 
     @Override
     protected void setAppTitle() {
+
     }
 
     @Override
