@@ -38,7 +38,7 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
     }
 
     public interface OnItemClickedListener {
-        void onItemClicked(ResFindMore.RetObjBean.RowsBean rowsBean);
+        void onItemClicked(View itemView,ResFindMore.RetObjBean.RowsBean rowsBean);
     }
 
     public interface OnAddClickedListener {
@@ -88,7 +88,7 @@ public class FindMoreAdapter extends RecyclerView.Adapter<FindMoreAdapter.MyView
         holder.ifm_iv_add.setOnClickListener(v -> {
             onAddClickedListener.onAdd(resList.get(position), v);
         });
-        holder.v.setOnClickListener(v -> onItemClickedListener.onItemClicked(resList.get(position)));
+        holder.v.setOnClickListener(v -> onItemClickedListener.onItemClicked(v,resList.get(position)));
     }
 
     @Override

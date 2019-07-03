@@ -27,7 +27,8 @@
                 android:id="@+id/ir_iv_logo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:transitionName="img" />
 
             <ImageView
                 android:id="@+id/ir_iv_add"
@@ -36,8 +37,8 @@
                 android:layout_alignBottom="@id/ir_iv_logo"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right|bottom"
-                android:paddingBottom="10dp"
                 android:paddingRight="10dp"
+                android:paddingBottom="10dp"
                 android:src="@mipmap/ic_recommend_add" />
 
 

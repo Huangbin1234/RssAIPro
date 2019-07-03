@@ -1,7 +1,10 @@
 package com.hb.rssai.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -108,7 +111,7 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
                 resFindMores.addAll(resFindMore.getRetObj().getRows());
                 if (findMoreAdapter == null) {
                     findMoreAdapter = new FindMoreAdapter(mContext, resFindMores);
-                    findMoreAdapter.setOnItemClickedListener(rowsBean1 -> {
+                    findMoreAdapter.setOnItemClickedListener((itemView, rowsBean1) ->  {
                         boolean isOffline = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_OFFLINE_MODE, false);
                         if (isOffline) {
                             Intent intent = new Intent(mContext, OfflineListActivity.class);
@@ -124,7 +127,13 @@ public class TabContentPresenter extends BasePresenter<ITabContentView> {
                             intent.putExtra(SourceCardActivity.KEY_IMAGE, rowsBean1.getImg());
                             intent.putExtra(SourceCardActivity.KEY_DESC, rowsBean1.getAbstractContent());
                             intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rowsBean1.isCheck());
-                            mContext.startActivity(intent);
+
+
+                            Pair<View, String> pImg = Pair.create(itemView.findViewById(R.id.ifm_iv_img), "img");
+                            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pImg );
+                            mContext.startActivity(intent, compat.toBundle());
+
+//                            mContext.startActivity(intent);
                         }
                     });
                     findMoreAdapter.setOnAddClickedListener((bean, v) -> {

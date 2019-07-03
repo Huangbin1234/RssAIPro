@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -351,7 +353,7 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
                 resFindMores.addAll(resFindMore.getRetObj().getRows());
                 if (findMoreAdapter == null) {
                     findMoreAdapter = new FindMoreAdapter(getContext(), resFindMores);
-                    findMoreAdapter.setOnItemClickedListener(rowsBean1 -> {
+                    findMoreAdapter.setOnItemClickedListener((itemView, rowsBean1) -> {
                         boolean isOffline = SharedPreferencesUtil.getBoolean(getContext(), Constant.KEY_IS_OFFLINE_MODE, false);
                         if (isOffline) {
                             Intent intent = new Intent(getContext(), OfflineListActivity.class);
@@ -367,7 +369,13 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
                             intent.putExtra(SourceCardActivity.KEY_IMAGE, rowsBean1.getImg());
                             intent.putExtra(SourceCardActivity.KEY_DESC, rowsBean1.getAbstractContent());
                             intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rowsBean1.isCheck());
-                            getContext().startActivity(intent);
+
+
+                            Pair<View, String> pImg = Pair.create(itemView.findViewById(R.id.ifm_iv_img), "img");
+                            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pImg );
+                            startActivity(intent, compat.toBundle());
+
+//                            getContext().startActivity(intent);
                         }
                     });
                     findMoreAdapter.setOnAddClickedListener((bean, v) -> {

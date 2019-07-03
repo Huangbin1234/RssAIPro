@@ -27,6 +27,7 @@
 
             <ImageView
                 android:id="@+id/item_sla_iv"
+                android:transitionName="img"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center_vertical"

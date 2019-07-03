@@ -1,7 +1,10 @@
 package com.hb.rssai.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -85,7 +88,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.MyVi
                 intent.putExtra(SourceCardActivity.KEY_IMAGE, rssList.get(position).getImg());
                 intent.putExtra(SourceCardActivity.KEY_DESC, rssList.get(position).getAbstractContent());
                 intent.putExtra(SourceCardActivity.KEY_IS_CHECK, rssList.get(position).isCheck());
-                mContext.startActivity(intent);
+
+                Pair<View, String> pImg = Pair.create(holder.ir_iv_logo, "img");
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pImg );
+                mContext.startActivity(intent, compat.toBundle());
+
+//                mContext.startActivity(intent);
             }
         });
     }

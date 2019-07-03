@@ -3,6 +3,8 @@ package com.hb.rssai.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -113,7 +115,13 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
                 intent.putExtra(SourceCardActivity.KEY_IMAGE, rssList.get(position).getImg());
                 intent.putExtra(SourceCardActivity.KEY_DESC, rssList.get(position).getAbstractContent());
                 intent.putExtra(SourceCardActivity.KEY_IS_CHECK, true);
-                mContext.startActivity(intent);
+
+
+                Pair<View, String> pImg = Pair.create(holder.item_sla_iv, "img");
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pImg );
+                mContext.startActivity(intent, compat.toBundle());
+
+//                mContext.startActivity(intent);
             }
         });
 //        holder.v.setOnLongClickListener(v -> {

@@ -24,6 +24,7 @@
             app:cardElevation="2dp">
 
             <ImageView
+                android:transitionName="img"
                 android:id="@+id/irs_iv_logo"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
