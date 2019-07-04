@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7.5"
-        android:scaleType="centerCrop"
-        />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,8 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/la_iv"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="16dp"
             android:text="@string/str_load_txt"
             android:textColor="#4D4D4D" />
     </LinearLayout>

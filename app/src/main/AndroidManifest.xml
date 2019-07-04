@@ -131,8 +131,8 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- 设置社会化分享 结束 -->
         <!--<meta-data-->
-            <!--android:name="UMENG_APPKEY"-->
-            <!--android:value="561cae6ae0f55abd990035bf" />-->
+        <!--android:name="UMENG_APPKEY"-->
+        <!--android:value="561cae6ae0f55abd990035bf" />-->
 
         <activity android:name=".view.me.OfflineActivity" />
 
@@ -155,7 +155,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity android:name=".view.common.ForgetActivity" />
         <activity android:name=".view.common.ModifyPasswordActivity" />
