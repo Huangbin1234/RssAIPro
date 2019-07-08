@@ -101,7 +101,8 @@ public class AddRssPresenter extends BasePresenter<AddSourcesContract.View> impl
 
     private void setAddOpmlResult(ResBase resBase) {
         if (resBase.getRetCode() == 0) {
-            mView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
+//            mView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
+            mView.showMsg(resBase.getRetMsg());
 
         } else {
             mView.showMsg(resBase.getRetMsg());
@@ -111,7 +112,6 @@ public class AddRssPresenter extends BasePresenter<AddSourcesContract.View> impl
     private void setUpdateImageResult(ResBase resBase,String rssTitle) {
         if (resBase.getRetCode() == 0) {
             mView.showMsg(rssTitle + "自动配图成功");
-
         } else {
             mView.showMsg(resBase.getRetMsg());
         }
@@ -159,7 +159,7 @@ public class AddRssPresenter extends BasePresenter<AddSourcesContract.View> impl
             mView.showAddSuccess();
         }
         mView.showMsg(resBase.getRetMsg());
-        mView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
+//        mView.showMsg("数据采集将在5分钟内开始，请稍等片刻！");
     }
 
     private void getBDInfo(String rssTitle, String userId) {

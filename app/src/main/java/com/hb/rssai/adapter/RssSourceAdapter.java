@@ -37,6 +37,7 @@ import java.util.List;
  * Created by Administrator on 2016/12/10 0010.
  */
 public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyViewHolder> {
+    private final boolean isUserMode;
     private Context mContext;
     List<ResFindMore.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
@@ -48,9 +49,10 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         void onItemLongClicked(ResFindMore.RetObjBean.RowsBean rowsBean);
     }
 
-    public RssSourceAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> rssList, Fragment fragment) {
+    public RssSourceAdapter(Context mContext, List<ResFindMore.RetObjBean.RowsBean> rssList, Fragment fragment,boolean param) {
         this.mContext = mContext;
         this.rssList = rssList;
+        this.isUserMode=param;
         layoutInflater = LayoutInflater.from(mContext);
         this.fragment = (SubscriptionFragment) fragment;
     }
@@ -77,7 +79,7 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
 
         holder.v.setOnClickListener(v -> {
             boolean isOffline = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_OFFLINE_MODE, false);
-            if (isOffline) {
+            if (isOffline||isUserMode) {
                 Intent intent = new Intent(mContext, OfflineListActivity.class);
                 intent.putExtra(OfflineListActivity.KEY_LINK, rssList.get(position).getLink());
                 intent.putExtra(OfflineListActivity.KEY_NAME, rssList.get(position).getName());

@@ -234,7 +234,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
                 userSubscribes.addAll(resFindMore.getRetObj().getRows());
                 if (adapter == null) {
-                    adapter = new RssSourceAdapter(mContext, userSubscribes, mISubscriptionView.getFragment());
+                    adapter = new RssSourceAdapter(mContext, userSubscribes, mISubscriptionView.getFragment(),true);
                     subscribeRecyclerView.setAdapter(adapter);
                 } else {
                     adapter.notifyDataSetChanged();
@@ -271,7 +271,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
                 officeSuscribes.addAll(resFindMore.getRetObj().getRows());
                 if (topicAdapter == null) {
-                    topicAdapter = new RssSourceAdapter(mContext, officeSuscribes, mISubscriptionView.getFragment());
+                    topicAdapter = new RssSourceAdapter(mContext, officeSuscribes, mISubscriptionView.getFragment(),false);
                     topicRecyclerView.setAdapter(topicAdapter);
                 } else {
                     topicAdapter.notifyDataSetChanged();

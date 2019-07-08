@@ -101,7 +101,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
         holder.item_sla_iv_menu.setOnClickListener(v -> mOnItemLongClickedListener.onItemLongClicked(rssList.get(position)));
         holder.v.setOnClickListener(v -> {
             boolean isOffline = SharedPreferencesUtil.getBoolean(mContext, Constant.KEY_IS_OFFLINE_MODE, false);
-            if (isOffline) {
+            if (isOffline || rssList.get(position).isIsTag() == true) {
                 Intent intent = new Intent(mContext, OfflineListActivity.class);
                 intent.putExtra(OfflineListActivity.KEY_LINK, rssList.get(position).getLink());
                 intent.putExtra(OfflineListActivity.KEY_NAME, rssList.get(position).getName());
@@ -118,7 +118,7 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
 
 
                 Pair<View, String> pImg = Pair.create(holder.item_sla_iv, "img");
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pImg );
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pImg);
                 mContext.startActivity(intent, compat.toBundle());
 
 //                mContext.startActivity(intent);
