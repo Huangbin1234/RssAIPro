@@ -246,8 +246,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
 
     private void insertData(List<ResInformation.RetObjBean.RowsBean> rows) {
         ResInformation.RetObjBean.RowsBean lastBean = null;
-//        ResInformation.RetObjBean.RowsBean nextBean = null;
-        ResInformation.RetObjBean.RowsBean curBean = null;
+        ResInformation.RetObjBean.RowsBean curBean;
         Map<Integer, ResInformation.RetObjBean.RowsBean> map = new TreeMap<>();
 
         for (int i = 0; i < rows.size(); i++) {
@@ -266,9 +265,6 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
             if (i > 0) {
                 lastBean = rows.get(i - 1);
             }
-//            if (i > 0 && i < rows.size() - 1) {
-//                nextBean = rows.get(i + 1);
-//            }
 
             if ((i == 0 && page == 1) || (null != lastBean && !curBean.getWhereFrom().equals(lastBean.getWhereFrom()))) {
                 //如果当前不等于上一个
@@ -279,13 +275,6 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
                 rowsBean.setViewType(4);
                 map.put(i, rowsBean);
             }
-//                        else if (null != nextBean && !curBean.getWhereFrom().equals(nextBean.getWhereFrom())) {
-//                            //如果当前不等于下一个
-//                            ResInformation.RetObjBean.RowsBean rowsBean = new ResInformation.RetObjBean.RowsBean();
-//                            rowsBean.setPubTime(curBean.getPubTime());
-//                            rowsBean.setViewType(5);
-//                            map.put(i, rowsBean);
-//                        }
         }
 
         Iterator<Map.Entry<Integer, ResInformation.RetObjBean.RowsBean>> entries = map.entrySet().iterator();
@@ -300,27 +289,5 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
         infoList.addAll(rows);
         lastWhereFrom = infoList.get(infoList.size() - 1).getWhereFrom();
     }
-
     private String lastWhereFrom = "";
-
-    class TempBean {
-        private int key;
-        private ResInformation.RetObjBean.RowsBean rowsBean;
-
-        public int getKey() {
-            return key;
-        }
-
-        public void setKey(int key) {
-            this.key = key;
-        }
-
-        public ResInformation.RetObjBean.RowsBean getRowsBean() {
-            return rowsBean;
-        }
-
-        public void setRowsBean(ResInformation.RetObjBean.RowsBean rowsBean) {
-            this.rowsBean = rowsBean;
-        }
-    }
 }
