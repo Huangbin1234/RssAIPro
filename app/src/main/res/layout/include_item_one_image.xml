@@ -20,12 +20,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+android:layout_centerVertical="true"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/text_color_title"
             android:textSize="@dimen/s18p" />
-
+        <!--android:layout_alignParentTop="true"-->
         <LinearLayout
             android:id="@+id/irl_bottom_a"
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/item_iv_logo"

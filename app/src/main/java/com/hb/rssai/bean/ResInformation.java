@@ -101,6 +101,16 @@ public class ResInformation {
             private long clickNotGood;
             private String subscribeImg;
 
+            public int getViewType() {
+                return viewType;
+            }
+
+            public void setViewType(int viewType) {
+                this.viewType = viewType;
+            }
+
+            private int viewType;
+
             public String getAuthor() {
                 return author;
             }

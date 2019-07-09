@@ -24,7 +24,6 @@ import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
 
 import java.net.URLDecoder;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -35,7 +34,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/12/10 0010.
  */
-public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<ResInformation.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
@@ -47,11 +46,13 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_NO_IMAGE = 1;
     private static final int TYPE_ONE_IMAGE = 2;
     private static final int TYPE_THREE_IMAGE = 3;
+    private static final int TYPE_FOUR = 4;//分割线
+    //    private static final int TYPE_FIVE = 5;//头部
     private String title;
 
     private ResInformation.RetObjBean.RowsBean rowsBean;
 
-    public InfoAdapter(Context mContext, List<ResInformation.RetObjBean.RowsBean> rssList) {
+    public InfoTestAdapter(Context mContext, List<ResInformation.RetObjBean.RowsBean> rssList) {
         this.mContext = mContext;
         this.rssList = rssList;
         layoutInflater = LayoutInflater.from(mContext);
@@ -64,6 +65,9 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
+        if (null != rssList && null != rssList.get(position) && rssList.get(position).getViewType() == 4) {
+            return TYPE_FOUR;
+        }
         if (null == rssList || null == rssList.get(position) || TextUtils.isEmpty(rssList.get(position).getImageUrls())) {
             return TYPE_NO_IMAGE;
         }
@@ -86,6 +90,9 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (viewType == TYPE_THREE_IMAGE) {
             View view = layoutInflater.inflate(R.layout.include_item_three_image, parent, false);
             return new ThreeImageViewHolder(view);
+        } else if (viewType == TYPE_FOUR) {
+            View view = layoutInflater.inflate(R.layout.include_item_four, parent, false);
+            return new FourViewHolder(view);
         }
         return null;
     }
@@ -101,7 +108,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         title = rowsBean.getTitle() != null ? rowsBean.getTitle() : "";
         try {
             time = DateUtil.showDate(sdf.parse(rowsBean.getPubTime()), longDatePat);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (holder instanceof NoImageViewHolder) {
@@ -126,9 +133,11 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else {
                 ((OneImageViewHolder) holder).item_na_img.setVisibility(View.VISIBLE);
                 images = TextUtils.isEmpty(rowsBean.getImageUrls()) ? null : rowsBean.getImageUrls().split(",http");
-                String url = URLDecoder.decode(images[0]);
-                //TODO 过滤网址
-                HttpLoadImg.loadRoundImg(mContext, StringUtil.filterImage(url), ((OneImageViewHolder) holder).item_na_img);
+                if (null != images && images.length > 0) {
+                    String url = URLDecoder.decode(images[0]);
+                    //TODO 过滤网址
+                    HttpLoadImg.loadRoundImg(mContext, StringUtil.filterImage(url), ((OneImageViewHolder) holder).item_na_img);
+                }
             }
             if (TextUtils.isEmpty(rowsBean.getSubscribeImg())) {
                 ((OneImageViewHolder) holder).item_iv_logo.setVisibility(View.GONE);
@@ -158,7 +167,14 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((ThreeImageViewHolder) holder).item_iv_logo);
             }
             ((ThreeImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
+        } else if (holder instanceof FourViewHolder) {
+            ((FourViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
+            ((FourViewHolder) holder).item_na_time.setText(time);
+            HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((FourViewHolder) holder).item_iv_logo);
         }
+//        else if (holder instanceof FiveViewHolder) {
+//            ((FiveViewHolder) holder).dividerView.setVisibility(View.VISIBLE);
+//        }
     }
 
 
@@ -191,6 +207,28 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         return rssList == null ? 0 : rssList.size();
     }
+
+    class FourViewHolder extends RecyclerView.ViewHolder {
+        TextView item_na_where_from;
+        TextView item_na_time;
+        ImageView item_iv_logo;
+
+        public FourViewHolder(View itemView) {
+            super(itemView);
+            item_na_where_from = itemView.findViewById(R.id.item_na_where_from);
+            item_na_time = itemView.findViewById(R.id.item_na_time);
+            item_iv_logo = itemView.findViewById(R.id.item_iv_logo);
+        }
+    }
+
+//    class FiveViewHolder extends RecyclerView.ViewHolder {
+//        View dividerView;
+//
+//        public FiveViewHolder(View itemView) {
+//            super(itemView);
+//            dividerView = itemView.findViewById(R.id.item_v);
+//        }
+//    }
 
     class NoImageViewHolder extends RecyclerView.ViewHolder {
         TextView item_na_title;

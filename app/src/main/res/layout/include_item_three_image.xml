@@ -62,7 +62,6 @@
             android:scaleType="fitCenter" />
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/irl_bottom_b"
         android:layout_width="match_parent"
@@ -71,7 +70,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:paddingTop="10dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/item_iv_logo"

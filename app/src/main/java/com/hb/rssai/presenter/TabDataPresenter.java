@@ -4,10 +4,11 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.hb.rssai.adapter.InfoAdapter;
+import com.hb.rssai.adapter.InfoTestAdapter;
 import com.hb.rssai.bean.Information;
 import com.hb.rssai.bean.ResInformation;
 import com.hb.rssai.constants.Constant;
@@ -20,8 +21,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -38,7 +41,8 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayoutManager mLinearLayoutManager;
     private List<ResInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
-    private InfoAdapter adapter;
+    //    private InfoAdapter adapter;
+    private InfoTestAdapter adapter;
 
     private LinearLayout mLlLoad;
     private View include_no_data;
@@ -179,7 +183,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
             }
 
             if (adapter == null) {
-                adapter = new InfoAdapter(mContext, infoList);
+                adapter = new InfoTestAdapter(mContext, infoList);
                 mRecyclerView.setAdapter(adapter);
             } else {
                 adapter.notifyDataSetChanged();
@@ -199,6 +203,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
 //        System.out.println("列表信息：===========>"+infoList);
         if (infoList != null && page == 1) {
             infoList.clear();
+            lastWhereFrom = "";
         }
 
         //TODO 填充数据
@@ -211,9 +216,10 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
             include_no_data.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
             if (resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
-                infoList.addAll(resInformation.getRetObj().getRows());
+//                infoList.addAll(resInformation.getRetObj().getRows());
+                insertData(resInformation.getRetObj().getRows());
                 if (adapter == null) {
-                    adapter = new InfoAdapter(mContext, infoList);
+                    adapter = new InfoTestAdapter(mContext, infoList);
                     mRecyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
@@ -235,6 +241,86 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
             include_load_fail.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             T.ShowToast(mContext, resInformation.getRetMsg());
+        }
+    }
+
+    private void insertData(List<ResInformation.RetObjBean.RowsBean> rows) {
+        ResInformation.RetObjBean.RowsBean lastBean = null;
+//        ResInformation.RetObjBean.RowsBean nextBean = null;
+        ResInformation.RetObjBean.RowsBean curBean = null;
+        Map<Integer, ResInformation.RetObjBean.RowsBean> map = new TreeMap<>();
+
+        for (int i = 0; i < rows.size(); i++) {
+            curBean = rows.get(i);
+            if (i == 0) {
+                if (!TextUtils.isEmpty(lastWhereFrom) && !lastWhereFrom.equals(curBean.getWhereFrom())) {
+                    //如果当前不等于上一个
+                    ResInformation.RetObjBean.RowsBean rowsBean = new ResInformation.RetObjBean.RowsBean();
+                    rowsBean.setWhereFrom(curBean.getWhereFrom());
+                    rowsBean.setSubscribeImg(curBean.getSubscribeImg());
+                    rowsBean.setPubTime(curBean.getPubTime());
+                    rowsBean.setViewType(4);
+                    map.put(i, rowsBean);
+                }
+            }
+            if (i > 0) {
+                lastBean = rows.get(i - 1);
+            }
+//            if (i > 0 && i < rows.size() - 1) {
+//                nextBean = rows.get(i + 1);
+//            }
+
+            if ((i == 0 && page == 1) || (null != lastBean && !curBean.getWhereFrom().equals(lastBean.getWhereFrom()))) {
+                //如果当前不等于上一个
+                ResInformation.RetObjBean.RowsBean rowsBean = new ResInformation.RetObjBean.RowsBean();
+                rowsBean.setWhereFrom(curBean.getWhereFrom());
+                rowsBean.setSubscribeImg(curBean.getSubscribeImg());
+                rowsBean.setPubTime(curBean.getPubTime());
+                rowsBean.setViewType(4);
+                map.put(i, rowsBean);
+            }
+//                        else if (null != nextBean && !curBean.getWhereFrom().equals(nextBean.getWhereFrom())) {
+//                            //如果当前不等于下一个
+//                            ResInformation.RetObjBean.RowsBean rowsBean = new ResInformation.RetObjBean.RowsBean();
+//                            rowsBean.setPubTime(curBean.getPubTime());
+//                            rowsBean.setViewType(5);
+//                            map.put(i, rowsBean);
+//                        }
+        }
+
+        Iterator<Map.Entry<Integer, ResInformation.RetObjBean.RowsBean>> entries = map.entrySet().iterator();
+        int count = 0;
+        while (entries.hasNext()) {
+            Map.Entry<Integer, ResInformation.RetObjBean.RowsBean> entry = entries.next();
+            int key = entry.getKey() + count;
+            rows.add(key, entry.getValue());
+            count++;
+        }
+
+        infoList.addAll(rows);
+        lastWhereFrom = infoList.get(infoList.size() - 1).getWhereFrom();
+    }
+
+    private String lastWhereFrom = "";
+
+    class TempBean {
+        private int key;
+        private ResInformation.RetObjBean.RowsBean rowsBean;
+
+        public int getKey() {
+            return key;
+        }
+
+        public void setKey(int key) {
+            this.key = key;
+        }
+
+        public ResInformation.RetObjBean.RowsBean getRowsBean() {
+            return rowsBean;
+        }
+
+        public void setRowsBean(ResInformation.RetObjBean.RowsBean rowsBean) {
+            this.rowsBean = rowsBean;
         }
     }
 }
