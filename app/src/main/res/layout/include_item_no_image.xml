@@ -15,7 +15,6 @@
         android:layout_alignParentTop="true"
         android:ellipsize="end"
         android:maxLines="2"
-        android:paddingTop="10dp"
         android:textColor="@color/text_color_title"
         android:textSize="@dimen/s18p" />
 

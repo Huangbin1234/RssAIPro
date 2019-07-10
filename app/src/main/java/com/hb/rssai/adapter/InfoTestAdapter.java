@@ -24,7 +24,6 @@ import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
 
 import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -39,7 +38,7 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<ResInformation.RetObjBean.RowsBean> rssList;
     private LayoutInflater layoutInflater;
     private String longDatePat = "yyyy-MM-dd HH:mm:ss";
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     private String[] images = null;
     private boolean isNoImageMode = true;
 
@@ -47,7 +46,6 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_ONE_IMAGE = 2;
     private static final int TYPE_THREE_IMAGE = 3;
     private static final int TYPE_FOUR = 4;//分割线
-    //    private static final int TYPE_FIVE = 5;//头部
     private String title;
 
     private ResInformation.RetObjBean.RowsBean rowsBean;
@@ -92,7 +90,7 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new ThreeImageViewHolder(view);
         } else if (viewType == TYPE_FOUR) {
             View view = layoutInflater.inflate(R.layout.include_item_four, parent, false);
-            return new FourViewHolder(view);
+            return new BarViewHolder(view);
         }
         return null;
     }
@@ -107,27 +105,15 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         title = rowsBean.getTitle() != null ? rowsBean.getTitle() : "";
         try {
-            time = DateUtil.showDate(sdf.parse(rowsBean.getPubTime()), longDatePat);
+            time = DateUtil.showDate(Constant.sdf.parse(rowsBean.getPubTime()), longDatePat);
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (holder instanceof NoImageViewHolder) {
             ((NoImageViewHolder) holder).item_na_title.setText(title);
-            ((NoImageViewHolder) holder).item_na_time.setText(time);
-            ((NoImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
-
-            if (TextUtils.isEmpty(rowsBean.getSubscribeImg())) {
-                ((NoImageViewHolder) holder).item_iv_logo.setVisibility(View.GONE);
-            } else {
-                ((NoImageViewHolder) holder).item_iv_logo.setVisibility(View.VISIBLE);
-                HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((NoImageViewHolder) holder).item_iv_logo);
-            }
-
             ((NoImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         } else if (holder instanceof OneImageViewHolder) {
             ((OneImageViewHolder) holder).item_na_title.setText(title);
-            ((OneImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
-            ((OneImageViewHolder) holder).item_na_time.setText(time);
             if (isNoImageMode) {
                 ((OneImageViewHolder) holder).item_na_img.setVisibility(View.GONE);
             } else {
@@ -139,18 +125,9 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     HttpLoadImg.loadRoundImg(mContext, StringUtil.filterImage(url), ((OneImageViewHolder) holder).item_na_img);
                 }
             }
-            if (TextUtils.isEmpty(rowsBean.getSubscribeImg())) {
-                ((OneImageViewHolder) holder).item_iv_logo.setVisibility(View.GONE);
-            } else {
-                ((OneImageViewHolder) holder).item_iv_logo.setVisibility(View.VISIBLE);
-                HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((OneImageViewHolder) holder).item_iv_logo);
-            }
             ((OneImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         } else if (holder instanceof ThreeImageViewHolder) {
             ((ThreeImageViewHolder) holder).item_na_title.setText(title);
-            ((ThreeImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
-            ((ThreeImageViewHolder) holder).item_na_time.setText(time);
-
             if (isNoImageMode) {
                 ((ThreeImageViewHolder) holder).item_na_image_group.setVisibility(View.GONE);
             } else {
@@ -160,21 +137,12 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 HttpLoadImg.loadRoundImg(mContext, "http" + images[1], ((ThreeImageViewHolder) holder).item_na_image_b);
                 HttpLoadImg.loadRoundImg(mContext, "http" + images[2], ((ThreeImageViewHolder) holder).item_na_image_c);
             }
-            if (TextUtils.isEmpty(rowsBean.getSubscribeImg())) {
-                ((ThreeImageViewHolder) holder).item_iv_logo.setVisibility(View.GONE);
-            } else {
-                ((ThreeImageViewHolder) holder).item_iv_logo.setVisibility(View.VISIBLE);
-                HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((ThreeImageViewHolder) holder).item_iv_logo);
-            }
             ((ThreeImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
-        } else if (holder instanceof FourViewHolder) {
-            ((FourViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
-            ((FourViewHolder) holder).item_na_time.setText(time);
-            HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((FourViewHolder) holder).item_iv_logo);
+        } else if (holder instanceof BarViewHolder) {
+            ((BarViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
+            ((BarViewHolder) holder).item_na_time.setText(time);
+            HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((BarViewHolder) holder).item_iv_logo);
         }
-//        else if (holder instanceof FiveViewHolder) {
-//            ((FiveViewHolder) holder).dividerView.setVisibility(View.VISIBLE);
-//        }
     }
 
 
@@ -208,27 +176,18 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return rssList == null ? 0 : rssList.size();
     }
 
-    class FourViewHolder extends RecyclerView.ViewHolder {
+    class BarViewHolder extends RecyclerView.ViewHolder {
         TextView item_na_where_from;
         TextView item_na_time;
         ImageView item_iv_logo;
 
-        public FourViewHolder(View itemView) {
+        public BarViewHolder(View itemView) {
             super(itemView);
             item_na_where_from = itemView.findViewById(R.id.item_na_where_from);
             item_na_time = itemView.findViewById(R.id.item_na_time);
             item_iv_logo = itemView.findViewById(R.id.item_iv_logo);
         }
     }
-
-//    class FiveViewHolder extends RecyclerView.ViewHolder {
-//        View dividerView;
-//
-//        public FiveViewHolder(View itemView) {
-//            super(itemView);
-//            dividerView = itemView.findViewById(R.id.item_v);
-//        }
-//    }
 
     class NoImageViewHolder extends RecyclerView.ViewHolder {
         TextView item_na_title;

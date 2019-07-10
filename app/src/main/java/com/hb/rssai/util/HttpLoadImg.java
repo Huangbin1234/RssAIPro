@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 
@@ -136,10 +135,27 @@ public class HttpLoadImg {
      */
     public static void loadRoundImg(Context context, String url, ImageView imageView) {
 //        Glide.with(context).load(url).thumbnail(0.1f).apply(new RequestOptions().centerCrop()).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new RoundedCorners(10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
-        Glide.with(context).load(url).thumbnail(0.1f).apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(url).apply(
+                new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)).diskCacheStrategy(DiskCacheStrategy.DATA))
+                .error(R.mipmap.ic_error)
+                .skipMemoryCache(true)//实践得出更省内存
+                .placeholder(R.mipmap.ic_place)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .into(imageView);
 
     }
+    public static void loadRoundGifImg(Context context, String url, ImageView imageView) {
+//        Glide.with(context).load(url).thumbnail(0.1f).apply(new RequestOptions().centerCrop()).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new RoundedCorners(10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(url).apply(
+                new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)).diskCacheStrategy(DiskCacheStrategy.DATA))
+                .error(R.mipmap.ic_error)
+                .skipMemoryCache(true)//实践得出更省内存
+                .placeholder(R.mipmap.ic_place)
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)// DiskCacheStrategy.NONE
+                .into(imageView);
 
+    }
     /**
      * 下载图片转圆角
      */
@@ -176,7 +192,7 @@ public class HttpLoadImg {
                     bitmap = (Bitmap) futureTarget.get();
                 } else if (futureTarget.get() instanceof BitmapDrawable) {
                     bitmap = ((BitmapDrawable) futureTarget.get()).getBitmap();
-                }else{
+                } else {
                     return;
                 }
                 FileOutputStream fout = null;
@@ -185,7 +201,7 @@ public class HttpLoadImg {
                     if (!fileDir.exists()) {
                         fileDir.mkdirs();
                     }
-                    File file = new File(downDir, "/zr/download/" + imageUrl.substring(imageUrl.lastIndexOf("/") + 1) );
+                    File file = new File(downDir, "/zr/download/" + imageUrl.substring(imageUrl.lastIndexOf("/") + 1));
                     if (!file.exists()) {
                         try {
                             file.createNewFile();

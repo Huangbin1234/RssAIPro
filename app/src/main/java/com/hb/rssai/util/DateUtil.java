@@ -53,7 +53,7 @@ public class DateUtil {
             if (min > 0 && min < 15) {
                 result = "刚刚";
             } else {
-                result = min + "分前";
+                result = min + "分钟前";
             }
         } else {
             result = s + "秒前";

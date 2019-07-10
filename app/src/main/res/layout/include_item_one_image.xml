@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_na_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="1px"
-    android:background="@drawable/ll_selector"
-    android:orientation="horizontal"
-    android:padding="16dp"
-    android:visibility="visible">
+              android:id="@+id/item_na_layout"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="1px"
+              android:background="@drawable/ll_selector"
+              android:orientation="horizontal"
+              android:padding="16dp"
+              android:visibility="visible">
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -20,12 +20,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-android:layout_centerVertical="true"
+            android:layout_centerVertical="true"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/text_color_title"
-            android:textSize="@dimen/s18p" />
-        <!--android:layout_alignParentTop="true"-->
+            android:textSize="@dimen/s18p"/>
+
         <LinearLayout
             android:id="@+id/irl_bottom_a"
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@ android:layout_centerVertical="true"
                 android:layout_height="15dp"
                 android:layout_gravity="bottom"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/icon_default_avar" />
+                android:src="@mipmap/icon_default_avar"/>
 
             <TextView
                 android:id="@+id/item_na_where_from"
@@ -52,7 +52,7 @@ android:layout_centerVertical="true"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/text_color_abstract"
-                android:textSize="@dimen/s12p" />
+                android:textSize="@dimen/s12p"/>
 
             <TextView
                 android:id="@+id/item_na_time"
@@ -64,7 +64,7 @@ android:layout_centerVertical="true"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/text_color_time"
-                android:textSize="@dimen/s12p" />
+                android:textSize="@dimen/s12p"/>
         </LinearLayout>
 
     </RelativeLayout>
@@ -77,6 +77,6 @@ android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
         android:layout_weight="3"
         android:background="@drawable/round_register"
-        android:scaleType="fitCenter"
-        android:visibility="visible" />
+        android:visibility="visible"/>
+
 </LinearLayout>
