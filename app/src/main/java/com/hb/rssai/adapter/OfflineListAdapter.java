@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
-import com.rss.bean.Information;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.HttpLoadImg;
@@ -22,6 +21,7 @@ import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
+import com.rss.bean.Information;
 
 import java.net.URLDecoder;
 import java.text.ParseException;
@@ -109,6 +109,7 @@ public class OfflineListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((NoImageViewHolder) holder).item_na_time.setText(time);
             ((NoImageViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
 
+            ((NoImageViewHolder) holder).irl_bottom_a.setVisibility(View.VISIBLE);
             ((NoImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         } else if (holder instanceof OneImageViewHolder) {
             ((OneImageViewHolder) holder).item_na_title.setText(title);
@@ -123,6 +124,7 @@ public class OfflineListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 //TODO 过滤网址
                 HttpLoadImg.loadRoundImg(mContext, StringUtil.filterImage(url), ((OneImageViewHolder) holder).item_na_img);
             }
+            ((OneImageViewHolder) holder).irl_bottom_a.setVisibility(View.VISIBLE);
             ((OneImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         } else if (holder instanceof ThreeImageViewHolder) {
             ((ThreeImageViewHolder) holder).item_na_title.setText(title);
@@ -138,6 +140,8 @@ public class OfflineListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 HttpLoadImg.loadRoundImg(mContext, "http" + images[1], ((ThreeImageViewHolder) holder).item_na_image_b);
                 HttpLoadImg.loadRoundImg(mContext, "http" + images[2], ((ThreeImageViewHolder) holder).item_na_image_c);
             }
+
+            ((ThreeImageViewHolder) holder).irl_bottom_b.setVisibility(View.VISIBLE);
             ((ThreeImageViewHolder) holder).item_na_layout.setOnClickListener(v -> click(position));
         }
     }
@@ -177,6 +181,7 @@ public class OfflineListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView item_na_where_from;
         TextView item_na_time;
         RelativeLayout item_na_layout;
+        LinearLayout irl_bottom_a;
 
         public NoImageViewHolder(View itemView) {
             super(itemView);
@@ -185,6 +190,7 @@ public class OfflineListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             item_na_time = itemView.findViewById(R.id.item_na_time);
 
             item_na_layout = itemView.findViewById(R.id.item_na_layout);
+            irl_bottom_a = itemView.findViewById(R.id.irl_bottom_a);
         }
     }
 
@@ -195,6 +201,7 @@ public class OfflineListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView item_na_where_from;
 
         LinearLayout item_na_layout;
+        LinearLayout irl_bottom_a;
 
         public OneImageViewHolder(View itemView) {
             super(itemView);
@@ -204,6 +211,7 @@ public class OfflineListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             item_na_img = itemView.findViewById(R.id.item_na_img);
 
             item_na_layout = itemView.findViewById(R.id.item_na_layout);
+            irl_bottom_a = itemView.findViewById(R.id.irl_bottom_a);
         }
     }
 
@@ -217,6 +225,7 @@ public class OfflineListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         LinearLayout item_na_layout;
         LinearLayout item_na_image_group;
+        LinearLayout irl_bottom_b;
 
         public ThreeImageViewHolder(View itemView) {
             super(itemView);
@@ -229,6 +238,7 @@ public class OfflineListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             item_na_layout = itemView.findViewById(R.id.item_na_layout);
             item_na_image_group = itemView.findViewById(R.id.item_na_image_group);
+            irl_bottom_b = itemView.findViewById(R.id.irl_bottom_b);
         }
     }
 }

@@ -77,7 +77,8 @@
             android:layout_height="15dp"
             android:layout_marginRight="10dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/icon_default_avar"/>
+            android:src="@mipmap/icon_default_avar"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/item_na_where_from"

@@ -4,9 +4,12 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -25,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
@@ -42,6 +46,7 @@ import com.hb.rssai.runtimePermissions.PermissionsChecker;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
+import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
@@ -52,6 +57,7 @@ import com.zbar.lib.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -123,6 +129,9 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     static final String[] PERMISSIONS_CAMERA = new String[]{
             Manifest.permission.CAMERA
     };
+    private int REQ_SELECT_FILE = 2;
+    private OpmlFileTask opmlFileTask;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -355,43 +364,106 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         });
     }
 
-//    public  void openAndroidFile(String filepath){
-//        Intent intent = new Intent("android.intent.action.VIEW");
-//        intent.addCategory("android.intent.category.DEFAULT");
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        Uri uri;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            //data是file类型,忘了复制过来
-//            uri = FileProvider.getUriForFile(this, getPackageName()+".fileprovider", data);
-//        } else {
-//            uri=Uri.fromFile(data);
-//        }
-//        //pdf文件要被读取所以加入读取权限
-//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        intent.setDataAndType(uri, "text/plain");
-//        try {
-//            startActivity(intent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     @Override
     public void setPresenter(AddSourcesContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
-    class OpmlTask extends AsyncTask<String, Void, List<Outline>> {
+//    class OpmlTask extends AsyncTask<String, Void, List<Outline>> {
+//
+//        @Override
+//        protected List<Outline> doInBackground(String... params) {
+//            return readOPML(params[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<Outline> outlines) {
+//            if (outlines != null && outlines.size() > 0) {
+//                RssSource rssSource;
+//                for (Outline outline : outlines) {
+//                    if (!TextUtils.isEmpty(outline.getXmlUrl())) {
+//                        rssSource = new RssSource();
+//                        try {
+//                            String strUTF = new String(outline.getTitle().getBytes(), "UTF-8");
+//                            rssSource.setName(strUTF);
+//                            rssTitle = strUTF;
+//                        } catch (UnsupportedEncodingException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        rssSource.setLink(outline.getXmlUrl());
+//                        LiteOrmDBUtil.insert(rssSource);
+//
+//                        rssLink = outline.getXmlUrl();
+//
+//                        mPresenter.addOpmlRss(rssLink, rssTitle, getUserID());
+//                    }
+//                    for (Outline subOutline : outline.getChildren()) {
+//                        if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
+//                            rssSource = new RssSource();
+//                            try {
+//                                String strUTF = new String(subOutline.getTitle().getBytes(), "UTF-8");
+//                                rssSource.setName(strUTF);
+//
+//                                rssTitle = strUTF;
+//                            } catch (UnsupportedEncodingException e) {
+//                                e.printStackTrace();
+//                            }
+//                            rssSource.setLink(subOutline.getXmlUrl());
+//                            LiteOrmDBUtil.insert(rssSource);
+//                            rssLink = subOutline.getXmlUrl();
+//
+//                            mPresenter.addOpmlRss(rssLink, rssTitle, getUserID());
+//                        }
+//                    }
+//                }
+//                T.ShowToast(AddSourceActivity.this, "添加成功");
+//                EventBus.getDefault().post(new RssSourceEvent(0));
+//                finish();
+//            }
+//        }
+//    }
+
+    ProgressBar mProgressBar;
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                mProgressBar.setMax(msg.arg1);
+            }
+        }
+    };
+
+    class OpmlFileTask extends AsyncTask<File, Integer, String> {
 
         @Override
-        protected List<Outline> doInBackground(String... params) {
-            return readOPML(params[0]);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setMax(0);
+            mProgressBar.setProgress(0);
+            pas_btn_opml_file.setEnabled(false);
+            pas_btn_sure.setVisibility(View.GONE);
         }
 
         @Override
-        protected void onPostExecute(List<Outline> outlines) {
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            mProgressBar.setProgress(values[0]);
+        }
+
+        @Override
+        protected String doInBackground(File... params) {
+            List<Outline> outlines = readOPML(params[0]);
             if (outlines != null && outlines.size() > 0) {
                 RssSource rssSource;
+                int current = 0;
+                Message message = new Message();
+                message.what = 0;
+                message.arg1 = outlines.size();
+                mHandler.sendMessage(message);
+
                 for (Outline outline : outlines) {
                     if (!TextUtils.isEmpty(outline.getXmlUrl())) {
                         rssSource = new RssSource();
@@ -428,10 +500,117 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                             mPresenter.addOpmlRss(rssLink, rssTitle, getUserID());
                         }
                     }
+                    current++;
+                    publishProgress(current); //这里的参数类型是 AsyncTask<Void, Integer, Void>中的Integer决定的，在onProgressUpdate中可以得到这个值去更新UI主线程，这里是异步线程
                 }
+                return "success";
+            } else {
+                return "failure";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String outlines) {
+            pas_btn_opml_file.setEnabled(true);
+            pas_btn_sure.setVisibility(View.VISIBLE);
+            if ("success".endsWith(outlines)) {
                 T.ShowToast(AddSourceActivity.this, "添加成功");
                 EventBus.getDefault().post(new RssSourceEvent(0));
                 finish();
+            } else if ("failure".endsWith(outlines)) {
+                T.ShowToast(AddSourceActivity.this, "导入遇到错误，请更正OPML文件");
+            } else {
+                T.ShowToast(AddSourceActivity.this, "未知错误，可反馈给开发者");
+            }
+        }
+    }
+
+    class OpmlTask extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setMax(0);
+            mProgressBar.setProgress(0);
+            pas_btn_sure.setEnabled(false);
+            pas_btn_opml_file.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            mProgressBar.setProgress(values[0]);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<Outline> outlines = readOPML(params[0]);
+            if (outlines != null && outlines.size() > 0) {
+                RssSource rssSource;
+                int current = 0;
+                Message message = new Message();
+                message.what = 0;
+                message.arg1 = outlines.size();
+                mHandler.sendMessage(message);
+
+                for (Outline outline : outlines) {
+                    if (!TextUtils.isEmpty(outline.getXmlUrl())) {
+                        rssSource = new RssSource();
+                        try {
+                            String strUTF = new String(outline.getTitle().getBytes(), "UTF-8");
+                            rssSource.setName(strUTF);
+                            rssTitle = strUTF;
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+
+                        rssSource.setLink(outline.getXmlUrl());
+                        LiteOrmDBUtil.insert(rssSource);
+
+                        rssLink = outline.getXmlUrl();
+
+                        mPresenter.addOpmlRss(rssLink, rssTitle, getUserID());
+                    }
+                    for (Outline subOutline : outline.getChildren()) {
+                        if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
+                            rssSource = new RssSource();
+                            try {
+                                String strUTF = new String(subOutline.getTitle().getBytes(), "UTF-8");
+                                rssSource.setName(strUTF);
+
+                                rssTitle = strUTF;
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            rssSource.setLink(subOutline.getXmlUrl());
+                            LiteOrmDBUtil.insert(rssSource);
+                            rssLink = subOutline.getXmlUrl();
+
+                            mPresenter.addOpmlRss(rssLink, rssTitle, getUserID());
+                        }
+                    }
+                    current++;
+                    publishProgress(current); //这里的参数类型是 AsyncTask<Void, Integer, Void>中的Integer决定的，在onProgressUpdate中可以得到这个值去更新UI主线程，这里是异步线程
+                }
+                return "success";
+            } else {
+                return "failure";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String outlines) {
+            pas_btn_sure.setEnabled(true);
+            pas_btn_opml_file.setVisibility(View.VISIBLE);
+            if ("success".endsWith(outlines)) {
+                T.ShowToast(AddSourceActivity.this, "添加成功");
+                EventBus.getDefault().post(new RssSourceEvent(0));
+                finish();
+            } else if ("failure".endsWith(outlines)) {
+                T.ShowToast(AddSourceActivity.this, "导入遇到错误，请更正OPML文件");
+            } else {
+                T.ShowToast(AddSourceActivity.this, "未知错误，可反馈给开发者");
             }
         }
     }
@@ -456,6 +635,21 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         return null;
     }
 
+    private List<Outline> readOPML(File file) {
+        ReadXML readXML = ReadXML.getInstance();
+        XmlReader xmlReader = null;
+        try {
+            xmlReader.setDefaultEncoding("UTF-8");
+            xmlReader = new XmlReader(file);
+            return readXML.readOpml(xmlReader);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
@@ -465,7 +659,32 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             if (requestCode == REQUESTCODE) {
                 mAsaEtUrl.setText(data.getStringExtra("info"));
                 pas_et_link.setText(data.getStringExtra("info"));
+            } else if (requestCode == REQ_SELECT_FILE) {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    String path = StringUtil.getPath(this, uri);
+                    if (path != null) {
+                        File file = new File(path);
+                        if (file.exists()) {
+                            System.out.println("asbPath==>" + file.getAbsolutePath());
+                            String p = file.getAbsolutePath();
+                            if (TextUtils.isEmpty(p)) {
+                                T.ShowToast(this, "OPML文件地址无效");
+                                return;
+                            }
+                            if (!p.endsWith(".opml") && !p.endsWith(".xml")) {
+                                T.ShowToast(this, "错误的文件后缀");
+                                return;
+                            }
+                            opmlFileTask = new OpmlFileTask();
+                            opmlFileTask.execute(file);
+                        } else {
+                            T.ShowToast(this, "文件不存在");
+                        }
+                    }
+                }
             }
+
         }
     }
 
@@ -504,10 +723,12 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             popupView = inflater.inflate(R.layout.pop_add_source, null);
+
             //builer.setView(v);//这里如果使用builer.setView(v)，自定义布局只会覆盖title和button之间的那部分
             mPop = builder.create();
 
             pas_btn_sure = (Button) popupView.findViewById(R.id.pas_btn_sure);
+            mProgressBar = (ProgressBar) popupView.findViewById(R.id.pas_progress_bar);
             pas_tv_title = (TextView) popupView.findViewById(R.id.pas_tv_title);
             pas_btn_opml = (Button) popupView.findViewById(R.id.pas_btn_opml);
             pas_et_link = (EditText) popupView.findViewById(R.id.pas_et_link);
@@ -524,7 +745,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         pas_tv_title.setText(title);
         if (flag == 1) {
             pas_btn_opml.setVisibility(View.GONE);
-//            pas_btn_opml_file.setVisibility(View.GONE);
+            pas_btn_opml_file.setVisibility(View.GONE);
             pas_btn_sure.setVisibility(View.VISIBLE);
             pas_ll_link.setVisibility(View.GONE);
             pas_et_name.setHint("如Rss、人物名等");
@@ -532,7 +753,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
         } else if (flag == 2) {
             pas_btn_opml.setVisibility(View.GONE);
-//            pas_btn_opml_file.setVisibility(View.GONE);
+            pas_btn_opml_file.setVisibility(View.GONE);
             pas_btn_sure.setVisibility(View.VISIBLE);
             pas_et_link.setHint("输入源链接");
             pas_et_name.setHint("输入源名称");
@@ -544,7 +765,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             pas_btn_sure.setVisibility(View.GONE);
             pas_ll_name.setVisibility(View.GONE);
             pas_ll_link.setVisibility(View.VISIBLE);
-//            pas_btn_opml_file.setVisibility(View.VISIBLE);
+            pas_btn_opml_file.setVisibility(View.VISIBLE);
         }
         pas_btn_close.setOnClickListener(arg0 -> {
             if (mPop.isShowing()) {
@@ -571,12 +792,12 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             opmlTask = new OpmlTask();
             opmlTask.execute(link2);
         });
-        pas_btn_opml_file.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO 打开OPML文件并读取
-
-            }
+        pas_btn_opml_file.setOnClickListener(view -> {
+            //TODO 打开OPML文件并读取
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(intent, REQ_SELECT_FILE);
         });
         pas_btn_sure.setOnClickListener(arg0 -> {
 
@@ -649,7 +870,9 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             return false;
         }
     }
+
     private final int REQUEST_CODE = 1;
+
     private void startCameraPermissionsActivity() {
         PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS_CAMERA);
     }

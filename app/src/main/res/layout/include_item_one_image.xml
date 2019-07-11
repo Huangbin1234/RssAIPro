@@ -42,6 +42,7 @@
                 android:layout_height="15dp"
                 android:layout_gravity="bottom"
                 android:layout_marginRight="10dp"
+                android:visibility="gone"
                 android:src="@mipmap/icon_default_avar"/>
 
             <TextView

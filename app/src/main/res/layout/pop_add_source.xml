@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="16dp"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -24,8 +24,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="16dp"
                 android:background="@color/bg"
                 android:orientation="vertical">
 
@@ -36,7 +36,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="@string/str_add_sub"
                     android:textColor="@color/color_big_label"
-                    android:textSize="@dimen/s20p" />
+                    android:textSize="@dimen/s20p"/>
 
                 <LinearLayout
                     android:id="@+id/pas_ll_name"
@@ -61,7 +61,7 @@
                         android:textColor="@color/color_txt"
                         android:textColorHint="@color/color_txt"
                         android:textSize="@dimen/s14p"
-                        android:theme="@style/EditUnderLineStyle" />
+                        android:theme="@style/EditUnderLineStyle"/>
 
                     <ImageView
                         android:id="@+id/its_iv_clear"
@@ -71,7 +71,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:src="@mipmap/ic_del"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -79,8 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/shape_ll_corner"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -101,7 +101,7 @@
                         android:textColor="@color/color_txt"
                         android:textColorHint="@color/color_txt"
                         android:textSize="@dimen/s14p"
-                        android:theme="@style/EditUnderLineStyle" />
+                        android:theme="@style/EditUnderLineStyle"/>
 
                     <ImageView
                         android:id="@+id/pas_iv_scan"
@@ -111,7 +111,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@mipmap/fp_icon_scan"
-                        android:visibility="visible" />
+                        android:visibility="visible"/>
                 </LinearLayout>
 
 
@@ -119,42 +119,55 @@
                     android:id="@+id/pas_btn_opml"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/shape_ll_corner"
                     android:text="@string/str_asa_btn_opml"
                     android:textColor="@color/orange"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"/>
 
 
                 <Button
                     android:id="@+id/pas_btn_opml_file"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
-                    android:visibility="gone"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/shape_ll_corner"
                     android:text="@string/str_asa_btn_opml_file"
                     android:textColor="@color/orange"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"
+                    android:visibility="gone"/>
+
+                <ProgressBar
+                    android:id="@+id/pas_progress_bar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/gray_deep"
+                    />
 
                 <Button
                     android:id="@+id/pas_btn_sure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/shape_ll_corner"
                     android:text="@string/str_btn_sure"
                     android:textColor="@color/orange"
-                    android:textSize="@dimen/s16p" />
+                    android:textSize="@dimen/s16p"/>
 
             </LinearLayout>
 
@@ -166,6 +179,6 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="16dp"
-        android:src="@mipmap/ic_del" />
+        android:src="@mipmap/ic_del"/>
 
 </LinearLayout>
