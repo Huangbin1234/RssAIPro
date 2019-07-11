@@ -369,61 +369,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         mPresenter = checkNotNull(presenter);
     }
 
-//    class OpmlTask extends AsyncTask<String, Void, List<Outline>> {
-//
-//        @Override
-//        protected List<Outline> doInBackground(String... params) {
-//            return readOPML(params[0]);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<Outline> outlines) {
-//            if (outlines != null && outlines.size() > 0) {
-//                RssSource rssSource;
-//                for (Outline outline : outlines) {
-//                    if (!TextUtils.isEmpty(outline.getXmlUrl())) {
-//                        rssSource = new RssSource();
-//                        try {
-//                            String strUTF = new String(outline.getTitle().getBytes(), "UTF-8");
-//                            rssSource.setName(strUTF);
-//                            rssTitle = strUTF;
-//                        } catch (UnsupportedEncodingException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        rssSource.setLink(outline.getXmlUrl());
-//                        LiteOrmDBUtil.insert(rssSource);
-//
-//                        rssLink = outline.getXmlUrl();
-//
-//                        mPresenter.addOpmlRss(rssLink, rssTitle, getUserID());
-//                    }
-//                    for (Outline subOutline : outline.getChildren()) {
-//                        if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
-//                            rssSource = new RssSource();
-//                            try {
-//                                String strUTF = new String(subOutline.getTitle().getBytes(), "UTF-8");
-//                                rssSource.setName(strUTF);
-//
-//                                rssTitle = strUTF;
-//                            } catch (UnsupportedEncodingException e) {
-//                                e.printStackTrace();
-//                            }
-//                            rssSource.setLink(subOutline.getXmlUrl());
-//                            LiteOrmDBUtil.insert(rssSource);
-//                            rssLink = subOutline.getXmlUrl();
-//
-//                            mPresenter.addOpmlRss(rssLink, rssTitle, getUserID());
-//                        }
-//                    }
-//                }
-//                T.ShowToast(AddSourceActivity.this, "添加成功");
-//                EventBus.getDefault().post(new RssSourceEvent(0));
-//                finish();
-//            }
-//        }
-//    }
-
     ProgressBar mProgressBar;
     Handler mHandler = new Handler() {
         @Override
@@ -444,7 +389,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             mProgressBar.setMax(0);
             mProgressBar.setProgress(0);
             pas_btn_opml_file.setEnabled(false);
-            pas_btn_sure.setVisibility(View.GONE);
+            pas_btn_opml.setVisibility(View.GONE);
         }
 
         @Override
@@ -512,7 +457,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(String outlines) {
             pas_btn_opml_file.setEnabled(true);
-            pas_btn_sure.setVisibility(View.VISIBLE);
+            pas_btn_opml.setVisibility(View.VISIBLE);
             if ("success".endsWith(outlines)) {
                 T.ShowToast(AddSourceActivity.this, "添加成功");
                 EventBus.getDefault().post(new RssSourceEvent(0));
@@ -533,7 +478,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             mProgressBar.setVisibility(View.VISIBLE);
             mProgressBar.setMax(0);
             mProgressBar.setProgress(0);
-            pas_btn_sure.setEnabled(false);
+            pas_btn_opml.setEnabled(false);
             pas_btn_opml_file.setVisibility(View.GONE);
         }
 
@@ -601,7 +546,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String outlines) {
-            pas_btn_sure.setEnabled(true);
+            pas_btn_opml.setEnabled(true);
             pas_btn_opml_file.setVisibility(View.VISIBLE);
             if ("success".endsWith(outlines)) {
                 T.ShowToast(AddSourceActivity.this, "添加成功");
@@ -681,6 +626,8 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                         } else {
                             T.ShowToast(this, "文件不存在");
                         }
+                    } else {
+                        T.ShowToast(this, "文件不能识别");
                     }
                 }
             }
