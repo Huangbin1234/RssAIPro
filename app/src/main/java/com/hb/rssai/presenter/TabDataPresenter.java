@@ -202,7 +202,9 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
         //清除数据缓存
 //        System.out.println("列表信息：===========>"+infoList);
         if (infoList != null && page == 1) {
-            infoList.clear();
+            if (resInformation.getRetCode() == 0 && resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
+                infoList.clear();
+            }
             lastWhereFrom = "";
         }
 
@@ -229,13 +231,15 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
                 //通知更新
                 EventBus.getDefault().post(new TipsEvent(1, resInformation.getRetObj().getRows().size()));
             }
-            if (infoList.size() == resInformation.getRetObj().getTotal()) {
+            if (infoList.size() >= resInformation.getRetObj().getTotal()) {
                 isEnd = true;
             }
         } else if (resInformation.getRetCode() == 10013) {//暂无数据
-            include_no_data.setVisibility(View.VISIBLE);
-            include_load_fail.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.GONE);
+            if (infoList.size() <= 0) {
+                include_no_data.setVisibility(View.VISIBLE);
+                include_load_fail.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.GONE);
+            }
         } else {
             include_no_data.setVisibility(View.GONE);
             include_load_fail.setVisibility(View.VISIBLE);
@@ -252,7 +256,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
         for (int i = 0; i < rows.size(); i++) {
             curBean = rows.get(i);
             if (i == 0) {
-                if (!TextUtils.isEmpty(lastWhereFrom) && !lastWhereFrom.equals(curBean.getWhereFrom())) {
+                if (!TextUtils.isEmpty(lastWhereFrom) && null != curBean && !lastWhereFrom.equals(curBean.getWhereFrom())) {
                     //如果当前不等于上一个
                     ResInformation.RetObjBean.RowsBean rowsBean = new ResInformation.RetObjBean.RowsBean();
                     rowsBean.setWhereFrom(curBean.getWhereFrom());
@@ -266,7 +270,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
                 lastBean = rows.get(i - 1);
             }
 
-            if ((i == 0 && page == 1) || (null != lastBean && !curBean.getWhereFrom().equals(lastBean.getWhereFrom()))) {
+            if ((i == 0 && page == 1) || (null != lastBean && null != curBean && !curBean.getWhereFrom().equals(lastBean.getWhereFrom()))) {
                 //如果当前不等于上一个
                 ResInformation.RetObjBean.RowsBean rowsBean = new ResInformation.RetObjBean.RowsBean();
                 rowsBean.setWhereFrom(curBean.getWhereFrom());
@@ -285,9 +289,15 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
             rows.add(key, entry.getValue());
             count++;
         }
-
-        infoList.addAll(rows);
-        lastWhereFrom = infoList.get(infoList.size() - 1).getWhereFrom();
+        for (ResInformation.RetObjBean.RowsBean rowsBean : rows) {
+            if (null != rowsBean) {
+                infoList.add(rowsBean);
+            }
+        }
+        if (null != infoList.get(infoList.size() - 1)) {
+            lastWhereFrom = infoList.get(infoList.size() - 1).getWhereFrom();
+        }
     }
+
     private String lastWhereFrom = "";
 }

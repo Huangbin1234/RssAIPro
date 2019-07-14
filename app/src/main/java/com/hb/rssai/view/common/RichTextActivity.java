@@ -202,6 +202,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             }
             try {
                 abstractContentFormat = getNewContent(abstractContent);
+                System.out.println(abstractContentFormat);
             } catch (Exception e) {
                 e.printStackTrace();
                 abstractContentFormat = abstractContent;
@@ -390,8 +391,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             Document doc = Jsoup.parse(htmlText);
             Elements elements = doc.getElementsByTag("img");
             for (Element element : elements) {
-
-
                 element.attr("width", "100%")
                         .attr("height", "auto")
                         .attr("data-w", "100%")
@@ -423,7 +422,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             }
             Elements elements3 = doc.getElementsByTag("a");
             for (Element element : elements3) {
-                element.attr("style", "color:#9c9c9c;word-wrap:break-word;");
+                element.attr("style", "color:#9c9c9c;word-wrap:break-word;text-decoration:none;border-bottom:4px dashed #9c9c9c;");
             }
             Elements elements4 = doc.getElementsByTag("iframe");
             for (Element element : elements4) {
@@ -434,6 +433,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             for (Element element : elements5) {
                 element.attr("style", cssStr(element.attr("style"), "font-size", DisplayUtil.dip2px(this, 17) + "px"));
                 element.attr("style", cssStr(element.attr("style"), "line-height", "normal"));
+                element.attr("style", cssStr(element.attr("style"), "width", "100%"));
             }
             Elements elements6 = doc.getElementsByTag("p");
             for (Element element : elements6) {
@@ -447,8 +447,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
                 element.attr("style", cssStr(element.attr("style"), "text-indent", "2em"));
             }
-
-
             return doc.toString();
         } catch (Exception e) {
             e.printStackTrace();
