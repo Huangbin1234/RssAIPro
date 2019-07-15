@@ -202,7 +202,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             }
             try {
                 abstractContentFormat = getNewContent(abstractContent);
-                System.out.println(abstractContentFormat);
             } catch (Exception e) {
                 e.printStackTrace();
                 abstractContentFormat = abstractContent;
@@ -233,7 +232,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"text-align\", \"justify\");");
-                    mWebView.loadUrl("img{ pointer-events: none; }");//去掉图片跳转
                     // web 页面加载完成，添加监听图片的点击 js 函数
                     // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
                     mWebView.loadUrl("javascript:(function(){" +
@@ -255,8 +253,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-break\", \"break-all\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"word-wrap\", \"break-word\");");
                     mWebView.loadUrl("javascript:document.body.style.setProperty(\"text-align\", \"justify\");");
-                    mWebView.loadUrl("img{ pointer-events: none; }");//去掉图片跳转
-
                     // web 页面加载完成，添加监听图片的点击 js 函数
                     // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
                     mWebView.loadUrl("javascript:(function(){" +
@@ -401,7 +397,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                         .attr("data-rawheight", "auto")
                         .attr("style", cssStr(element.attr("style"), "width", "100%"))
                         .attr("style", cssStr(element.attr("style"), "height", "auto"))
-                        .attr("style", cssStr(element.attr("style"), "max-width", "100%"));
+                        .attr("style", cssStr(element.attr("style"), "max-width", "100%"))
+                        .attr("style", addAttr(element.attr("style"), "border-radius", "8px"));
             }
             Elements elements1 = doc.getElementsByTag("table");
             for (Element element : elements1) {
@@ -475,6 +472,17 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             s3 = s2.substring(s2.indexOf(";"));
         }
         return s1 + "" + key + ":" + value + s3;
+    }
+
+    // style="a:123";
+    private String addAttr(String sourceStr, String key, String value) {
+        if (TextUtils.isEmpty(sourceStr)) {
+            String tempStr = "" + key + ":" + value + "";
+            return tempStr;
+        } else {
+            String tempStr = key + ":" + value +"; "+  sourceStr ;
+            return tempStr;
+        }
     }
 
     /**
