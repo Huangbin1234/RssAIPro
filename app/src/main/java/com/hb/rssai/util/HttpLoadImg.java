@@ -136,14 +136,16 @@ public class HttpLoadImg {
     public static void loadRoundImg(Context context, String url, ImageView imageView) {
 //        Glide.with(context).load(url).thumbnail(0.1f).apply(new RequestOptions().centerCrop()).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new RoundedCorners(10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
         Glide.with(context).load(url).apply(
-                new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)).diskCacheStrategy(DiskCacheStrategy.DATA))
+                new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
                 .error(R.mipmap.ic_error)
                 .skipMemoryCache(true)//实践得出更省内存
                 .placeholder(R.mipmap.ic_place)
+                .disallowHardwareConfig()
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .into(imageView);
 
     }
+
     public static void loadRoundGifImg(Context context, String url, ImageView imageView) {
 //        Glide.with(context).load(url).thumbnail(0.1f).apply(new RequestOptions().centerCrop()).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).transform(new RoundedCorners(10)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
         Glide.with(context).load(url).apply(
@@ -156,6 +158,7 @@ public class HttpLoadImg {
                 .into(imageView);
 
     }
+
     /**
      * 下载图片转圆角
      */

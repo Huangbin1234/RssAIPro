@@ -120,6 +120,7 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((OneImageViewHolder) holder).item_na_img.setVisibility(View.VISIBLE);
                 images = TextUtils.isEmpty(rowsBean.getImageUrls()) ? null : rowsBean.getImageUrls().split(",http");
                 if (null != images && images.length > 0) {
+                    System.out.println("==>"+images[0]);
                     String url = URLDecoder.decode(images[0]);
                     //TODO 过滤网址
                     HttpLoadImg.loadRoundImg(mContext, StringUtil.filterImage(url), ((OneImageViewHolder) holder).item_na_img);
@@ -133,6 +134,9 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 ((ThreeImageViewHolder) holder).item_na_image_group.setVisibility(View.VISIBLE);
                 images = TextUtils.isEmpty(rowsBean.getImageUrls()) ? null : rowsBean.getImageUrls().split(",http");
+                System.out.println("==>"+images[0]);
+                System.out.println("==>"+"http" + images[1]);
+                System.out.println("==>"+"http" + images[2]);
                 HttpLoadImg.loadRoundImg(mContext, images[0], ((ThreeImageViewHolder) holder).item_na_image_a);
                 HttpLoadImg.loadRoundImg(mContext, "http" + images[1], ((ThreeImageViewHolder) holder).item_na_image_b);
                 HttpLoadImg.loadRoundImg(mContext, "http" + images[2], ((ThreeImageViewHolder) holder).item_na_image_c);
