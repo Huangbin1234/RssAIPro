@@ -16,7 +16,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -48,6 +50,7 @@ import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
+import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.widget.FullyGridLayoutManager;
 import com.hb.rssai.view.widget.GridSpacingItemDecoration;
 import com.rometools.opml.feed.opml.Outline;
@@ -361,7 +364,11 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         backgroundAlpha(0.5f);
         mPop.setOnDismissListener(dialogInterface -> {
             backgroundAlpha(1f);
+            if (null != pas_iv_show_link) {
+                pas_iv_show_link.setVisibility(View.GONE);
+            }
         });
+
     }
 
     @Override
@@ -650,6 +657,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     LinearLayout pas_ll_link;
     LinearLayout pas_ll_name;
     ImageView pas_iv_scan;
+    ImageView pas_iv_show_link;
 
     /**
      * 设置添加屏幕的背景透明度
@@ -688,6 +696,33 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             pas_ll_name = (LinearLayout) popupView.findViewById(R.id.pas_ll_name);
 
             pas_iv_scan = (ImageView) popupView.findViewById(R.id.pas_iv_scan);
+            pas_iv_show_link = (ImageView) popupView.findViewById(R.id.pas_iv_show_link);
+            pas_iv_show_link.setOnClickListener(view -> {
+                if (flag == 1) {
+                    try {
+                        Intent intent = new Intent(AddSourceActivity.this, ContentActivity.class);//创建Intent对象
+                        intent.putExtra(ContentActivity.KEY_TITLE, title);
+                        rssTitle = pas_et_name.getText().toString().trim();
+                        rssLink = "http://news.baidu.com/ns?word=" + URLEncoder.encode(rssTitle, "UTF-8") + "&tn=newsrss&sr=0&cl=2&rn=20&ct=0";
+                        intent.putExtra(ContentActivity.KEY_URL, rssLink);
+                        //                intent.putExtra(ContentActivity.KEY_INFORMATION_ID, id);
+                        startActivity(intent);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                } else if (flag == 2) {
+                    rssLink = pas_et_link.getText().toString().trim();
+                    rssTitle = pas_et_name.getText().toString().trim();
+                    if (TextUtils.isEmpty(rssLink)) {
+                        T.ShowToast(AddSourceActivity.this, "请输入正确的RSS源链接");
+                        return;
+                    }
+                    Intent intent = new Intent(AddSourceActivity.this, ContentActivity.class);//创建Intent对象
+                    intent.putExtra(ContentActivity.KEY_TITLE, rssTitle);
+                    intent.putExtra(ContentActivity.KEY_URL, rssLink);
+                    startActivity(intent);
+                }
+            });
         }
         pas_tv_title.setText(title);
         if (flag == 1) {
@@ -698,6 +733,27 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             pas_et_name.setHint("如Rss、人物名等");
             pas_ll_name.setVisibility(View.VISIBLE);
 
+            pas_et_name.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (!TextUtils.isEmpty(editable.toString())) {
+                        pas_iv_show_link.setVisibility(View.VISIBLE);
+                    } else {
+                        pas_iv_show_link.setVisibility(View.GONE);
+                    }
+                }
+            });
+
         } else if (flag == 2) {
             pas_btn_opml.setVisibility(View.GONE);
             pas_btn_opml_file.setVisibility(View.GONE);
@@ -706,6 +762,28 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             pas_et_name.setHint("输入源名称");
             pas_ll_link.setVisibility(View.VISIBLE);
             pas_ll_name.setVisibility(View.VISIBLE);
+
+            pas_et_name.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (!TextUtils.isEmpty(editable.toString())) {
+                        pas_iv_show_link.setVisibility(View.VISIBLE);
+                    } else {
+                        pas_iv_show_link.setVisibility(View.GONE);
+                    }
+                }
+            });
+
         } else if (flag == 3) {
             pas_btn_opml.setVisibility(View.VISIBLE);
             pas_et_link.setHint("例如http://xxx.com/opml.xml");
