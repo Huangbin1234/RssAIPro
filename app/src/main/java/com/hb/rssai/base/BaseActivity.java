@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -21,11 +22,11 @@ import com.jaeger.library.StatusBarUtil;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
+public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity implements SlidingPaneLayout.PanelSlideListener {
     public T mPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 //        setTranslucentStatus2(this);
         setSelfTheme(this);
@@ -40,8 +41,6 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
             mPresenter.attachView((V) this);
         }
     }
-
-
 
     //设置布局
     protected abstract int providerContentViewId();
@@ -166,5 +165,29 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 是否支持滑动返回
+     *
+     * @return
+     */
+    protected boolean isSupportSwipeBack() {
+        return true;
+    }
+
+    @Override
+    public void onPanelClosed(View view) {
+
+    }
+
+    @Override
+    public void onPanelOpened(View view) {
+        finish();
+        this.overridePendingTransition(0, R.anim.in_form_left);
+    }
+
+    @Override
+    public void onPanelSlide(View view, float v) {
     }
 }

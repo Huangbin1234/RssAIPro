@@ -1,5 +1,6 @@
 package com.hb.rssai.view.common;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
@@ -67,7 +68,9 @@ public class ImageShowActivity extends BaseActivity {
     protected void setAppTitle() {
 
     }
-
+    public void setSelfTheme(Activity activity) {
+        setTranslucentStatus2(activity);
+    }
     @Override
     protected BasePresenter createPresenter() {
         return null;
