@@ -384,7 +384,17 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             htmlText = htmlText.replace("\"//files.", "\"http://files.");
             htmlText = htmlText.replace("\"//player.", "\"http://player.");
             htmlText = htmlText.replace("———", "");
+            htmlText = htmlText.replace("<mark", "<span");
+            htmlText = htmlText.replace("</mark>", "</span>");
+
             Document doc = Jsoup.parse(htmlText);
+
+            String resStr = doc.toString();
+            if (resStr.contains("&lt;") && resStr.contains("&gt;")) {
+                resStr = resStr.replace("&lt;", "<");
+                resStr = resStr.replace("&gt;", ">");
+                doc = Jsoup.parse(resStr);
+            }
             Elements elements = doc.getElementsByTag("img");
             for (Element element : elements) {
                 element.attr("width", "100%")
@@ -444,6 +454,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
                 element.attr("style", cssStr(element.attr("style"), "text-indent", "2em"));
             }
+
+
             return doc.toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -480,7 +492,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             String tempStr = "" + key + ":" + value + "";
             return tempStr;
         } else {
-            String tempStr = key + ":" + value +"; "+  sourceStr ;
+            String tempStr = key + ":" + value + "; " + sourceStr;
             return tempStr;
         }
     }
@@ -490,7 +502,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
      */
     @Deprecated
     private void loadTextView() {
-//        mRtaTvContent.setRichText(abstractContent);
         HtmlImageGetter htmlImageGetter = new HtmlImageGetter(this, this, mRtaTvContent);
         Spanned spanned;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -499,46 +510,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             spanned = Html.fromHtml(abstractContent, htmlImageGetter, null); // or for older api
         }
         mRtaTvContent.setText(spanned);
-//        mRtaTvContent.setMovementMethod(LinkMovementMethod.getInstance());
-//        CharSequence text = mRtaTvContent.getText();
-//        if (text instanceof Spannable) {
-//            int end = text.length();
-//            Spannable sp = (Spannable) mRtaTvContent.getText();
-//            URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
-//            ImageSpan[] imgs = sp.getSpans(0, end, ImageSpan.class);
-//            StyleSpan[] styleSpens = sp.getSpans(0, end, StyleSpan.class);
-//            ForegroundColorSpan[] colorSpans = sp.getSpans(0, end, ForegroundColorSpan.class);
-//            SpannableStringBuilder style = new SpannableStringBuilder(text);
-//            style.clearSpans();
-//            for (URLSpan url : urls) {
-//                style.setSpan(url, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#FF12ADFA"));
-//                style.setSpan(colorSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            }
-//            for (ImageSpan url : imgs) {
-//                HtmlImageGetterNew imageGetter = new HtmlImageGetterNew(RichTextActivity.this, RichTextActivity.this, mRtaTvContent);
-//
-////                ImageSpan span = new ImageSpan(htmlImageGetter.getDrawable(url.getSource()));
-//                ImageSpan span = new ImageSpan(imageGetter.getDrawable(url.getSource()));
-//                Drawable drawable = span.getDrawable();
-//                if (drawable != null) {
-//                    drawable.setCallback(htmlImageGetter);
-//                }
-//                style.setSpan(span, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            }
-//            for (StyleSpan styleSpan : styleSpens) {
-//                style.setSpan(styleSpan, sp.getSpanStart(styleSpan), sp.getSpanEnd(styleSpan), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            }
-//            for (ForegroundColorSpan colorSpan : colorSpans) {
-//                style.setSpan(colorSpan, sp.getSpanStart(colorSpan), sp.getSpanEnd(colorSpan), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            }
-//            mRtaTvContent.setText(style);
-//        }
-    }
-
-    public Drawable getUrlDrawable(String source, TextView mTextView) {
-        HtmlImageGetterNew imageGetter = new HtmlImageGetterNew(RichTextActivity.this, RichTextActivity.this, mTextView);
-        return imageGetter.getDrawable(source);
     }
 
     private UMShareListener mShareListener;
@@ -710,7 +681,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        RichText.recycle();
         mWebView.stopLoading();
         mWebView.destroy();
     }
