@@ -488,8 +488,21 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 element.attr("style", cssStr(element.attr("style"), "background-color", "rgba(0,0,0,0)"));
                 element.attr("style", cssStr(element.attr("style"), "text-indent", "2em"));
             }
-
-
+            Elements elements8 = doc.getElementsByTag("video");
+            for (Element element : elements8) {
+                element.attr("width", "100%")
+                        .attr("height", "auto")
+                        .attr("data-w", "100%")
+                        .attr("data-h", "auto")
+                        .attr("data-width", "100%")
+                        .attr("data-height", "auto")
+                        .attr("data-rawwidth", "100%")
+                        .attr("data-rawheight", "auto")
+                        .attr("style", cssStr(element.attr("style"), "width", "100%"))
+                        .attr("style", cssStr(element.attr("style"), "height", "auto"))
+                        .attr("style", cssStr(element.attr("style"), "max-width", "100%"))
+                        .attr("style", addAttr(element.attr("style"), "border-radius", "8px"));
+            }
             return doc.toString();
         } catch (Exception e) {
             e.printStackTrace();
