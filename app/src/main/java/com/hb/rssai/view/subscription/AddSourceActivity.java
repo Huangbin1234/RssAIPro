@@ -420,9 +420,16 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                     if (!TextUtils.isEmpty(outline.getXmlUrl())) {
                         rssSource = new RssSource();
                         try {
-                            String strUTF = new String(outline.getTitle().getBytes(), "UTF-8");
-                            rssSource.setName(strUTF);
-                            rssTitle = strUTF;
+                            if(!TextUtils.isEmpty(outline.getTitle())){
+                                String strUTF = new String(outline.getTitle().getBytes(), "UTF-8");
+                                rssSource.setName(strUTF);
+                                rssTitle = strUTF;
+                            }
+                           else if(!TextUtils.isEmpty(outline.getText())){
+                                String strUTF = new String(outline.getText().getBytes(), "UTF-8");
+                                rssSource.setName(strUTF);
+                                rssTitle = strUTF;
+                            }
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
@@ -568,7 +575,6 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     }
 
     private List<Outline> readOPML(String opmlUrl) {
-//        opmlUrl = "http://www.williamlong.info/download/opml.xml";
         URL feedUrl = null;//SyndFeedInput:从远程读到xml结构的内容转成SyndFeedImpl实例
         ReadXML readXML = ReadXML.getInstance();
         try {

@@ -84,6 +84,8 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
                 intent.putExtra(OfflineListActivity.KEY_LINK, rssList.get(position).getLink());
                 intent.putExtra(OfflineListActivity.KEY_NAME, rssList.get(position).getName());
                 intent.putExtra(OfflineListActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getId());
+                intent.putExtra(OfflineListActivity.KEY_IS_TAG, rssList.get(position).isIsTag());
+                intent.putExtra(OfflineListActivity.KEY_IMG, rssList.get(position).getImg());
                 mContext.startActivity(intent);
             } else {
                 Intent intent = new Intent(mContext, SourceCardActivity.class);

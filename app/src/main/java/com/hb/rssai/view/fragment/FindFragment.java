@@ -360,6 +360,8 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
                             intent.putExtra(OfflineListActivity.KEY_LINK, rowsBean1.getLink());
                             intent.putExtra(OfflineListActivity.KEY_NAME, rowsBean1.getName());
                             intent.putExtra(OfflineListActivity.KEY_SUBSCRIBE_ID, rowsBean1.getId());
+                            intent.putExtra(OfflineListActivity.KEY_IS_TAG, rowsBean1.isIsTag());
+                            intent.putExtra(OfflineListActivity.KEY_IMG, rowsBean1.getImg());
                             getContext().startActivity(intent);
                         } else {
                             Intent intent = new Intent(getContext(), SourceCardActivity.class);

@@ -33,7 +33,7 @@ public class OfflineListPresenter extends BasePresenter<OfflineListContract.View
     }
 
     @Override
-    public void getList(String link, String subscribeId) {
+    public void getList(String link, String subscribeId, final boolean isTag, String img) {
         singleThreadExecutor.execute(() -> {
             //先获取本地数据
             try {
@@ -47,10 +47,10 @@ public class OfflineListPresenter extends BasePresenter<OfflineListContract.View
                         //更新一下本地存储的时间
                         LiteOrmDBUtil.updateWhere(Information.class, "subscribeId", new String[]{subscribeId}, com.hb.rssai.bean.Information.COL_OPR_TIME, new String[]{Constant.sdf.format(date)});
                     } else {
-                        getData(link, subscribeId);
+                        getData(link, subscribeId, isTag, img);
                     }
                 } else {
-                    getData(link, subscribeId);
+                    getData(link, subscribeId, isTag, img);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -58,9 +58,9 @@ public class OfflineListPresenter extends BasePresenter<OfflineListContract.View
         });
     }
 
-    public void getData(String link, String subscribeId) {
+    public void getData(String link, String subscribeId, boolean isTag, String img) {
         //如果本地数据不存在则去获取
-        List<Information> infoList = feedReader.getInfoList(link, subscribeId);
+        List<Information> infoList = feedReader.getInfoList(link, subscribeId, isTag,img);
         if (null != infoList && infoList.size() > 0) {
             //清除本地数据
             LiteOrmDBUtil.deleteWhere(Information.class, "subscribeId", new String[]{subscribeId});

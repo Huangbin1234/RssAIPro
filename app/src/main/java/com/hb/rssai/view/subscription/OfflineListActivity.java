@@ -34,6 +34,8 @@ public class OfflineListActivity extends BaseActivity<OfflineListContract.View, 
     public static final String KEY_LINK = "key_link";
     public static final String KEY_NAME = "key_name";
     public static final String KEY_SUBSCRIBE_ID = "key_subscribe_id";
+    public static final String KEY_IS_TAG = "key_is_tag";
+    public static final String KEY_IMG="key_img";
     OfflineListContract.Presenter mPresenter;
     @BindView(R.id.sys_tv_title)
     TextView mSysTvTitle;
@@ -62,6 +64,8 @@ public class OfflineListActivity extends BaseActivity<OfflineListContract.View, 
     private OfflineListAdapter adapter;
     private List<Information> infoList = new ArrayList<>();
     private String subscribeId;
+    private boolean isTag=false;
+    private String img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +76,7 @@ public class OfflineListActivity extends BaseActivity<OfflineListContract.View, 
     private void loadData() {
         if (!TextUtils.isEmpty(link)) {
             mOalSwipeLayout.setRefreshing(true);
-            mPresenter.getList(link,subscribeId);
+            mPresenter.getList(link,subscribeId,isTag,img);
         }
     }
 
@@ -84,6 +88,8 @@ public class OfflineListActivity extends BaseActivity<OfflineListContract.View, 
             link = bundle.getString(KEY_LINK, "");
             subscribeId = bundle.getString(KEY_SUBSCRIBE_ID, "");
             name = bundle.getString(KEY_NAME, "");
+            isTag = bundle.getBoolean(KEY_IS_TAG, false);
+            img = bundle.getString(KEY_IMG, "");
             if (!TextUtils.isEmpty(name)) {
                 mSysTvTitle.setText(name);
             }

@@ -17,6 +17,6 @@ public interface OfflineListContract {
     }
 
     interface Presenter extends BasePresenter {
-        void getList(String link,String subscribeId);
+        void getList(String link, String subscribeId, boolean isTag, String img);
     }
 }

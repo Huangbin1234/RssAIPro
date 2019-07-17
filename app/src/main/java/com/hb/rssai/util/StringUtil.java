@@ -82,7 +82,7 @@ public class StringUtil {
     }
 
     private static String getFilePathFromURI(Context context, Uri uri) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
             File rootDataDir = context.getFilesDir();
 
             String fileName = getFileName(uri);
@@ -109,7 +109,6 @@ public class StringUtil {
             }
             return null;
         }
-
     }
 
     private static String getFileName(Uri uri) {
