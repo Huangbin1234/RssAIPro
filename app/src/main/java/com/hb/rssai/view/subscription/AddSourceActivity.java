@@ -445,10 +445,18 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                         if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
                             rssSource = new RssSource();
                             try {
-                                String strUTF = new String(subOutline.getTitle().getBytes(), "UTF-8");
-                                rssSource.setName(strUTF);
 
-                                rssTitle = strUTF;
+                                if(!TextUtils.isEmpty(subOutline.getTitle())){
+                                    String strUTF = new String(subOutline.getTitle().getBytes(), "UTF-8");
+                                    rssSource.setName(strUTF);
+                                    rssTitle = strUTF;
+                                }
+                                else if(!TextUtils.isEmpty(subOutline.getText())){
+                                    String strUTF = new String(subOutline.getText().getBytes(), "UTF-8");
+                                    rssSource.setName(strUTF);
+                                    rssTitle = strUTF;
+                                }
+
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
                             }
