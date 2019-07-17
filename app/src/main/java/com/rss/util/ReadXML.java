@@ -39,9 +39,10 @@ public class ReadXML {
         Opml feed = null;
         try {
             feed = (Opml) input.build(reader);
+            return feed.getOutlines();
         } catch (FeedException e) {
             e.printStackTrace();
+            return null;
         }
-        return feed.getOutlines();
     }
 }
