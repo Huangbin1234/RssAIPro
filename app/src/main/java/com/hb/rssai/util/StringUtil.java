@@ -82,7 +82,7 @@ public class StringUtil {
     }
 
     private static String getFilePathFromURI(Context context, Uri uri) {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O && !uri.toString().contains("content://media/external/")) {
             File rootDataDir = context.getFilesDir();
 
             String fileName = getFileName(uri);
