@@ -166,6 +166,7 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 intent.putExtra("clickNotGood", rowsBean.getClickNotGood());
                 intent.putExtra("id", rowsBean.getId());
                 intent.putExtra("subscribeImg", rowsBean.getSubscribeImg());
+                intent.putExtra("count", rowsBean.getCount());
                 mContext.startActivity(intent);//将Intent传递给Activity
             } else {
                 T.ShowToast(mContext, "链接错误，无法跳转！");

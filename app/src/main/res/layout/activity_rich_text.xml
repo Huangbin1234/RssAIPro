@@ -50,6 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -71,7 +72,6 @@
                             android:id="@+id/rta_tv_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:textColor="#9C9C9C"
                             android:textSize="@dimen/s14p" />
 
