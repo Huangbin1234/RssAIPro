@@ -167,7 +167,7 @@ public class FeedReader {
                     public void onNext(ResBase resBase) {
                         if (isLogo) {
                             T.ShowToast(ProjectApplication.getApplication(), "Logo更新" + resBase.getRetMsg());
-                        }else{
+                        } else {
                             T.ShowToast(ProjectApplication.getApplication(), "未获取到Logo,可手动编辑");
                         }
                     }
@@ -180,7 +180,6 @@ public class FeedReader {
         RssChannel rssChannel = new FeedReader().getContent(link);
         if (null != rssChannel && null != rssChannel.getRSSItemBeen() && rssChannel.getRSSItemBeen().size() > 0) {
             int size = rssChannel.getRSSItemBeen().size();
-
 
             Date date = new Date();
             for (int i = 0; i < size; i++) {
@@ -203,31 +202,32 @@ public class FeedReader {
                 infoList.add(information);
             }
 
-            if (TextUtils.isEmpty(img)) {
+            if (infoList.size() > 0) {
                 //TODO 更新LOGO
                 Map<String, Object> params = new HashMap<>();
                 boolean isLogo = false;
                 if (!TextUtils.isEmpty(rssChannel.getDescription())) {
                     params.put("abstractContent", rssChannel.getDescription().trim());
                 }
-                if (null != rssChannel.getImage() && !TextUtils.isEmpty(rssChannel.getImage().getUrl())) {
-                    params.put("img", rssChannel.getImage().getUrl().trim());
-                    isLogo = true;
-                }
-                if (infoList.size() > 0) {
-                    params.put("id", subscribeId);
-                    params.put("isTag", isTag);
-                    String lastTime = rssChannel.getPubDate() != null ? Constant.sdf.format(rssChannel.getPubDate()) : "";
-                    if (TextUtils.isEmpty(lastTime) && infoList.size() > 0) {
-                        params.put("lastTime", infoList.get(0).getPubTime());
-                    } else {
-                        params.put("lastTime", rssChannel.getPubDate() != null ? Constant.sdf.format(rssChannel.getPubDate()) : "");
+                if (TextUtils.isEmpty(img)) {
+                    if (null != rssChannel.getImage() && !TextUtils.isEmpty(rssChannel.getImage().getUrl())) {
+                        params.put("img", rssChannel.getImage().getUrl().trim());
+                        isLogo = true;
                     }
-                    Map<String, Object> map = new HashMap<>();
-                    String jsonParams = GsonUtil.toJson(params);
-                    map.put(Constant.KEY_JSON_PARAMS, jsonParams);
-                    modifySubscription(map, isLogo);
                 }
+
+                params.put("id", subscribeId);
+                params.put("isTag", isTag);
+                String lastTime = rssChannel.getPubDate() != null ? Constant.sdf.format(rssChannel.getPubDate()) : "";
+                if (TextUtils.isEmpty(lastTime) && infoList.size() > 0) {
+                    params.put("lastTime", infoList.get(0).getPubTime());
+                } else {
+                    params.put("lastTime", rssChannel.getPubDate() != null ? Constant.sdf.format(rssChannel.getPubDate()) : "");
+                }
+                Map<String, Object> map = new HashMap<>();
+                String jsonParams = GsonUtil.toJson(params);
+                map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+                modifySubscription(map, isLogo);
             }
         }
         return infoList;
