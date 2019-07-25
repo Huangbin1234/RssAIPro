@@ -151,6 +151,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
     RichTextContract.Presenter mPresenter;
     boolean isFirst = false;
+    private long count;//阅读数
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +165,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         }
         mPresenter.getInformation(id);
     }
+
     /**
      * 初始化滑动返回
      */
@@ -197,6 +199,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             slidingPaneLayout.addView(decorChild, 1);
         }
     }
+
     @Override
     protected void setAppTitle() {
         mSysToolbar.setTitle("");
@@ -233,6 +236,9 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
             if (bundle.containsKey("subscribeImg")) {
                 subscribeImg = bundle.getString("subscribeImg", "");
+            }
+            if (bundle.containsKey("count")) {
+                count = bundle.getLong("count", 0);
             }
             try {
                 abstractContentFormat = getNewContent(abstractContent);
@@ -352,8 +358,15 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         }
 
         try {
-            if (!TextUtils.isEmpty(pubDate))
-                mRtaTvWhereFrom.setText(whereFrom + " " + DateUtil.showDate(Constant.sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
+            if (!TextUtils.isEmpty(pubDate)) {
+                if (count > 0) {
+                    mRtaTvWhereFrom.setText(whereFrom + " " + DateUtil.showDate(Constant.sdf.parse(pubDate), Constant.DATE_LONG_PATTERN) + " 浏览" + count + "");
+                } else {
+                    mRtaTvWhereFrom.setText(whereFrom + " " + DateUtil.showDate(Constant.sdf.parse(pubDate), Constant.DATE_LONG_PATTERN));
+                }
+            } else {
+                mRtaTvWhereFrom.setText(whereFrom);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -88,7 +88,16 @@ public class ResInformation {
             private String pubTime;
             private int dataType;
             private String abstractContent;
-            private int count;
+
+            public long getCount() {
+                return count;
+            }
+
+            public void setCount(long count) {
+                this.count = count;
+            }
+
+            private long count;
             private String link;
             private String whereFrom;
             private String title;
@@ -141,14 +150,6 @@ public class ResInformation {
 
             public void setAbstractContent(String abstractContent) {
                 this.abstractContent = abstractContent;
-            }
-
-            public int getCount() {
-                return count;
-            }
-
-            public void setCount(int count) {
-                this.count = count;
             }
 
             public String getLink() {

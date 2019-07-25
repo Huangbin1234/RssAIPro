@@ -90,6 +90,7 @@ public class ResCardSubscribe {
 
             private long clickGood;
             private long clickNotGood;
+            private long count;
 
             public String getImageUrls() {
                 return imageUrls;
@@ -161,6 +162,14 @@ public class ResCardSubscribe {
 
             public void setClickGood(long clickGood) {
                 this.clickGood = clickGood;
+            }
+
+            public long getCount() {
+                return count;
+            }
+
+            public void setCount(long count) {
+                this.count = count;
             }
         }
     }

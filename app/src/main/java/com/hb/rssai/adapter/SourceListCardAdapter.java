@@ -347,6 +347,7 @@ public class SourceListCardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 intent.putExtra("clickGood", rowBean.get(index).getClickGood());
                 intent.putExtra("clickNotGood", rowBean.get(index).getClickNotGood());
                 intent.putExtra("id", rowBean.get(index).getId());
+                intent.putExtra("count", rowBean.get(index).getCount());
                 mContext.startActivity(intent);//将Intent传递给Activity
             } else {
                 T.ShowToast(mContext, "链接错误，无法跳转！");

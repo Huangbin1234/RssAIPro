@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.DialogAdapter;
@@ -93,31 +92,7 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
         ((SubListPresenter) mPresenter).getUserSubscribeList();
     }
 
-    /**
-     * 构造对话框数据
-     *
-     * @return
-     */
-//    private List<HashMap<String, Object>> initDialogData() {
-//        List<HashMap<String, Object>> list = new ArrayList<>();
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("name", "置顶");
-//        map.put("id", 1);
-//        map.put("url", R.mipmap.ic_top);
-//        list.add(map);
-//        HashMap<String, Object> map2 = new HashMap<>();
-//        map2.put("name", "分享");
-//        map2.put("id", 2);
-//        map2.put("url", R.mipmap.ic_share);
-//        list.add(map2);
-//
-//        HashMap<String, Object> map3 = new HashMap<>();
-//        map3.put("name", "删除");
-//        map3.put("id", 3);
-//        map3.put("url", R.mipmap.ic_delete);
-//        list.add(map3);
-//        return list;
-//    }
+
     private List<HashMap<String, Object>> initDialogData(boolean isTag) {
         List<HashMap<String, Object>> list = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
@@ -392,10 +367,16 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
             if (resLists.size() == resFindMore.getRetObj().getTotal()) {
                 isEnd = true;
             }
-        } else if (resLists.size() <= 0 && resFindMore.getRetCode() == 10013) {//暂无数据
-            includeNoData.setVisibility(View.VISIBLE);
-            includeLoadFail.setVisibility(View.GONE);
-            mSubRecyclerView.setVisibility(View.GONE);
+        } else if (resFindMore.getRetCode() == 10013) {//暂无数据
+            if (resLists.size() <= 0) {
+                includeNoData.setVisibility(View.VISIBLE);
+                includeLoadFail.setVisibility(View.GONE);
+                mSubRecyclerView.setVisibility(View.GONE);
+            } else {
+                includeNoData.setVisibility(View.GONE);
+                includeLoadFail.setVisibility(View.GONE);
+                mSubRecyclerView.setVisibility(View.VISIBLE);
+            }
         } else {
             includeNoData.setVisibility(View.GONE);
             includeLoadFail.setVisibility(View.VISIBLE);
