@@ -66,7 +66,7 @@ public class LoadActivity extends AppCompatActivity implements InitUpdateInterfa
     }
 
     private void coldRebootMode() {
-        boolean isColdReboot = com.hb.rssai.util.SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_COLD_REBOOT_MODE, false);
+        boolean isColdReboot = SharedPreferencesUtil.getBoolean(this, Constant.KEY_IS_COLD_REBOOT_MODE, false);
         if (isColdReboot) {
             startActivity(new Intent(LoadActivity.this, IndexNavActivity.class));
             finish();
