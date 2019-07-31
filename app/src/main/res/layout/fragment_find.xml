@@ -4,10 +4,10 @@
     android:id="@+id/ff_ll_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:orientation="vertical">
     <!--android:background="@color/color_toolbar_bg"-->
     <!--<include layout="@layout/include_find_toolbar" />-->
+    <!--<include layout="@layout/include_search" />-->
     <include layout="@layout/include_sub_add_toolbar" />
     <!-- TODO: Update blank fragment layout -->
 
