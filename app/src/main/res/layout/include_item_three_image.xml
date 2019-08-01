@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/item_na_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="1px"
-              android:background="@drawable/ll_selector"
-              android:orientation="vertical"
-              android:padding="16dp"
-              android:visibility="visible">
+    android:id="@+id/item_na_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1px"
+    android:background="@drawable/ll_selector"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:visibility="visible">
 
     <TextView
         android:id="@+id/item_na_title"
@@ -19,7 +19,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="@color/text_color_title"
-        android:textSize="@dimen/s18p"/>
+        android:textSize="@dimen/s18p" />
 
     <LinearLayout
         android:id="@+id/item_na_image_group"
@@ -33,32 +33,29 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_weight="1"
-            android:background="@drawable/round_register"
-            />
+            android:background="@drawable/round_register" />
 
         <View
             android:layout_width="8dp"
-            android:layout_height="80dp"/>
+            android:layout_height="80dp" />
 
         <ImageView
             android:id="@+id/item_na_image_b"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_weight="1"
-            android:background="@drawable/round_register"
-            />
+            android:background="@drawable/round_register" />
         <!--android:scaleType="fitCenter"-->
         <View
             android:layout_width="8dp"
-            android:layout_height="80dp"/>
+            android:layout_height="80dp" />
 
         <ImageView
             android:id="@+id/item_na_image_c"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_weight="1"
-            android:background="@drawable/round_register"
-            />
+            android:background="@drawable/round_register" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,7 +75,7 @@
             android:layout_marginRight="10dp"
             android:scaleType="centerInside"
             android:src="@mipmap/icon_default_avar"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/item_na_where_from"
@@ -87,7 +84,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/text_color_abstract"
-            android:textSize="@dimen/s12p"/>
+            android:textSize="@dimen/s12p" />
 
         <TextView
             android:id="@+id/item_na_time"
@@ -98,6 +95,6 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/text_color_time"
-            android:textSize="@dimen/s12p"/>
+            android:textSize="@dimen/s12p" />
     </LinearLayout>
 </LinearLayout>

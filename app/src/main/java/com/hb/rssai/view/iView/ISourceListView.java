@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 
 import com.hb.rssai.bean.ResCardSubscribe;
+import com.hb.rssai.bean.ResSubscription;
 
 /**
  * Created by Administrator on 2017/8/18 0018.
@@ -20,4 +21,6 @@ public interface ISourceListView {
     void setListCardResult(ResCardSubscribe resCardSubscribe);
 
     int getPageNum();
+
+    void setSubscription(ResSubscription resSubscription);
 }

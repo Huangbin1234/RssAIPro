@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.hb.rssai.adapter.SourceListCardAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResCardSubscribe;
 import com.hb.rssai.bean.ResInformation;
+import com.hb.rssai.bean.ResSubscription;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.SourceListPresenter;
@@ -99,6 +101,10 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         refreshList();
+        //参数不够
+        if (TextUtils.isEmpty(linkValue)) {
+            ((SourceListPresenter) mPresenter).getSubscription();
+        }
     }
 
     @Override
@@ -164,6 +170,8 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
                 }
             }
         });
+
+
     }
 
 
@@ -237,6 +245,29 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
     @Override
     public int getPageNum() {
         return pageNum;
+    }
+
+    @Override
+    public void setSubscription(ResSubscription resSubscription) {
+        if (null != resSubscription && resSubscription.getRetCode() == 0 && null != resSubscription.getRetObj()) {
+            //TODO 显示数据
+            ResSubscription.RetObjBean bean = resSubscription.getRetObj();
+            mSysTvTitle.setText(bean.getName());
+            mSlaTvDesc.setText(bean.getAbstractContent());
+
+            linkValue = bean.getLink();
+            titleValue = bean.getName();
+            imageLogo = bean.getImg();
+            desc = bean.getAbstractContent();
+            if (!TextUtils.isEmpty(bean.getRemark())) {
+                isCheck = bean.getRemark().equals("yes") ? true : false;
+                if (isCheck) {
+                    mSlaIvSubscribe.setImageResource(R.mipmap.ic_subscribe_cancel);
+                } else {
+                    mSlaIvSubscribe.setImageResource(R.mipmap.ic_subscribe_add);
+                }
+            }
+        }
     }
 
     @Override

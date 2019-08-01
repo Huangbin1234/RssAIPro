@@ -21,13 +21,13 @@
             android:padding="10dp"
             android:visibility="gone" />
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -174,6 +174,16 @@
                                 android:layout_marginLeft="5dp" />
                         </LinearLayout>
                     </LinearLayout>
+
+                    <com.hb.rssai.view.widget.WordWrapView
+                        android:id="@+id/wwv_his_word"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="16dp" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -230,10 +240,17 @@
                         android:id="@+id/rta_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/color_general_white"></android.support.v7.widget.RecyclerView>
+                        android:background="@color/color_general_white">
+
+                    </android.support.v7.widget.RecyclerView>
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@color/color_general_white" />
             </LinearLayout>
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
     </RelativeLayout>
 </LinearLayout>

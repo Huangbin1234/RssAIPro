@@ -53,6 +53,7 @@ import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.widget.MyDecoration;
+import com.hb.rssai.view.widget.WordWrapView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -127,6 +128,8 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     TextView mFfFindHotLabel;
     @BindView(R.id.item_iv_logo)
     ImageView mItemIvLogo;
+    @BindView(R.id.wwv_his_word)
+    WordWrapView mWwvHisWord;
 
 
     private LinearLayoutManager linearLayoutManager;
@@ -772,6 +775,22 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
     public void showListResult(ResInformation resInformation) {
         if (resInformation.getRetCode() == 0) {
             if (resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
+                String keyWord = resInformation.getKeyWord();//标签云
+
+                if (!TextUtils.isEmpty(keyWord)) {
+                    String[] words = keyWord.split(",");
+                    for (String w : words) {
+                        w = w.replace("%", "");
+                        w = w.replace("'", "");
+                        if (!TextUtils.isEmpty(w)) {
+                            w = "#" + w;
+                            TextView textView = new TextView(this);
+                            textView.setText(w);
+                            textView.setTextColor(getResources().getColor(R.color.color_cloud_label));
+                            mWwvHisWord.addView(textView);
+                        }
+                    }
+                }
                 resInfoList.addAll(resInformation.getRetObj().getRows());
                 if (likeAdapter == null) {
                     likeAdapter = new LikeAdapter(this, resInfoList);

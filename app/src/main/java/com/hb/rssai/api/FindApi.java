@@ -13,6 +13,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import rx.Completable;
 import rx.Observable;
 
 /**
@@ -70,6 +71,12 @@ public interface FindApi {
 
     @GET("cardserver/search")
     Call<ResBDJson> getRssImage(@Query("para") String params);
+
+
+    @FormUrlEncoded
+    @POST("subscription/getSubscription")
+    Observable<ResSubscription> getSubscription(@FieldMap Map<String, String> params);
+
 }
 
 

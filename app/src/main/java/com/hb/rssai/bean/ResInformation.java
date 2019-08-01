@@ -17,6 +17,7 @@ public class ResInformation {
     private RetObjBean retObj;
     private int retCode;
     private String retMsg;
+    private String keyWord;
 
     public RetObjBean getRetObj() {
         return retObj;
@@ -40,6 +41,14 @@ public class ResInformation {
 
     public void setRetMsg(String retMsg) {
         this.retMsg = retMsg;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
     }
 
     public static class RetObjBean {
@@ -109,6 +118,8 @@ public class ResInformation {
             private long clickGood;
             private long clickNotGood;
             private String subscribeImg;
+            private String subscribeId;
+
 
             public int getViewType() {
                 return viewType;
@@ -238,6 +249,14 @@ public class ResInformation {
 
             public void setSubscribeImg(String subscribeImg) {
                 this.subscribeImg = subscribeImg;
+            }
+
+            public String getSubscribeId() {
+                return subscribeId;
+            }
+
+            public void setSubscribeId(String subscribeId) {
+                this.subscribeId = subscribeId;
             }
         }
     }

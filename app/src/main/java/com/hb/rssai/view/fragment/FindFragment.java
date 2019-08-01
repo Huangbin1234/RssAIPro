@@ -17,7 +17,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,7 +58,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 public class FindFragment extends BaseFragment implements IFindView, View.OnClickListener {
@@ -101,6 +105,9 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
     Button mLlfBtnReTry;
     @BindView(R.id.sys_iv_add)
     ImageView mSysIvAdd;
+    @BindView(R.id.fmi_tv_count)
+    TextView mFmiTvCount;
+    Unbinder unbinder;
 
     private OnFragmentInteractionListener mListener;
     private LinearLayoutManager mFindMoreLinearManager;
@@ -294,6 +301,14 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
         }
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -309,6 +324,7 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+        unbinder.unbind();
     }
 
     @OnClick({R.id.sys_iv_add, R.id.sub_ll_all, R.id.sys_iv_search, R.id.llf_btn_re_try, R.id.ll_recommend})
@@ -350,6 +366,7 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
             include_no_data.setVisibility(View.GONE);
 
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
+                mFmiTvCount.setText(""+resFindMore.getRetObj().getTotal());
                 resFindMores.addAll(resFindMore.getRetObj().getRows());
                 if (findMoreAdapter == null) {
                     findMoreAdapter = new FindMoreAdapter(getContext(), resFindMores);
@@ -374,7 +391,7 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
 
 
                             Pair<View, String> pImg = Pair.create(itemView.findViewById(R.id.ifm_iv_img), "img");
-                            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pImg );
+                            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pImg);
                             startActivity(intent, compat.toBundle());
 
 //                            getContext().startActivity(intent);

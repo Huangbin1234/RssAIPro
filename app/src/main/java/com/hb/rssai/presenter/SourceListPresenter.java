@@ -138,6 +138,26 @@ public class SourceListPresenter extends BasePresenter<ISourceListView> {
         }
     }
 
+    /**
+     * 获取订阅信息 根据ID
+     * @param
+     */
+    public void getSubscription() {
+        findApi.getSubscription(getSubscriptionParams())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resSubscription -> {
+                    iSourceListView.setSubscription(resSubscription);
+                }, iSourceListView::loadError);
+    }
+    private Map<String, String> getSubscriptionParams() {
+        Map<String, String> map = new HashMap<>();
+        String subscribeId = iSourceListView.getSubscribeId();
+        String jsonParams = "{\"subscribeId\":\"" + subscribeId + "\"}";
+        map.put(Constant.KEY_JSON_PARAMS, jsonParams);
+        System.out.println(map);
+        return map;
+    }
     private Map<String, String> getFindMoreByIdParams() {
         Map<String, String> map = new HashMap<>();
         String subscribeId = iSourceListView.getSubscribeId();

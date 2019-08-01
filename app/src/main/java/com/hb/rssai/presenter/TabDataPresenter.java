@@ -262,6 +262,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
                     rowsBean.setWhereFrom(curBean.getWhereFrom());
                     rowsBean.setSubscribeImg(curBean.getSubscribeImg());
                     rowsBean.setPubTime(curBean.getPubTime());
+                    rowsBean.setSubscribeId(curBean.getSubscribeId());
                     rowsBean.setViewType(4);
                     map.put(i, rowsBean);
                 }
@@ -276,6 +277,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
                 rowsBean.setWhereFrom(curBean.getWhereFrom());
                 rowsBean.setSubscribeImg(curBean.getSubscribeImg());
                 rowsBean.setPubTime(curBean.getPubTime());
+                rowsBean.setSubscribeId(curBean.getSubscribeId());
                 rowsBean.setViewType(4);
                 map.put(i, rowsBean);
             }

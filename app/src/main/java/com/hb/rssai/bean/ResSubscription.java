@@ -62,6 +62,7 @@ public class ResSubscription {
         private int count;
         private String id;
         private String userId;
+        private String remark;
 
         public boolean isDeleteFlag() {
             return deleteFlag;
@@ -133,6 +134,14 @@ public class ResSubscription {
 
         public void setUserId(String userId) {
             this.userId = userId;
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public void setRemark(String remark) {
+            this.remark = remark;
         }
     }
 }

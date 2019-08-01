@@ -22,6 +22,7 @@ import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.common.ContentActivity;
 import com.hb.rssai.view.common.RichTextActivity;
+import com.hb.rssai.view.subscription.SourceCardActivity;
 
 import java.net.URLDecoder;
 import java.util.List;
@@ -146,6 +147,21 @@ public class InfoTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((BarViewHolder) holder).item_na_where_from.setText(rowsBean.getWhereFrom());
             ((BarViewHolder) holder).item_na_time.setText(time);
             HttpLoadImg.loadCircleImg(mContext, rowsBean.getSubscribeImg(), ((BarViewHolder) holder).item_iv_logo);
+
+            ((BarViewHolder) holder).item_iv_logo.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, SourceCardActivity.class);
+                intent.putExtra(SourceCardActivity.KEY_TITLE, rssList.get(position).getWhereFrom());
+                intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getSubscribeId());
+                intent.putExtra(SourceCardActivity.KEY_IMAGE, rssList.get(position).getSubscribeImg());
+                mContext.startActivity(intent);
+            });
+            ((BarViewHolder) holder).item_na_where_from.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, SourceCardActivity.class);
+                intent.putExtra(SourceCardActivity.KEY_TITLE, rssList.get(position).getWhereFrom());
+                intent.putExtra(SourceCardActivity.KEY_SUBSCRIBE_ID, rssList.get(position).getSubscribeId());
+                intent.putExtra(SourceCardActivity.KEY_IMAGE, rssList.get(position).getSubscribeImg());
+                mContext.startActivity(intent);
+            });
         }
     }
 
