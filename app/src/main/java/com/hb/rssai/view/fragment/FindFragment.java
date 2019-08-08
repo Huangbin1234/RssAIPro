@@ -105,8 +105,8 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
     Button mLlfBtnReTry;
     @BindView(R.id.sys_iv_add)
     ImageView mSysIvAdd;
-    @BindView(R.id.fmi_tv_count)
-    TextView mFmiTvCount;
+//    @BindView(R.id.fmi_tv_count)
+//    TextView mFmiTvCount;
     Unbinder unbinder;
 
     private OnFragmentInteractionListener mListener;
@@ -366,7 +366,7 @@ public class FindFragment extends BaseFragment implements IFindView, View.OnClic
             include_no_data.setVisibility(View.GONE);
 
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
-                mFmiTvCount.setText(""+resFindMore.getRetObj().getTotal());
+//                mFmiTvCount.setText(""+resFindMore.getRetObj().getTotal());
                 resFindMores.addAll(resFindMore.getRetObj().getRows());
                 if (findMoreAdapter == null) {
                     findMoreAdapter = new FindMoreAdapter(getContext(), resFindMores);

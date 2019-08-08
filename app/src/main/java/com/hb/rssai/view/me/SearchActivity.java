@@ -22,11 +22,14 @@ import android.widget.ImageView;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.SearchFragmentAdapter;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.constants.Constant;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.SearchPresenter;
 import com.hb.rssai.util.KeyboardUtil;
 import com.hb.rssai.util.SearchTextWatcher;
 import com.hb.rssai.util.StatusBarUtil;
+import com.hb.rssai.util.StringUtil;
+import com.hb.rssai.util.T;
 import com.hb.rssai.view.iView.ISearchView;
 import com.hb.rssai.view.widget.MyDecoration;
 
@@ -98,6 +101,14 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
             if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                 keyWord = v.getText().toString();
                 if (!TextUtils.isEmpty(keyWord)) {
+                    String[] keys = Constant.KEY_WORD_FILTER.split(",");
+                    for (String key : keys) {
+                        String s = StringUtil.hexStr2Str(key);
+                        if (keyWord.contains(s)) {
+                            T.ShowToast(this, "输入的关键字包含敏感词已被屏蔽！");
+                            return true;
+                        }
+                    }
                     searchListener.search(keyWord);
                     KeyboardUtil.hideSoftKeyboard(SearchActivity.this);
                 }
@@ -146,8 +157,6 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
                 Log.d("d", "onTabReselected3：" + tab.getPosition());
             }
         });
-
-
     }
 
     @Override
@@ -201,8 +210,18 @@ public class SearchActivity extends BaseActivity implements ISearchView, View.On
         switch (v.getId()) {
             case R.id.its_iv_search:
                 keyWord = mItsEtKey.getText().toString();
-                searchListener.search(keyWord);
-                KeyboardUtil.hideSoftKeyboard(this);
+                if (!TextUtils.isEmpty(keyWord)) {
+                    String[] keys = Constant.KEY_WORD_FILTER.split(",");
+                    for (String key : keys) {
+                        String s = StringUtil.hexStr2Str(key);
+                        if (keyWord.contains(s)) {
+                            T.ShowToast(this, "输入的关键字包含敏感词已被屏蔽！");
+                            return;
+                        }
+                    }
+                    searchListener.search(keyWord);
+                    KeyboardUtil.hideSoftKeyboard(this);
+                }
                 break;
         }
     }

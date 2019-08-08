@@ -234,7 +234,7 @@ public class SubscriptionPresenter extends BasePresenter<ISubscriptionView> {
             if (resFindMore.getRetObj().getRows() != null && resFindMore.getRetObj().getRows().size() > 0) {
                 userSubscribes.addAll(resFindMore.getRetObj().getRows());
                 if (adapter == null) {
-                    adapter = new RssSourceAdapter(mContext, userSubscribes, mISubscriptionView.getFragment(),true);
+                    adapter = new RssSourceAdapter(mContext, userSubscribes, mISubscriptionView.getFragment(),false);
                     subscribeRecyclerView.setAdapter(adapter);
                 } else {
                     adapter.notifyDataSetChanged();
