@@ -1,6 +1,7 @@
 package com.hb.rssai.adapter;
 
 import android.content.Context;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.util.HttpLoadImg;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,15 +23,19 @@ public class ImageDialogAdapter extends BaseAdapter {
     private List<String> list;
     private Context mContext;
     LayoutInflater inflater;
-    public static HashMap<Integer, Boolean> isSelecteds;
-    public static HashMap<Integer, Boolean> getIsSelected() {
+    //    public static HashMap<Integer, Boolean> isSelecteds;
+    public static SparseBooleanArray isSelecteds;
+
+    public static SparseBooleanArray getIsSelected() {
         return isSelecteds;
     }
+
+
     public ImageDialogAdapter(Context context, List<String> list) {
         this.mContext = context;
         this.list = list;
         inflater = LayoutInflater.from(mContext);
-        isSelecteds = new HashMap<Integer, Boolean>();
+        isSelecteds = new SparseBooleanArray();
     }
 
     @Override
@@ -62,7 +66,7 @@ public class ImageDialogAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(getIsSelected()!=null&&getIsSelected().containsKey(position)){
+        if (getIsSelected() != null && -1 != getIsSelected().indexOfKey(position)) {
             holder.dialog_item_chk.setChecked(getIsSelected().get(position));
         }
         holder.dialog_item_tv.setText("图" + position);
@@ -70,7 +74,7 @@ public class ImageDialogAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public class  ViewHolder {
+    public class ViewHolder {
         ImageView dialog_item_iv;
         TextView dialog_item_tv;
         public CheckBox dialog_item_chk;
