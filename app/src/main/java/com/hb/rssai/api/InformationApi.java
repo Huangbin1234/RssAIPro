@@ -10,6 +10,7 @@ import java.util.Map;
 
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -57,4 +58,9 @@ public interface InformationApi {
     @FormUrlEncoded
     @POST("info/findUserInformation")
     Observable<ResUserInformation> findUserInformation(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("info/deleteByUserId")
+    Observable<ResBase> deleteByUserId(@FieldMap Map<String, String> params);
+
 }

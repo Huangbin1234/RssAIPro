@@ -1,5 +1,6 @@
 package com.hb.rssai.view.iView;
 
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.ResUserInformation;
 
@@ -20,4 +21,6 @@ public interface IRecordView {
     String getInfoId();
 
     int getPageNum();
+
+    void showDeleteResult(ResBase resBase);
 }

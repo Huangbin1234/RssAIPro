@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.RecordAdapter;
 import com.hb.rssai.base.BaseActivity;
+import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResInfo;
 import com.hb.rssai.bean.ResUserInformation;
 import com.hb.rssai.constants.Constant;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class RecordActivity extends BaseActivity implements IRecordView {
 
@@ -65,6 +68,7 @@ public class RecordActivity extends BaseActivity implements IRecordView {
     private List<ResUserInformation.RetObjBean.RowsBean> infoList = new ArrayList<>();
     private ResUserInformation.RetObjBean.RowsBean bean;
     private String infoId = "";
+    private MaterialDialog materialEmailDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +154,37 @@ public class RecordActivity extends BaseActivity implements IRecordView {
     @Override
     protected BasePresenter createPresenter() {
         return new RecordPresenter(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu_record, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) { //得到被点击的item的itemId
+            case R.id.menu_msg:
+                if (materialEmailDialog == null) {
+                    materialEmailDialog = new MaterialDialog(this);
+                    materialEmailDialog.setTitle(Constant.TIPS_DELETE_ALL)
+                            .setNegativeButton("取消", v -> {
+                                materialEmailDialog.dismiss();
+                            })
+                            .setPositiveButton("确定", v -> {
+                                ((RecordPresenter) mPresenter).deleteByUserId();
+                                materialEmailDialog.dismiss();
+                            }).show();
+                } else {
+                    materialEmailDialog.show();
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     @Override
@@ -245,5 +280,13 @@ public class RecordActivity extends BaseActivity implements IRecordView {
     @Override
     public int getPageNum() {
         return pageNum;
+    }
+
+    @Override
+    public void showDeleteResult(ResBase resBase) {
+        if (resBase.getRetCode() == 0) {
+            onRefresh();
+        }
+        T.ShowToast(this, resBase.getRetMsg());
     }
 }

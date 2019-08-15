@@ -38,6 +38,15 @@ public class RecordPresenter extends BasePresenter<IRecordView> {
                 }, mIRecordView::loadError);
     }
 
+    public void deleteByUserId() {
+        informationApi.deleteByUserId(new HashMap<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resBase -> {
+                    mIRecordView.showDeleteResult(resBase);
+                }, mIRecordView::loadError);
+    }
+
     public Map<String, String> getParams() {
         Map<String, String> map = new HashMap<>();
         String userId = mIRecordView.getUserId();
