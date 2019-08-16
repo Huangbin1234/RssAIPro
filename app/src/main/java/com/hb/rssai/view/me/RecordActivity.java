@@ -167,6 +167,10 @@ public class RecordActivity extends BaseActivity implements IRecordView {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) { //得到被点击的item的itemId
             case R.id.menu_msg:
+                if (infoList.size() <= 0) {
+                    T.ShowToast(this, "暂无阅读记录，操作被取消。");
+                    return true;
+                }
                 if (materialEmailDialog == null) {
                     materialEmailDialog = new MaterialDialog(this);
                     materialEmailDialog.setTitle(Constant.TIPS_DELETE_ALL)
@@ -174,8 +178,8 @@ public class RecordActivity extends BaseActivity implements IRecordView {
                                 materialEmailDialog.dismiss();
                             })
                             .setPositiveButton("确定", v -> {
-                                ((RecordPresenter) mPresenter).deleteByUserId();
                                 materialEmailDialog.dismiss();
+                                ((RecordPresenter) mPresenter).deleteByUserId();
                             }).show();
                 } else {
                     materialEmailDialog.show();
