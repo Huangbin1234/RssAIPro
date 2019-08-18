@@ -52,7 +52,7 @@
                             android:layout_below="@id/sa_tv_change_source"
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_change_source_label"
-                            android:textColor="@color/text_color_abstract"
+                            android:textColor="@color/hsb_txt_abstract"
                             android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
@@ -90,7 +90,7 @@
                             android:layout_below="@id/sa_tv_opr_image"
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_opr_image_label"
-                            android:textColor="@color/text_color_abstract"
+                            android:textColor="@color/hsb_txt_abstract"
                             android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
@@ -129,7 +129,7 @@
                             android:layout_below="@id/sa_tv_cold_reboot"
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_cold_reboot_label"
-                            android:textColor="@color/text_color_abstract"
+                            android:textColor="@color/hsb_txt_abstract"
                             android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
@@ -178,7 +178,7 @@
                             android:layout_below="@id/sa_tv_old_rec"
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_old_rec_label"
-                            android:textColor="@color/text_color_abstract"
+                            android:textColor="@color/hsb_txt_abstract"
                             android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
@@ -218,7 +218,7 @@
                             android:layout_below="@id/sa_tv_offline"
                             android:layout_marginTop="2dp"
                             android:text="@string/sa_tv_offline_label"
-                            android:textColor="@color/text_color_abstract"
+                            android:textColor="@color/hsb_txt_abstract"
                             android:textSize="@dimen/s12p" />
                     </RelativeLayout>
 
@@ -261,7 +261,7 @@
                         android:layout_below="@id/sa_tv_day_night"
                         android:layout_marginTop="2dp"
                         android:text="@string/sa_tv_day_night_label"
-                        android:textColor="@color/text_color_abstract"
+                        android:textColor="@color/hsb_txt_abstract"
                         android:textSize="@dimen/s12p" />
                 </RelativeLayout>
 
@@ -307,7 +307,7 @@
                             android:layout_below="@id/sa_tv_theme"
                             android:layout_marginTop="5dp"
                             android:text="@string/str_theme_more"
-                            android:textColor="@color/text_color_abstract"
+                            android:textColor="@color/hsb_txt_abstract"
                             android:textSize="@dimen/s12p"
                             android:visibility="gone" />
 

@@ -37,7 +37,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:text="标题"
-            android:textColor="@color/color_txt"
+            android:textColor="@color/hsb_txt_content"
             android:textSize="@dimen/s18p" />
 
 

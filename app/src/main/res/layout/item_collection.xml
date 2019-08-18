@@ -22,14 +22,14 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingTop="16dp"
-            android:textColor="@color/color_list_txt"
+            android:textColor="@color/hsb_txt_title"
             android:textSize="@dimen/s16p"/>
 
         <TextView
             android:id="@+id/cs_tv_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color_abstract"
+            android:textColor="@color/hsb_txt_abstract"
             android:textSize="@dimen/s12p"/>
 
         <TextView

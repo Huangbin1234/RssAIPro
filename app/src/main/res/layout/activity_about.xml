@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/text_color_abstract"
+                android:textColor="@color/hsb_txt_abstract"
                 android:textSize="@dimen/s16p" />
 
             <TextView
@@ -162,7 +162,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="@string/app_about"
-            android:textColor="@color/text_color_abstract"
+            android:textColor="@color/hsb_txt_abstract"
             android:textIsSelectable="true"
             android:textSize="@dimen/s14p"
             android:visibility="gone" />

@@ -16,6 +16,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:id="@+id/dialog_item_tv"
-        android:textColor="@color/color_txt"
+        android:textColor="@color/hsb_txt_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

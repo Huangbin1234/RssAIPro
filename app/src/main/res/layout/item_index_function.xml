@@ -20,5 +20,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:textSize="@dimen/s14p"
-        android:textColor="@color/color_txt" />
+        android:textColor="@color/hsb_txt_content" />
 </LinearLayout>

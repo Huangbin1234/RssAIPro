@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="@string/str_pop_avanew"
-            android:textColor="@color/text_color_title"
+            android:textColor="@color/hsb_txt_title"
             android:textSize="20sp"/>
     </LinearLayout>
 
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/str_pop_canmara"
-                android:textColor="@color/text_color_abstract"
+                android:textColor="@color/hsb_txt_abstract"
                 android:textSize="18sp"/>
         </LinearLayout>
 
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/str_pop_local"
-                android:textColor="@color/text_color_abstract"
+                android:textColor="@color/hsb_txt_abstract"
                 android:textSize="18sp"/>
         </LinearLayout>
     </LinearLayout>

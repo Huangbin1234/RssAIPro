@@ -22,89 +22,6 @@
     <color name="orange">#ea8010</color>
     <color name="trans">#00000000</color>
 
-    <color name="task_yellow">#FF9451</color>
-    <color name="task_blue">#0CAAF3</color>
-    <color name="task_green">#9BD45A</color>
-
-    <!--MainActivity-->
-    <color name="main_bottom_bg">#FFFFFF</color>
-    <color name="main_bottom_txt_normal">#999999</color>
-    <color name="main_bottom_txt_press">#e45050</color>
-    <color name="view_line">#05896f</color>
-
-    <color name="bg">#EAEEEF</color>
-    <!--<color name="bg">#F6F6F6</color>-->
-
-    <color name="color_ll_press">#DDDDDD</color>
-    <color name="color_ll_normal">#FFFFFF</color>
-
-
-    <color name="color_line">#F5F5F5</color>
-    <color name="color_line_blue">#00BBD3</color>
-
-    <color name="color_txt">#555555</color>
-    <color name="color_hint">#dad7d7</color>
-
-
-    <color name="red_normal">#F43735</color>
-    <color name="red_pressed">#FF6666</color>
-    <color name="green_normal">#FEBF3D</color>
-    <color name="green_pressed">#f4bf53</color>
-
-    <color name="color_btn">#2196f3</color>
-    <color name="color_btn_press">#1b77c1</color>
-    <color name="color_title">#4D4D4D</color>
-    <color name="color_time">#CCCCCC</color>
-    <!--按钮颜色-->
-    <!--<color name="color_btn_logout">#FF9966</color>-->
-    <color name="color_toolbar_bg">#E75356</color>
-
-    <color name="color_exit_normal">#ffffff</color>
-    <color name="color_exit_focus">#d1d0cf</color>
-
-    <color name="gray_deep">#9E9E9E</color>
-    <color name="gray_item">#FFECECEC</color>
-    <color name="gray_item_press">#dad8d8</color>
-    <color name="gray_light">#f3f3f3</color>
-    <color name="color_big_label">#212121</color>
-
-    <color name="bg_theme">#71464847</color>
-    <color name="bg_top">#711b1b1b</color>
-    <color name="text_color_new">#5C5C5C</color>
-    <color name="color_general_white">#FFFFFF</color>
-    <color name="rich_toolbar_bg">#FFFFFF</color>
-    <color name="color_article">#333333</color>
-    <color name="color_reg">#DDDDDD</color>
-
-    <!--<color name="color_reg_label">#303F9F</color>-->
-    <color name="color_reg_label">#2196F3</color>
-    <color name="color_iv_bg">#F7F7F7</color>
-    <color name="color_list_txt">#4a4b4d</color>
-    <color name="color_tab_layout">#E75356</color>
-    <color name="color_mine_txt">#8a8a8a</color>
-
-    <color name="text_color_title">#191919</color>
-    <!--<color name="text_color_title">#555555</color>-->
-    <color name="text_color_abstract">#999999</color>
-    <color name="text_color_time">#B2B2B2</color>
-    <!--<color name="color_tab_no_focus">#edbab7</color>-->
-    <color name="color_tab_no_focus">#E2DDDDDD</color>
-
-    <color name="modify_psd_color">#B2B2B2</color>
-    <color name="color_pop_media_label">#D9DCE0</color>
-    <color name="color_pop_media_bg">#FFFFFF</color>
-    <color name="pop_media_color_general_line">#DDDDDD</color>
-    <color name="color_tips">#53dff2b9</color>
-    <color name="card_bg">#FFFFFF</color>
-
-
-    <!--<color name="lightblue500">#03a9f4</color>-->
-    <!--<color name="lightblue700">#0288d1</color>-->
-
-    <!--<color name="teal500">#009688</color>-->
-    <!--<color name="teal700">#00796b</color>-->
-    <color name="alert_dark">#CE888888</color>
-
 
     <!--设置主题颜色-->
     <color name="red50">#fde0dc</color>
@@ -381,10 +298,57 @@
     <color name="bluegrey800">#37474f</color>
     <color name="bluegrey900">#263238</color>
 
-    <color name="color_title_bar">#F8F8F8</color>
+
+    <color name="task_blue">#0CAAF3</color>
+
+    <!--MainActivity-->
+    <color name="main_bottom_bg">#FFFFFF</color>
+    <color name="bg">#EAEEEF</color>
+
+    <color name="color_ll_press">#DDDDDD</color>
+    <color name="color_ll_normal">#FFFFFF</color>
+
+    <color name="color_line_blue">#00BBD3</color>
+
+
+    <color name="color_title">#4D4D4D</color>
+    <color name="color_time">#CCCCCC</color>
+    <!--按钮颜色-->
+    <color name="color_toolbar_bg">#E75356</color>
+
+    <color name="color_exit_normal">#ffffff</color>
+    <color name="color_exit_focus">#d1d0cf</color>
+
+    <color name="gray_deep">#9E9E9E</color>
+    <color name="gray_item">#FFECECEC</color>
+    <color name="gray_item_press">#dad8d8</color>
+    <color name="gray_light">#f3f3f3</color>
+    <color name="color_big_label">#212121</color>
+
+    <color name="bg_theme">#71464847</color>
+    <color name="bg_top">#711b1b1b</color>
+
+    <color name="color_general_white">#FFFFFF</color>
+    <color name="rich_toolbar_bg">#FFFFFF</color>
+    <color name="color_article">#333333</color>
+
+    <!--<color name="color_reg_label">#303F9F</color>-->
+    <color name="color_reg_label">#2196F3</color>
+    <color name="color_iv_bg">#F7F7F7</color>
+
+    <color name="color_tab_layout">#E75356</color>
+
+
+    <color name="color_tab_no_focus">#E2DDDDDD</color>
+    <color name="modify_psd_color">#B2B2B2</color>
+    <color name="color_pop_media_label">#D9DCE0</color>
+    <color name="color_pop_media_bg">#FFFFFF</color>
+    <color name="pop_media_color_general_line">#DDDDDD</color>
+    <color name="card_bg">#FFFFFF</color>
+
+    <color name="alert_dark">#CE888888</color>
 
     <color name="color_mine_menu">#4D4D4D</color>
-    <color name="color_mine_sign">#FFFFFF</color>
 
     <color name="color_card_list_title">#212121</color>
     <color name="color_card_list_img_title">#FFFFFF</color>
@@ -392,4 +356,22 @@
     <color name="black_half">#b5000000</color>
     <!--云标签文字颜色-->
     <color name="color_cloud_label">#b9b9b9</color>
+
+    <!--<color name="hsb_txt_content">#555555</color>-->
+    <!--<color name="text_color_new">#5C5C5C</color>-->
+    <!--<color name="color_list_txt">#4a4b4d</color>-->
+    <!--<color name="text_color_title">#191919</color>-->
+    <!--<color name="text_color_abstract">#999999</color>-->
+    <!--<color name="text_color_time">#B2B2B2</color>-->
+
+    <!--文字配色全局重新设置 白天-->
+    <color name="hsb_txt_title">#333333</color>
+    <color name="hsb_txt_content">#666666</color>
+    <color name="hsb_txt_abstract">#999999</color>
+    <color name="hsb_txt_label">#CCCCCC</color>
+
+
+
+
+
 </resources>

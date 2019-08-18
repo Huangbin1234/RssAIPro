@@ -23,7 +23,7 @@
             android:layout_centerVertical="true"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@color/text_color_title"
+            android:textColor="@color/hsb_txt_title"
             android:textSize="@dimen/s18p"/>
 
         <LinearLayout
@@ -52,7 +52,7 @@
                 android:layout_gravity="bottom"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@color/text_color_abstract"
+                android:textColor="@color/hsb_txt_abstract"
                 android:textSize="@dimen/s12p"/>
 
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_toLeftOf="@+id/item_na_type"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@color/text_color_time"
+                android:textColor="@color/hsb_txt_label"
                 android:textSize="@dimen/s12p"/>
         </LinearLayout>
 

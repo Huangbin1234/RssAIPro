@@ -41,7 +41,7 @@
             android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:lines="1"
-            android:textColor="@color/text_color_title"
+            android:textColor="@color/hsb_txt_title"
             android:textSize="@dimen/s16p" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:lines="2"
-            android:textColor="@color/text_color_abstract"
+            android:textColor="@color/hsb_txt_abstract"
             android:textSize="@dimen/s14p" />
     </LinearLayout>
 

@@ -11,6 +11,6 @@
         android:id="@+id/dev_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_txt"
+        android:textColor="@color/hsb_txt_content"
         android:textSize="@dimen/s16p" />
 </LinearLayout>

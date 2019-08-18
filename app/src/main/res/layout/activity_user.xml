@@ -41,8 +41,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="更换头像"
-                    android:textColor="@color/text_color_abstract"
+                    android:hint="更换头像"
+                    android:textColor="@color/hsb_txt_title"
                     android:textSize="@dimen/s16p"/>
 
             </RelativeLayout>
@@ -82,7 +82,8 @@
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/iv_nick_name"
-                        android:text="@string/str_nick_name"/>
+                        android:text="@string/str_nick_name"
+                        android:textColor="@color/hsb_txt_content"/>
 
                     <LinearLayout
                         android:id="@+id/ama_ll_nick_name"
@@ -99,11 +100,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
+                            android:gravity="right"
+                            android:layout_gravity="right"
+                            android:hint="@string/str_ama_nick_name"
                             android:maxLength="16"
                             android:singleLine="true"
-
-                            android:text="@string/str_ama_nick_name"
-                            android:textColor="@color/text_color_abstract"
+                            android:textColor="@color/hsb_txt_title"
                             android:textSize="@dimen/s16p"/>
 
                         <ImageView
@@ -144,7 +146,8 @@
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/iv_sex"
-                        android:text="@string/str_sex"/>
+                        android:text="@string/str_sex"
+                        android:textColor="@color/hsb_txt_content"/>
 
                     <LinearLayout
                         android:id="@+id/ama_ll_sex"
@@ -160,9 +163,10 @@
                             android:id="@+id/ama_tv_sex"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/str_ama_sex"
-
-                            android:textColor="@color/text_color_abstract"
+                            android:gravity="right"
+                            android:layout_gravity="right"
+                            android:hint="@string/str_ama_sex"
+                            android:textColor="@color/hsb_txt_title"
                             android:textSize="@dimen/s16p"/>
 
                         <ImageView
@@ -200,7 +204,8 @@
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/iv_birth"
-                        android:text="@string/str_birth"/>
+                        android:text="@string/str_birth"
+                        android:textColor="@color/hsb_txt_content"/>
 
                     <LinearLayout
                         android:id="@+id/ama_ll_birth"
@@ -216,8 +221,10 @@
                             android:id="@+id/ama_tv_birth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/str_ama_tv_birth"
-                            android:textColor="@color/text_color_abstract"
+                            android:gravity="right"
+                            android:layout_gravity="right"
+                            android:hint="@string/str_ama_tv_birth"
+                            android:textColor="@color/hsb_txt_title"
                             android:textSize="@dimen/s16p"/>
 
                         <ImageView
@@ -257,7 +264,8 @@
                         style="@style/TextLabel"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/iv_email"
-                        android:text="@string/str_ama_email"/>
+                        android:text="@string/str_ama_email"
+                        android:textColor="@color/hsb_txt_content"/>
 
                     <LinearLayout
                         android:id="@+id/ama_ll_email"
@@ -274,10 +282,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
+                            android:gravity="right"
+                            android:hint="@string/str_ama_tv_email"
                             android:maxLength="18"
                             android:singleLine="true"
-                            android:text="@string/str_ama_tv_email"
-                            android:textColor="@color/text_color_abstract"
+                            android:layout_gravity="right"
+                            android:textColor="@color/hsb_txt_title"
                             android:textSize="@dimen/s16p"/>
 
                         <ImageView
@@ -324,17 +334,18 @@
                     style="@style/TextLabel"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/iv_signature"
-                    android:text="@string/str_signature"/>
+                    android:text="@string/str_signature"
+                    android:textColor="@color/hsb_txt_content"/>
 
 
                 <LinearLayout
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/ua_tv_sinature"
                     android:id="@+id/ama_ll_signature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/ua_tv_sinature"
                     android:gravity="center_vertical|right"
                     android:orientation="horizontal"
                     android:paddingLeft="32dp">
@@ -344,7 +355,6 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:scaleType="centerInside"
-
                         android:src="@mipmap/ic_right"
                         android:visibility="gone"/>
 
@@ -353,9 +363,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
+                        android:hint="@string/str_ama_tv_signature"
                         android:singleLine="true"
-                        android:text="@string/str_ama_tv_signature"
-                        android:textColor="@color/text_color_abstract"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:textColor="@color/hsb_txt_title"
                         android:textSize="@dimen/s16p"/>
                 </LinearLayout>
             </RelativeLayout>
@@ -370,8 +382,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/opr_modify_password_selector"
                 android:text="@string/str_la_btn_modify_password"
                 android:textColor="@color/white"
@@ -382,10 +394,10 @@
                 android:id="@+id/ama_btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/btn_selector"
                 android:text="@string/str_la_btn_login_out"
                 android:textColor="@color/orange"

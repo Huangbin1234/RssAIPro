@@ -55,8 +55,8 @@
                         android:maxLines="1"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
-                        android:textColor="@color/color_txt"
-                        android:textColorHint="@color/color_txt"
+                        android:textColor="@color/hsb_txt_content"
+                        android:textColorHint="@color/hsb_txt_content"
                         android:textSize="@dimen/s14p"
                         android:theme="@style/EditUnderLineStyle" />
 
@@ -124,7 +124,7 @@
                 app:tabIndicatorColor="@color/color_tab_layout"
                 app:tabSelectedTextColor="@color/color_tab_layout"
                 app:tabTextAppearance="@style/TextAppearance.Design.Tab.Custom"
-                app:tabTextColor="@color/color_txt" />
+                app:tabTextColor="@color/hsb_txt_content" />
 
 
         </LinearLayout>

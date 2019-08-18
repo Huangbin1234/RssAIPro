@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/str_load_fail"
-        android:textColor="@color/color_txt"
+        android:textColor="@color/hsb_txt_content"
         android:textSize="@dimen/s16p"/>
 
     <Button

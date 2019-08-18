@@ -68,7 +68,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:textColor="@color/color_txt"
+                            android:textColor="@color/hsb_txt_title"
                             android:textSize="20sp"
                             android:visibility="gone" />
 
@@ -82,7 +82,7 @@
                             android:maxLines="3"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
-                            android:textColor="@color/text_color_abstract"
+                            android:textColor="@color/hsb_txt_content"
                             android:textSize="@dimen/s14p" />
 
                         <ImageView

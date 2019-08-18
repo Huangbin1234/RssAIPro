@@ -46,7 +46,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/ih_iv"
                     android:text="@string/ff_find_hot_label"
-                    android:textColor="@color/color_mine_menu"
+                    android:textColor="@color/hsb_txt_content"
                     android:textSize="@dimen/s16p" />
                 <!--android:layout_marginLeft="10dp"-->
             </RelativeLayout>

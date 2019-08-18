@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:text="账号"
-                    android:textColor="@color/text_color_new"
+                    android:textColor="@color/hsb_txt_title"
                     android:textSize="@dimen/s16p"
                     android:visibility="gone" />
 
@@ -52,7 +52,7 @@
                     android:maxLength="16"
                     android:padding="16dp"
                     android:singleLine="true"
-                    android:textColor="@color/text_color_new"
+                    android:textColor="@color/hsb_txt_title"
                     android:textColorHint="#BBBBBB"
                     android:textSize="@dimen/s16p"
                     android:theme="@style/EditUnderLineStyle" />
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:text="密码"
-                    android:textColor="@color/text_color_new"
+                    android:textColor="@color/hsb_txt_title"
                     android:textSize="@dimen/s16p"
                     android:visibility="gone" />
 
@@ -109,7 +109,7 @@
                     android:maxLength="16"
                     android:padding="16dp"
                     android:singleLine="true"
-                    android:textColor="@color/text_color_new"
+                    android:textColor="@color/hsb_txt_title"
                     android:textColorHint="#BBBBBB"
                     android:textSize="@dimen/s16p"
                     android:theme="@style/EditUnderLineStyle" />
@@ -133,7 +133,7 @@
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="16dp"
                     android:text="@string/str_la_forget"
-                    android:textColor="@color/text_color_abstract"
+                    android:textColor="@color/hsb_txt_abstract"
                     android:textSize="@dimen/s14p" />
             </LinearLayout>
 

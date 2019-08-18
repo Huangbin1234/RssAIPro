@@ -42,7 +42,7 @@
             android:id="@+id/dialog_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_txt"
+            android:textColor="@color/hsb_txt_content"
             android:textSize="@dimen/s16p"/>
 
         <ProgressBar

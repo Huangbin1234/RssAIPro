@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/text_color_abstract"
+            android:textColor="@color/hsb_txt_abstract"
             android:textSize="@dimen/s12p"/>
 
 

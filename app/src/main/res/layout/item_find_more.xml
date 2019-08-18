@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textColor="@color/text_color_title"
+            android:textColor="@color/hsb_txt_title"
             android:textSize="@dimen/s16p" />
 
         <ImageView
@@ -82,7 +82,7 @@
                     android:ellipsize="end"
                     android:lineSpacingMultiplier="1.2"
                     android:maxLines="3"
-                    android:textColor="@color/text_color_abstract"
+                    android:textColor="@color/hsb_txt_abstract"
                     android:textSize="@dimen/s14p" />
 
                 <LinearLayout
@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:layout_toRightOf="@id/iv_sub_avatar"
-                        android:textColor="@color/text_color_time"
+                        android:textColor="@color/hsb_txt_abstract"
                         android:textSize="@dimen/s12p" />
                 </LinearLayout>
             </RelativeLayout>

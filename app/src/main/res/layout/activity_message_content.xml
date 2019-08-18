@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textColor="@color/text_color_time"
+                android:textColor="@color/hsb_txt_label"
                 android:textSize="@dimen/s14p" />
 
             <TextView
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:textColor="@color/color_txt"
+                android:textColor="@color/hsb_txt_content"
                 android:textSize="@dimen/s16p" />
 
             <TextView

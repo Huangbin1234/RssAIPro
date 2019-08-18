@@ -88,7 +88,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@id/iv_web_server"
                                         android:text="@string/sub_label_topic"
-                                        android:textColor="@color/color_mine_menu"
+                                        android:textColor="@color/hsb_txt_content"
                                         android:textSize="@dimen/s16p" />
 
 
@@ -206,7 +206,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@id/iv_vip"
                                         android:text="@string/sub_label"
-                                        android:textColor="@color/color_mine_menu"
+                                        android:textColor="@color/hsb_txt_content"
                                         android:textSize="@dimen/s16p" />
 
 

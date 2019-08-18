@@ -125,6 +125,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/color_general_line"
+        android:textColor="@color/hsb_txt_abstract"
         android:textSize="@dimen/s14p" />
 </LinearLayout>

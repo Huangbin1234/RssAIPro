@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textColor="@color/color_txt"
+            android:textColor="@color/hsb_txt_content"
             android:textSize="@dimen/s16p"/>
     </LinearLayout>
 </LinearLayout>

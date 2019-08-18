@@ -84,8 +84,8 @@
                         android:layout_marginTop="25dp"
                         android:autoLink="all"
                         android:lineSpacingExtra="5dp"
-                        android:textColor="@color/color_txt"
-                        android:textColorLink="@color/color_txt"
+                        android:textColor="@color/hsb_txt_content"
+                        android:textColorLink="@color/hsb_txt_content"
                         android:textIsSelectable="true"
                         android:textSize="18sp"
                         android:visibility="gone" />

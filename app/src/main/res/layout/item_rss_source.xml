@@ -60,7 +60,7 @@
                 android:maxEms="6"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:textColor="@color/text_color_title"
+                android:textColor="@color/hsb_txt_title"
                 android:textSize="@dimen/s14p" />
 
 
