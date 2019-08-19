@@ -22,6 +22,7 @@ import com.google.zxing.qrcode.QRCodeReader;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 
 /**
@@ -78,7 +79,7 @@ public class ScanAlbum {
         try {
             boolean ISO = Charset.forName("ISO-8859-1").newEncoder().canEncode(str);
             if (ISO) {
-                formart = new String(str.getBytes("ISO-8859-1"), "GB2312");
+                formart = new String(str.getBytes(StandardCharsets.ISO_8859_1), "GB2312");
                 Log.i("1234      ISO8859-1", formart);
             } else {
                 formart = str;

@@ -355,29 +355,29 @@ public class SourceListAdapter extends RecyclerView.Adapter<SourceListAdapter.My
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            irl_tv_top4 = (TextView) itemView.findViewById(R.id.irl_tv_top4);
-            irl_tv_top3 = (TextView) itemView.findViewById(R.id.irl_tv_top3);
-            irl_tv_top2 = (TextView) itemView.findViewById(R.id.irl_tv_top2);
-            irl_tv_top1 = (TextView) itemView.findViewById(R.id.irl_tv_top1);
-            irl_tv_top = (TextView) itemView.findViewById(R.id.irl_tv_top);
+            irl_tv_top4 = itemView.findViewById(R.id.irl_tv_top4);
+            irl_tv_top3 = itemView.findViewById(R.id.irl_tv_top3);
+            irl_tv_top2 = itemView.findViewById(R.id.irl_tv_top2);
+            irl_tv_top1 = itemView.findViewById(R.id.irl_tv_top1);
+            irl_tv_top = itemView.findViewById(R.id.irl_tv_top);
 
-            irl_iv_top4 = (ImageView) itemView.findViewById(R.id.irl_iv_top4);
-            irl_iv_top3 = (ImageView) itemView.findViewById(R.id.irl_iv_top3);
-            irl_iv_top2 = (ImageView) itemView.findViewById(R.id.irl_iv_top2);
-            irl_iv_top1 = (ImageView) itemView.findViewById(R.id.irl_iv_top1);
-            irl_iv_top = (ImageView) itemView.findViewById(R.id.irl_iv_top);
+            irl_iv_top4 = itemView.findViewById(R.id.irl_iv_top4);
+            irl_iv_top3 = itemView.findViewById(R.id.irl_iv_top3);
+            irl_iv_top2 = itemView.findViewById(R.id.irl_iv_top2);
+            irl_iv_top1 = itemView.findViewById(R.id.irl_iv_top1);
+            irl_iv_top = itemView.findViewById(R.id.irl_iv_top);
 
 
-            irl_view_line_2 = (View) itemView.findViewById(R.id.irl_view_line_2);
-            irl_view_line_3 = (View) itemView.findViewById(R.id.irl_view_line_3);
-            irl_view_line_4 = (View) itemView.findViewById(R.id.irl_view_line_4);
+            irl_view_line_2 = itemView.findViewById(R.id.irl_view_line_2);
+            irl_view_line_3 = itemView.findViewById(R.id.irl_view_line_3);
+            irl_view_line_4 = itemView.findViewById(R.id.irl_view_line_4);
 //            item_na_layout = (CardView) itemView.findViewById(R.id.item_na_layout);
 
-            irl_top_rl = (RelativeLayout) itemView.findViewById(R.id.irl_top_rl);
-            irl_top_ll4 = (LinearLayout) itemView.findViewById(R.id.irl_top_ll4);
-            irl_top_ll3 = (LinearLayout) itemView.findViewById(R.id.irl_top_ll3);
-            irl_top_ll2 = (LinearLayout) itemView.findViewById(R.id.irl_top_ll2);
-            irl_top_ll1 = (LinearLayout) itemView.findViewById(R.id.irl_top_ll1);
+            irl_top_rl = itemView.findViewById(R.id.irl_top_rl);
+            irl_top_ll4 = itemView.findViewById(R.id.irl_top_ll4);
+            irl_top_ll3 = itemView.findViewById(R.id.irl_top_ll3);
+            irl_top_ll2 = itemView.findViewById(R.id.irl_top_ll2);
+            irl_top_ll1 = itemView.findViewById(R.id.irl_top_ll1);
         }
     }
 }

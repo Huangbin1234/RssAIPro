@@ -85,11 +85,7 @@ public class RichTextPresenter extends BasePresenter<RichTextContract.View> impl
         if (mRetObjBean == null) {
             isDel = false;
         } else {
-            if (mRetObjBean.isDeleteFlag()) {
-                isDel = false;
-            } else {
-                isDel = true;
-            }
+            isDel = !mRetObjBean.isDeleteFlag();
         }
         String jsonParams = "{\"isDel\":\"" + isDel + "\",\"informationId\":\"" + informationId + "\",\"userId\":\"" + userId + "\",\"link\":\"" + newLink + "\",\"title\":\"" + newTitle + "\"}";
         map.put(Constant.KEY_JSON_PARAMS, jsonParams);

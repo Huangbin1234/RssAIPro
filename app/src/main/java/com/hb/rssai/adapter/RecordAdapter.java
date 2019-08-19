@@ -85,9 +85,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.MyViewHold
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            item_msg_tv_time = (TextView) itemView.findViewById(R.id.item_msg_tv_time);
-            item_msg_tv_link = (TextView) itemView.findViewById(R.id.item_msg_tv_link);
-            item_msg_tv_title = (TextView) itemView.findViewById(R.id.item_msg_tv_title);
+            item_msg_tv_time = itemView.findViewById(R.id.item_msg_tv_time);
+            item_msg_tv_link = itemView.findViewById(R.id.item_msg_tv_link);
+            item_msg_tv_title = itemView.findViewById(R.id.item_msg_tv_title);
         }
     }
 }

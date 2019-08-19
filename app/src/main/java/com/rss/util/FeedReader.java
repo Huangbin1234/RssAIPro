@@ -85,7 +85,7 @@ public class FeedReader {
             } else {
                 xmlReader = new XmlReader(response.body().byteStream());
             }
-            xmlReader.setDefaultEncoding("UTF-8");
+            XmlReader.setDefaultEncoding("UTF-8");
             SyndFeed feed = input.build(xmlReader);   //SyndFeed是rss和atom实现类SyndFeedImpl的接口
 
             List<SyndEntry> entries = feed.getEntries();

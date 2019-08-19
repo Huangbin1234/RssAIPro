@@ -260,7 +260,7 @@ public class SourceCardActivity extends BaseActivity implements ISourceListView 
             imageLogo = bean.getImg();
             desc = bean.getAbstractContent();
             if (!TextUtils.isEmpty(bean.getRemark())) {
-                isCheck = bean.getRemark().equals("yes") ? true : false;
+                isCheck = bean.getRemark().equals("yes");
                 if (isCheck) {
                     mSlaIvSubscribe.setImageResource(R.mipmap.ic_subscribe_cancel);
                 } else {

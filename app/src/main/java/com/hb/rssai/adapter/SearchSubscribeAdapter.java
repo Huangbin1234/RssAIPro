@@ -107,12 +107,12 @@ public class SearchSubscribeAdapter extends RecyclerView.Adapter<SearchSubscribe
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            ifm_tv_people = (TextView) itemView.findViewById(R.id.ifm_tv_people);
+            ifm_tv_people = itemView.findViewById(R.id.ifm_tv_people);
 //            ifm_tv_abstract = (JustifyTextView) itemView.findViewById(R.id.ifm_tv_abstract);
-            ifm_tv_abstract = (TextView) itemView.findViewById(R.id.ifm_tv_abstract);
-            ifm_tv_title = (TextView) itemView.findViewById(R.id.ifm_tv_title);
-            ifm_iv_img = (ImageView) itemView.findViewById(R.id.ifm_iv_img);
-            ifm_iv_add = (ImageView) itemView.findViewById(R.id.ifm_iv_add);
+            ifm_tv_abstract = itemView.findViewById(R.id.ifm_tv_abstract);
+            ifm_tv_title = itemView.findViewById(R.id.ifm_tv_title);
+            ifm_iv_img = itemView.findViewById(R.id.ifm_iv_img);
+            ifm_iv_add = itemView.findViewById(R.id.ifm_iv_add);
         }
     }
 

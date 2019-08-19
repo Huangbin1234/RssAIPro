@@ -88,9 +88,9 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            ifm_tv_whereFrom = (TextView) itemView.findViewById(R.id.ifm_tv_whereFrom);
-            ifm_tv_title = (TextView) itemView.findViewById(R.id.ifm_tv_title);
-            ifm_iv_img = (ImageView) itemView.findViewById(R.id.ifm_iv_img);
+            ifm_tv_whereFrom = itemView.findViewById(R.id.ifm_tv_whereFrom);
+            ifm_tv_title = itemView.findViewById(R.id.ifm_tv_title);
+            ifm_iv_img = itemView.findViewById(R.id.ifm_iv_img);
         }
     }
 

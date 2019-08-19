@@ -453,11 +453,8 @@ public class CropOverlayView extends View {
      * @return boolean Whether the guidelines should be shown or not
      */
     public static boolean showGuidelines() {
-        if ((Math.abs(Edge.LEFT.getCoordinate() - Edge.RIGHT.getCoordinate()) < DEFAULT_SHOW_GUIDELINES_LIMIT)
-            || (Math.abs(Edge.TOP.getCoordinate() - Edge.BOTTOM.getCoordinate()) < DEFAULT_SHOW_GUIDELINES_LIMIT))
-            return false;
-        else
-            return true;
+        return (!(Math.abs(Edge.LEFT.getCoordinate() - Edge.RIGHT.getCoordinate()) < DEFAULT_SHOW_GUIDELINES_LIMIT))
+                && (!(Math.abs(Edge.TOP.getCoordinate() - Edge.BOTTOM.getCoordinate()) < DEFAULT_SHOW_GUIDELINES_LIMIT));
     }
 
     private void drawRuleOfThirdsGuidelines(Canvas canvas) {

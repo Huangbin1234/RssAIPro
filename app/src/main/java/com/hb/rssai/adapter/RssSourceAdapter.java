@@ -125,10 +125,10 @@ public class RssSourceAdapter extends RecyclerView.Adapter<RssSourceAdapter.MyVi
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            irs_layout = (LinearLayout) itemView.findViewById(R.id.irs_layout);
-            irs_tv_count = (TextView) itemView.findViewById(R.id.irs_tv_count);
-            irs_tv_name = (TextView) itemView.findViewById(R.id.irs_tv_name);
-            irs_iv_logo = (ImageView) itemView.findViewById(R.id.irs_iv_logo);
+            irs_layout = itemView.findViewById(R.id.irs_layout);
+            irs_tv_count = itemView.findViewById(R.id.irs_tv_count);
+            irs_tv_name = itemView.findViewById(R.id.irs_tv_name);
+            irs_iv_logo = itemView.findViewById(R.id.irs_iv_logo);
         }
     }
 }

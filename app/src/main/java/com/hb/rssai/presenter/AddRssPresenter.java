@@ -220,7 +220,7 @@ public class AddRssPresenter extends BasePresenter<AddSourcesContract.View> impl
             materialDialog = new MaterialDialog(mContext);
             LayoutInflater inflater = LayoutInflater.from(mContext);
             View view = inflater.inflate(R.layout.view_filter, null);
-            FullGridView listView = (FullGridView) view.findViewById(R.id.dialog_gridView);
+            FullGridView listView = view.findViewById(R.id.dialog_gridView);
 
             listView.setOnItemClickListener((parent, v, position, id) -> {
                 //点击选择

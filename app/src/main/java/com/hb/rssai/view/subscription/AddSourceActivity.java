@@ -66,6 +66,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -419,19 +420,15 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 for (Outline outline : outlines) {
                     if (!TextUtils.isEmpty(outline.getXmlUrl())) {
                         rssSource = new RssSource();
-                        try {
-                            if(!TextUtils.isEmpty(outline.getTitle())){
-                                String strUTF = new String(outline.getTitle().getBytes(), "UTF-8");
-                                rssSource.setName(strUTF);
-                                rssTitle = strUTF;
-                            }
-                           else if(!TextUtils.isEmpty(outline.getText())){
-                                String strUTF = new String(outline.getText().getBytes(), "UTF-8");
-                                rssSource.setName(strUTF);
-                                rssTitle = strUTF;
-                            }
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
+                        if(!TextUtils.isEmpty(outline.getTitle())){
+                            String strUTF = new String(outline.getTitle().getBytes(), StandardCharsets.UTF_8);
+                            rssSource.setName(strUTF);
+                            rssTitle = strUTF;
+                        }
+                       else if(!TextUtils.isEmpty(outline.getText())){
+                            String strUTF = new String(outline.getText().getBytes(), StandardCharsets.UTF_8);
+                            rssSource.setName(strUTF);
+                            rssTitle = strUTF;
                         }
 
                         rssSource.setLink(outline.getXmlUrl());
@@ -444,22 +441,18 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                     for (Outline subOutline : outline.getChildren()) {
                         if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
                             rssSource = new RssSource();
-                            try {
 
-                                if(!TextUtils.isEmpty(subOutline.getTitle())){
-                                    String strUTF = new String(subOutline.getTitle().getBytes(), "UTF-8");
-                                    rssSource.setName(strUTF);
-                                    rssTitle = strUTF;
-                                }
-                                else if(!TextUtils.isEmpty(subOutline.getText())){
-                                    String strUTF = new String(subOutline.getText().getBytes(), "UTF-8");
-                                    rssSource.setName(strUTF);
-                                    rssTitle = strUTF;
-                                }
-
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
+                            if(!TextUtils.isEmpty(subOutline.getTitle())){
+                                String strUTF = new String(subOutline.getTitle().getBytes(), StandardCharsets.UTF_8);
+                                rssSource.setName(strUTF);
+                                rssTitle = strUTF;
                             }
+                            else if(!TextUtils.isEmpty(subOutline.getText())){
+                                String strUTF = new String(subOutline.getText().getBytes(), StandardCharsets.UTF_8);
+                                rssSource.setName(strUTF);
+                                rssTitle = strUTF;
+                            }
+
                             rssSource.setLink(subOutline.getXmlUrl());
                             LiteOrmDBUtil.insert(rssSource);
                             rssLink = subOutline.getXmlUrl();
@@ -524,13 +517,9 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                 for (Outline outline : outlines) {
                     if (!TextUtils.isEmpty(outline.getXmlUrl())) {
                         rssSource = new RssSource();
-                        try {
-                            String strUTF = new String(outline.getTitle().getBytes(), "UTF-8");
-                            rssSource.setName(strUTF);
-                            rssTitle = strUTF;
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
+                        String strUTF = new String(outline.getTitle().getBytes(), StandardCharsets.UTF_8);
+                        rssSource.setName(strUTF);
+                        rssTitle = strUTF;
 
                         rssSource.setLink(outline.getXmlUrl());
                         LiteOrmDBUtil.insert(rssSource);
@@ -542,14 +531,10 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
                     for (Outline subOutline : outline.getChildren()) {
                         if (!TextUtils.isEmpty(subOutline.getXmlUrl())) {
                             rssSource = new RssSource();
-                            try {
-                                String strUTF = new String(subOutline.getTitle().getBytes(), "UTF-8");
-                                rssSource.setName(strUTF);
+                            String strUTF = new String(subOutline.getTitle().getBytes(), StandardCharsets.UTF_8);
+                            rssSource.setName(strUTF);
 
-                                rssTitle = strUTF;
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
+                            rssTitle = strUTF;
                             rssSource.setLink(subOutline.getXmlUrl());
                             LiteOrmDBUtil.insert(rssSource);
                             rssLink = subOutline.getXmlUrl();
@@ -589,7 +574,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             feedUrl = new URL(opmlUrl);
             XmlReader xmlReader = null;
             try {
-                xmlReader.setDefaultEncoding("UTF-8");
+                XmlReader.setDefaultEncoding("UTF-8");
                 xmlReader = new XmlReader(feedUrl);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -605,7 +590,7 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
         ReadXML readXML = ReadXML.getInstance();
         XmlReader xmlReader = null;
         try {
-            xmlReader.setDefaultEncoding("UTF-8");
+            XmlReader.setDefaultEncoding("UTF-8");
             xmlReader = new XmlReader(file);
             return readXML.readOpml(xmlReader);
         } catch (MalformedURLException e) {
@@ -696,21 +681,21 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
             //builer.setView(v);//这里如果使用builer.setView(v)，自定义布局只会覆盖title和button之间的那部分
             mPop = builder.create();
 
-            pas_btn_sure = (Button) popupView.findViewById(R.id.pas_btn_sure);
-            mProgressBar = (ProgressBar) popupView.findViewById(R.id.pas_progress_bar);
-            pas_tv_title = (TextView) popupView.findViewById(R.id.pas_tv_title);
-            pas_btn_opml = (Button) popupView.findViewById(R.id.pas_btn_opml);
-            pas_et_link = (EditText) popupView.findViewById(R.id.pas_et_link);
-            pas_btn_opml_file = (Button) popupView.findViewById(R.id.pas_btn_opml_file);
-            pas_et_name = (EditText) popupView.findViewById(R.id.pas_et_name);
-            pas_btn_close = (ImageView) popupView.findViewById(R.id.pas_btn_close);
+            pas_btn_sure = popupView.findViewById(R.id.pas_btn_sure);
+            mProgressBar = popupView.findViewById(R.id.pas_progress_bar);
+            pas_tv_title = popupView.findViewById(R.id.pas_tv_title);
+            pas_btn_opml = popupView.findViewById(R.id.pas_btn_opml);
+            pas_et_link = popupView.findViewById(R.id.pas_et_link);
+            pas_btn_opml_file = popupView.findViewById(R.id.pas_btn_opml_file);
+            pas_et_name = popupView.findViewById(R.id.pas_et_name);
+            pas_btn_close = popupView.findViewById(R.id.pas_btn_close);
 
 
-            pas_ll_link = (LinearLayout) popupView.findViewById(R.id.pas_ll_link);
-            pas_ll_name = (LinearLayout) popupView.findViewById(R.id.pas_ll_name);
+            pas_ll_link = popupView.findViewById(R.id.pas_ll_link);
+            pas_ll_name = popupView.findViewById(R.id.pas_ll_name);
 
-            pas_iv_scan = (ImageView) popupView.findViewById(R.id.pas_iv_scan);
-            pas_iv_show_link = (ImageView) popupView.findViewById(R.id.pas_iv_show_link);
+            pas_iv_scan = popupView.findViewById(R.id.pas_iv_scan);
+            pas_iv_show_link = popupView.findViewById(R.id.pas_iv_show_link);
             pas_iv_show_link.setOnClickListener(view -> {
                 if (flag == 1) {
                     try {

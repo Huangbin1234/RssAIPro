@@ -43,8 +43,8 @@ protected void onCreate(Bundle savedInstanceState) {
 	// TODO Auto-generated method stub
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_image_crop);
-	tv_ok = (TextView) findViewById(R.id.tv_ok);
-	tv_canle = (TextView) findViewById(R.id.tv_canle);
+	tv_ok = findViewById(R.id.tv_ok);
+	tv_canle = findViewById(R.id.tv_canle);
 
 	tv_ok.setOnClickListener(new OnClickListener() {
 
@@ -64,8 +64,8 @@ protected void onCreate(Bundle savedInstanceState) {
 
 		}
 	});
-	rl_layout = (RelativeLayout) findViewById(R.id.rl_image);
-	tv_crop = (TextView) findViewById(R.id.tv_crop);
+	rl_layout = findViewById(R.id.rl_image);
+	tv_crop = findViewById(R.id.tv_crop);
 	tv_crop.setOnClickListener(new OnClickListener() {
 
 		@Override
@@ -100,7 +100,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	getWindowManager().getDefaultDisplay().getMetrics(dm);
 	screen_width = dm.widthPixels;
 	screen_height = dm.heightPixels;
-	cropImageView = (CropImageView) findViewById(R.id.CropImageView);
+	cropImageView = findViewById(R.id.CropImageView);
 
 	Intent preIntent = this.getIntent();
 	pre_path = preIntent.getStringExtra("path");
@@ -238,8 +238,7 @@ public void gotoNextStep() {
  */
 public Bitmap rotaingImageView(int angle, Bitmap bitmap) {
 	Matrix matrix = new Matrix();
-	;
-	matrix.postRotate(angle);
+    matrix.postRotate(angle);
 	System.out.println("angle2=" + angle);
 	Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 	return resizedBitmap;

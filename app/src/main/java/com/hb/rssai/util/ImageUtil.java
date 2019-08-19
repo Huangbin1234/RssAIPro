@@ -101,7 +101,6 @@ public class ImageUtil {
     public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
         // 旋转图片 动作
         Matrix matrix = new Matrix();
-        ;
         matrix.postRotate(angle);
         System.out.println("angle2=" + angle);
         // 创建新的图片

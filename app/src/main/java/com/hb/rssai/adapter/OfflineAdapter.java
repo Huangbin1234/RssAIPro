@@ -68,10 +68,10 @@ public class OfflineAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.view_offiline_item, null);
-            holder.dialog_item_iv = (ImageView) convertView.findViewById(R.id.dialog_item_iv);
-            holder.dialog_item_tv = (TextView) convertView.findViewById(R.id.dialog_item_tv);
-            holder.dialog_item_chk = (CheckBox) convertView.findViewById(R.id.dialog_item_chk);
-            holder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
+            holder.dialog_item_iv = convertView.findViewById(R.id.dialog_item_iv);
+            holder.dialog_item_tv = convertView.findViewById(R.id.dialog_item_tv);
+            holder.dialog_item_chk = convertView.findViewById(R.id.dialog_item_chk);
+            holder.progressBar = convertView.findViewById(R.id.progressBar);
 
             convertView.setTag(holder);
         } else {

@@ -59,9 +59,9 @@ public class ImageDialogAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.view_image_dialog_item, null);
-            holder.dialog_item_iv = (ImageView) convertView.findViewById(R.id.dialog_item_iv);
-            holder.dialog_item_tv = (TextView) convertView.findViewById(R.id.dialog_item_tv);
-            holder.dialog_item_chk = (CheckBox) convertView.findViewById(R.id.dialog_item_chk);
+            holder.dialog_item_iv = convertView.findViewById(R.id.dialog_item_iv);
+            holder.dialog_item_tv = convertView.findViewById(R.id.dialog_item_tv);
+            holder.dialog_item_chk = convertView.findViewById(R.id.dialog_item_chk);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

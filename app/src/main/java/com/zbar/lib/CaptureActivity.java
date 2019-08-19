@@ -134,10 +134,10 @@ public class CaptureActivity extends Activity implements Callback {
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
 
-        mContainer = (RelativeLayout) findViewById(R.id.capture_containter);
-        mCropLayout = (RelativeLayout) findViewById(R.id.capture_crop_layout);
-        sel_album = (ImageView) findViewById(R.id.sel_album);
-        control_light = (ImageView) findViewById(R.id.control_light);
+        mContainer = findViewById(R.id.capture_containter);
+        mCropLayout = findViewById(R.id.capture_crop_layout);
+        sel_album = findViewById(R.id.sel_album);
+        control_light = findViewById(R.id.control_light);
 
         sel_album.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,7 +153,7 @@ public class CaptureActivity extends Activity implements Callback {
             }
         });
 
-        ImageView mQrLineView = (ImageView) findViewById(R.id.capture_scan_line);
+        ImageView mQrLineView = findViewById(R.id.capture_scan_line);
         TranslateAnimation mAnimation = new TranslateAnimation(
                 Animation.ABSOLUTE, 0f, Animation.ABSOLUTE,
                 0f, Animation.RELATIVE_TO_PARENT, 0f,
@@ -198,7 +198,7 @@ public class CaptureActivity extends Activity implements Callback {
     @Override
     protected void onResume() {
         super.onResume();
-        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.capture_preview);
+        SurfaceView surfaceView = findViewById(R.id.capture_preview);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
         if (hasSurface) {
             initCamera(surfaceHolder);

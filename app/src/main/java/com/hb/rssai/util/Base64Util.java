@@ -14,7 +14,7 @@ public class Base64Util {
      * @return 编码完成的字符串码
      */
     public static String getEncodeStr(String str) {
-        byte byteArr[] = Base64.encode(str.getBytes(), Base64.DEFAULT);
+        byte[] byteArr = Base64.encode(str.getBytes(), Base64.DEFAULT);
         return new String(byteArr);
     }
 
@@ -26,7 +26,7 @@ public class Base64Util {
      */
     public static String getDecodeStr(String encodeStr) {
         try {
-            byte byteArr[] = Base64.decode(encodeStr, Base64.DEFAULT);
+            byte[] byteArr = Base64.decode(encodeStr, Base64.DEFAULT);
             return new String(byteArr);
         } catch (Exception e) {
             e.printStackTrace();

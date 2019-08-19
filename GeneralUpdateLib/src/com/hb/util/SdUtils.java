@@ -268,7 +268,7 @@ public class SdUtils {
                 if (line.contains("asec"))
                     continue;
                 if (line.contains("fat") && line.contains("/mnt/")) {
-                    String columns[] = line.split(" ");
+                    String[] columns = line.split(" ");
                     if (columns != null && columns.length > 1) {
                         if (sd_default.trim().equals(columns[1].trim())) {
                             continue;
@@ -276,7 +276,7 @@ public class SdUtils {
                         sdcard_path = columns[1];
                     }
                 } else if (line.contains("fuse") && line.contains("/mnt/")) {
-                    String columns[] = line.split(" ");
+                    String[] columns = line.split(" ");
                     if (columns != null && columns.length > 1) {
                         if (sd_default.trim().equals(columns[1].trim())) {
                             continue;

@@ -50,8 +50,8 @@ public class TipItemView extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         setOnClickListener(createClickListener());
-        title =(TextView)findViewById(R.id.tagview_title);
-        delete =(ImageView)findViewById(R.id.tagview_delete);
+        title = findViewById(R.id.tagview_title);
+        delete = findViewById(R.id.tagview_delete);
        /* delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

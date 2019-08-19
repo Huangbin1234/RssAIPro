@@ -85,12 +85,12 @@ public class UrlImageGetter implements Html.ImageGetter, Drawable.Callback {
                 Log.e("koen", "mTextView width is " + mWidth);
                 if (resource.getIntrinsicWidth() >= mWidth) {
                     float downScale = (float) resource.getIntrinsicWidth() / mWidth;
-                    width = (float) resource.getIntrinsicWidth() / (float) downScale;
-                    height = (float) resource.getIntrinsicHeight() / (float) downScale;
+                    width = (float) resource.getIntrinsicWidth() / downScale;
+                    height = (float) resource.getIntrinsicHeight() / downScale;
                 } else {
                     float multiplier = (float) mWidth / resource.getIntrinsicWidth();
-                    width = (float) resource.getIntrinsicWidth() * (float) multiplier;
-                    height = (float) resource.getIntrinsicHeight() * (float) multiplier;
+                    width = (float) resource.getIntrinsicWidth() * multiplier;
+                    height = (float) resource.getIntrinsicHeight() * multiplier;
                 }
                 Log.e("koen", "Final view width is " + width);
                 rect = new Rect(0, 0, Math.round(width), Math.round(height));

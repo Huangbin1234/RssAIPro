@@ -1,6 +1,7 @@
 package com.hb.rssai.view.me;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -157,7 +158,7 @@ public class OfflineActivity extends BaseActivity implements IOfficeView {
             SharedPreferencesUtil.setBoolean(OfflineActivity.this, "isClickOffline", true);
             //TODO 开始去服务器下载数据到本地数据库
             Intent bindIntent = new Intent(OfflineActivity.this, DownNewsService.class);
-            bindService(bindIntent, mConnection, OfflineActivity.this.BIND_AUTO_CREATE);
+            bindService(bindIntent, mConnection, BIND_AUTO_CREATE);
         });
     }
 

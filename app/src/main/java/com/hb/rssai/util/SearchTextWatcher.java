@@ -32,11 +32,7 @@ public class SearchTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (!TextUtils.isEmpty(itsEtKey.getText().toString().trim())) {
-            check = true;
-        } else {
-            check = false;
-        }
+        check = !TextUtils.isEmpty(itsEtKey.getText().toString().trim());
         if (firstCheck) {
             firstCheck = false;
             if (check) {

@@ -65,8 +65,8 @@ public class IndexFunctionAdapter extends BaseAdapter {
         ImageView iv;
 
         public ViewHolder(View itemview) {
-            tv = (TextView) itemview.findViewById(R.id.item_index_function_tv);
-            iv = (ImageView) itemview.findViewById(R.id.item_index_function_iv);
+            tv = itemview.findViewById(R.id.item_index_function_tv);
+            iv = itemview.findViewById(R.id.item_index_function_iv);
         }
     }
 }

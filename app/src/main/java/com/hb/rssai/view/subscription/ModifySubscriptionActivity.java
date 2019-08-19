@@ -251,7 +251,7 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
         String imgUrl = mMsaEtImgUrl.getText().toString().trim();
 
         String sort = mMsaEtSort.getText().toString().trim();
-        boolean isRecommend = "是".equals(str_isRecommend) ? true : false;
+        boolean isRecommend = "是".equals(str_isRecommend);
         if (TextUtils.isEmpty(name)) {
             T.ShowToast(this, "请输入RSS源名称");
             return;

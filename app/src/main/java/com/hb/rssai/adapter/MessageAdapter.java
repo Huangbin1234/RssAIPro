@@ -96,10 +96,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            irs_tv_msg_flag = (TextView) itemView.findViewById(R.id.irs_tv_msg_flag);
-            item_msg_tv_time = (TextView) itemView.findViewById(R.id.item_msg_tv_time);
-            item_msg_tv_link = (TextView) itemView.findViewById(R.id.item_msg_tv_link);
-            item_msg_tv_title = (TextView) itemView.findViewById(R.id.item_msg_tv_title);
+            irs_tv_msg_flag = itemView.findViewById(R.id.irs_tv_msg_flag);
+            item_msg_tv_time = itemView.findViewById(R.id.item_msg_tv_time);
+            item_msg_tv_link = itemView.findViewById(R.id.item_msg_tv_link);
+            item_msg_tv_title = itemView.findViewById(R.id.item_msg_tv_title);
         }
     }
 }

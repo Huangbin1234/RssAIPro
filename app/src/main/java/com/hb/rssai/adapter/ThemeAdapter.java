@@ -78,10 +78,10 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.MyViewHolder
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            ir_tv_name = (TextView) itemView.findViewById(R.id.ir_tv_name);
-            ir_iv_logo = (ImageView) itemView.findViewById(R.id.ir_iv_logo);
-            ir_iv_add = (ImageView) itemView.findViewById(R.id.ir_iv_add);
-            ir_tv_abs = (TextView) itemView.findViewById(R.id.ir_tv_abs);
+            ir_tv_name = itemView.findViewById(R.id.ir_tv_name);
+            ir_iv_logo = itemView.findViewById(R.id.ir_iv_logo);
+            ir_iv_add = itemView.findViewById(R.id.ir_iv_add);
+            ir_tv_abs = itemView.findViewById(R.id.ir_tv_abs);
         }
     }
 }

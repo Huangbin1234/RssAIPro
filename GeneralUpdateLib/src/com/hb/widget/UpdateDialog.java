@@ -96,17 +96,17 @@ public class UpdateDialog {
         // 使用window.setContentView,替换对话框窗口布局
         Window window = adialog.getWindow();
         window.setContentView(R.layout.alert_dialog);
-        titleView = (TextView) window.findViewById(R.id.update_alert_title);
-        update_tv_content = (TextView) window.findViewById(R.id.update_tv_content);
-        buttonLayout = (LinearLayout) window
+        titleView = window.findViewById(R.id.update_alert_title);
+        update_tv_content = window.findViewById(R.id.update_tv_content);
+        buttonLayout = window
                 .findViewById(R.id.update_alert_buttonLayout);
-        progressx = (ProgressBar) window
+        progressx = window
                 .findViewById(R.id.update_alert_progressx);
-        update_alert_tv_url_down = (TextView) window
+        update_alert_tv_url_down = window
                 .findViewById(R.id.update_alert_tv_url_down);
-        update_tv_title = (TextView) window
+        update_tv_title = window
                 .findViewById(R.id.update_tv_title);
-        update_alert_tv_back_down = (TextView) window
+        update_alert_tv_back_down = window
                 .findViewById(R.id.update_alert_tv_back_down);
 
     }

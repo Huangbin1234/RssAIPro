@@ -235,7 +235,7 @@ public class SubscribeAllActivity extends BaseActivity implements ISubListView {
             materialDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.view_dialog, null);
-            FullListView listView = (FullListView) view.findViewById(R.id.dialog_listView);
+            FullListView listView = view.findViewById(R.id.dialog_listView);
 
             listView.setOnItemClickListener((parent, view1, position, id) -> {
                 if (list.get(position).get("id").equals(1)) {

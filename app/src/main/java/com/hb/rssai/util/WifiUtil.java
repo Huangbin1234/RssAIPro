@@ -17,10 +17,6 @@ public class WifiUtil {
     public static boolean isWIFIkAvailable(Context context) {
         ConnectivityManager cwjManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cwjManager.getActiveNetworkInfo();
-        if (info != null && info.isAvailable()) {
-            return true;
-        } else {
-            return false;
-        }
+        return info != null && info.isAvailable();
     }
 }

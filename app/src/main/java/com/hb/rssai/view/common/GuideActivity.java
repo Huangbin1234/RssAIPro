@@ -40,7 +40,7 @@ public class GuideActivity extends FragmentActivity {
     }
 
     private void initView() {
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), showView()));
         listImg = new ArrayList<>();
         listImg.add(findViewById(R.id.y1));

@@ -81,14 +81,14 @@ public class AdviceAdapter extends RecyclerView.Adapter<AdviceAdapter.MyViewHold
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            tv_content = (TextView) itemView.findViewById(R.id.tv_content);
-            tv_create_time = (TextView) itemView.findViewById(R.id.tv_create_time);
-            tv_user = (TextView) itemView.findViewById(R.id.tv_user);
-            tv_mark = (TextView) itemView.findViewById(R.id.tv_mark);
-            tv_update_time = (TextView) itemView.findViewById(R.id.tv_update_time);
-            tv_type_name = (TextView) itemView.findViewById(R.id.tv_type_name);
-            iv_avatar = (ImageView) itemView.findViewById(R.id.iv_avatar);
-            ll_reply = (LinearLayout) itemView.findViewById(R.id.ll_reply);
+            tv_content = itemView.findViewById(R.id.tv_content);
+            tv_create_time = itemView.findViewById(R.id.tv_create_time);
+            tv_user = itemView.findViewById(R.id.tv_user);
+            tv_mark = itemView.findViewById(R.id.tv_mark);
+            tv_update_time = itemView.findViewById(R.id.tv_update_time);
+            tv_type_name = itemView.findViewById(R.id.tv_type_name);
+            iv_avatar = itemView.findViewById(R.id.iv_avatar);
+            ll_reply = itemView.findViewById(R.id.ll_reply);
 
         }
     }

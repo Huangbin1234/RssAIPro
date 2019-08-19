@@ -64,10 +64,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
         MyViewHolder(View itemView) {
             super(itemView);
-            avatarImageView = (ImageView) itemView.findViewById(R.id.iv_avatar);
-            tv_count = (TextView) itemView.findViewById(R.id.tv_count);
-            tv_view = (Button) itemView.findViewById(R.id.tv_view);
-            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            avatarImageView = itemView.findViewById(R.id.iv_avatar);
+            tv_count = itemView.findViewById(R.id.tv_count);
+            tv_view = itemView.findViewById(R.id.tv_view);
+            tv_name = itemView.findViewById(R.id.tv_name);
 
         }
     }

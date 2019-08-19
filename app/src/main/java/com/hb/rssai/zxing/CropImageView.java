@@ -218,7 +218,7 @@ public class CropImageView extends FrameLayout {
         super.onLayout(changed, l, t, r, b);
 
         // Gets original parameters, and creates the new parameters
-        ViewGroup.LayoutParams origparams = (ViewGroup.LayoutParams) this.getLayoutParams();
+        ViewGroup.LayoutParams origparams = this.getLayoutParams();
         origparams.width = mLayoutWidth;
         origparams.height = mLayoutHeight;
 
@@ -375,10 +375,10 @@ public class CropImageView extends FrameLayout {
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View v = inflater.inflate(R.layout.crop_image_view, this, true);
 
-        mImageView = (ImageView) v.findViewById(R.id.ImageView_image);
+        mImageView = v.findViewById(R.id.ImageView_image);
 
         setImageResource(mImageResource);
-        mCropOverlayView = (CropOverlayView) v.findViewById(R.id.CropOverlayView);
+        mCropOverlayView = v.findViewById(R.id.CropOverlayView);
         mCropOverlayView.setInitialAttributeValues(mGuidelines, mFixAspectRatio, mAspectRatioX, mAspectRatioY);
 
     }

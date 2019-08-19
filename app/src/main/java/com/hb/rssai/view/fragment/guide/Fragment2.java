@@ -38,8 +38,8 @@ public class Fragment2 extends Fragment {
         initView();
     }
     private void initView() {
-        mRelativeLayout= (RelativeLayout) view.findViewById(R.id.fragment_background);
-        gf_iv = (ImageView) view.findViewById(R.id.gf_iv);
+        mRelativeLayout= view.findViewById(R.id.fragment_background);
+        gf_iv = view.findViewById(R.id.gf_iv);
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.ic_place)

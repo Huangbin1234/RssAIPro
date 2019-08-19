@@ -319,7 +319,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
             materialDialog = new MaterialDialog(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.view_dialog, null);
-            FullListView listView = (FullListView) view.findViewById(R.id.dialog_listView);
+            FullListView listView = view.findViewById(R.id.dialog_listView);
 
             List<HashMap<String, Object>> list = initDialogData();
             listView.setOnItemClickListener((parent, view1, position, id) -> {

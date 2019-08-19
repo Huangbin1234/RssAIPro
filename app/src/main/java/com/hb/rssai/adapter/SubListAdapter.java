@@ -151,13 +151,13 @@ public class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.MyViewHo
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            item_sla_tv_count = (TextView) itemView.findViewById(R.id.item_sla_tv_count);
-            item_sla_tv_name = (TextView) itemView.findViewById(R.id.item_sla_tv_name);
-            item_sla_iv = (ImageView) itemView.findViewById(R.id.item_sla_iv);
-            item_sla_tv_date = (TextView) itemView.findViewById(R.id.item_sla_tv_date);
+            item_sla_tv_count = itemView.findViewById(R.id.item_sla_tv_count);
+            item_sla_tv_name = itemView.findViewById(R.id.item_sla_tv_name);
+            item_sla_iv = itemView.findViewById(R.id.item_sla_iv);
+            item_sla_tv_date = itemView.findViewById(R.id.item_sla_tv_date);
 
-            item_sla_iv_top = (ImageView) itemView.findViewById(R.id.item_sla_iv_top);
-            item_sla_iv_menu = (ImageView) itemView.findViewById(R.id.item_sla_iv_menu);
+            item_sla_iv_top = itemView.findViewById(R.id.item_sla_iv_top);
+            item_sla_iv_menu = itemView.findViewById(R.id.item_sla_iv_menu);
         }
     }
 }

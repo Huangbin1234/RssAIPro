@@ -38,7 +38,6 @@ import butterknife.BindView;
 public class IndexNavActivity extends BaseActivity implements TabFragment.OnFragmentInteractionListener, SubscriptionFragment.OnFragmentInteractionListener, MineFragment.OnFragmentInteractionListener, FindFragment.OnFragmentInteractionListener {
 
 
-
     @BindView(R.id.navigation)
     BottomNavigationView mNavigation;
 
@@ -266,7 +265,10 @@ public class IndexNavActivity extends BaseActivity implements TabFragment.OnFrag
     @Override
     protected void onResume() {
         super.onResume();
-        loadPermissions();
+        if (SharedPreferencesUtil.getBoolean(mContext, Constant.SAVE_IS_UPDATE, false)) {
+            T.ShowToast(this, "发现新版本，请允许读写存储权限，否则可能会导致自动升级失败。",1);
+            loadPermissions();
+        }
     }
 
     /**

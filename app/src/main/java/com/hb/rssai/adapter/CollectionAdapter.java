@@ -99,10 +99,10 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
         public MyViewHolder(View itemView) {
             super(itemView);
             v = itemView;
-            cs_layout = (LinearLayout) itemView.findViewById(R.id.cs_layout);
-            cs_tv_link = (TextView) itemView.findViewById(R.id.cs_tv_link);
-            cs_tv_name = (TextView) itemView.findViewById(R.id.cs_tv_name);
-            cs_tv_time = (TextView) itemView.findViewById(R.id.cs_tv_time);
+            cs_layout = itemView.findViewById(R.id.cs_layout);
+            cs_tv_link = itemView.findViewById(R.id.cs_tv_link);
+            cs_tv_name = itemView.findViewById(R.id.cs_tv_name);
+            cs_tv_time = itemView.findViewById(R.id.cs_tv_time);
         }
     }
 }

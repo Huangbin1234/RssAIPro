@@ -45,8 +45,8 @@ public class Fragment3 extends Fragment {
     }
 
     private void initView() {
-        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.fragment_background);
-        gf_iv = (ImageView) view.findViewById(R.id.gf_iv);
+        mRelativeLayout = view.findViewById(R.id.fragment_background);
+        gf_iv = view.findViewById(R.id.gf_iv);
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -58,7 +58,7 @@ public class Fragment3 extends Fragment {
         Glide.with(getContext()).load(ApiRetrofit.BASE + "app_update/pic/g3.jpg").thumbnail(0.1f).apply(options).into(gf_iv);
 
 //        Glide.with(getContext()).load(ApiRetrofit.BASE + "app_update/pic/g3.jpg").thumbnail(0.1f).error(R.mipmap.ic_error).placeholder(R.mipmap.ic_place).diskCacheStrategy(DiskCacheStrategy.NONE).into(gf_iv);
-        mTextView = (TextView) view.findViewById(R.id.fragment_text);
+        mTextView = view.findViewById(R.id.fragment_text);
         mTextView.setVisibility(View.VISIBLE);
         mTextView.setOnClickListener(v -> {
             SharedPreferencesUtil.setString(getContext(), Constant.KEY_GUIDE, "1");

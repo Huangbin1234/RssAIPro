@@ -51,8 +51,8 @@ public class FilterDialogAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.view_filter_item, null);
-            holder.dialog_item_iv = (ImageView) convertView.findViewById(R.id.dialog_item_iv);
-            holder.dialog_item_tv = (TextView) convertView.findViewById(R.id.dialog_item_tv);
+            holder.dialog_item_iv = convertView.findViewById(R.id.dialog_item_iv);
+            holder.dialog_item_tv = convertView.findViewById(R.id.dialog_item_tv);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

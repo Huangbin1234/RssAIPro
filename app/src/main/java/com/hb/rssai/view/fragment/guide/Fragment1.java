@@ -39,8 +39,8 @@ public class Fragment1 extends Fragment {
     }
 
     private void initView() {
-        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.fragment_background);
-        gf_iv = (ImageView) view.findViewById(R.id.gf_iv);
+        mRelativeLayout = view.findViewById(R.id.fragment_background);
+        gf_iv = view.findViewById(R.id.gf_iv);
 
 
         RequestOptions options = new RequestOptions()

@@ -54,7 +54,7 @@ public class UpdateManager {
 
     public UpdateManager(Context context) {
         this.mContext = context;
-        this.apkUrl = Config.APK_DOWNLOAD_URL;
+        apkUrl = Config.APK_DOWNLOAD_URL;
     }
 
     private Handler mHandler = new Handler() {
@@ -115,7 +115,7 @@ public class UpdateManager {
 
                     outputStream = new FileOutputStream(apkFile);
                     int count = 0;
-                    byte buf[] = new byte[1024];
+                    byte[] buf = new byte[1024];
                     do {
                         int numRead = is.read(buf);
                         if (numRead != -1) {
@@ -138,7 +138,7 @@ public class UpdateManager {
                     Log.d(TAG, "内存卡无效或容量无效，尝试将apk存放在应用内,注意添加读写权限。");
                     outputStream = mContext.openFileOutput(SAVE_DIR_NAME, Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
                     int count = 0;
-                    byte buf[] = new byte[1024];
+                    byte[] buf = new byte[1024];
                     do {
                         int numRead = is.read(buf);
                         if (numRead != -1) {
@@ -295,7 +295,7 @@ public class UpdateManager {
         int newVerCode = con.getServerVerCode();
         int oldVerCode = con.getVerCode(context);
         Log.d(TAG, "oldVerCode:" + oldVerCode + "<==>NEW_VER_CODE:" + newVerCode);
-        return (oldVerCode < newVerCode) ? true : false;
+        return oldVerCode < newVerCode;
     }
 
     /**
@@ -307,9 +307,9 @@ public class UpdateManager {
     public static boolean getVerNameUpdateInfo(Context context, String jsonUrl) {
         Config con = new Config(jsonUrl);
         int newVerName = con.getServerVerName();
-        int oldVerName = Integer.parseInt(StringUtils.getNumbers(con.getVerName(context)));
+        int oldVerName = Integer.parseInt(StringUtils.getNumbers(Config.getVerName(context)));
         Log.d(TAG, "oldVerName:" + oldVerName + "<==>NEW_VER_NAME:" + newVerName);
-        return (oldVerName < newVerName) ? true : false;
+        return oldVerName < newVerName;
     }
 
     /**

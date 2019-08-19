@@ -187,10 +187,7 @@ public class HandleUtil {
                                                 float handleY,
                                                 float targetRadius) {
 
-        if (Math.abs(x - handleX) <= targetRadius && Math.abs(y - handleY) <= targetRadius) {
-            return true;
-        }
-        return false;
+        return Math.abs(x - handleX) <= targetRadius && Math.abs(y - handleY) <= targetRadius;
     }
 
     /**
@@ -213,10 +210,7 @@ public class HandleUtil {
                                                     float handleY,
                                                     float targetRadius) {
 
-        if (x > handleXStart && x < handleXEnd && Math.abs(y - handleY) <= targetRadius) {
-            return true;
-        }
-        return false;
+        return x > handleXStart && x < handleXEnd && Math.abs(y - handleY) <= targetRadius;
     }
 
     /**
@@ -239,10 +233,7 @@ public class HandleUtil {
                                                   float handleYEnd,
                                                   float targetRadius) {
 
-        if (Math.abs(x - handleX) <= targetRadius && y > handleYStart && y < handleYEnd) {
-            return true;
-        }
-        return false;
+        return Math.abs(x - handleX) <= targetRadius && y > handleYStart && y < handleYEnd;
     }
 
     /**
@@ -265,10 +256,7 @@ public class HandleUtil {
                                                 float right,
                                                 float bottom) {
 
-        if (x > left && x < right && y > top && y < bottom) {
-            return true;
-        }
-        return false;
+        return x > left && x < right && y > top && y < bottom;
     }
 
     /**

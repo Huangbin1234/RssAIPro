@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by Administrator on 2017/12/14 0014.
@@ -136,7 +137,7 @@ public class StringUtil {
         }
     }
 
-    private static int copyStream(InputStream input, OutputStream output) throws Exception, IOException {
+    private static int copyStream(InputStream input, OutputStream output) throws Exception {
         final int BUFFER_SIZE = 1024 * 2;
         byte[] buffer = new byte[BUFFER_SIZE];
         BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);
