@@ -2,17 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/toolbar_font"
+        android:icon="@mipmap/ic_font"
+        android:orderInCategory="67"
+        android:title="@string/str_sf_font"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/toolbar_add_collection"
         android:icon="@mipmap/ic_collection_normal"
         android:orderInCategory="67"
         android:title="@string/str_sf_new_collection"
         app:showAsAction="always" />
     <!--<item-->
-        <!--android:id="@+id/toolbar_old_rec"-->
-        <!--android:icon="@mipmap/ic_old_rec"-->
-        <!--android:orderInCategory="67"-->
-        <!--android:title="@string/str_sf_old_rec"-->
-        <!--app:showAsAction="always" />-->
+    <!--android:id="@+id/toolbar_old_rec"-->
+    <!--android:icon="@mipmap/ic_old_rec"-->
+    <!--android:orderInCategory="67"-->
+    <!--android:title="@string/str_sf_old_rec"-->
+    <!--app:showAsAction="always" />-->
     <item
         android:id="@+id/toolbar_add_share"
         android:icon="@mipmap/ic_share_menu"

@@ -1,8 +1,10 @@
 package com.hb.rssai.view.common;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -14,10 +16,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -25,6 +31,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +60,7 @@ import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.widget.MyDecoration;
+import com.hb.rssai.view.widget.RichText;
 import com.hb.rssai.view.widget.WordWrapView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -252,8 +260,10 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         }
     }
 
+    WebSettings settings;
+
     private void initWebView() {
-        WebSettings settings = mWebView.getSettings();
+        settings = mWebView.getSettings();
         //自适应屏幕
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
@@ -343,6 +353,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
     @Override
     protected void initView() {
+
         mRtaTvTitle.setText(title.trim());
         if (TextUtils.isEmpty(url)) {
             mRtaTvView.setVisibility(View.GONE);
@@ -384,6 +395,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             loadTextView();
         } else {
             initWebView();
+            initShowPop();
             mRtaTvContent.setVisibility(View.GONE);
             mWebView.setVisibility(View.VISIBLE);
         }
@@ -732,10 +744,94 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                 config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_NONE);
                 mShareAction.open(config);
                 break;
+            case R.id.toolbar_font:
+                //TODO 打开设置
+                showThemePop();
+                break;
         }
         return false;
     }
 
+
+    private void showThemePop() {
+        if (mPop.isShowing()) {
+            mPop.dismiss();
+        } else {
+            mPop.show();
+            Window window = mPop.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            window.setBackgroundDrawable(new ColorDrawable(0));
+            window.setContentView(popupView);//自定义布局应该在这里添加，要在dialog.show()的后面
+            window.setWindowAnimations(R.style.PopupAnimation);//
+            window.setLayout(DisplayUtil.getMobileWidth(this) * 8 / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+            mPop.getWindow().setGravity(Gravity.CENTER);//可以设置显示的位置
+        }
+//        backgroundAlpha(0.5f);
+//        mPop.setOnDismissListener(dialogInterface -> {
+//            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+//            backgroundAlpha(1f);
+//        });
+    }
+
+    View popupView;
+    AlertDialog mPop;
+
+    void initShowPop() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        popupView = inflater.inflate(R.layout.layout_font, null);
+        mPop = builder.create();
+
+        SeekBar sb = popupView.findViewById(R.id.seekBar);
+        TextView ts = popupView.findViewById(R.id.tvSize);
+        int prgValue = SharedPreferencesUtil.getInt(RichTextActivity.this, Constant.KEY_FONT_SIZE, 0);
+        if (prgValue > 0) {
+            ts.setText("设置字体大小（" + prgValue + ")");
+            settings.setTextZoom(prgValue);
+            int size = DisplayUtil.dip2px(RichTextActivity.this, 17*(1+(prgValue/100f)));
+            settings.setDefaultFontSize(size);
+            sb.setProgress(prgValue);
+        }
+
+        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                settings.setTextZoom(progress);
+                int size = DisplayUtil.dip2px(RichTextActivity.this, 17*(1+(progress/100f)));
+                settings.setDefaultFontSize(size);
+                ts.setText("设置字体大小（" + progress + ")");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                SharedPreferencesUtil.setInt(RichTextActivity.this, Constant.KEY_FONT_SIZE, seekBar.getProgress());
+            }
+        });
+        sb.setOnClickListener(arg0 -> {
+            if (mPop.isShowing()) {
+                mPop.dismiss();
+            }
+        });
+
+
+//        SharedPreferencesUtil.setBoolean(this, Constant.KEY_IS_SHOW_POP, true);
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+//    public void backgroundAlpha(float bgAlpha) {
+//        WindowManager.LayoutParams lp = getWindow().getAttributes();
+//        lp.alpha = bgAlpha; //0.0-1.0
+//        getWindow().setAttributes(lp);
+//    }
     @Override
     protected BasePresenter createPresenter() {
         return new RichTextPresenter(this);
