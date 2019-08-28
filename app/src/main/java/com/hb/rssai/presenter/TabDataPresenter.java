@@ -219,6 +219,8 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
             mRecyclerView.setVisibility(View.VISIBLE);
             if (resInformation.getRetObj().getRows() != null && resInformation.getRetObj().getRows().size() > 0) {
 //                infoList.addAll(resInformation.getRetObj().getRows());
+                //通知更新
+                EventBus.getDefault().post(new TipsEvent(1, resInformation.getRetObj().getRows().size()));
                 insertData(resInformation.getRetObj().getRows());
                 if (adapter == null) {
                     adapter = new InfoTestAdapter(mContext, infoList);
@@ -228,8 +230,7 @@ public class TabDataPresenter extends BasePresenter<ITabDataView> {
                     adapter.init();//更新一下是否显示图片首选项
                     adapter.notifyDataSetChanged();
                 }
-                //通知更新
-                EventBus.getDefault().post(new TipsEvent(1, resInformation.getRetObj().getRows().size()));
+
             }
             if (infoList.size() >= resInformation.getRetObj().getTotal()) {
                 isEnd = true;
