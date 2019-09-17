@@ -878,7 +878,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     for (String w : words) {
                         w = w.replace("%", "");
                         w = w.replace("'", "");
-                        if (!TextUtils.isEmpty(w)) {
+                        if (!TextUtils.isEmpty(w)&&!"null".equals(w)) {
                             w = "#" + w;
                             TextView textView = new TextView(this);
                             textView.setText(w);

@@ -2,7 +2,7 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:enabled="true"
-        android:icon="@mipmap/ic_add_sub"
+        android:icon="@drawable/ic_add_shorts_24dp"
         android:shortcutDisabledMessage="@string/str_disable_add_source"
         android:shortcutId="addRss"
         android:shortcutLongLabel="@string/str_long_add_source"
@@ -23,7 +23,7 @@
     <!--指定更多的快捷键-->
     <shortcut
         android:enabled="true"
-        android:icon="@mipmap/ic_search_shutcuts"
+        android:icon="@drawable/ic_search_shorts_24dp"
         android:shortcutDisabledMessage="@string/str_disable_search"
         android:shortcutId="search"
         android:shortcutLongLabel="@string/str_long_search"
