@@ -28,6 +28,7 @@ import com.hb.rssai.event.RssSourceEvent;
 import com.hb.rssai.event.UserEvent;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.LoginPresenter;
+import com.hb.rssai.util.CommonHandler;
 import com.hb.rssai.util.HttpLoadImg;
 import com.hb.rssai.util.ImageUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -134,6 +135,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
     @Override
     public void setPresenter(LoginContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showFail(Throwable throwable) {
+        CommonHandler.actionThrowable(throwable);
     }
 
     @OnClick({R.id.la_btn_login, R.id.la_tv_register, R.id.la_chktv_psd_control, R.id.la_tv_forget})

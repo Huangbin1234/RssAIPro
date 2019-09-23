@@ -45,6 +45,7 @@ import com.hb.rssai.presenter.AddRssPresenter;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.runtimePermissions.PermissionsActivity;
 import com.hb.rssai.runtimePermissions.PermissionsChecker;
+import com.hb.rssai.util.CommonHandler;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -375,6 +376,11 @@ public class AddSourceActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void setPresenter(AddSourcesContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showFail(Throwable throwable) {
+        CommonHandler.actionThrowable(throwable);
     }
 
     ProgressBar mProgressBar;

@@ -19,6 +19,7 @@ import com.hb.rssai.adapter.OfflineListAdapter;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.contract.OfflineListContract;
 import com.hb.rssai.presenter.OfflineListPresenter;
+import com.hb.rssai.util.CommonHandler;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.widget.MyDecoration;
 import com.rss.bean.Information;
@@ -138,6 +139,11 @@ public class OfflineListActivity extends BaseActivity<OfflineListContract.View, 
     @Override
     public void setPresenter(OfflineListContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showFail(Throwable throwable) {
+        CommonHandler.actionThrowable(throwable);
     }
 
 

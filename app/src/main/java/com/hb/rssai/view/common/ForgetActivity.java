@@ -18,6 +18,7 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.contract.ForgetContract;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.ForgetPresenter;
+import com.hb.rssai.util.CommonHandler;
 import com.hb.rssai.util.T;
 
 import butterknife.BindView;
@@ -165,5 +166,10 @@ public class ForgetActivity extends BaseActivity implements ForgetContract.View 
     @Override
     public void setPresenter(ForgetContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showFail(Throwable throwable) {
+        CommonHandler.actionThrowable(throwable);
     }
 }

@@ -21,6 +21,7 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.contract.RegisterContract;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.RegisterPresenter;
+import com.hb.rssai.util.CommonHandler;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
 
@@ -113,6 +114,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void setPresenter(RegisterContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showFail(Throwable throwable) {
+        CommonHandler.actionThrowable(throwable);
     }
 
     @OnClick({R.id.ra_btn_register, R.id.ra_chktv_spsd_control})

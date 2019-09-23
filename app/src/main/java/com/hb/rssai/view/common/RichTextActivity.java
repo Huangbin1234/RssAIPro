@@ -49,6 +49,7 @@ import com.hb.rssai.constants.Constant;
 import com.hb.rssai.contract.RichTextContract;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.RichTextPresenter;
+import com.hb.rssai.util.CommonHandler;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.DisplayUtil;
 import com.hb.rssai.util.GsonUtil;
@@ -60,7 +61,6 @@ import com.hb.rssai.util.StatusBarUtil;
 import com.hb.rssai.util.StringUtil;
 import com.hb.rssai.util.T;
 import com.hb.rssai.view.widget.MyDecoration;
-import com.hb.rssai.view.widget.RichText;
 import com.hb.rssai.view.widget.WordWrapView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -87,7 +87,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import retrofit2.adapter.rxjava.HttpException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.rss.util.StringUtil.getAllRegexImages;
@@ -636,6 +635,11 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mPresenter = checkNotNull(presenter);
     }
 
+    @Override
+    public void showFail(Throwable throwable) {
+        CommonHandler.actionThrowable(throwable);
+    }
+
     private static class CustomShareListener implements UMShareListener {
 
         private WeakReference<RichTextActivity> mActivity;
@@ -788,7 +792,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         if (prgValue > 0) {
             ts.setText("设置字体大小（" + prgValue + ")");
             settings.setTextZoom(prgValue);
-            int size = DisplayUtil.dip2px(RichTextActivity.this, 17*(1+(prgValue/100f)));
+            int size = DisplayUtil.dip2px(RichTextActivity.this, 17 * (1 + (prgValue / 100f)));
             settings.setDefaultFontSize(size);
             sb.setProgress(prgValue);
         }
@@ -797,7 +801,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 settings.setTextZoom(progress);
-                int size = DisplayUtil.dip2px(RichTextActivity.this, 17*(1+(progress/100f)));
+                int size = DisplayUtil.dip2px(RichTextActivity.this, 17 * (1 + (progress / 100f)));
                 settings.setDefaultFontSize(size);
                 ts.setText("设置字体大小（" + progress + ")");
             }
@@ -824,8 +828,6 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
 
     /**
      * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
      */
 //    public void backgroundAlpha(float bgAlpha) {
 //        WindowManager.LayoutParams lp = getWindow().getAttributes();
@@ -850,15 +852,16 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
         mRtaLlGood.setEnabled(true);
         mRtaLlNotGood.setEnabled(true);
         throwable.printStackTrace();
-        if (throwable instanceof HttpException) {
-            if (((HttpException) throwable).response().code() == 401) {
-                T.ShowToast(this, Constant.MSG_NO_LOGIN);
-            } else {
-                T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
-            }
-        } else {
-            T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
-        }
+//        if (throwable instanceof HttpException) {
+        CommonHandler.actionThrowable(throwable);
+//            if (((HttpException) throwable).response().code() == 401) {
+//                T.ShowToast(this, Constant.MSG_NO_LOGIN);
+//            } else {
+//                T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+//            }
+//        } else {
+//            T.ShowToast(this, Constant.MSG_NETWORK_ERROR);
+//        }
     }
 
     @Override
@@ -878,7 +881,7 @@ public class RichTextActivity extends BaseActivity implements Toolbar.OnMenuItem
                     for (String w : words) {
                         w = w.replace("%", "");
                         w = w.replace("'", "");
-                        if (!TextUtils.isEmpty(w)&&!"null".equals(w)) {
+                        if (!TextUtils.isEmpty(w) && !"null".equals(w)) {
                             w = "#" + w;
                             TextView textView = new TextView(this);
                             textView.setText(w);

@@ -25,6 +25,7 @@ import com.hb.rssai.bean.SubParams;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.contract.ModifySubscriptionContract;
 import com.hb.rssai.presenter.ModifySubscriptionPresenter;
+import com.hb.rssai.util.CommonHandler;
 import com.hb.rssai.util.GsonUtil;
 import com.hb.rssai.util.T;
 
@@ -231,6 +232,11 @@ public class ModifySubscriptionActivity extends BaseActivity<ModifySubscriptionC
     @Override
     public void setPresenter(ModifySubscriptionContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showFail(Throwable throwable) {
+        CommonHandler.actionThrowable(throwable);
     }
 
     @OnClick({R.id.msa_btn_sure})

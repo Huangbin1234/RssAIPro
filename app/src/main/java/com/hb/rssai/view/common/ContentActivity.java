@@ -29,6 +29,7 @@ import com.hb.rssai.contract.ContentContract;
 import com.hb.rssai.presenter.BasePresenter;
 import com.hb.rssai.presenter.ContentPresenter;
 import com.hb.rssai.util.Base64Util;
+import com.hb.rssai.util.CommonHandler;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
@@ -246,5 +247,10 @@ public class ContentActivity extends BaseActivity implements Toolbar.OnMenuItemC
     @Override
     public void setPresenter(ContentContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showFail(Throwable throwable) {
+        CommonHandler.actionThrowable(throwable);
     }
 }
