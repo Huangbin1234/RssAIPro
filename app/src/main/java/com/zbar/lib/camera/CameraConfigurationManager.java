@@ -1,7 +1,5 @@
 package com.zbar.lib.camera;
 
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
@@ -9,6 +7,8 @@ import android.os.Build;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+
+import java.util.regex.Pattern;
 
 /**
  * 作者: 陈涛(1076559197@qq.com)

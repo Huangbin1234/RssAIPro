@@ -1,7 +1,6 @@
 package com.hb.rssai.app;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -10,8 +9,6 @@ import com.hb.rssai.util.LiteOrmDBUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
-
-import java.lang.reflect.Field;
 
 /**
  * Created by Administrator on 2017/4/24.

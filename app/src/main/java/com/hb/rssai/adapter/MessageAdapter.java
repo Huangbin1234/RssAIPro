@@ -13,7 +13,6 @@ import com.hb.rssai.R;
 import com.hb.rssai.bean.ResMessageList;
 import com.hb.rssai.constants.Constant;
 import com.hb.rssai.event.MineEvent;
-import com.hb.rssai.event.TipsEvent;
 import com.hb.rssai.util.DateUtil;
 import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.view.me.MessageContentActivity;

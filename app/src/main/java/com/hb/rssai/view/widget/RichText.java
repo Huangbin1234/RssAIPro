@@ -14,7 +14,6 @@ import android.text.style.ClickableSpan;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.TextView;
 
 import com.hb.rssai.util.HtmlTagHandler;
 import com.hb.rssai.util.UrlImageGetter;

@@ -1,7 +1,5 @@
 package com.hb.rssai.contract;
 
-import android.view.View;
-
 import com.hb.rssai.bean.ResFindMore;
 
 /**

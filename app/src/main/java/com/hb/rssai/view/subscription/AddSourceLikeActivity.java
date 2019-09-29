@@ -6,22 +6,17 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hb.rssai.R;
 import com.hb.rssai.adapter.SearchSubscribeAdapter;
-import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.base.BaseActivity;
 import com.hb.rssai.bean.ResFindMore;
-import com.hb.rssai.constants.Constant;
 import com.hb.rssai.contract.AddSourceLikeContract;
 import com.hb.rssai.presenter.AddSourceLikePresenterImpl;
 import com.hb.rssai.util.CommonHandler;
-import com.hb.rssai.util.SharedPreferencesUtil;
 import com.hb.rssai.util.T;
-import com.hb.rssai.view.common.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;

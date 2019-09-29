@@ -1,7 +1,5 @@
 package com.hb.rssai.api;
 
-import com.hb.rssai.bean.ResBase;
-import com.hb.rssai.bean.ResMessageList;
 import com.hb.rssai.bean.ResTheme;
 
 import java.util.Map;

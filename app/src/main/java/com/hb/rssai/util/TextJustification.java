@@ -5,11 +5,11 @@ package com.hb.rssai.util;
  */
 
 
-import java.util.ArrayList;
-
 import android.graphics.Paint;
 import android.text.TextUtils;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class TextJustification {
 

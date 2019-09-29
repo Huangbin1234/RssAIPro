@@ -1,11 +1,5 @@
 package com.hb.rssai.view.iView;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.LinearLayout;
-
 import com.hb.rssai.bean.ResBase;
 import com.hb.rssai.bean.ResFindMore;
 

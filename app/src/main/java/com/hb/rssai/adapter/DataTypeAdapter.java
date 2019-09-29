@@ -13,7 +13,6 @@ import com.hb.rssai.api.ApiRetrofit;
 import com.hb.rssai.bean.ResDataGroup;
 import com.hb.rssai.util.HttpLoadImg;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**

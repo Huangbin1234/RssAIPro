@@ -1,10 +1,6 @@
 package com.hb.rssai.base;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatDelegate;
-
-import com.hb.rssai.constants.Constant;
-import com.hb.rssai.util.SharedPreferencesUtil;
 
 /**
  * Created by Administrator on 2017/3/14.

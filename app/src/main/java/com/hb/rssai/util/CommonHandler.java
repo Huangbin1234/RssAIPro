@@ -7,7 +7,6 @@ import com.hb.rssai.app.ProjectApplication;
 import com.hb.rssai.event.MainEvent;
 import com.hb.rssai.view.common.LoginActivity;
 
-
 import org.greenrobot.eventbus.EventBus;
 
 import java.net.ConnectException;
